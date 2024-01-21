@@ -1,5 +1,6 @@
 package dev.itea.echo.advice;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import dev.itea.echo.entity.result.ErrorResult;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -43,6 +44,12 @@ public class GlobalExceptionAdvice {
         errorMessage.append(joiner);
         log.error("数据校验异常信息 ex={}", errorMessage);
         return ErrorResult.fail(ResultCode.PARAMETER_IS_INVALID, errorMessage.toString());
+    }
+
+    @ExceptionHandler(NotLoginException.class)
+    public ErrorResult doLoginException(NotLoginException ex) {
+        log.error("登录异常信息 ex={}", ex.getMessage(), ex);
+        return ErrorResult.fail(ResultCode.TOKEN_IS_INVALID);
     }
 
     @ExceptionHandler(BusinessException.class)
