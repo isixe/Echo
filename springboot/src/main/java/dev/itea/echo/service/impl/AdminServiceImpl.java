@@ -7,9 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
  * 管理员表 服务实现类
- * </p>
  *
  * @author isixe
  * @since 2024-01-20

@@ -20,7 +20,7 @@ public class AutoFieldFillMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         log.info("start insert fill ......");
         this.strictInsertFill(metaObject, "last_active_time", LocalDateTime.class, LocalDateTime.now());
-        this.strictInsertFill(metaObject, "is_deleted", Integer.class, 0);
+        this.strictInsertFill(metaObject, "created_time", LocalDateTime.class, LocalDateTime.now());
         log.info("end insert fill ......");
     }
 
