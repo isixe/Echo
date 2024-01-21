@@ -9,9 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * springdoc openapi 配置
+ *
  * @author: isixe
  * @create: 2024-01-14 13:46
- * @description: springdoc openapi config
  **/
 @Configuration
 public class SpringdocConfig {

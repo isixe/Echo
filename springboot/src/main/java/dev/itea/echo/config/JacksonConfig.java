@@ -22,8 +22,10 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
+ * Jackson null值转换空字符配置
+ *
  * @author: isixe
- * @create: 2023-06-214 12:38
+ * @create: 2023-06-24 12:38
  * @description: null值转换空字符
  **/
 @Configuration

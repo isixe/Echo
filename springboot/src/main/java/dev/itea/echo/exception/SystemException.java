@@ -3,9 +3,10 @@ package dev.itea.echo.exception;
 import dev.itea.echo.entity.result.ResultCode;
 
 /**
+ * 自定因系统错误异常
+ *
  * @author: isixe
  * @create: 2023-06-19 14:33
- * @description: 系统错误
  **/
 public class SystemException extends RuntimeException{
     private ResultCode resultCode;

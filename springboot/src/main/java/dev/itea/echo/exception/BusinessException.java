@@ -3,9 +3,10 @@ package dev.itea.echo.exception;
 import dev.itea.echo.entity.result.ResultCode;
 
 /**
+ * 自定义业务异常
+ *
  * @author: isixe
  * @create: 2023-06-19 14:33
- * @description: 业务异常
  **/
 public class BusinessException extends RuntimeException {
     private ResultCode resultCode;

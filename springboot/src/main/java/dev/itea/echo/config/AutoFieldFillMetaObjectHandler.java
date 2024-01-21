@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
+ * Mybatis Plus 自动填充策略配置
+ *
  * @author: isixe
  * @create: 2023-05-24 19:53
- * @description: 重写自动填充策略
  **/
 @Slf4j
 @Component

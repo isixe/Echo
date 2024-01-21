@@ -14,9 +14,10 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
+ * MybatisPlusGenerator
+ *
  * @author: isixe
  * @create: 2023-06-14 12:13
- * @description: MybatisPlusGenerator
  **/
 public class MybatisPlusGenerator {
     private final String url;
