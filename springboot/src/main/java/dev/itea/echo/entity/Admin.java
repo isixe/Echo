@@ -7,7 +7,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.io.Serial;
 
+import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -29,18 +32,22 @@ public class Admin extends Model<Admin> {
 
     @Schema(description = "ID")
     @TableId(value = "id", type = IdType.AUTO)
+    @NotNull(message = "不能为空", groups = UpdateValidationGroup.class)
     private Integer id;
 
     @Schema(description = "管理员名称")
     @TableField("name")
+    @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     private String name;
 
     @Schema(description = "密码")
     @TableField("password")
+    @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     private String password;
 
     @Schema(description = "邮箱")
     @TableField("email")
+    @NotNull(message = "不能为空", groups = {UpdateValidationGroup.class})
     private String email;
 
     @Schema(description = "最后活跃时间")
@@ -48,11 +55,12 @@ public class Admin extends Model<Admin> {
     private LocalDateTime lastActiveTime;
 
     @Schema(description = "创建时间")
-    @TableField(value = "created_time", fill = FieldFill.INSERT_UPDATE, updateStrategy = FieldStrategy.NOT_NULL)
+    @TableField(value = "created_time", fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NOT_NULL)
     private LocalDateTime createdTime;
 
     @Schema(description = "是否删除")
-    @TableField(value ="is_deleted",fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NOT_NULL)
+    @TableField(value = "is_deleted")
+    @TableLogic
     private Byte isDeleted;
 
 
