@@ -1,12 +1,12 @@
 package dev.itea.echo.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import dev.itea.echo.entity.Admin;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -21,7 +21,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 管理员控制器
@@ -30,6 +29,7 @@ import java.util.List;
  * @since 2024-01-15
  */
 @Tag(name = "Admin", description = "管理员接口")
+@SaCheckLogin
 @RestController
 @RequestMapping("/api/v0/admin")
 public class AdminController {
@@ -42,15 +42,18 @@ public class AdminController {
      *
      * @param name     管理员用户名
      * @param password 管理员密码
+     * @param remeberMe 记住密码
      * @return token
      */
     @Operation(summary = "管理员登录", description = "后台管理员登录", tags = "Admin", method = "POST",
             parameters = {
                     @Parameter(name = "adminName", description = "管理员用户名", required = true, example = "admin"),
                     @Parameter(name = "password", description = "管理员密码", required = true, example = "123456"),
+                    @Parameter(name = "remeberMe", description = "记住密码", required = true, example = "true"),
             })
+    @SaIgnore
     @PostMapping("/login")
-    public SaTokenInfo login(String name, String password) {
+    public SaTokenInfo login(String name, String password, @RequestParam(defaultValue = "false") boolean remeberMe) {
         //get data
         Admin loginAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
                 .eq(Admin::getName, name)
@@ -70,7 +73,7 @@ public class AdminController {
         adminService.updateById(loginAdmin);
         //save session
         int id = loginAdmin.getId();
-        StpUtil.login(id);
+        StpUtil.login(id, remeberMe);
         return StpUtil.getTokenInfo();
     }
 
@@ -87,7 +90,7 @@ public class AdminController {
                             example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjEsInJuU3RyIjoiZ041S3pqTWRVWDBrQW80dXh1aDl4M2ZES0wwVHFidDEifQ.1qQAxChyCEy-kDNVKYALbEWsCfiO4ns2h0t01qZUFCk"),
             })
     @PostMapping("/logout")
-    public void logout(@RequestHeader("Authorization") String token) {
+    public void logout(@CookieValue("satoken") String token) {
         //get admin login id
         String result = (String) StpUtil.getLoginIdByToken(token);
         if (ObjectUtils.isEmpty(result)) {
@@ -157,7 +160,7 @@ public class AdminController {
      */
     @Operation(summary = "管理员删除", description = "后台管理员用户删除", tags = "Admin", method = "DELETE",
             parameters = {
-                    @Parameter(name = "id", description = "管理员用户ID", required = true),
+                    @Parameter(name = "id", description = "管理员用户ID", required = true, example = "2"),
             })
     @DeleteMapping
     public void delete(Integer id) {
@@ -178,7 +181,7 @@ public class AdminController {
      */
     @Operation(summary = "管理员查询", description = "后台管理员用户查询", tags = "Admin", method = "GET",
             parameters = {
-                    @Parameter(name = "id", description = "管理员用户ID", required = true),
+                    @Parameter(name = "id", description = "管理员用户ID", required = true, example = "2"),
             })
     @GetMapping
     public Admin getById(Integer id) {
@@ -202,9 +205,9 @@ public class AdminController {
      */
     @Operation(summary = "管理员分页与关键词查询", description = "后台管理员用户分页与关键词查询", tags = "Admin", method = "GET",
             parameters = {
-                    @Parameter(name = "pageNum", description = "页数", required = true),
-                    @Parameter(name = "pageSize", description = "每个页的数据量", required = true),
-                    @Parameter(name = "keyword", description = "模糊搜索关键词", required = true),
+                    @Parameter(name = "pageNum", description = "页数", required = true, example = "1"),
+                    @Parameter(name = "pageSize", description = "每个页的数据量", required = true, example = "10"),
+                    @Parameter(name = "keyword", description = "模糊搜索关键词", required = true, example = "admin"),
             })
     @GetMapping("/queryAll")
     public IPage<Admin> getByName(@RequestParam(defaultValue = "1") Integer pageNum,
