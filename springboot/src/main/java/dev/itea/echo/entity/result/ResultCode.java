@@ -35,7 +35,6 @@ public enum ResultCode {
     TOKEN_IS_INVALID(3002,"token无效"),
     TOKEN_ERROR(3002,"token错误"),
 
-
     /*数据操作错误：4001-4999*/
     DATA_NOT_FOUND(4001, "数据未找到"),
     DATA_ALREADY_EXISTED(4002, "数据已存在"),
