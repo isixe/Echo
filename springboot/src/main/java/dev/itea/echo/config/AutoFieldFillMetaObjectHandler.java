@@ -19,15 +19,15 @@ public class AutoFieldFillMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("start insert fill ......");
-        this.strictInsertFill(metaObject, "last_active_time", LocalDateTime.class, LocalDateTime.now());
-        this.strictInsertFill(metaObject, "created_time", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "lastActiveTime", LocalDateTime::now, LocalDateTime.class);
+        this.strictInsertFill(metaObject, "createdTime", LocalDateTime::now, LocalDateTime.class);
         log.info("end insert fill ......");
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("start update fill ......");
-        this.strictInsertFill(metaObject, "last_active_time", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "lastActiveTime", LocalDateTime::now, LocalDateTime.class);
         log.info("end update fill ......");
     }
 }
