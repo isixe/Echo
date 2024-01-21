@@ -75,6 +75,7 @@ sa-token:
   is-share: true
   token-style: uuid
   is-log: true
+  jwt-secret-key: dyuiunjlhnaonbyfgknmufa
 
 springdoc:
   api-docs:
