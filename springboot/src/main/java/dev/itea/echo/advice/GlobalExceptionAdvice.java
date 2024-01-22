@@ -27,22 +27,17 @@ public class GlobalExceptionAdvice {
     /**
      * 请求方法异常
      */
-    @ExceptionHandler(BindException.class)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public ErrorResult doMethodException(BindException ex) {
-        StringBuilder errorMessage = new StringBuilder();
-        List<FieldError> allErrors = ex.getFieldErrors();
-        StringJoiner joiner = new StringJoiner(", ");
-        allErrors.forEach(fieldError -> joiner.add(fieldError.getField() + fieldError.getDefaultMessage()));
-        errorMessage.append(joiner);
-        log.error("请求方法异常信息 ex={}", errorMessage);
+    public ErrorResult doMethodException(HttpRequestMethodNotSupportedException ex) {
+        log.error("请求方法异常信息 ex={}", ex.getMessage(), ex);
         return ErrorResult.fail(ResultCode.API_NOT_FOUND);
     }
 
     /**
      * 请求参数异常
      */
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResult doViolationException(BindException ex) {
         StringBuilder errorMessage = new StringBuilder();
