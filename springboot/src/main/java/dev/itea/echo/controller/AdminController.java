@@ -3,7 +3,6 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.BCrypt;
-import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,6 +10,8 @@ import dev.itea.echo.entity.Admin;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.AdminService;
+import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,6 +19,7 @@ import jakarta.annotation.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -40,10 +42,8 @@ public class AdminController {
     /**
      * 管理员登录
      *
-     * @param name     管理员用户名
-     * @param password 管理员密码
+     * @param admin     管理员用户实体
      * @param remeberMe 记住密码
-     * @return token
      */
     @Operation(summary = "管理员登录", description = "后台管理员登录", tags = "Admin", method = "POST",
             parameters = {
@@ -53,7 +53,7 @@ public class AdminController {
             })
     @SaIgnore
     @PostMapping("/login")
-    public SaTokenInfo login(String name, String password, @RequestParam(defaultValue = "false") boolean remeberMe) {
+    public void login(String name, String password, @RequestParam(defaultValue = "false") boolean remeberMe) {
         //get data
         Admin loginAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
                 .eq(Admin::getName, name)
@@ -74,7 +74,6 @@ public class AdminController {
         //save session
         int id = loginAdmin.getId();
         StpUtil.login(id, remeberMe);
-        return StpUtil.getTokenInfo();
     }
 
     /**
@@ -90,7 +89,7 @@ public class AdminController {
                             example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjEsInJuU3RyIjoiZ041S3pqTWRVWDBrQW80dXh1aDl4M2ZES0wwVHFidDEifQ.1qQAxChyCEy-kDNVKYALbEWsCfiO4ns2h0t01qZUFCk"),
             })
     @PostMapping("/logout")
-    public void logout(@CookieValue("satoken") String token) {
+    public void logout(@CookieValue(value = "satoken") String token) {
         //get admin login id
         String result = (String) StpUtil.getLoginIdByToken(token);
         if (ObjectUtils.isEmpty(result)) {
@@ -115,7 +114,7 @@ public class AdminController {
                     @Parameter(name = "admin", description = "管理员用户实体", required = true),
             })
     @PostMapping
-    public void add(Admin admin) {
+    public void add(@Validated(AddValidationGroup.class) Admin admin) {
         Admin checkAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
                 .eq(Admin::getName, admin.getName()));
         //check admin
@@ -139,7 +138,7 @@ public class AdminController {
                     @Parameter(name = "admin", description = "管理员用户实体", required = true),
             })
     @PutMapping
-    public void update(Admin admin) {
+    public void update(@Validated(UpdateValidationGroup.class) Admin admin) {
         //check admin
         Admin checkAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
                 .eq(Admin::getId, admin.getId()));
