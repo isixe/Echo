@@ -35,6 +35,19 @@ spring:
         login-password: druid
         allow: 127.0.0.1
         deny:
+  data:
+    redis:
+      host: "localhost"
+      port: 6379
+      database: 0
+      connect-timeout: 5s
+      timeout: 5s
+      lettuce:
+        pool:
+          min-idle: 0
+          max-idle: 10
+          max-active: 200
+          max-wait: -1ms
   devtools:
     restart:
       enabled: true
