@@ -42,7 +42,8 @@ public class AdminController {
     /**
      * 管理员登录
      *
-     * @param admin     管理员用户实体
+     * @param name      管理员用户名或邮箱
+     * @param password  管理员密码
      * @param remeberMe 记住密码
      */
     @Operation(summary = "管理员登录", description = "后台管理员登录", tags = "Admin", method = "POST",
@@ -211,7 +212,7 @@ public class AdminController {
     @GetMapping("/queryAll")
     public IPage<Admin> getByName(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize,
-                                  String keyword) {
+                                  @RequestParam String keyword) {
         if (pageNum < 0 || pageSize < 0) {
             throw new BusinessException(ResultCode.PARAMETER_IS_INVALID);
         }
