@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
 @Tag(name = "Admin", description = "管理员接口")
 @SaCheckLogin
 @RestController
-@RequestMapping("/api/v0/admin")
+@RequestMapping("/api/v1/admin")
 public class AdminController {
 
     @Resource

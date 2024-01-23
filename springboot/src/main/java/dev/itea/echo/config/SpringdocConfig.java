@@ -27,7 +27,7 @@ public class SpringdocConfig {
                         //描述
                         .description("SpringBoot API 接口，Springdoc OpenAPI + Swagger3")
                         //API版本
-                        .version("v0.0.1")
+                        .version("v1.0")
                         //联系方式
                         .contact(new Contact().name("isixe")
                                 .url("http://localhost:8080/swagger-ui/index.html")
