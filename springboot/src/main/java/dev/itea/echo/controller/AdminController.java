@@ -3,6 +3,7 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.BCrypt;
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -41,10 +42,10 @@ public class AdminController {
 
     /**
      * 管理员登录
-     *
-     * @param name      管理员用户名或邮箱
+     *  @param name      管理员用户名或邮箱
      * @param password  管理员密码
      * @param remeberMe 记住密码
+     * @return
      */
     @Operation(summary = "管理员登录", description = "后台管理员登录", tags = "Admin", method = "POST",
             parameters = {
@@ -54,7 +55,7 @@ public class AdminController {
             })
     @SaIgnore
     @PostMapping("/login")
-    public void login(String name, String password, @RequestParam(defaultValue = "false") boolean remeberMe) {
+    public SaTokenInfo login(String name, String password, @RequestParam(defaultValue = "false") boolean remeberMe) {
         //get data
         Admin loginAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
                 .eq(Admin::getName, name)
@@ -75,6 +76,7 @@ public class AdminController {
         //save session
         int id = loginAdmin.getId();
         StpUtil.login(id, remeberMe);
+        return StpUtil.getTokenInfo();
     }
 
     /**
