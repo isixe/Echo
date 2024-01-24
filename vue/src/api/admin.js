@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export async function login(data) {
   return request({
-    url: '/login',
+    url: '/admin/login',
     method: 'post',
     data
   })
@@ -10,14 +10,7 @@ export async function login(data) {
 
 export function logout() {
   return request({
-    url: '/logout',
-    method: 'post'
-  })
-}
-
-export function register() {
-  return request({
-    url: '/register',
+    url: '/admin/logout',
     method: 'post'
   })
 }
