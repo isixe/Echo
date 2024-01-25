@@ -55,7 +55,7 @@ public class AdminController {
             })
     @SaIgnore
     @PostMapping("/login")
-    public SaTokenInfo login(String name, String password, @RequestParam(defaultValue = "false") boolean remeberMe) {
+    public SaTokenInfo login(String name, String password, @RequestParam(defaultValue = "false") boolean rememberMe) {
         //get data
         Admin loginAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
                 .eq(Admin::getName, name)
@@ -75,7 +75,7 @@ public class AdminController {
         adminService.updateById(loginAdmin);
         //save session
         int id = loginAdmin.getId();
-        StpUtil.login(id, remeberMe);
+        StpUtil.login(id, rememberMe);
         return StpUtil.getTokenInfo();
     }
 
