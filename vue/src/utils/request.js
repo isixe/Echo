@@ -6,7 +6,7 @@ import { message } from 'ant-design-vue'
 //create instance
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
-  withCredentials: import.meta.env.VITE_APP_WITHCREDENTIALS,
+  withCredentials: true,
   timeout: 5000
 })
 
