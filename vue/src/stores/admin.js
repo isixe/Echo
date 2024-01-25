@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { login } from '@/api/admin'
+import { login, logout } from '@/api/admin'
 
 export const useAdminStore = defineStore('admin', () => {
   //state
@@ -23,5 +23,13 @@ export const useAdminStore = defineStore('admin', () => {
     })
   }
 
-  return { id, tokenName, tokenValue, tokenTimeout, loginAction }
+  const logoutAction = async () => {
+    await logout().then(() => {
+      tokenName.value = null
+      tokenValue.value = null
+      tokenTimeout.value = null
+    })
+  }
+
+  return { id, tokenName, tokenValue, tokenTimeout, loginAction, logoutAction }
 })
