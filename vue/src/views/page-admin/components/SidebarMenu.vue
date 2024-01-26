@@ -54,6 +54,6 @@ const parentKey = ref([`/${route.path.split('/')[1]}`])
 
 watch(() => route.path, (newPath) => {
 	parentKey.value = [`/${route.path.split('/')[1]}`]
-	selectedKeys.value = newPath;
+	selectedKeys.value = [newPath];
 });
 </script>
