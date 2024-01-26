@@ -1,4 +1,5 @@
-import AppMain from './AppMain.vue'
-import Navbar from './Navbar.vue'
-import Sidebar from './Sidebar.vue'
-// export { AppMain, Navbar, Sidebar }
+import SideBar from '../components/Sidebar'
+import Header from '../components/Header'
+import Main from '../components/Main'
+
+export { SideBar, Header, Main }
