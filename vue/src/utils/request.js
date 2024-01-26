@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
+import router from '@/router'
 // import { useUserStore } from '@/stores/user'
 // import { useAdminStore } from '@/stores/admin'
 
@@ -55,7 +56,14 @@ instance.interceptors.response.use(
 
     const response = error.response
     const data = response.data
-    message.error(data.msg)
+    switch (response.status) {
+      case 401:
+        router.push('/admin/login')
+        message.error('登录验证过期，请重新登录')
+        break
+      default:
+        message.error(data.msg)
+    }
     return Promise.reject(data)
   }
 )
