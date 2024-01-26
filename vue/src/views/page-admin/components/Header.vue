@@ -40,7 +40,7 @@
             </div>
             <a-dropdown placement="bottomRight" overlayClassName="dropdown-menu">
                 <div class="user-info">
-                    <a-avatar class="user-avatar" :size="24" :src="avatarUrl">
+                    <a-avatar class="user-avatar" :size="24">
                         <template #icon>
                             <UserOutlined />
                         </template>
