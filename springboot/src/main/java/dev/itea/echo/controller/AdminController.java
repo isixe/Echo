@@ -214,7 +214,7 @@ public class AdminController {
     @GetMapping("/queryAll")
     public IPage<Admin> getByName(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize,
-                                  @RequestParam String keyword) {
+                                  @RequestParam(required = false) String keyword) {
         if (pageNum < 0 || pageSize < 0) {
             throw new BusinessException(ResultCode.PARAMETER_IS_INVALID);
         }
