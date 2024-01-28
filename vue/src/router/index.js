@@ -75,16 +75,16 @@ router.beforeEach((to, from, next) => {
     return pathList.includes(path)
   }
 
-  const frontend = isRoleRoutes(userRoutes)
-  const backend = isRoleRoutes(adminRoutes)
+  const user = isRoleRoutes(userRoutes)
+  const admin = isRoleRoutes(adminRoutes)
 
   //redirect to login page
-  if (tokens.user && frontend) {
+  if (tokens.user && user) {
     return next('/login')
   }
 
-  if (tokens.admin && backend) {
-    return next('/adminLogin')
+  if (tokens.admin && admin) {
+    return next('/admin/login')
   }
 
   return next()
