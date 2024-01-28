@@ -11,8 +11,6 @@
 <style scoped>
 .container {
 	margin: 10px;
-	background-color: #ffffff;
 	box-sizing: border-box;
-	border-radius: 10px;
 }
 </style>

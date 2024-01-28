@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { useAdminStore } from "@/stores/admin"
+import { useAdminStore } from '@/stores/admin'
 
 const router = useRouter()
 
@@ -73,7 +73,7 @@ const handleRegister = async () => {
 			const store = useAdminStore()
 			store.loginAction(data)
 				.then(() => {
-					router.push("/dashboard")
+					router.push('/dashboard')
 					loading.value = false
 				}).catch(() => {
 					loading.value = false
