@@ -14,3 +14,11 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function getRoleList(params) {
+  return request({
+    url: '/admin/queryAll',
+    method: 'get',
+    params
+  })
+}
