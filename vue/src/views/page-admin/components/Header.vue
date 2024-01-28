@@ -1,10 +1,9 @@
 <template>
     <a-layout-header>
-
         <div class="header-left">
             <div class="menu">
-                <menu-unfold-outlined v-if="isCollapsed" class="trigger" @click="handleMenuFolder" />
-                <menu-fold-outlined v-else class="trigger" @click="handleMenuFolder" />
+                <menu-unfold-outlined v-if="isCollapsed" class="trigger" @click="$emit('iconClick')" />
+                <menu-fold-outlined v-else class="trigger" @click="$emit('iconClick')" />
             </div>
             <div class="breadcrumb">
                 <a-breadcrumb>
@@ -14,6 +13,9 @@
         </div>
 
         <div class="header-right">
+            <div class="header-right-search">
+                <a-input-search v-model:value="text" placeholder="请输入关键词" @search="handleOnSearch" />
+            </div>
             <div class="header-right-info">
                 <a-popover placement="bottom" trigger="click">
                     <template #content>
@@ -68,15 +70,13 @@
 <script setup>
 import { createVNode } from 'vue';
 import { Modal } from 'ant-design-vue'
-import { useAdminStore } from "@/stores/admin"
+import { useAdminStore } from '@/stores/admin'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
+const text = ref('')
 const router = useRouter()
-const emit = defineEmits(["iconClick"])
-const props = defineProps({
-    isCollapsed: Boolean
-})
-const { isCollapsed } = toRefs(props);
+const emits = defineEmits(["onSearch"])
+const { isCollapsed } = defineProps(['isCollapsed'])
 
 const handleLoginOut = () => {
     const modal = Modal.confirm({
@@ -98,15 +98,14 @@ const handleLoginOut = () => {
     });
 }
 
+const handleOnSearch = (keyword) => {
+    emits('onSearch', keyword)
+    text.value = ''
+}
+
 const handleToUserCenter = () => {
     // router.push('/userCenter')
 }
-
-const handleMenuFolder = () => {
-    emit('iconClick')
-    console.log(isCollapsed)
-}
-
 </script>
 
 <style scoped>
@@ -204,5 +203,13 @@ const handleMenuFolder = () => {
     vertical-align: middle;
     padding: 0 4px;
     cursor: pointer;
+}
+
+.header-right-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+    margin-right: 10px;
 }
 </style>

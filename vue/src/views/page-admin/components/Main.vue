@@ -1,11 +1,11 @@
 <template>
 	<a-layout-content class="container">
-		<RouterView></RouterView>
+		<RouterView :searchText="searchText"></RouterView>
 	</a-layout-content>
 </template>
 
 <script setup>
-
+const { searchText } = defineProps(['searchText'])
 </script>
 
 <style scoped>
