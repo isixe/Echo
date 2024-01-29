@@ -47,7 +47,7 @@
                             <UserOutlined />
                         </template>
                     </a-avatar>
-                    <span class="user-name">Admin</span>
+                    <span class="user-name">{{ name }}</span>
                 </div>
                 <template #overlay>
                     <a-menu>
@@ -68,15 +68,24 @@
 </template>
 
 <script setup>
+import { get } from '@/api/admin'
 import { createVNode } from 'vue';
 import { Modal } from 'ant-design-vue'
 import { useAdminStore } from '@/stores/admin'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
 const text = ref('')
+const name = ref('')
 const router = useRouter()
 const emits = defineEmits(["onSearch"])
 const { isCollapsed } = defineProps(['isCollapsed'])
+
+onMounted(() => {
+    const store = useAdminStore()
+    get({ id: store.id }).then((res) => {
+        name.value = res.data.name
+    })
+})
 
 const handleLoginOut = () => {
     const modal = Modal.confirm({
