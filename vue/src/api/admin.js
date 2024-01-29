@@ -15,6 +15,38 @@ export function logout() {
   })
 }
 
+export function add(data) {
+  return request({
+    url: '/admin',
+    method: 'post',
+    data
+  })
+}
+
+export function update(data) {
+  return request({
+    url: '/admin',
+    method: 'put',
+    data
+  })
+}
+
+export function remove(data) {
+  return request({
+    url: '/admin',
+    method: 'delete',
+    data
+  })
+}
+
+export function get(params) {
+  return request({
+    url: '/admin',
+    method: 'get',
+    params
+  })
+}
+
 export function getRoleList(params) {
   return request({
     url: '/admin/queryAll',
