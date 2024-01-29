@@ -15,6 +15,11 @@ const adminRoutes = {
       path: '/permission/roleList',
       name: 'roleList',
       component: () => import('@/views/page-admin/permission/roleList')
+    },
+    {
+      path: '/permission/roleList/add',
+      name: 'roleAdd',
+      component: () => import('@/views/page-admin/permission/add')
     }
   ]
 }
