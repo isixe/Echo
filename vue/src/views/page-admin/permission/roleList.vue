@@ -1,5 +1,8 @@
 <template>
-    <a-button class="editable-add-btn" @click="handleAdd">新增</a-button>
+    <a-button type="primary" class="editable-add-btn" @click="handleAdd">新增</a-button>
+    <a-button type="primary" class="editable-add-btn" style="background-color: #52b35e;"
+        @click="handleMutiEdit">批量编辑</a-button>
+    <a-button type="primary" class="editable-add-btn" danger @click="handleMutiDelete">批量删除</a-button>
     <a-table :row-selection="rowSelection" :loading="loading" :columns="columns" rowKey="id" :data-source="dataSource"
         :pagination="pagination" :scroll="{ x: 1000 }">
 
@@ -41,11 +44,13 @@
     </a-table>
 </template>
 <script setup>
-import { update, remove, getRoleList } from '@/api/admin'
-import { message } from 'ant-design-vue'
-import { cloneDeep } from 'lodash-es';
 import router from '@/router'
-import { toRaw } from 'vue';
+import { cloneDeep } from 'lodash-es';
+import { Modal } from 'ant-design-vue';
+import { toRaw, createVNode } from 'vue';
+import { message } from 'ant-design-vue'
+import { update, remove, getRoleList } from '@/api/admin'
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
 const selectedKeys = ref([]);
 const editableData = reactive({});
@@ -110,7 +115,7 @@ const handleAdd = () => {
 }
 
 //delete
-const startDelete = (id) => {
+const handleDelete = (id) => {
     const formData = new FormData();
     formData.append('id', id);
     remove(formData).then(() => {
@@ -118,26 +123,43 @@ const startDelete = (id) => {
         queryData(params)
     })
 }
-const handleDelete = (id) => {
-    if (!selectedKeys.value.includes(id)) {
-        return startDelete(id)
-    }
 
-    selectedKeys.value.forEach(key => {
-        startDelete(key)
-    })
+const handleMutiDelete = () => {
+    if (selectedKeys.value.length > 0) {
+        showDeleteConfirm()
+    }
 }
+
+const showDeleteConfirm = () => {
+    Modal.confirm({
+        title: '确定要批量删除数据?',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '数据删除后，不能恢复',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+            selectedKeys.value.forEach(key => {
+                handleDelete(key)
+            })
+        },
+        onCancel() {
+            return
+        },
+    });
+};
 
 //edit
 const handleEdit = (id) => {
-    if (!selectedKeys.value.includes(id)) {
-        return editableData[id] = cloneDeep(dataSource.value.filter(item => id === item.id)[0]);
-    }
+    editableData[id] = cloneDeep(dataSource.value.filter(item => id === item.id)[0]);
+};
 
+const handleMutiEdit = () => {
     selectedKeys.value.forEach(key => {
         editableData[key] = cloneDeep(dataSource.value.filter(item => key === item.id)[0]);
     })
-};
+}
+
 const startSave = (id) => {
     const row = toRaw(editableData[id])
     const formData = new FormData()
@@ -150,25 +172,16 @@ const startSave = (id) => {
         cancel(id)
     })
 }
+
 const handleEditSave = (record) => {
     const id = record.id
-    const rows = toRaw(dataSource.value)
-    if (!selectedKeys.value.includes(id)) {
-        if (JSON.stringify(record) === JSON.stringify(editableData[id])) {
-            return cancel(id)
+    if (JSON.stringify(record) === JSON.stringify(editableData[id])) {
+        cancel(id)
 
-        }
-        return startSave(id)
     }
-
-    selectedKeys.value.forEach(key => {
-        const row = rows.filter(row => row.id == key)[0]
-        if (JSON.stringify(row) === JSON.stringify(editableData[key])) {
-            return cancel(id)
-        }
-        startSave(key)
-    })
+    startSave(id)
 }
+
 const cancel = id => {
     if (selectedKeys.value.includes(id)) {
         selectedKeys.value.forEach(key => {
@@ -224,5 +237,6 @@ const columns = [
 <style scoped>
 .editable-add-btn {
     margin-bottom: 8px;
+    margin-right: 5px;
 }
 </style>
