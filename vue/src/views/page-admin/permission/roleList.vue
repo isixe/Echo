@@ -1,5 +1,5 @@
 <template>
-    <a-button type="primary" class="editable-add-btn" @click="handleAdd">新增</a-button>
+    <a-button type="primary" class="editable-add-btn" @click="() => open = !open">新增</a-button>
     <a-button type="primary" class="editable-add-btn" style="background-color: #52b35e;"
         @click="handleMutiEdit">批量编辑</a-button>
     <a-button type="primary" class="editable-add-btn" danger @click="handleMutiDelete">批量删除</a-button>
@@ -42,28 +42,76 @@
             </template>
         </template>
     </a-table>
+
+    <template>
+        <a-modal v-model:open="open" width="800px" title="新增管理员" @ok="handleOk">
+            <div class="form-container">
+                <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
+                    <a-form-item name="name" label="用户名">
+                        <a-input v-model:value="newData.name" placeholder="请输入用户名" />
+                    </a-form-item>
+                    <a-form-item name="password" label="密码">
+                        <a-input-password v-model:value="newData.password" placeholder="请输入密码" />
+                    </a-form-item>
+                    <a-form-item name="email" label="邮箱">
+                        <a-input v-model:value="newData.email" placeholder="请输入邮箱" />
+                    </a-form-item>
+                </a-form>
+            </div>
+        </a-modal>
+    </template>
 </template>
 <script setup>
-import router from '@/router'
 import { cloneDeep } from 'lodash-es';
 import { Modal } from 'ant-design-vue';
 import { toRaw, createVNode } from 'vue';
 import { message } from 'ant-design-vue'
-import { update, remove, getRoleList } from '@/api/admin'
+import { add, update, remove, getRoleList } from '@/api/admin'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
-const selectedKeys = ref([]);
-const editableData = reactive({});
 const props = defineProps(['searchText'])
 const { searchText } = toRefs(props)
 
+//table
 const loading = ref(true)
 const dataSource = ref([])
+const selectedKeys = ref([]);
+const editableData = reactive({});
+
 const params = reactive({
     pageNum: 1,
     pageSize: 10,
     keyword: null
 })
+
+//form
+const form = ref()
+const open = ref(false);
+
+const newData = reactive({
+    name: '',
+    password: '',
+    email: '',
+});
+
+const formItemLayout = {
+    labelCol: {
+        xs: {
+            span: 24,
+        },
+        sm: {
+            span: 6,
+        },
+    },
+    wrapperCol: {
+        xs: {
+            span: 24,
+        },
+        sm: {
+            span: 14,
+        },
+    },
+};
 
 //set pagination
 const pagination = reactive({
@@ -110,9 +158,29 @@ const rowSelection = {
 };
 
 //add
-const handleAdd = () => {
-    router.push('/permission/roleList/add')
+const rules = {
+    name: [{ min: 4, max: 16, required: true, trigger: 'blur', message: '用户名长度不能小于4个字符，大于16个字符' }],
+    password: [{ min: 6, required: true, trigger: 'blur', message: '密码不能小于6位' }],
+    email: [{ pattern: '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$', require: false, trigger: 'blur', message: '邮箱格式不正确' }]
 }
+
+const handleOk = () => {
+    form.value
+        .validate()
+        .then(async () => {
+            const formData = new FormData()
+            Object.keys(newData).forEach((key) => {
+                formData.append(key, newData[key])
+            })
+            await add(formData).then(() => {
+                message.success('添加成功')
+                open.value = false
+                queryData(params)
+            }).catch(() => {
+                open.value = false
+            })
+        })
+};
 
 //delete
 const handleDelete = (id) => {
@@ -142,9 +210,6 @@ const showDeleteConfirm = () => {
             selectedKeys.value.forEach(key => {
                 handleDelete(key)
             })
-        },
-        onCancel() {
-            return
         },
     });
 };
@@ -182,7 +247,7 @@ const handleEditSave = (record) => {
     startSave(id)
 }
 
-const cancel = id => {
+const cancel = (id) => {
     if (selectedKeys.value.includes(id)) {
         selectedKeys.value.forEach(key => {
             delete editableData[key]
@@ -238,5 +303,14 @@ const columns = [
 .editable-add-btn {
     margin-bottom: 8px;
     margin-right: 5px;
+}
+
+.form-container {
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.ant-form {
+    margin-top: 20px;
 }
 </style>
