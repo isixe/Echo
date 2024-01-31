@@ -1,48 +1,49 @@
 <template>
-    <a-button type="primary" class="editable-add-btn" @click="() => open = !open">新增</a-button>
-    <a-button type="primary" class="editable-add-btn" style="background-color: #52b35e;"
-        @click="handleMutiEdit">批量编辑</a-button>
-    <a-button type="primary" class="editable-add-btn" danger @click="handleMutiDelete">批量删除</a-button>
-    <a-table :row-selection="rowSelection" :loading="loading" :columns="columns" rowKey="id" :data-source="dataSource"
-        :pagination="pagination" :scroll="{ x: 1000 }">
+    <div class="container">
+        <a-button type="primary" class="editable-add-btn" @click="() => open = !open">新增</a-button>
+        <a-button type="primary" class="editable-add-btn" style="background-color: #52b35e;"
+            @click="handleMutiEdit">批量编辑</a-button>
+        <a-button type="primary" class="editable-add-btn" danger @click="handleMutiDelete">批量删除</a-button>
+        <a-table :row-selection="rowSelection" :loading="loading" :columns="columns" rowKey="id" :data-source="dataSource"
+            :pagination="pagination" :scroll="{ x: 1000 }">
 
-        <template #bodyCell="{ column, text, record }">
+            <template #bodyCell="{ column, text, record }">
 
-            <template v-if="['name', 'password', 'email'].includes(column.dataIndex)">
-                <div>
-                    <a-input v-if="editableData[record.id]" v-model:value="editableData[record.id][column.dataIndex]"
-                        style="margin: -5px 0" />
-                    <template v-else>
-                        {{ text }}
-                    </template>
-                </div>
-            </template>
+                <template v-if="['name', 'password', 'email'].includes(column.dataIndex)">
+                    <div>
+                        <a-input v-if="editableData[record.id]" v-model:value="editableData[record.id][column.dataIndex]"
+                            style="margin: -5px 0" />
+                        <template v-else>
+                            {{ text }}
+                        </template>
+                    </div>
+                </template>
 
-            <template v-if="column.dataIndex === 'action'">
-                <span>
-                    <span v-if="editableData[record.id]">
-                        <a-typography-link @click="handleEditSave(record)">保存</a-typography-link>
+                <template v-if="column.dataIndex === 'action'">
+                    <span>
+                        <span v-if="editableData[record.id]">
+                            <a-typography-link @click="handleEditSave(record)">保存</a-typography-link>
+                            <a-divider type="vertical" />
+                            <a-popconfirm title="确认取消?" @confirm="cancel(record.id)">
+                                <a>取消</a>
+                            </a-popconfirm>
+                        </span>
+                        <span v-else>
+                            <a @click="handleEdit(record.id)">编辑</a>
+                        </span>
                         <a-divider type="vertical" />
-                        <a-popconfirm title="确认取消?" @confirm="cancel(record.id)">
-                            <a>取消</a>
+                        <a-popconfirm v-if="selectedKeys.length > 1 && selectedKeys.includes(record.id)" title="确认批量删除?"
+                            @confirm="handleDelete(record.id)">
+                            <a>删除</a>
+                        </a-popconfirm>
+                        <a-popconfirm v-else title="确认删除?" @confirm="handleDelete(record.id)">
+                            <a>删除</a>
                         </a-popconfirm>
                     </span>
-                    <span v-else>
-                        <a @click="handleEdit(record.id)">编辑</a>
-                    </span>
-                    <a-divider type="vertical" />
-                    <a-popconfirm v-if="selectedKeys.length > 1 && selectedKeys.includes(record.id)" title="确认批量删除?"
-                        @confirm="handleDelete(record.id)">
-                        <a>删除</a>
-                    </a-popconfirm>
-                    <a-popconfirm v-else title="确认删除?" @confirm="handleDelete(record.id)">
-                        <a>删除</a>
-                    </a-popconfirm>
-                </span>
+                </template>
             </template>
-        </template>
-    </a-table>
-
+        </a-table>
+    </div>
     <template>
         <a-modal v-model:open="open" width="800px" title="新增管理员" @ok="handleOk">
             <div class="form-container">
@@ -300,6 +301,11 @@ const columns = [
 </script>
 
 <style scoped>
+.container {
+    background-color: #ffffff;
+    padding: 10px;
+}
+
 .editable-add-btn {
     margin-bottom: 8px;
     margin-right: 5px;

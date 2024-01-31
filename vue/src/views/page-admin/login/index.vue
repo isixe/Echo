@@ -148,7 +148,7 @@ const handleRegister = async () => {
 	justify-content: center;
 }
 
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 1200px) {
 	.login-logo {
 		display: block;
 	}
