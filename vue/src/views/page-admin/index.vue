@@ -18,6 +18,10 @@ const searchEnabled = ref(true)
 
 const isCollapsed = ref(false)
 
+if (window.innerWidth < 1000) {
+	isCollapsed.value = true
+}
+
 window.onresize = () => {
 	if (window.innerWidth < 1000) {
 		return isCollapsed.value = true
