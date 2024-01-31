@@ -57,6 +57,10 @@ public class Admin extends Model<Admin> {
     @Pattern(regexp = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$", message = "非法邮箱格式", groups = {UpdateValidationGroup.class})
     private String email;
 
+    @Schema(description = "头像")
+    @TableField("avatar")
+    private String avatar;
+
     @Schema(description = "最后活跃时间")
     @TableField(value = "last_active_time", fill = FieldFill.INSERT_UPDATE, updateStrategy = FieldStrategy.NOT_NULL)
     private LocalDateTime lastActiveTime;
