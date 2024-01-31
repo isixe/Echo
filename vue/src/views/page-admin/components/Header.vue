@@ -13,7 +13,7 @@
         </div>
 
         <div class="header-right">
-            <div class="header-right-search">
+            <div class="header-right-search" v-if="searchEnabled">
                 <a-input-search v-model:value="text" placeholder="请输入关键词" @search="handleOnSearch" />
             </div>
             <div class="header-right-info">
@@ -77,8 +77,8 @@ import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 const text = ref('')
 const name = ref('')
 const router = useRouter()
-const emits = defineEmits(["onSearch"])
-const { isCollapsed } = defineProps(['isCollapsed'])
+const emits = defineEmits(['onSearch', 'iconClick'])
+const { isCollapsed, searchEnabled } = defineProps(['isCollapsed', 'searchEnabled'])
 
 onMounted(() => {
     const store = useAdminStore()
@@ -116,6 +116,8 @@ const handleToUserCenter = () => {
     // router.push('/userCenter')
 }
 </script>
+
+<style></style>
 
 <style scoped>
 .ant-layout-header {
@@ -220,5 +222,11 @@ const handleToUserCenter = () => {
     align-items: center;
     height: 48px;
     margin-right: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+    .user-info .user-name {
+        display: none
+    }
 }
 </style>

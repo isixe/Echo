@@ -1,6 +1,6 @@
 <template>
 	<a-layout-content class="container">
-		<RouterView :searchText="searchText"></RouterView>
+		<RouterView :searchText="searchText" @noSearch="() => $emit('enableSearch')"></RouterView>
 	</a-layout-content>
 </template>
 
@@ -10,7 +10,7 @@ const { searchText } = defineProps(['searchText'])
 
 <style scoped>
 .container {
-	margin: 10px;
+	margin: 15px;
 	box-sizing: border-box;
 }
 </style>
