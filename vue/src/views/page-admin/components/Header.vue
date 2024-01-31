@@ -42,7 +42,7 @@
             </div>
             <a-dropdown placement="bottomRight" overlayClassName="dropdown-menu">
                 <div class="user-info">
-                    <a-avatar class="user-avatar" :size="24">
+                    <a-avatar class="user-avatar" :size="26" :src="avatar">
                         <template #icon>
                             <UserOutlined />
                         </template>
@@ -76,6 +76,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
 const text = ref('')
 const name = ref('')
+const avatar = ref('')
 const router = useRouter()
 const emits = defineEmits(['onSearch', 'iconClick'])
 const { isCollapsed, searchEnabled } = defineProps(['isCollapsed', 'searchEnabled'])
@@ -84,6 +85,7 @@ onMounted(() => {
     const store = useAdminStore()
     get({ id: store.id }).then((res) => {
         name.value = res.data.name
+        avatar.value = res.data.avatar
     })
 })
 
