@@ -9,12 +9,21 @@
 
             <template #bodyCell="{ column, text, record }">
 
-                <template v-if="['name', 'password', 'email'].includes(column.dataIndex)">
+                <template v-if="['name', 'password', 'email', 'avatar'].includes(column.dataIndex)">
                     <div>
                         <a-input v-if="editableData[record.id]" v-model:value="editableData[record.id][column.dataIndex]"
                             style="margin: -5px 0" />
                         <template v-else>
-                            {{ text }}
+                            <template v-if="column.dataIndex === 'avatar'">
+                                <a-avatar class="user-avatar" :size="26" :src="text">
+                                    <template #icon>
+                                        <UserOutlined />
+                                    </template>
+                                </a-avatar>
+                            </template>
+                            <template v-else>
+                                {{ text }}
+                            </template>
                         </template>
                     </div>
                 </template>
@@ -48,6 +57,24 @@
         <a-modal v-model:open="open" width="800px" title="新增管理员" @ok="handleOk">
             <div class="form-container">
                 <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
+                    <a-form-item name="avatar" label="头像">
+                        <div>
+                            <a-avatar class="user-avatar" :size="110" :src="newUserIcon">
+                                <template #icon>
+                                    <UserOutlined />
+                                </template>
+                            </a-avatar>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <a-upload :before-upload="beforeUpload" :max-count="1" :showUploadList="false"
+                                listType="picture" :customRequest="avatarUploadAction">
+                                <a-button>
+                                    <upload-outlined />
+                                    选择文件
+                                </a-button>
+                            </a-upload>
+                        </div>
+                    </a-form-item>
                     <a-form-item name="name" label="用户名">
                         <a-input v-model:value="newData.name" placeholder="请输入用户名" />
                     </a-form-item>
@@ -68,8 +95,10 @@ import { Modal } from 'ant-design-vue';
 import { toRaw, createVNode } from 'vue';
 import { message } from 'ant-design-vue'
 import { add, update, remove, getRoleList } from '@/api/admin'
+import { uploadAvatar } from '@/api/file'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
+defineEmits(['noSearch'])
 const props = defineProps(['searchText'])
 const { searchText } = toRefs(props)
 
@@ -88,11 +117,13 @@ const params = reactive({
 //form
 const form = ref()
 const open = ref(false);
+const newUserIcon = ref('')
 
 const newData = reactive({
     name: '',
     password: '',
     email: '',
+    avatar: ''
 });
 
 const formItemLayout = {
@@ -165,6 +196,14 @@ const rules = {
     email: [{ pattern: '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$', require: false, trigger: 'blur', message: '邮箱格式不正确' }]
 }
 
+const avatarUploadAction = (info) => {
+    const formData = new FormData();
+    formData.append('file', info.file);
+    uploadAvatar(formData).then((res) => {
+        newData.avatar = res.data
+    })
+}
+
 const handleOk = () => {
     form.value
         .validate()
@@ -177,6 +216,10 @@ const handleOk = () => {
                 message.success('添加成功')
                 open.value = false
                 queryData(params)
+                Object.keys(newData).forEach(key => {
+                    newData[key] = '';
+                });
+                newUserIcon.value = ''
             }).catch(() => {
                 open.value = false
             })
@@ -263,8 +306,27 @@ watch(searchText, (newValue) => {
     queryData(params)
 });
 
+//upload
+const beforeUpload = file => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+        message.error('仅支持JPG和PNG格式!');
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => newUserIcon.value = reader.result
+
+    return isJpgOrPng;
+};
+
 //set table head
 const columns = [
+    {
+        title: '头像',
+        dataIndex: 'avatar',
+        width: 100,
+    },
     {
         title: '用户名',
         dataIndex: 'name',
