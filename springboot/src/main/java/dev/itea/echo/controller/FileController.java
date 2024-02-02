@@ -37,13 +37,13 @@ public class FileController {
     private Environment environment;
 
     /**
-     * 文件添加
+     * 头像文件上传
      *
      * @param file 文件
      */
-    @Operation(summary = "文件上传", description = "文件上传接口", tags = "File", method = "POST",
+    @Operation(summary = "头像文件上传", description = "头像文件上传接口", tags = "File", method = "POST",
             parameters = {
-                    @Parameter(name = "File", description = "文件上传接口", required = true),
+                    @Parameter(name = "File", description = "头像文件上传接口", required = true),
             })
     @PostMapping("/avatar")
     public String uploadAvatar(@RequestParam(value = "file") MultipartFile file) {
