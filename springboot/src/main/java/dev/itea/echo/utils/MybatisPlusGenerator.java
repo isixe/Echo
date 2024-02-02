@@ -39,9 +39,9 @@ public class MybatisPlusGenerator {
             .commentDate("yyyy-MM-dd");
 
     private final Consumer<StrategyConfig.Builder> strategyConfig = builder -> builder
-            // 公共配置
+            // Public
             .addTablePrefix("t_", "p_")
-            // 实体类配置
+            // Entity
             .entityBuilder()
             .enableLombok()
             .enableTableFieldAnnotation()
@@ -50,16 +50,16 @@ public class MybatisPlusGenerator {
             .enableLombok()
             .logicDeleteColumnName("deleted")
             .enableTableFieldAnnotation()
-            // Service配置
+            // Service
             .serviceBuilder()
             .formatServiceFileName("%sService")
             .formatServiceImplFileName("%sServiceImpl")
-            // Controller配置
+            // Controller
             .controllerBuilder()
             .formatFileName("%sController")
             .enableHyphenStyle()
             .enableRestStyle()
-            // Mapper配置
+            // Mapper
             .mapperBuilder()
             .formatMapperFileName("%sMapper")
             .formatXmlFileName("%sMapper")
