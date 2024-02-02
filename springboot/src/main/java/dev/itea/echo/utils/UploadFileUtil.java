@@ -31,7 +31,7 @@ public class UploadFileUtil {
         this.environment = environment;
     }
 
-    public String uploadFile(MultipartFile files, String dir) {
+    public String uploadFile(MultipartFile file, String dir) {
         try {
             String localHost = new HostUtil().getLocalHostExactAddress();
             String port = environment.getProperty("server.port");
@@ -57,19 +57,19 @@ public class UploadFileUtil {
             }
 
             // suffix
-            String originalFilename = files.getOriginalFilename();
+            String originalFilename = file.getOriginalFilename();
             String fileSuffix = StringUtils.getFilenameExtension(originalFilename);
 
             //get full filename
-            byte[] bytes = DigestUtils.md5Digest(files.getBytes());
+            byte[] bytes = DigestUtils.md5Digest(file.getBytes());
             String md5 = new BigInteger(1, bytes).toString(16);
             String fileName = md5 + "." + fileSuffix;
 
             //save file
-            File file = new File(targetPath.toString(), fileName);
-            if (!file.exists()) {
-                files.transferTo(file);
-                Files.copy(file.toPath(), Paths.get(resourcesPath.toString(), fileName));
+            File saveFile = new File(targetPath.toString(), fileName);
+            if (!saveFile.exists()) {
+                file.transferTo(saveFile);
+                Files.copy(saveFile.toPath(), Paths.get(resourcesPath.toString(), fileName));
             }
 
             //join path
