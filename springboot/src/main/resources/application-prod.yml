@@ -57,6 +57,10 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 mybatis-plus:
   configuration:
@@ -70,7 +74,7 @@ mybatis-plus:
       logic-delete-value: 1
 
 log:
-  path: D:\Git-Workflow\echo\springboot\logs
+  path: D:/Git-Workflow/echo/springboot/logs
 
 logging:
   config: classpath:log/logback-prod.xml
