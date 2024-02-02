@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
@@ -32,7 +31,6 @@ import java.time.LocalDateTime;
  * @author isixe
  * @since 2024-01-15
  */
-@Slf4j
 @Tag(name = "Admin", description = "管理员接口")
 @SaCheckLogin
 @RestController
