@@ -156,7 +156,7 @@ const params = reactive({
 const rules = {
     name: [{ min: 4, max: 16, required: true, trigger: 'blur', message: '用户名长度不能小于4个字符，大于16个字符' }],
     password: [{ min: 6, required: true, trigger: 'blur', message: '密码不能小于6位' }],
-    email: [{ pattern: '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$', require: false, trigger: 'blur', message: '邮箱格式不正确' }]
+    email: [{ pattern: '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$', required: false, trigger: 'blur', message: '邮箱格式不正确' }]
 }
 
 //form
