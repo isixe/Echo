@@ -32,6 +32,9 @@ dependencies:
   axios:
     specifier: ^1.6.7
     version: 1.6.7
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   echarts:
     specifier: ^5.4.3
     version: 5.4.3
@@ -3296,6 +3299,21 @@ packages:
       vue: 3.4.15
     dev: false
 
+  /vue-demi@0.14.7(vue@3.4.15):
+    resolution: {integrity: sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.4.15
+    dev: false
+
   /vue-echarts@6.6.8(echarts@5.4.3)(vue@3.4.15):
     resolution: {integrity: sha512-3EGrxKGCGjHnkhudRQQ4fkK5iJxxXNQ1fXvSWA/7mzR/oV7BBSHYvC3gDbG/WIW0A/Fcx2H8k5H3NDyWgjyi8g==}
     requiresBuild: true
@@ -3345,7 +3363,7 @@ packages:
         optional: true
     dependencies:
       vue: 3.4.15
-      vue-demi: 0.14.6(vue@3.4.15)
+      vue-demi: 0.14.7(vue@3.4.15)
     dev: false
 
   /vue-router@4.2.5(vue@3.4.15):
