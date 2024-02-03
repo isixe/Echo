@@ -27,12 +27,8 @@
                         <span>
                             <a @click="showEdit(record)">编辑</a>
                         </span>
-                        <a-divider type="vertical" />
-                        <a-popconfirm v-if="selectedKeys.length > 1 && selectedKeys.includes(record.id)" title="确认批量删除?"
-                            @confirm="handleMutiDelete(record.id)">
-                            <a>删除</a>
-                        </a-popconfirm>
-                        <a-popconfirm v-else title="确认删除?" @confirm="handleDelete(record.id)">
+                        <a-divider type="vertical" />>
+                        <a-popconfirm title="确认删除?" @confirm="handleDelete(record.id)">
                             <a>删除</a>
                         </a-popconfirm>
                     </span>
