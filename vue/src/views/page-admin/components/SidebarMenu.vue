@@ -7,14 +7,19 @@
 			</RouterLink>
 		</a-menu-item>
 
-		<a-sub-menu key="sub1">
+		<a-sub-menu key="/system">
 			<template #title>
 				<span>
 					<SettingOutlined />
 					<span>系统管理</span>
 				</span>
 			</template>
-			<a-menu-item key="2">用户管理</a-menu-item>
+
+			<a-menu-item key="/system/userList">
+				<RouterLink to="/system/userList">
+					用户管理
+				</RouterLink>
+			</a-menu-item>
 			<a-menu-item key="3">文章管理</a-menu-item>
 			<a-menu-item key="4">帖子管理</a-menu-item>
 			<a-menu-item key="5">问答管理</a-menu-item>
