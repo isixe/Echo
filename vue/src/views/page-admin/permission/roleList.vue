@@ -29,7 +29,7 @@
                         </span>
                         <a-divider type="vertical" />
                         <a-popconfirm v-if="selectedKeys.length > 1 && selectedKeys.includes(record.id)" title="确认批量删除?"
-                            @confirm="handleDelete(record.id)">
+                            @confirm="handleMutiDelete(record.id)">
                             <a>删除</a>
                         </a-popconfirm>
                         <a-popconfirm v-else title="确认删除?" @confirm="handleDelete(record.id)">
@@ -155,6 +155,12 @@ const params = reactive({
     keyword: null
 })
 
+const rules = {
+    name: [{ min: 4, max: 16, required: true, trigger: 'blur', message: '用户名长度不能小于4个字符，大于16个字符' }],
+    password: [{ min: 6, required: true, trigger: 'blur', message: '密码不能小于6位' }],
+    email: [{ pattern: '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$', require: false, trigger: 'blur', message: '邮箱格式不正确' }]
+}
+
 //form
 const form = ref()
 const showAddModal = ref(false);
@@ -251,26 +257,6 @@ const rowSelection = {
 };
 
 //add
-const rules = {
-    name: [{ min: 4, max: 16, required: true, trigger: 'blur', message: '用户名长度不能小于4个字符，大于16个字符' }],
-    password: [{ min: 6, required: true, trigger: 'blur', message: '密码不能小于6位' }],
-    email: [{ pattern: '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$', require: false, trigger: 'blur', message: '邮箱格式不正确' }]
-}
-
-const avatarUploadAction = (info) => {
-    const formData = new FormData();
-    formData.append('file', info.file);
-    uploadAvatar(formData).then((res) => {
-        if (showAddModal.value) {
-            newData.avatar = res.data
-        }
-
-        if (showEditModal.value) {
-            editData.avatar = res.data
-        }
-    })
-}
-
 const handleAddOk = () => {
     loading.value = true
     form.value
@@ -309,12 +295,13 @@ const handleDelete = (id) => {
 }
 
 const handleMutiDelete = () => {
-    if (!selectedKeys.value.length > 0) {
+    const length = selectedKeys.value.length
+    if (!length > 0) {
         return
     }
 
     Modal.confirm({
-        title: '确定要批量删除数据?',
+        title: `确定要批量删除${length}条数据?`,
         icon: createVNode(ExclamationCircleOutlined),
         content: '数据删除后，不能恢复',
         okText: '确定',
@@ -384,6 +371,20 @@ const beforeUpload = file => {
     return isJpgOrPng;
 };
 
+const avatarUploadAction = (info) => {
+    const formData = new FormData();
+    formData.append('file', info.file);
+    uploadAvatar(formData).then((res) => {
+        if (showAddModal.value) {
+            newData.avatar = res.data
+        }
+
+        if (showEditModal.value) {
+            editData.avatar = res.data
+        }
+    })
+}
+
 //set table head
 const columns = [
     {
@@ -421,7 +422,7 @@ const columns = [
         title: '操作',
         dataIndex: 'action',
         fixed: 'right',
-        width: 100,
+        width: 120,
     }
 ];
 </script>
