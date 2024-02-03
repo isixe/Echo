@@ -224,6 +224,9 @@ public class UserController {
             parameters = {
                     @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
             })
+    @SaCheckOr(
+            login = {@SaCheckLogin(type = "login"), @SaCheckLogin(type = "userLogin")}
+    )
     @GetMapping
     public User getById(Integer id) {
         //get user
@@ -250,6 +253,7 @@ public class UserController {
                     @Parameter(name = "pageSize", description = "每个页的数据量", required = true, example = "10"),
                     @Parameter(name = "keyword", description = "模糊搜索关键词", required = true, example = "user"),
             })
+    @SaCheckLogin(type = "login")
     @GetMapping("/queryAll")
     public IPage<User> getByName(@RequestParam(defaultValue = "1") Integer pageNum,
                                  @RequestParam(defaultValue = "10") Integer pageSize,
