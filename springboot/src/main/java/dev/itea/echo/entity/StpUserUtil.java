@@ -298,9 +298,10 @@ public class StpUserUtil {
          * 判断当前会话是否已经登录
          *
          * @return 已登录返回 true，未登录返回 false
+         * @param id
          */
-        public static boolean isLogin() {
-            return stpLogic.isLogin();
+        public static boolean isLogin(Integer id) {
+            return stpLogic.isLogin(id);
         }
 
         /**

@@ -112,7 +112,7 @@ public class AdminController {
      *
      * @param admin 管理员用户实体
      */
-    @Operation(summary = "管理员添加", description = "后台管理员用户新增", tags = "Admin", method = "POST",
+    @Operation(summary = "管理员添加", description = "后台管理员用户添加", tags = "Admin", method = "POST",
             parameters = {
                     @Parameter(name = "admin", description = "管理员用户实体", required = true),
             })
