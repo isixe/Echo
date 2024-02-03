@@ -12,6 +12,11 @@ const adminRoutes = {
       component: () => import('@/views/page-admin/dashboard')
     },
     {
+      path: '/system/userList',
+      name: 'userList',
+      component: () => import('@/views/page-admin/system/userList')
+    },
+    {
       path: '/permission/roleList',
       name: 'roleList',
       component: () => import('@/views/page-admin/permission/roleList')
