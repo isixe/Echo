@@ -421,7 +421,7 @@ const columns = [
         title: '操作',
         dataIndex: 'action',
         fixed: 'right',
-        width: 150,
+        width: 100,
     }
 ];
 </script>
