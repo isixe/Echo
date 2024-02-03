@@ -114,16 +114,16 @@
                         <a-textarea v-model:value="editData.description" placeholder="请输入简介" show-count :maxlength="60" />
                     </a-form-item>
                     <a-form-item name="lastActiveTime" label="最后活跃时间" style="display: flex;">
-                        <a-input-group>
+                        <a-form-item>
                             <a-date-picker v-model:value="disabledData.lastActiveDate" disabled />
                             <a-time-picker style="margin-left:10px;" v-model:value="disabledData.lastActiveTime" disabled />
-                        </a-input-group>
+                        </a-form-item>
                     </a-form-item>
                     <a-form-item name="createdTime" label="创建时间" style="display: flex;">
-                        <a-input-group>
+                        <a-form-item>
                             <a-date-picker v-model:value="disabledData.createdDate" disabled />
                             <a-time-picker style="margin-left:10px;" v-model:value="disabledData.lastActiveTime" disabled />
-                        </a-input-group>
+                        </a-form-item>
                     </a-form-item>
                 </a-form>
             </div>
