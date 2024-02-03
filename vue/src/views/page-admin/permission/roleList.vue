@@ -27,7 +27,7 @@
                         <span>
                             <a @click="showEdit(record)">编辑</a>
                         </span>
-                        <a-divider type="vertical" />>
+                        <a-divider type="vertical" />
                         <a-popconfirm title="确认删除?" @confirm="handleDelete(record.id)">
                             <a>删除</a>
                         </a-popconfirm>
@@ -62,7 +62,8 @@
                         <a-input v-model:value="newData.name" placeholder="请输入用户名" />
                     </a-form-item>
                     <a-form-item name="password" label="密码">
-                        <a-input-password v-model:value="newData.password" placeholder="请输入密码" />
+                        <a-input-password v-model:value="newData.password" placeholder="请输入密码"
+                            autocomplete="new-password" />
                     </a-form-item>
                     <a-form-item name="email" label="邮箱">
                         <a-input v-model:value="newData.email" placeholder="请输入邮箱" />
@@ -101,7 +102,8 @@
                         <a-input v-model:value="editData.name" placeholder="请输入用户名" />
                     </a-form-item>
                     <a-form-item name="password" label="密码">
-                        <a-input-password v-model:value="editData.password" placeholder="请输入密码" />
+                        <a-input-password v-model:value="editData.password" placeholder="请输入密码"
+                            autocomplete="new-password" />
                     </a-form-item>
                     <a-form-item name="email" label="邮箱">
                         <a-input v-model:value="editData.email" placeholder="请输入邮箱" />
