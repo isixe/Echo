@@ -62,6 +62,13 @@ const data = reactive({
 	rememberMe: false
 })
 
+onMounted(() => {
+	const store = useAdminStore()
+	if (store.tokenValue) {
+		router.push("/dashboard")
+	}
+})
+
 //click function
 const loading = ref(false)
 const handleRegister = async () => {
