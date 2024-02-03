@@ -1,8 +1,6 @@
 <template>
     <div class="container">
-        <a-button type="primary" class="editable-add-btn" @click="() => open = !open">新增</a-button>
-        <a-button type="primary" class="editable-add-btn" style="background-color: #52b35e;"
-            @click="handleMutiEdit">批量编辑</a-button>
+        <a-button type="primary" class="editable-add-btn" @click="() => showAddModal = !showAddModal">新增</a-button>
         <a-button type="primary" class="editable-add-btn" danger @click="handleMutiDelete">批量删除</a-button>
         <a-table :row-selection="rowSelection" :loading="loading" :columns="columns" rowKey="id" :data-source="dataSource"
             :pagination="pagination" :scroll="{ x: 1000 }">
@@ -11,34 +9,23 @@
 
                 <template v-if="['name', 'password', 'email', 'avatar'].includes(column.dataIndex)">
                     <div>
-                        <a-input v-if="editableData[record.id]" v-model:value="editableData[record.id][column.dataIndex]"
-                            style="margin: -5px 0" />
+                        <template v-if="column.dataIndex === 'avatar'">
+                            <a-avatar class="user-avatar" :size="26" :src="text">
+                                <template #icon>
+                                    <UserOutlined />
+                                </template>
+                            </a-avatar>
+                        </template>
                         <template v-else>
-                            <template v-if="column.dataIndex === 'avatar'">
-                                <a-avatar class="user-avatar" :size="26" :src="text">
-                                    <template #icon>
-                                        <UserOutlined />
-                                    </template>
-                                </a-avatar>
-                            </template>
-                            <template v-else>
-                                {{ text }}
-                            </template>
+                            {{ text }}
                         </template>
                     </div>
                 </template>
 
                 <template v-if="column.dataIndex === 'action'">
                     <span>
-                        <span v-if="editableData[record.id]">
-                            <a-typography-link @click="handleEditSave(record)">保存</a-typography-link>
-                            <a-divider type="vertical" />
-                            <a-popconfirm title="确认取消?" @confirm="cancel(record.id)">
-                                <a>取消</a>
-                            </a-popconfirm>
-                        </span>
-                        <span v-else>
-                            <a @click="handleEdit(record.id)">编辑</a>
+                        <span>
+                            <a @click="showEdit(record)">编辑</a>
                         </span>
                         <a-divider type="vertical" />
                         <a-popconfirm v-if="selectedKeys.length > 1 && selectedKeys.includes(record.id)" title="确认批量删除?"
@@ -54,7 +41,7 @@
         </a-table>
     </div>
     <template>
-        <a-modal v-model:open="open" width="800px" title="新增管理员" @ok="handleOk">
+        <a-modal v-model:open="showAddModal" width="800px" title="新增管理员">
             <div class="form-container">
                 <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
                     <a-form-item name="avatar" label="头像">
@@ -86,13 +73,68 @@
                     </a-form-item>
                 </a-form>
             </div>
+            <template #footer>
+                <a-button key="back" @click="() => showAddModal = !showAddModal">取消</a-button>
+                <a-button key="submit" type="primary" :loading="loading" @click="handleAddOk">提交</a-button>
+            </template>
+        </a-modal>
+    </template>
+    <template>
+        <a-modal v-model:open="showEditModal" width="800px" title="更新管理员信息">
+            <div class="form-container">
+                <a-form ref="form" v-bind="formItemLayout" :model="editData" :rules="rules">
+                    <a-form-item name="avatar" label="头像">
+                        <div>
+                            <a-avatar class="user-avatar" :size="110" :src="editData.avatar">
+                                <template #icon>
+                                    <UserOutlined />
+                                </template>
+                            </a-avatar>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <a-upload :before-upload="beforeUpload" :max-count="1" :showUploadList="false"
+                                listType="picture" :customRequest="avatarUploadAction">
+                                <a-button>
+                                    <upload-outlined />
+                                    选择文件
+                                </a-button>
+                            </a-upload>
+                        </div>
+                    </a-form-item>
+                    <a-form-item name="name" label="用户名">
+                        <a-input v-model:value="editData.name" placeholder="请输入用户名" />
+                    </a-form-item>
+                    <a-form-item name="password" label="密码">
+                        <a-input-password v-model:value="editData.password" placeholder="请输入密码" />
+                    </a-form-item>
+                    <a-form-item name="email" label="邮箱">
+                        <a-input v-model:value="editData.email" placeholder="请输入邮箱" />
+                    </a-form-item>
+                    <a-form-item name="lastActiveTime" label="最后活跃时间" style="display: flex;">
+                        <a-form-item>
+                            <a-date-picker v-model:value="disabledData.lastActiveDate" disabled />
+                            <a-time-picker style="margin-left:10px;" v-model:value="disabledData.lastActiveTime" disabled />
+                        </a-form-item>
+                    </a-form-item>
+                    <a-form-item name="createdTime" label="创建时间" style="display: flex;">
+                        <a-form-item>
+                            <a-date-picker v-model:value="disabledData.createdDate" disabled />
+                            <a-time-picker style="margin-left:10px;" v-model:value="disabledData.lastActiveTime" disabled />
+                        </a-form-item>
+                    </a-form-item>
+                </a-form>
+            </div>
+            <template #footer>
+                <a-button key="back" @click="() => showEditModal = !showEditModal">取消</a-button>
+                <a-button key="submit" type="primary" :loading="loading" @click="handleEditOk">提交</a-button>
+            </template>
         </a-modal>
     </template>
 </template>
 <script setup>
-import { cloneDeep } from 'lodash-es';
+import dayjs from 'dayjs';
 import { Modal } from 'ant-design-vue';
-import { toRaw, createVNode } from 'vue';
+import { createVNode } from 'vue';
 import { message } from 'ant-design-vue'
 import { add, update, remove, getRoleList } from '@/api/admin'
 import { uploadAvatar } from '@/api/file'
@@ -106,7 +148,6 @@ const { searchText } = toRefs(props)
 const loading = ref(true)
 const dataSource = ref([])
 const selectedKeys = ref([]);
-const editableData = reactive({});
 
 const params = reactive({
     pageNum: 1,
@@ -116,8 +157,11 @@ const params = reactive({
 
 //form
 const form = ref()
-const open = ref(false);
+const showAddModal = ref(false);
+const showEditModal = ref(false)
 const newUserIcon = ref('')
+
+const originData = ref()
 
 const newData = reactive({
     name: '',
@@ -125,6 +169,23 @@ const newData = reactive({
     email: '',
     avatar: ''
 });
+
+const editData = reactive({
+    id: '',
+    name: '',
+    password: '',
+    email: '',
+    avatar: '',
+    lastActiveTime: '',
+    createdTime: ''
+});
+
+const disabledData = reactive({
+    lastActiveDate: '',
+    lastActiveTime: '',
+    createdDate: '',
+    createdTime: ''
+})
 
 const formItemLayout = {
     labelCol: {
@@ -200,11 +261,18 @@ const avatarUploadAction = (info) => {
     const formData = new FormData();
     formData.append('file', info.file);
     uploadAvatar(formData).then((res) => {
-        newData.avatar = res.data
+        if (showAddModal.value) {
+            newData.avatar = res.data
+        }
+
+        if (showEditModal.value) {
+            editData.avatar = res.data
+        }
     })
 }
 
-const handleOk = () => {
+const handleAddOk = () => {
+    loading.value = true
     form.value
         .validate()
         .then(async () => {
@@ -214,14 +282,18 @@ const handleOk = () => {
             })
             await add(formData).then(() => {
                 message.success('添加成功')
-                open.value = false
+                showAddModal.value = false
                 queryData(params)
                 Object.keys(newData).forEach(key => {
                     newData[key] = '';
                 });
                 newUserIcon.value = ''
+                loading.value = false
+                showAddModal.value = false
             }).catch(() => {
-                open.value = false
+                showAddModal.value = false
+                loading.value = false
+                showAddModal.value = false
             })
         })
 };
@@ -237,12 +309,10 @@ const handleDelete = (id) => {
 }
 
 const handleMutiDelete = () => {
-    if (selectedKeys.value.length > 0) {
-        showDeleteConfirm()
+    if (!selectedKeys.value.length > 0) {
+        return
     }
-}
 
-const showDeleteConfirm = () => {
     Modal.confirm({
         title: '确定要批量删除数据?',
         icon: createVNode(ExclamationCircleOutlined),
@@ -256,48 +326,42 @@ const showDeleteConfirm = () => {
             })
         },
     });
-};
-
-//edit
-const handleEdit = (id) => {
-    editableData[id] = cloneDeep(dataSource.value.filter(item => id === item.id)[0]);
-};
-
-const handleMutiEdit = () => {
-    selectedKeys.value.forEach(key => {
-        editableData[key] = cloneDeep(dataSource.value.filter(item => key === item.id)[0]);
-    })
 }
 
-const startSave = (id) => {
-    const row = toRaw(editableData[id])
+//edit
+const showEdit = (record) => {
+    Object.keys(editData).forEach((key) => {
+        editData[key] = record[key];
+    });
+    originData.value = JSON.stringify(editData)
+
+    disabledData['lastActiveDate'] = dayjs(editData['lastActiveTime'], 'YYYY-MM-DD')
+    disabledData['lastActiveTime'] = dayjs(editData['lastActiveTime'], 'HH:mm:ss')
+
+    disabledData['createdDate'] = dayjs(editData['createdTime'], 'YYYY-MM-DD')
+    disabledData['createdTime'] = dayjs(editData['createdTime'], 'HH:mm:ss')
+    showEditModal.value = true;
+}
+
+const handleEditOk = () => {
+    loading.value = true
+    if (originData.value === JSON.stringify(editData)) {
+        loading.value = false
+        return showEditModal.value = false
+    }
     const formData = new FormData()
-    Object.keys(row).forEach((key) => {
-        formData.append(key, row[key]);
+    Object.keys(editData).forEach((key) => {
+        formData.append(key, editData[key]);
     });
     update(formData).then(() => {
         message.success('修改成功')
         queryData(params)
-        cancel(id)
+        loading.value = false
+        showEditModal.value = false
+    }).catch(() => {
+        loading.value = false
+        showEditModal.value = false
     })
-}
-
-const handleEditSave = (record) => {
-    const id = record.id
-    if (JSON.stringify(record) === JSON.stringify(editableData[id])) {
-        cancel(id)
-
-    }
-    startSave(id)
-}
-
-const cancel = (id) => {
-    if (selectedKeys.value.includes(id)) {
-        selectedKeys.value.forEach(key => {
-            delete editableData[key]
-        })
-    }
-    delete editableData[id]
 }
 
 //search
@@ -376,6 +440,8 @@ const columns = [
 .form-container {
     padding: 20px;
     background-color: #ffffff;
+    max-height: 55vh;
+    overflow-y: scroll;
 }
 
 .ant-form {
