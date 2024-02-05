@@ -25,14 +25,14 @@
 								</a-form-item>
 								<a-form-item name="password" class="enter-x-l-10">
 									<a-input-password v-model:value="data.password" size="large" placeholder="密码"
-										autocomplete="on" @keyup.enter="handleRegister" />
+										autocomplete="on" @keyup.enter="handleLogin" />
 								</a-form-item>
 								<a-form-item class="enter-x-l-15">
 									<a-checkbox v-model:checked="data.rememberMe">记住我</a-checkbox>
 								</a-form-item>
 								<a-form-item class="enter-x-l-20">
 									<a-button :loading="loading" class="btn-login" size="large" type="primary"
-										@click="handleRegister">登录</a-button>
+										@click="handleLogin">登录</a-button>
 								</a-form-item>
 							</a-form>
 						</div>
@@ -71,7 +71,7 @@ onMounted(() => {
 
 //click function
 const loading = ref(false)
-const handleRegister = async () => {
+const handleLogin = async () => {
 	loading.value = true
 
 	form.value
