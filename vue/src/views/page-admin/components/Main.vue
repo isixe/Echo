@@ -1,6 +1,6 @@
 <template>
 	<a-layout-content class="main">
-		<RouterView :searchText="searchText" @noSearch="() => $emit('enableSearch')"></RouterView>
+		<RouterView :searchText="searchText" @useSearch="(e) => $emit('enableSearch', e)"></RouterView>
 	</a-layout-content>
 </template>
 

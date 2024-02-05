@@ -5,7 +5,7 @@
 			<Header :isCollapsed="isCollapsed" :searchEnabled="searchEnabled" @iconClick="() => isCollapsed = !isCollapsed"
 				@onSearch="(text) => searchText = text">
 			</Header>
-			<Main :searchText="searchText" @enableSearch="() => searchEnabled = !searchEnabled"></Main>
+			<Main :searchText="searchText" @enableSearch="(e) => searchEnabled = e"></Main>
 		</a-layout>
 	</a-layout>
 </template>

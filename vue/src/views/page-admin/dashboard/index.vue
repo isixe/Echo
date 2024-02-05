@@ -80,8 +80,8 @@ import { faUser, faPen, faArrowRightArrowLeft, faGear } from '@fortawesome/free-
 library.add(faUser, faPen, faArrowRightArrowLeft, faGear)
 
 defineProps(['searchText'])
-const emits = defineEmits(['noSearch'])
-emits('noSearch')
+const emits = defineEmits(['useSearch'])
+emits('useSearch', false)
 </script>
 
 <style scoped>

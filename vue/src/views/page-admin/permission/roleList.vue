@@ -138,7 +138,9 @@ import { add, update, remove, getRoleList } from '@/api/admin'
 import { uploadAvatar } from '@/api/file'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
-defineEmits(['noSearch'])
+const emits = defineEmits(['useSearch'])
+emits('useSearch', true)
+
 const props = defineProps(['searchText'])
 const { searchText } = toRefs(props)
 

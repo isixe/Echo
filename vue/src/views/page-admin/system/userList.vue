@@ -144,7 +144,9 @@ import { add, update, remove, getUserList } from '@/api/user'
 import { uploadAvatar } from '@/api/file'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
-defineEmits(['noSearch'])
+const emits = defineEmits(['useSearch'])
+emits('useSearch', true)
+
 const props = defineProps(['searchText'])
 const { searchText } = toRefs(props)
 
@@ -356,6 +358,12 @@ const rowSelection = {
         selectedKeys.value = selectedRowKeys
     }
 };
+
+//search
+watch(searchText, (newValue) => {
+    params.keyword = newValue
+    queryData(params)
+});
 
 //upload
 const beforeUpload = file => {
