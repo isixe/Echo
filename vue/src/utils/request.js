@@ -1,8 +1,10 @@
 import axios from 'axios'
-import { message } from 'ant-design-vue'
 import router from '@/router'
-// import { useUserStore } from '@/stores/user'
-// import { useAdminStore } from '@/stores/admin'
+import { message } from 'ant-design-vue'
+import adminRoutes from '@/router/module/admin'
+import userRoutes from '@/router/module/user'
+import { useUserStore } from '@/stores/user'
+import { useAdminStore } from '@/stores/admin'
 
 //create instance
 const instance = axios.create({
@@ -54,11 +56,34 @@ instance.interceptors.response.use(
       return Promise.reject(error)
     }
 
+    //get all routes path
+    const extractPaths = (routes) => {
+      return routes.map((route) =>
+        route.children ? [route.path, ...extractPaths(route.children)] : route.path
+      )
+    }
+
+    //get route hit
+    const isRoleRoutes = (routes) => {
+      const pathList = extractPaths([routes]).flat()
+      const currentPath = router.currentRoute.value.path
+      return pathList.includes(currentPath)
+    }
+
     const response = error.response
     const data = response.data
     switch (response.status) {
       case 401:
-        router.push('/admin/login')
+        if (isRoleRoutes(userRoutes)) {
+          useUserStore().resetAction()
+          router.push('/login')
+        }
+
+        if (isRoleRoutes(adminRoutes)) {
+          useAdminStore().resetAction()
+          router.push('/admin/login')
+        }
+
         message.error('登录验证过期，请重新登录')
         break
       default:
