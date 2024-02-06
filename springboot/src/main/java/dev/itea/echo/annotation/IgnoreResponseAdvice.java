@@ -1,4 +1,4 @@
-package dev.itea.echo.advice;
+package dev.itea.echo.annotation;
 
 import java.lang.annotation.*;
 

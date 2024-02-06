@@ -1,6 +1,7 @@
 package dev.itea.echo.advice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.itea.echo.annotation.IgnoreResponseAdvice;
 import dev.itea.echo.entity.result.ErrorResult;
 import dev.itea.echo.entity.result.Result;
 import jakarta.annotation.Resource;
