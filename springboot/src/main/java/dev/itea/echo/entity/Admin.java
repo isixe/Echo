@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.io.Serial;
 
+import dev.itea.echo.annotation.Sensitive;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -43,6 +44,7 @@ public class Admin extends Model<Admin> {
     @Length(message = "长度不能小于4个字符和大于16个字符", min = 4, max = 16, groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     private String name;
 
+    @Sensitive(strategy = SensitiveStrategy.PASSWORD)
     @Schema(description = "密码")
     @TableField("password")
     @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
