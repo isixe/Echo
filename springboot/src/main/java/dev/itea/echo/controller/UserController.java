@@ -236,6 +236,10 @@ public class UserController {
         if (ObjectUtils.isEmpty(user)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
+        //renew timeout token
+        if (StpUserUtil.getTokenTimeout() < 86400) {
+            StpUserUtil.renewTimeout(2592000);
+        }
         return user;
     }
 

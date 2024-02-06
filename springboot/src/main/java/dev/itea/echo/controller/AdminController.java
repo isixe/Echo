@@ -42,8 +42,9 @@ public class AdminController {
 
     /**
      * 管理员登录
-     * @param name      管理员用户名或邮箱
-     * @param password  管理员密码
+     *
+     * @param name       管理员用户名或邮箱
+     * @param password   管理员密码
      * @param rememberMe 记住密码
      * @return token 凭证信息
      */
@@ -149,7 +150,7 @@ public class AdminController {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
         //encrypt
-        if (!checkAdmin.getPassword().equals(admin.getPassword())){
+        if (!checkAdmin.getPassword().equals(admin.getPassword())) {
             String pwHash = BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt(12));
             admin.setPassword(pwHash);
         }
@@ -195,6 +196,10 @@ public class AdminController {
         //check admin
         if (ObjectUtils.isEmpty(admin)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
+        }
+        //renew timeout token
+        if (StpUtil.getTokenTimeout() < 86400) {
+            StpUtil.renewTimeout(2592000);
         }
         return admin;
     }
