@@ -119,8 +119,6 @@ const handleToUserCenter = () => {
 }
 </script>
 
-<style></style>
-
 <style scoped>
 .ant-layout-header {
     background: #fff;
