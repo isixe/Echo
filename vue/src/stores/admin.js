@@ -26,15 +26,25 @@ export const useAdminStore = defineStore(
     }
 
     const logoutAction = async () => {
-      await logout().then(() => {
-        id.value = null
-        tokenName.value = null
-        tokenValue.value = null
-        tokenTimeout.value = null
-      })
+      await logout().then(() => resetAction())
     }
 
-    return { id, tokenName, tokenValue, tokenTimeout, loginAction, logoutAction }
+    const resetAction = () => {
+      id.value = null
+      tokenName.value = null
+      tokenValue.value = null
+      tokenTimeout.value = null
+    }
+
+    return {
+      id,
+      tokenName,
+      tokenValue,
+      tokenTimeout,
+      loginAction,
+      logoutAction,
+      resetAction
+    }
   },
   {
     persist: true
