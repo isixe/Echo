@@ -38,7 +38,6 @@
 <script setup>
 import { add } from '@/api/user'
 import { message } from 'ant-design-vue'
-import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
 
@@ -69,13 +68,6 @@ const rules = {
     checkPassword: [{ validator: validatePass, required: false, trigger: 'blur' }],
     email: [{ pattern: '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$', required: false, trigger: 'blur', message: '邮箱格式不正确' }]
 }
-
-onMounted(() => {
-    const store = useUserStore()
-    if (store.tokenValue) {
-        router.push("/")
-    }
-})
 
 //click function
 const loading = ref(false)
