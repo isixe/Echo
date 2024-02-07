@@ -93,6 +93,7 @@ public class UserController {
                             required = true,
                             example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjEsInJuU3RyIjoiZ041S3pqTWRVWDBrQW80dXh1aDl4M2ZES0wwVHFidDEifQ.1qQAxChyCEy-kDNVKYALbEWsCfiO4ns2h0t01qZUFCk"),
             })
+    @SaUserCheckLogin
     @PostMapping("/logout")
     public void logout(@CookieValue(value = "satokenuser") String token) {
         //get user login id
@@ -226,9 +227,7 @@ public class UserController {
             parameters = {
                     @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
             })
-    @SaCheckOr(
-            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
-    )
+    @SaCheckLogin
     @GetMapping
     public User getById(Integer id) {
         //get user
@@ -243,24 +242,6 @@ public class UserController {
             StpUserUtil.renewTimeout(2592000);
         }
         return user;
-    }
-
-    /**
-     * 用户信息查询
-     *
-     * @param id 用户ID
-     */
-    @Operation(summary = "用户信息查询", description = "用户信息查询", tags = "User", method = "GET",
-            parameters = {
-                    @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
-            })
-    @GetMapping("/profile")
-    public UserProfile getByUserInfoId(Integer id) {
-        UserProfile userProfile = userService.selectUserInfoById(id);
-        if (ObjectUtils.isEmpty(userProfile)) {
-            throw new BusinessException(ResultCode.USER_NOT_EXIST);
-        }
-        return userProfile;
     }
 
     /**
@@ -288,4 +269,25 @@ public class UserController {
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         return userService.getUserByPage(pageable, keyword);
     }
+
+
+    /**
+     * 用户信息查询
+     *
+     * @param id 用户ID
+     */
+    @Operation(summary = "用户信息查询", description = "前台用户信息查询", tags = "User", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/profile")
+    public UserProfile getByUserInfoId(Integer id) {
+        UserProfile userProfile = userService.selectUserInfoById(id);
+        if (ObjectUtils.isEmpty(userProfile)) {
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
+        }
+        return userProfile;
+    }
+
 }
