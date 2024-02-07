@@ -29,6 +29,12 @@ public class SaTokenJwtConfig {
      */
     @Autowired
     public void setUserStpLogic() {
-        StpUserUtil.setStpLogic(new StpLogicJwtForSimple(StpUserUtil.TYPE));
+
+        StpUserUtil.setStpLogic(new StpLogicJwtForSimple(StpUserUtil.TYPE){
+            @Override
+            public String splicingKeyTokenName() {
+                return super.splicingKeyTokenName()+ "user";
+            }
+        });
     }
 }
