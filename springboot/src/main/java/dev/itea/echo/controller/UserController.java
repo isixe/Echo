@@ -256,7 +256,11 @@ public class UserController {
             })
     @GetMapping("/info")
     public UserProfile getByUserInfoId(Integer id) {
-        return userService.selectUserInfoById(id);
+        UserProfile userProfile = userService.selectUserInfoById(id);
+        if (ObjectUtils.isEmpty(userProfile)) {
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
+        }
+        return userProfile;
     }
 
     /**
