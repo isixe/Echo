@@ -4,15 +4,31 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.User">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="password" property="password" />
-        <result column="email" property="email" />
-        <result column="description" property="description" />
-        <result column="avatar" property="avatar" />
-        <result column="created_time" property="createdTime" />
-        <result column="last_active_time" property="lastActiveTime" />
-        <result column="is_deleted" property="isDeleted" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="description" property="description"/>
+        <result column="avatar" property="avatar"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="last_active_time" property="lastActiveTime"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
+
+    <resultMap id="UserInfoResultMap" type="dev.itea.echo.entity.UserProfile">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="description" property="description"/>
+        <result column="avatar" property="avatar"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="last_active_time" property="lastActiveTime"/>
+    </resultMap>
+
+    <select id="selectUserInfoById" resultMap="UserInfoResultMap" parameterType="Integer">
+        SELECT id, `name`, email, description, avatar, created_time, last_active_time
+        FROM user
+        WHERE id = #{id}
+    </select>
 
 </mapper>

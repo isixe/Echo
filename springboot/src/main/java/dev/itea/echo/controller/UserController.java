@@ -7,8 +7,10 @@ import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.entity.User;
 import dev.itea.echo.entity.StpUserUtil;
+import dev.itea.echo.entity.UserProfile;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.UserService;
@@ -241,6 +243,20 @@ public class UserController {
             StpUserUtil.renewTimeout(2592000);
         }
         return user;
+    }
+
+    /**
+     * 用户信息查询
+     *
+     * @param id 用户ID
+     */
+    @Operation(summary = "用户信息查询", description = "用户信息查询", tags = "User", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
+            })
+    @GetMapping("/info")
+    public UserProfile getByUserInfoId(Integer id) {
+        return userService.selectUserInfoById(id);
     }
 
     /**
