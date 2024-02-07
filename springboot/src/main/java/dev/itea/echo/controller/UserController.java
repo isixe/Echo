@@ -254,7 +254,7 @@ public class UserController {
             parameters = {
                     @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
             })
-    @GetMapping("/info")
+    @GetMapping("/profile")
     public UserProfile getByUserInfoId(Integer id) {
         UserProfile userProfile = userService.selectUserInfoById(id);
         if (ObjectUtils.isEmpty(userProfile)) {
