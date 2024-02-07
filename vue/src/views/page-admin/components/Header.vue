@@ -14,7 +14,11 @@
 
         <div class="header-right">
             <div class="header-right-search" v-if="searchEnabled">
-                <a-input-search v-model:value="text" placeholder="请输入关键词" @search="handleOnSearch" />
+                <a-input v-model:value="text" placeholder="请输入关键词" @pressEnter="handleOnSearch">
+                    <template #suffix>
+                        <SearchOutlined @click="handleOnSearch" style="color: rgba(0, 0, 0, 0.45)" />
+                    </template>
+                </a-input>
             </div>
             <div class="header-right-info">
                 <a-popover placement="bottom" trigger="click">
@@ -109,8 +113,8 @@ const handleLoginOut = () => {
     });
 }
 
-const handleOnSearch = (keyword) => {
-    emits('onSearch', keyword)
+const handleOnSearch = () => {
+    emits('onSearch', text.value)
     text.value = ''
 }
 
@@ -160,6 +164,7 @@ const handleToUserCenter = () => {
 .header-right {
     margin-left: auto;
     display: flex;
+    align-items: center;
 }
 
 .header-right-info {
