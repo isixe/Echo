@@ -184,10 +184,14 @@ const handleToUserCenter = () => {
 
 .user-info {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .user-info .user-avatar {
     margin-right: 8px;
+    border: 1px solid #666;
+    border-radius: 50%;
 }
 
 .user-info .user-name {
