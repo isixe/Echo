@@ -1,11 +1,12 @@
 <template>
 	<a-layout-content class="main">
-		<RouterView :searchText="searchText" @useSearch="(e) => $emit('enableSearch', e)"></RouterView>
+		<RouterView v-model:search="searchText" v-model:useSearch="isSearch"></RouterView>
 	</a-layout-content>
 </template>
 
 <script setup>
-const { searchText } = defineProps(['searchText'])
+const searchText = defineModel('search')
+const isSearch = defineModel('useSearch')
 </script>
 
 <style scoped>

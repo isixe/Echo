@@ -1,11 +1,10 @@
 <template>
 	<a-layout>
-		<SideBar :isCollapsed="isCollapsed"></SideBar>
+		<SideBar v-model="isCollapsed"></SideBar>
 		<a-layout>
-			<Header :isCollapsed="isCollapsed" :searchEnabled="searchEnabled" @iconClick="() => isCollapsed = !isCollapsed"
-				@onSearch="(text) => searchText = text">
+			<Header v-model:collapsed="isCollapsed" v-model:useSearch="isSearch" v-model:search="searchText">
 			</Header>
-			<Main :searchText="searchText" @enableSearch="(e) => searchEnabled = e"></Main>
+			<Main v-model:search="searchText" v-model:useSearch="isSearch"></Main>
 		</a-layout>
 	</a-layout>
 </template>
@@ -14,10 +13,9 @@
 import { SideBar, Header, Main } from './components'
 
 const searchText = ref()
-const searchEnabled = ref(true)
+const isSearch = ref(true)
 
 const isCollapsed = ref(false)
-
 if (window.innerWidth < 1000) {
 	isCollapsed.value = true
 }

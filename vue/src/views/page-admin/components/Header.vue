@@ -2,8 +2,8 @@
     <a-layout-header>
         <div class="header-left">
             <div class="menu">
-                <menu-unfold-outlined v-if="isCollapsed" class="trigger" @click="$emit('iconClick')" />
-                <menu-fold-outlined v-else class="trigger" @click="$emit('iconClick')" />
+                <menu-unfold-outlined v-if="isCollapsed" class="trigger" @click="() => isCollapsed = !isCollapsed" />
+                <menu-fold-outlined v-else class="trigger" @click="() => isCollapsed = !isCollapsed" />
             </div>
             <div class="breadcrumb">
                 <a-breadcrumb>
@@ -13,10 +13,10 @@
         </div>
 
         <div class="header-right">
-            <div class="header-right-search" v-if="searchEnabled">
-                <a-input v-model:value="text" placeholder="请输入关键词" @pressEnter="handleOnSearch">
+            <div class="header-right-search" v-if="useSearch">
+                <a-input v-model:value="text" placeholder="请输入关键词" @pressEnter="() => searchText = text">
                     <template #suffix>
-                        <SearchOutlined @click="handleOnSearch" style="color: rgba(0, 0, 0, 0.45)" />
+                        <SearchOutlined @click="() => searchText = text" style="color: rgba(0, 0, 0, 0.45)" />
                     </template>
                 </a-input>
             </div>
@@ -82,8 +82,9 @@ const text = ref('')
 const name = ref('')
 const avatar = ref('')
 const router = useRouter()
-const emits = defineEmits(['onSearch', 'iconClick'])
-const { isCollapsed, searchEnabled } = defineProps(['isCollapsed', 'searchEnabled'])
+const isCollapsed = defineModel('collapsed')
+const useSearch = defineModel('useSearch')
+const searchText = defineModel('search')
 
 onMounted(() => {
     const store = useAdminStore()
@@ -111,11 +112,6 @@ const handleLoginOut = () => {
                 })
         },
     });
-}
-
-const handleOnSearch = () => {
-    emits('onSearch', text.value)
-    text.value = ''
 }
 
 const handleToUserCenter = () => {
@@ -196,6 +192,11 @@ const handleToUserCenter = () => {
 
 .user-info .user-name {
     vertical-align: middle;
+    width: 64px;
+    line-height: 64px;
+    height: 64px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .header-right {

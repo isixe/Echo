@@ -18,10 +18,7 @@
 <script setup>
 import SidebarMenu from './SideBarMenu';
 
-const props = defineProps({
-	isCollapsed: Boolean
-})
-const { isCollapsed } = toRefs(props);
+const isCollapsed = defineModel()
 </script>
 
 <style scoped>

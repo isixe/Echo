@@ -144,11 +144,9 @@ import { add, update, remove, getUserList } from '@/api/user'
 import { uploadAvatar } from '@/api/file'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
-const emits = defineEmits(['useSearch'])
-emits('useSearch', true)
-
-const props = defineProps(['searchText'])
-const { searchText } = toRefs(props)
+const searchText = defineModel('search')
+const useSearch = defineModel('useSearch')
+useSearch.value = true
 
 //table
 const loading = ref(true)
