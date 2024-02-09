@@ -1,16 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/page-home'
+import generalRoutes from './module/general'
 import adminRoutes from './module/admin'
 import userRoutes from './module/user'
 import { useUserStore } from '@/stores/user'
 import { useAdminStore } from '@/stores/admin'
 
 export const constantRoutes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
   {
     path: '/login',
     name: 'login',
@@ -95,6 +90,8 @@ router.beforeEach((to, from, next) => {
   return next()
 })
 
+// router.addRoute(adminRoutes)
+router.addRoute(generalRoutes)
 router.addRoute(adminRoutes)
 router.addRoute(userRoutes)
 export default router
