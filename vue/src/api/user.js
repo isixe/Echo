@@ -47,6 +47,14 @@ export function get(params) {
   })
 }
 
+export function getUserProfile(params) {
+  return request({
+    url: '/user/profile',
+    method: 'get',
+    params
+  })
+}
+
 export function getUserList(params) {
   return request({
     url: '/user/queryAll',
