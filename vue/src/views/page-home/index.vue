@@ -1,9 +1,9 @@
 <template>
-    <a-layout>
-        <Header></Header>
-        <Main></Main>
-        <Footer></Footer>
-    </a-layout>
+  <a-layout>
+    <Header></Header>
+    <Main></Main>
+    <Footer></Footer>
+  </a-layout>
 </template>
 
 <script setup>
