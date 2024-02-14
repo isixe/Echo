@@ -39,8 +39,8 @@ public class ArticleVO {
     @Schema(description = "文章标题")
     private String title;
 
-    @Schema(description = "副标题")
-    private String subTitle;
+    @Schema(description = "摘要")
+    private String summary;
 
     @Schema(description = "文章内容")
     private String content;

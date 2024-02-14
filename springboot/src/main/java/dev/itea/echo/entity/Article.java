@@ -55,12 +55,12 @@ public class Article extends Model<Article> {
     @TableField("title")
     private String title;
 
-    @Schema(description = "副标题")
+    @Schema(description = "摘要")
     @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @NotBlank(message = "不能为空字符串", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @Length(message = "长度不能大于200个字符", max = 200, groups = {AddValidationGroup.class, UpdateValidationGroup.class})
-    @TableField("sub_title")
-    private String subTitle;
+    @TableField("summary")
+    private String summary;
 
     @Schema(description = "文章内容")
     @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})

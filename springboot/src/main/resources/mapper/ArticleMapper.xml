@@ -8,7 +8,7 @@
         <result column="article_group_id" property="articleGroupId"/>
         <result column="user_id" property="userId"/>
         <result column="title" property="title"/>
-        <result column="sub_title" property="subTitle"/>
+        <result column="summary" property="summary"/>
         <result column="content" property="content"/>
         <result column="category_id" property="categoryId"/>
         <result column="tag" property="tag"/>
@@ -28,7 +28,7 @@
         <result column="article_group_id" property="articleGroupId"/>
         <result column="author" property="author"/>
         <result column="title" property="title"/>
-        <result column="sub_title" property="subTitle"/>
+        <result column="summary" property="summary"/>
         <result column="content" property="content"/>
         <result column="category" property="category"/>
         <result column="tag" property="tag"/>
@@ -66,7 +66,7 @@
     <select id="getArticleByPage" resultMap="ArticleListResultMap">
         SELECT a.id,
                a.title,
-               a.sub_title,
+               a.summary,
                u.`name`        AS author,
                c.category_name AS category,
                a.tag,
