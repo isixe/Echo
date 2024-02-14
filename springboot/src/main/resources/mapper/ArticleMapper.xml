@@ -8,6 +8,7 @@
         <result column="article_group_id" property="articleGroupId"/>
         <result column="user_id" property="userId"/>
         <result column="title" property="title"/>
+        <result column="sub_title" property="subTitle"/>
         <result column="content" property="content"/>
         <result column="category_id" property="categoryId"/>
         <result column="tag" property="tag"/>
@@ -15,8 +16,9 @@
         <result column="pv_count" property="pvCount"/>
         <result column="like_count" property="likeCount"/>
         <result column="collecion_count" property="collecionCount"/>
-        <result column="update_time" property="updateTime"/>
         <result column="created_time" property="createdTime"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="update_time" property="updateTime"/>
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
