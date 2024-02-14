@@ -1,6 +1,6 @@
 package dev.itea.echo.mapper;
 
-import dev.itea.echo.entity.CommentPost;
+import dev.itea.echo.entity.CommentDynamic;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author isixe
  * @since 2024-01-15
  */
-public interface CommentPostMapper extends BaseMapper<CommentPost> {
+public interface CommentDynamicMapper extends BaseMapper<CommentDynamic> {
 
 }

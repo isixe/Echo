@@ -22,9 +22,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("comment_post")
+@TableName("comment_dynamic")
 @Schema(description = "帖子评论表")
-public class CommentPost extends Model<CommentPost> {
+public class CommentDynamic extends Model<CommentDynamic> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -37,8 +37,8 @@ public class CommentPost extends Model<CommentPost> {
     private Integer userId;
 
     @Schema(description = "帖子ID")
-    @TableField("post_id")
-    private Integer postId;
+    @TableField("dynamic_id")
+    private Integer dynamicId;
 
     @Schema(description = "顶层评论ID")
     @TableField("root_comment_id")

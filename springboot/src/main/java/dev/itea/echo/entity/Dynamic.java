@@ -22,9 +22,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("post")
+@TableName("dynamic")
 @Schema(description = "帖子表")
-public class Post extends Model<Post> {
+public class Dynamic extends Model<Dynamic> {
     @Serial
     private static final long serialVersionUID = 1L;
 

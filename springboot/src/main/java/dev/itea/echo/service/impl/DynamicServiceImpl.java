@@ -1,8 +1,8 @@
 package dev.itea.echo.service.impl;
 
-import dev.itea.echo.entity.Post;
-import dev.itea.echo.mapper.PostMapper;
-import dev.itea.echo.service.PostService;
+import dev.itea.echo.entity.Dynamic;
+import dev.itea.echo.mapper.DynamicMapper;
+import dev.itea.echo.service.DynamicService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-01-15
  */
 @Service
-public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
+public class DynamicServiceImpl extends ServiceImpl<DynamicMapper, Dynamic> implements DynamicService {
 
 }

@@ -21,9 +21,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("collection_post")
+@TableName("collection_dynamic")
 @Schema(description = "收藏表")
-public class CollectionPost extends Model<CollectionPost> {
+public class CollectionDynamic extends Model<CollectionDynamic> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -40,16 +40,16 @@ public class CollectionPost extends Model<CollectionPost> {
     private Integer userId;
 
     @Schema(description = "帖子ID")
-    @TableField("post_id")
-    private Integer postId;
+    @TableField("dynamic_id")
+    private Integer dynamicId;
 
     @Schema(description = "帖子标题")
-    @TableField("post_title")
-    private String postTitle;
+    @TableField("dynamic_title")
+    private String dynamicTitle;
 
     @Schema(description = "帖子摘要")
-    @TableField("post_desc")
-    private String postDesc;
+    @TableField("dynamic_desc")
+    private String dynamicDesc;
 
     @Schema(description = "是否删除")
     @TableField("is_delete")

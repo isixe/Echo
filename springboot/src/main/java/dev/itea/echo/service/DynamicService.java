@@ -1,6 +1,6 @@
 package dev.itea.echo.service;
 
-import dev.itea.echo.entity.Post;
+import dev.itea.echo.entity.Dynamic;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,6 +9,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author isixe
  * @since 2024-01-15
  */
-public interface PostService extends IService<Post> {
+public interface DynamicService extends IService<Dynamic> {
 
 }
