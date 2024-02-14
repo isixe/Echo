@@ -12,6 +12,7 @@ import dev.itea.echo.dto.LoginDTO;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.dto.RegisterDTO;
 import dev.itea.echo.entity.User;
+import dev.itea.echo.utils.MapstructMapperUtil;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -23,7 +24,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
@@ -134,8 +134,7 @@ public class UserController {
         String pwHash = BCrypt.hashpw(registerDTO.getPassword(), BCrypt.gensalt(12));
         registerDTO.setPassword(pwHash);
         //insert
-        User user = new User();
-        BeanUtils.copyProperties(registerDTO, user);
+        User user = MapstructMapperUtil.INSTANCE.registerDTOToUser(registerDTO);
         userService.save(user);
     }
 
@@ -226,12 +225,10 @@ public class UserController {
             })
     @SaIgnore
     @GetMapping
-    public UserVO getByUserInfoId(Integer id) {
+    public UserVO getUserById(Integer id) {
         User user = userService.getOne(new LambdaQueryWrapper<User>()
                 .eq(User::getId, id));
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-
+        UserVO userVO = MapstructMapperUtil.INSTANCE.userToUserVO(user);
         if (ObjectUtils.isEmpty(userVO)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
