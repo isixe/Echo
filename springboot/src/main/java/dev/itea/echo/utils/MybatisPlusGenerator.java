@@ -111,7 +111,7 @@ public class MybatisPlusGenerator {
     public void generateEntity(String table, String author) {
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(globalConfig)
-                .globalConfig(builder -> builder.author(author).fileOverride())
+                .globalConfig(builder -> builder.author(author))
                 .packageConfig(builder -> builder
                         .parent(PACKAGE_NAME)
                         .moduleName("")
