@@ -7,6 +7,8 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.dto.LoginDTO;
+import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Admin;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -43,31 +45,27 @@ public class AdminController {
     /**
      * 管理员登录
      *
-     * @param name       管理员用户名或邮箱
-     * @param password   管理员密码
-     * @param rememberMe 记住密码
+     * @param loginDTO 管理员登录传输对象
      * @return token 凭证信息
      */
     @Operation(summary = "管理员登录", description = "后台管理员登录", tags = "Admin", method = "POST",
             parameters = {
-                    @Parameter(name = "adminName", description = "管理员用户名", required = true, example = "admin"),
-                    @Parameter(name = "password", description = "管理员密码", required = true, example = "123456"),
-                    @Parameter(name = "remeberMe", description = "记住密码", required = true, example = "true"),
+                    @Parameter(name = "loginDTO", description = "管理员登录传输对象", required = true)
             })
     @SaIgnore
     @PostMapping("/login")
-    public SaTokenInfo login(String name, String password, @RequestParam(defaultValue = "false") boolean rememberMe) {
+    public SaTokenInfo login(@Validated LoginDTO loginDTO) {
         //get data
         Admin loginAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
-                .eq(Admin::getName, name)
+                .eq(Admin::getName, loginDTO.getName())
                 .or()
-                .eq(Admin::getEmail, name));
+                .eq(Admin::getEmail, loginDTO.getName()));
         //check admin
         if (ObjectUtils.isEmpty(loginAdmin)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
         //check password
-        boolean flag = BCrypt.checkpw(password, loginAdmin.getPassword());
+        boolean flag = BCrypt.checkpw(loginDTO.getPassword(), loginAdmin.getPassword());
         if (!flag) {
             throw new BusinessException(ResultCode.USER_LOGIN_ERROR);
         }
@@ -76,7 +74,7 @@ public class AdminController {
         adminService.updateById(loginAdmin);
         //save session
         int id = loginAdmin.getId();
-        StpUtil.login(id, rememberMe);
+        StpUtil.login(id, loginDTO.getRememberMe());
         return StpUtil.getTokenInfo();
     }
 
@@ -207,25 +205,16 @@ public class AdminController {
     /**
      * 管理员查询（分页&关键词）
      *
-     * @param pageNum  页数
-     * @param pageSize 每个页的数据量
-     * @param keyword  模糊搜索关键词
+     * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
     @Operation(summary = "管理员分页与关键词查询", description = "后台管理员用户分页与关键词查询", tags = "Admin", method = "GET",
             parameters = {
-                    @Parameter(name = "pageNum", description = "页数", required = true, example = "1"),
-                    @Parameter(name = "pageSize", description = "每个页的数据量", required = true, example = "10"),
-                    @Parameter(name = "keyword", description = "模糊搜索关键词", required = true, example = "admin"),
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
     @GetMapping("/queryAll")
-    public IPage<Admin> getByName(@RequestParam(defaultValue = "1") Integer pageNum,
-                                  @RequestParam(defaultValue = "10") Integer pageSize,
-                                  @RequestParam(required = false) String keyword) {
-        if (pageNum < 0 || pageSize < 0) {
-            throw new BusinessException(ResultCode.PARAMETER_IS_INVALID);
-        }
-        Pageable pageable = PageRequest.of(pageNum, pageSize);
-        return adminService.getAdminByPage(pageable, keyword);
+    public IPage<Admin> getByName(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return adminService.getAdminByPage(pageable, pageDTO.getKeyword());
     }
 }

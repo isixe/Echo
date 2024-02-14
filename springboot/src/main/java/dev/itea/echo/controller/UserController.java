@@ -8,6 +8,8 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.annotation.SaUserCheckLogin;
+import dev.itea.echo.dto.LoginDTO;
+import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.User;
 import dev.itea.echo.entity.StpUserUtil;
 import dev.itea.echo.entity.result.ResultCode;
@@ -45,31 +47,27 @@ public class UserController {
     /**
      * 用户登录
      *
-     * @param name       用户名或邮箱
-     * @param password   密码
-     * @param rememberMe 记住密码
+     * @param loginDTO 管理员登录传输对象
      * @return token 凭证信息
      */
     @Operation(summary = "用户登录", description = "前台用户登录", tags = "User", method = "POST",
             parameters = {
-                    @Parameter(name = "name", description = "用户名", required = true, example = "user"),
-                    @Parameter(name = "password", description = "密码", required = true, example = "123456"),
-                    @Parameter(name = "remeberMe", description = "记住密码", required = true, example = "true"),
+                    @Parameter(name = "loginDTO", description = "管理员登录传输对象", required = true)
             })
     @SaIgnore
     @PostMapping("/login")
-    public SaTokenInfo login(String name, String password, @RequestParam(defaultValue = "false") boolean rememberMe) {
+    public SaTokenInfo login(@Validated LoginDTO loginDTO) {
         //get data
         User loginUser = userService.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getName, name)
+                .eq(User::getName, loginDTO.getName())
                 .or()
-                .eq(User::getEmail, name));
+                .eq(User::getEmail, loginDTO.getName()));
         //check user
         if (ObjectUtils.isEmpty(loginUser)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
         //check password
-        boolean flag = BCrypt.checkpw(password, loginUser.getPassword());
+        boolean flag = BCrypt.checkpw(loginDTO.getPassword(), loginUser.getPassword());
         if (!flag) {
             throw new BusinessException(ResultCode.USER_LOGIN_ERROR);
         }
@@ -78,7 +76,7 @@ public class UserController {
         userService.updateById(loginUser);
         //save session
         int id = loginUser.getId();
-        StpUserUtil.login(id, rememberMe);
+        StpUserUtil.login(id, loginDTO.getRememberMe());
         return StpUserUtil.getTokenInfo();
     }
 
@@ -248,27 +246,18 @@ public class UserController {
     /**
      * 用户查询（分页&关键词）
      *
-     * @param pageNum  页数
-     * @param pageSize 每个页的数据量
-     * @param keyword  模糊搜索关键词
+     * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
     @Operation(summary = "用户分页与关键词查询", description = "后台用户分页与关键词查询", tags = "User", method = "GET",
             parameters = {
-                    @Parameter(name = "pageNum", description = "页数", required = true, example = "1"),
-                    @Parameter(name = "pageSize", description = "每个页的数据量", required = true, example = "10"),
-                    @Parameter(name = "keyword", description = "模糊搜索关键词", required = true, example = "user"),
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
     @SaCheckLogin
     @GetMapping("/queryAll")
-    public IPage<User> getByName(@RequestParam(defaultValue = "1") Integer pageNum,
-                                 @RequestParam(defaultValue = "10") Integer pageSize,
-                                 @RequestParam(required = false) String keyword) {
-        if (pageNum < 0 || pageSize < 0) {
-            throw new BusinessException(ResultCode.PARAMETER_IS_INVALID);
-        }
-        Pageable pageable = PageRequest.of(pageNum, pageSize);
-        return userService.getUserByPage(pageable, keyword);
+    public IPage<User> getByName(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return userService.getUserByPage(pageable, pageDTO.getKeyword());
     }
 
 
