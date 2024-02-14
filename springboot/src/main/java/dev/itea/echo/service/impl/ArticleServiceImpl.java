@@ -7,6 +7,7 @@ import dev.itea.echo.entity.Article;
 import dev.itea.echo.mapper.ArticleMapper;
 import dev.itea.echo.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.UserRankVO;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Pageable;
@@ -33,14 +34,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<Article> getArticleByPage(Pageable pageable, String keyword) {
-        Page<Article> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+    public IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword) {
+        Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {
             wrapper = wrapper.like("title", keyword)
                     .or()
                     .like("content", keyword);
         }
-        return articleMapper.selectPage(page, wrapper);
+        return articleMapper.getArticleByPage(page, wrapper);
     }
 }

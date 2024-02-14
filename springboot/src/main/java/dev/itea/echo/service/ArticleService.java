@@ -3,6 +3,7 @@ package dev.itea.echo.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
+import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.UserRankVO;
 import org.springframework.data.domain.Pageable;
 
@@ -17,5 +18,5 @@ import java.util.List;
 public interface ArticleService extends IService<Article> {
     List<UserRankVO> getUserArticleNumRankList();
 
-    IPage<Article> getArticleByPage(Pageable pageable, String keyword);
+    IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword);
 }

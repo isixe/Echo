@@ -13,6 +13,7 @@ import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.ArticleService;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
+import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.UserRankVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -136,7 +137,7 @@ public class ArticleController {
             })
     @SaCheckLogin
     @GetMapping("/queryAll")
-    public IPage<Article> getByName(@Validated PageDTO pageDTO) {
+    public IPage<ArticleVO> getByName(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getArticleByPage(pageable, pageDTO.getKeyword());
     }
