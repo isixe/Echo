@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Article;
 import dev.itea.echo.entity.StpUserUtil;
 import dev.itea.echo.entity.result.ResultCode;
@@ -126,27 +127,18 @@ public class ArticleController {
     /**
      * 文章查询（分页&关键词）
      *
-     * @param pageNum  页数
-     * @param pageSize 每个页的数据量
-     * @param keyword  模糊搜索关键词
+     * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
     @Operation(summary = "文章分页与关键词查询", description = "后台文章分页与关键词查询", tags = "Article", method = "GET",
             parameters = {
-                    @Parameter(name = "pageNum", description = "页数", required = true, example = "1"),
-                    @Parameter(name = "pageSize", description = "每个页的数据量", required = true, example = "10"),
-                    @Parameter(name = "keyword", description = "模糊搜索关键词", required = true, example = "user"),
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
     @SaCheckLogin
     @GetMapping("/queryAll")
-    public IPage<Article> getByName(@RequestParam(defaultValue = "1") Integer pageNum,
-                                    @RequestParam(defaultValue = "10") Integer pageSize,
-                                    @RequestParam(required = false) String keyword) {
-        if (pageNum < 0 || pageSize < 0) {
-            throw new BusinessException(ResultCode.PARAMETER_IS_INVALID);
-        }
-        Pageable pageable = PageRequest.of(pageNum, pageSize);
-        return articleService.getArticleByPage(pageable, keyword);
+    public IPage<Article> getByName(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getArticleByPage(pageable, pageDTO.getKeyword());
     }
 
     /**
