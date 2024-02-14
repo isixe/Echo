@@ -102,7 +102,7 @@
 import router from '@/router'
 import { createVNode } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { getUserProfile } from '@/api/user'
+import { get } from '@/api/user'
 import { useUserStore } from '@/stores/user'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
@@ -114,7 +114,7 @@ const store = useUserStore()
 
 onMounted(() => {
   if (store.id) {
-    getUserProfile({ id: store.id }).then((result) => {
+    get({ id: store.id }).then((result) => {
       user.value = result.data
     })
   }

@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { getUserProfile } from '@/api/user'
+import { get } from '@/api/user'
 import { EntryItem } from '@/views/page-home/components'
 
 const user = ref()
@@ -71,7 +71,7 @@ const route = useRoute()
 const activeKey = ref('1')
 
 onMounted(() => {
-  getUserProfile({ id: route.params.id }).then((result) => {
+  get({ id: route.params.id }).then((result) => {
     user.value = result.data
   })
 })
