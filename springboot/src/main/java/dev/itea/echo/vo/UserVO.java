@@ -1,4 +1,4 @@
-package dev.itea.echo.entity;
+package dev.itea.echo.vo;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -27,28 +27,18 @@ import org.hibernate.validator.constraints.Length;
  */
 @Data
 @Accessors(chain = true)
-@TableName("user")
-@Schema(description = "用户信息类")
-public class UserProfile {
+public class UserVO {
 
     @Schema(description = "ID")
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @Schema(description = "用户名称")
-    @TableField("name")
     private String name;
 
-    @Schema(description = "邮箱")
-    @TableField("email")
-    private String email;
-
     @Schema(description = "个性签名")
-    @TableField("description")
     private String description;
 
     @Schema(description = "头像")
-    @TableField("avatar")
     private String avatar;
 
     @Schema(description = "注册时间")
@@ -56,5 +46,4 @@ public class UserProfile {
 
     @Schema(description = "最后活跃时间")
     private LocalDateTime lastActiveTime;
-
 }

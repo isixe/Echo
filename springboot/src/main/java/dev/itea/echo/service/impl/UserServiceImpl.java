@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import dev.itea.echo.entity.User;
-import dev.itea.echo.entity.UserProfile;
 import dev.itea.echo.mapper.UserMapper;
 import dev.itea.echo.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,11 +23,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     UserMapper userMapper;
-
-    @Override
-    public UserProfile selectUserInfoById(Integer id) {
-        return userMapper.selectUserInfoById(id);
-    }
 
     @Override
     public IPage<User> getUserByPage(Pageable pageable, String keyword) {

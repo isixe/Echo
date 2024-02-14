@@ -5,21 +5,23 @@ import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.entity.User;
 import dev.itea.echo.entity.StpUserUtil;
-import dev.itea.echo.entity.UserProfile;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.UserService;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
+import dev.itea.echo.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
@@ -282,12 +284,16 @@ public class UserController {
             })
     @SaIgnore
     @GetMapping("/profile")
-    public UserProfile getByUserInfoId(Integer id) {
-        UserProfile userProfile = userService.selectUserInfoById(id);
-        if (ObjectUtils.isEmpty(userProfile)) {
+    public UserVO getByUserInfoId(Integer id) {
+        User user = userService.getOne(new LambdaQueryWrapper<User>()
+                .eq(User::getId, id));
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+
+        if (ObjectUtils.isEmpty(userVO)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
-        return userProfile;
+        return userVO;
     }
 
 }
