@@ -12,7 +12,7 @@ import dev.itea.echo.dto.LoginDTO;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.dto.RegisterDTO;
 import dev.itea.echo.entity.User;
-import dev.itea.echo.entity.StpUserUtil;
+import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.UserService;

@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Article;
-import dev.itea.echo.entity.StpUserUtil;
+import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.ArticleService;

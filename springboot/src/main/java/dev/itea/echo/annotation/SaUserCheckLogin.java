@@ -1,7 +1,7 @@
 package dev.itea.echo.annotation;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import dev.itea.echo.entity.StpUserUtil;
+import dev.itea.echo.utils.StpUserUtil;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

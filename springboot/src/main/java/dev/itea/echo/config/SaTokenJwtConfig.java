@@ -2,7 +2,7 @@ package dev.itea.echo.config;
 
 import cn.dev33.satoken.jwt.StpLogicJwtForSimple;
 import cn.dev33.satoken.stp.StpLogic;
-import dev.itea.echo.entity.StpUserUtil;
+import dev.itea.echo.utils.StpUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package dev.itea.echo.entity;
+package dev.itea.echo.utils;
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.fun.SaFunction;
 import cn.dev33.satoken.listener.SaTokenEventCenter;
