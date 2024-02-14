@@ -94,7 +94,7 @@ public class Article extends Model<Article> {
     private Integer collecionCount;
 
     @Schema(description = "创建时间")
-    @TableField("created_time")
+    @TableField(value = "created_time", fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NOT_NULL)
     private LocalDateTime createdTime;
 
     @Schema(description = "发布时间")
