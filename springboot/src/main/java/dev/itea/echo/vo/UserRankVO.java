@@ -1,11 +1,8 @@
 package dev.itea.echo.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.time.LocalDateTime;
 
 /**
  * 用户排行类
