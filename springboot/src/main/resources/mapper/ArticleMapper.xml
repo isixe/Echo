@@ -4,20 +4,41 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.Article">
-        <id column="id" property="id" />
-        <result column="article_group_id" property="articleGroupId" />
-        <result column="user_id" property="userId" />
-        <result column="title" property="title" />
-        <result column="content" property="content" />
-        <result column="category_id" property="categoryId" />
-        <result column="tag" property="tag" />
-        <result column="status" property="status" />
-        <result column="pv_count" property="pvCount" />
-        <result column="like_count" property="likeCount" />
-        <result column="collecion_count" property="collecionCount" />
-        <result column="update_time" property="updateTime" />
-        <result column="created_time" property="createdTime" />
-        <result column="is_deleted" property="isDeleted" />
+        <id column="id" property="id"/>
+        <result column="article_group_id" property="articleGroupId"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="tag" property="tag"/>
+        <result column="status" property="status"/>
+        <result column="pv_count" property="pvCount"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="collecion_count" property="collecionCount"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
+    <!-- 用户排行查询映射结果 -->
+    <resultMap id="UserRankResultMap" type="dev.itea.echo.vo.UserRankVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="avatar" property="avatar"/>
+        <result column="article_sum" property="rankSum"/>
+    </resultMap>
+
+    <select id="getUserArticleNumRankList" resultMap="UserRankResultMap">
+        SELECT u.id,
+               `name`,
+               description,
+               avatar,
+               count(*) AS article_sum
+        FROM `user` AS u,
+             `article` AS a
+        WHERE u.id = a.user_id
+        GROUP BY u.id
+        ORDER BY article_sum DESC LIMIT 0,5;
+    </select>
 </mapper>
