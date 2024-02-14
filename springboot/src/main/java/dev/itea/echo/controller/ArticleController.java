@@ -31,7 +31,7 @@ public class ArticleController {
      */
     @Operation(summary = "用户文章数量排行查询", description = "前台用户文章数量排行查询", tags = "Article", method = "GET")
     @SaIgnore
-    @GetMapping("/rank")
+    @GetMapping("/userRank")
     public List<UserRankVO> getByUserRankList() {
         return articleService.getUserArticleNumRankList();
     }
