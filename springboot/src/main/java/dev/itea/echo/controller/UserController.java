@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.LoginDTO;
 import dev.itea.echo.dto.PageDTO;
+import dev.itea.echo.dto.RegisterDTO;
 import dev.itea.echo.entity.User;
 import dev.itea.echo.entity.StpUserUtil;
 import dev.itea.echo.entity.result.ResultCode;
@@ -112,9 +113,7 @@ public class UserController {
     /**
      * 用户注册
      *
-     * @param name     用户名
-     * @param password 密码
-     * @param email    邮箱
+     * @param registerDTO 用户注册数据传输对象
      */
     @Operation(summary = "用户注册", description = "前台用户注册", tags = "User", method = "POST",
             parameters = {
@@ -124,20 +123,19 @@ public class UserController {
             })
     @SaIgnore
     @PostMapping("/register")
-    public void register(String name, String password, String email) {
+    public void register(@Validated RegisterDTO registerDTO) {
         User checkUser = userService.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getName, name).or().eq(User::getEmail, email));
+                .eq(User::getName, registerDTO.getName()).or().eq(User::getEmail, registerDTO.getEmail()));
         //check user
         if (!ObjectUtils.isEmpty(checkUser)) {
             throw new BusinessException(ResultCode.USER_HAS_EXISTED);
         }
         //encrypt
-        String pwHash = BCrypt.hashpw(password, BCrypt.gensalt(12));
+        String pwHash = BCrypt.hashpw(registerDTO.getPassword(), BCrypt.gensalt(12));
+        registerDTO.setPassword(pwHash);
         //insert
         User user = new User();
-        user.setName(name);
-        user.setPassword(pwHash);
-        user.setEmail(email);
+        BeanUtils.copyProperties(registerDTO, user);
         userService.save(user);
     }
 
