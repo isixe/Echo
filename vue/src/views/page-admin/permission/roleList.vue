@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <a-button type="primary" class="editable-add-btn" @click="() => (showAddModal = !showAddModal)"
-      >新增</a-button
-    >
+      >新增
+    </a-button>
     <a-button type="primary" class="editable-add-btn" danger @click="handleMutiDelete"
-      >批量删除</a-button
-    >
+      >批量删除
+    </a-button>
     <a-table
       :row-selection="rowSelection"
       :loading="loading"
