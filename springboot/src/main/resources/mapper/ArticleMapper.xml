@@ -81,5 +81,6 @@
                  JOIN `user` AS u ON a.user_id = u.id
                  JOIN category AS c ON a.category_id = c.id
         ${ew.customSqlSegment}
+        ORDER BY a.id
     </select>
 </mapper>
