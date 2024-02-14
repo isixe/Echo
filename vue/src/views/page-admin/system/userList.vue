@@ -185,6 +185,7 @@
 
 <script setup>
 import dayjs from 'dayjs'
+import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
@@ -388,6 +389,7 @@ const showEdit = (record) => {
 
   disabledData['createdDate'] = dayjs(editData['createdTime'], 'YYYY-MM-DD')
   disabledData['createdTime'] = dayjs(editData['createdTime'], 'HH:mm:ss')
+
   showEditModal.value = true
 }
 
@@ -397,6 +399,12 @@ const handleEditOk = () => {
     loading.value = false
     return (showEditModal.value = false)
   }
+
+  editData.lastActiveTime = DateTime.fromSQL(editData.lastActiveTime).toFormat(
+    "yyyy-MM-dd'T'HH:mm:ss"
+  )
+  editData.createdTime = DateTime.fromSQL(editData.createdTime).toFormat("yyyy-MM-dd'T'HH:mm:ss")
+
   const formData = new FormData()
   Object.keys(editData).forEach((key) => {
     formData.append(key, editData[key])
@@ -483,14 +491,12 @@ const columns = [
   {
     title: '最后活跃时间',
     dataIndex: 'lastActiveTime',
-    customRender: (row) => row.text.replace('T', ' '),
     sorter: (a, b) => (new Date(a) - new Date(b) ? 1 : -1),
     width: 160
   },
   {
     title: '创建时间',
     dataIndex: 'createdTime',
-    customRender: (row) => row.text.replace('T', ' '),
     sorter: (a, b) => (new Date(a) - new Date(b) ? 1 : -1),
     width: 160
   },
