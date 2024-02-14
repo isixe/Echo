@@ -216,30 +216,28 @@ public class UserController {
     }
 
     /**
-     * 用户查询（ID）
+     * 用户信息查询
      *
      * @param id 用户ID
      */
-    @Operation(summary = "用户查询", description = "后台用户查询", tags = "User", method = "GET",
+    @Operation(summary = "用户信息查询", description = "前台用户信息查询", tags = "User", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
             })
-    @SaCheckLogin
+    @SaIgnore
     @GetMapping
-    public User getById(Integer id) {
-        //get user
+    public UserVO getByUserInfoId(Integer id) {
         User user = userService.getOne(new LambdaQueryWrapper<User>()
                 .eq(User::getId, id));
-        //check user
-        if (ObjectUtils.isEmpty(user)) {
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+
+        if (ObjectUtils.isEmpty(userVO)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
-        //renew timeout token
-        if (StpUserUtil.getTokenTimeout() < 86400) {
-            StpUserUtil.renewTimeout(2592000);
-        }
-        return user;
+        return userVO;
     }
+
 
     /**
      * 用户查询（分页&关键词）
@@ -257,29 +255,4 @@ public class UserController {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return userService.getUserByPage(pageable, pageDTO.getKeyword());
     }
-
-
-    /**
-     * 用户信息查询
-     *
-     * @param id 用户ID
-     */
-    @Operation(summary = "用户信息查询", description = "前台用户信息查询", tags = "User", method = "GET",
-            parameters = {
-                    @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
-            })
-    @SaIgnore
-    @GetMapping("/profile")
-    public UserVO getByUserInfoId(Integer id) {
-        User user = userService.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getId, id));
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-
-        if (ObjectUtils.isEmpty(userVO)) {
-            throw new BusinessException(ResultCode.USER_NOT_EXIST);
-        }
-        return userVO;
-    }
-
 }
