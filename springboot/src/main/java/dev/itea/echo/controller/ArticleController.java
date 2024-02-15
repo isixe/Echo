@@ -96,7 +96,7 @@ public class ArticleController {
         Article checkArticle = articleService.getOne(new LambdaQueryWrapper<Article>()
                 .eq(Article::getId, id));
         if (ObjectUtils.isEmpty(checkArticle)) {
-            throw new BusinessException(ResultCode.USER_NOT_EXIST);
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         //delete
         articleService.removeById(id);
