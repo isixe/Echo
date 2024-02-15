@@ -16,20 +16,18 @@
       :scroll="{ x: 1000 }"
     >
       <template #bodyCell="{ column, text, record }">
-        <template v-if="['name', 'password', 'email', 'avatar'].includes(column.dataIndex)">
-          <div>
-            <template v-if="column.dataIndex === 'avatar'">
-              <a-avatar class="user-avatar" :size="26" :src="text">
-                <template #icon>
-                  <UserOutlined />
-                </template>
-              </a-avatar>
-            </template>
-            <template v-else>
-              {{ text }}
-            </template>
-          </div>
-        </template>
+        <div>
+          <template v-if="column.dataIndex === 'avatar'">
+            <a-avatar class="user-avatar" :size="26" :src="text">
+              <template #icon>
+                <UserOutlined />
+              </template>
+            </a-avatar>
+          </template>
+          <template v-else>
+            {{ text }}
+          </template>
+        </div>
 
         <template v-if="column.dataIndex === 'action'">
           <span>
@@ -465,13 +463,13 @@ const columns = [
   {
     title: '最后活跃时间',
     dataIndex: 'lastActiveTime',
-    sorter: (a, b) => (new Date(a) - new Date(b) ? 1 : -1),
+    sorter: (a, b) => (new Date(a.lastActiveTime) > new Date(b.lastActiveTime) ? 1 : -1),
     width: 160
   },
   {
     title: '创建时间',
     dataIndex: 'createdTime',
-    sorter: (a, b) => (new Date(a) - new Date(b) ? 1 : -1),
+    sorter: (a, b) => (new Date(a.createdTime) > new Date(b.createdTime) ? 1 : -1),
     width: 160
   },
   {
