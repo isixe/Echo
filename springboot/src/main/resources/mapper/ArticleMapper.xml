@@ -7,6 +7,7 @@
         <id column="id" property="id"/>
         <result column="article_group_id" property="articleGroupId"/>
         <result column="user_id" property="userId"/>
+        <result column="featured_pic" property="featuredPic"/>
         <result column="title" property="title"/>
         <result column="summary" property="summary"/>
         <result column="content" property="content"/>
@@ -27,6 +28,7 @@
         <id column="id" property="id"/>
         <result column="article_group_id" property="articleGroupId"/>
         <result column="author" property="author"/>
+        <result column="featured_pic" property="featuredPic"/>
         <result column="title" property="title"/>
         <result column="summary" property="summary"/>
         <result column="content" property="content"/>
@@ -65,11 +67,13 @@
 
     <select id="getArticleByPage" resultMap="ArticleListResultMap">
         SELECT a.id,
+               a.featured_pic,
                a.title,
                a.summary,
                u.`name`        AS author,
                c.category_name AS category,
                a.tag,
+               a.article_group_id,
                a.`status`,
                a.`pv_count`,
                a.`like_count`,
@@ -80,7 +84,7 @@
         FROM article AS a
                  JOIN `user` AS u ON a.user_id = u.id
                  JOIN category AS c ON a.category_id = c.id
-        ${ew.customSqlSegment}
+            ${ew.customSqlSegment}
         ORDER BY a.id
     </select>
 </mapper>

@@ -47,6 +47,9 @@ public class Article extends Model<Article> {
     @TableField("user_id")
     private Integer userId;
 
+    @Schema(description = "文章头图")
+    @TableField("featured_pic")
+    private String featuredPic;
 
     @Schema(description = "文章标题")
     @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})

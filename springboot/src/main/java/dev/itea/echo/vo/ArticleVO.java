@@ -36,6 +36,9 @@ public class ArticleVO {
     @Schema(description = "作者")
     private String author;
 
+    @Schema(description = "文章头图")
+    private String featuredPic;
+
     @Schema(description = "文章标题")
     private String title;
 
