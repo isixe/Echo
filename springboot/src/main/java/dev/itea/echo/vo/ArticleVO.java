@@ -31,7 +31,7 @@ public class ArticleVO {
     private Integer id;
 
     @Schema(description = "文章分组")
-    private String articleGroupId;
+    private String articleGroupName;
 
     @Schema(description = "作者")
     private String author;

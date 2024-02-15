@@ -23,10 +23,10 @@
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
-    <!-- 通用查询映射结果 -->
+    <!-- 文章关联值对象映射结果 -->
     <resultMap id="ArticleListResultMap" type="dev.itea.echo.vo.ArticleVO">
         <id column="id" property="id"/>
-        <result column="article_group_id" property="articleGroupId"/>
+        <result column="article_group_name" property="articleGroupName"/>
         <result column="author" property="author"/>
         <result column="featured_pic" property="featuredPic"/>
         <result column="title" property="title"/>
@@ -73,7 +73,7 @@
                u.`name`        AS author,
                c.category_name AS category,
                a.tag,
-               a.article_group_id,
+               g.name          AS article_group_name,
                a.`status`,
                a.`pv_count`,
                a.`like_count`,
@@ -84,6 +84,7 @@
         FROM article AS a
                  JOIN `user` AS u ON a.user_id = u.id
                  JOIN category AS c ON a.category_id = c.id
+                 LEFT JOIN group_article AS g ON a.article_group_id = g.id
             ${ew.customSqlSegment}
         ORDER BY a.id
     </select>
