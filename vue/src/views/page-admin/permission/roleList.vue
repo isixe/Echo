@@ -135,7 +135,7 @@
           </a-form-item>
           <a-form-item name="lastActiveTime" label="最后活跃时间" style="display: flex">
             <a-form-item>
-              <a-date-picker v-model:value="disabledData.lastActiveDate" disabled />
+              <a-date-picker v-model:value="disabledData.lastActiveTime" disabled />
               <a-time-picker
                 style="margin-left: 10px"
                 v-model:value="disabledData.lastActiveTime"
@@ -145,10 +145,10 @@
           </a-form-item>
           <a-form-item name="createdTime" label="创建时间" style="display: flex">
             <a-form-item>
-              <a-date-picker v-model:value="disabledData.createdDate" disabled />
+              <a-date-picker v-model:value="disabledData.createdTime" disabled />
               <a-time-picker
                 style="margin-left: 10px"
-                v-model:value="disabledData.lastActiveTime"
+                v-model:value="disabledData.createdTime"
                 disabled
               />
             </a-form-item>
@@ -236,9 +236,7 @@ const editData = reactive({
 })
 
 const disabledData = reactive({
-  lastActiveDate: '',
   lastActiveTime: '',
-  createdDate: '',
   createdTime: ''
 })
 
@@ -370,11 +368,8 @@ const showEdit = (record) => {
   })
   originData.value = JSON.stringify(editData)
 
-  disabledData['lastActiveDate'] = dayjs(editData['lastActiveTime'], 'YYYY-MM-DD')
-  disabledData['lastActiveTime'] = dayjs(editData['lastActiveTime'], 'HH:mm:ss')
-
-  disabledData['createdDate'] = dayjs(editData['createdTime'], 'YYYY-MM-DD')
-  disabledData['createdTime'] = dayjs(editData['createdTime'], 'HH:mm:ss')
+  disabledData['lastActiveTime'] = dayjs(editData['lastActiveTime'], 'YYYY-MM-DD HH:mm:ss')
+  disabledData['createdTime'] = dayjs(editData['createdTime'], 'YYYY-MM-DD HH:mm:ss')
   showEditModal.value = true
 }
 
