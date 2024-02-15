@@ -85,8 +85,13 @@
                  JOIN `user` AS u ON a.user_id = u.id
                  JOIN category AS c ON a.category_id = c.id
                  LEFT JOIN group_article AS g ON a.article_group_id = g.id
-        WHERE a.is_deleted = 0
             ${ew.customSqlSegment}
+        <if test="ew.customSqlSegment!=null">
+            AND a.is_deleted = 0
+        </if>
+        <if test="ew.customSqlSegment==null">
+            WHERE a.is_deleted = 0
+        </if>
         ORDER BY a.id
     </select>
 </mapper>

@@ -40,7 +40,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (!ObjectUtils.isEmpty(keyword)) {
             wrapper = wrapper.like("title", keyword)
                     .or()
-                    .like("content", keyword);
+                    .like("content", keyword)
+                    .or()
+                    .like("u.name", keyword)
+                    .or()
+                    .like("category_name", keyword)
+                    .or()
+                    .like("tag", keyword);
         }
         return articleMapper.getArticleByPage(page, wrapper);
     }
