@@ -31,7 +31,7 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
     @Override
     public List<Map<String, Object>> getGroupArticleByUserId(Integer userId) {
         return groupArticleMapper.selectMaps(new QueryWrapper<GroupArticle>()
-                .select("id", "user_id", "name", "description")
+                .select("id", "name", "description")
                 .eq("user_id", userId));
     }
 
