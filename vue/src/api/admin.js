@@ -47,7 +47,7 @@ export function get(params) {
   })
 }
 
-export function getRoleList(params) {
+export function getRoleListByKeyword(params) {
   return request({
     url: '/admin/queryAll',
     method: 'get',

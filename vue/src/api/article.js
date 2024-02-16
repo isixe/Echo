@@ -32,7 +32,7 @@ export function get(params) {
   })
 }
 
-export function getArticleList(params) {
+export function getArticleListByKeyword(params) {
   return request({
     url: '/article/queryAll',
     method: 'get',

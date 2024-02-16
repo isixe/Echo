@@ -187,7 +187,7 @@ import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
-import { add, update, remove, getUserList } from '@/api/user'
+import { add, update, remove, getUserListByKeyword } from '@/api/user'
 import { uploadAvatar } from '@/api/file'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
@@ -306,7 +306,7 @@ onMounted(() => {
 
 //get response
 const queryData = async (params) => {
-  return await getUserList(params).then((res) => {
+  return await getUserListByKeyword(params).then((res) => {
     const data = res.data
     dataSource.value = data.records
     pagination.total = data.total

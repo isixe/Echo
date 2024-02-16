@@ -32,7 +32,7 @@ export function get(params) {
   })
 }
 
-export function getCategoryList(params) {
+export function getCategoryListByKeyword(params) {
   return request({
     url: '/category/queryAll',
     method: 'get',

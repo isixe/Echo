@@ -170,7 +170,7 @@ import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
-import { add, update, remove, getRoleList } from '@/api/admin'
+import { add, update, remove, getRoleListByKeyword } from '@/api/admin'
 import { uploadAvatar } from '@/api/file'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
@@ -287,7 +287,7 @@ onMounted(() => {
 
 //get response
 const queryData = async (params) => {
-  return await getRoleList(params).then((res) => {
+  return await getRoleListByKeyword(params).then((res) => {
     const data = res.data
     dataSource.value = data.records
     pagination.total = data.total
