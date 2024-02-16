@@ -149,11 +149,15 @@ public class CategoryController {
     }
 
     /**
-     * 类别模糊查询
+     * 类别名称模糊查询
      *
      * @param categoryName 类别名称
      * @return category map
      */
+    @Operation(summary = "类别名称模糊查询", description = "类别名称模糊查询", tags = "Category", method = "GET",
+            parameters = {
+                    @Parameter(name = "categoryName", description = "类别名称关键词", required = true, example = "类别")
+            })
     @SaCheckOr(
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
     )

@@ -261,6 +261,10 @@ public class UserController {
      *
      * @param name 用户名称
      */
+    @Operation(summary = "用户模糊查询", description = "用户模糊查询", tags = "User", method = "GET",
+            parameters = {
+                    @Parameter(name = "name", description = "用户名关键词", required = true, example = "username")
+            })
     @SaIgnore
     @GetMapping("/queryByName")
     public List<UserVO> getByName(String name) {
