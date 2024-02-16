@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.PageDTO;
@@ -25,6 +26,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 文章分组控制器
@@ -115,7 +119,7 @@ public class GroupArticleController {
      *
      * @param id 文章分组ID
      */
-    @Operation(summary = "文章分组查询", description = "后台文章分组查询", tags = "GroupArticle", method = "GET",
+    @Operation(summary = "文章分组查询（ID）", description = "后台文章分组查询", tags = "GroupArticle", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章分组ID", required = true, example = "2"),
             })
@@ -138,7 +142,7 @@ public class GroupArticleController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "类别分页与关键词查询", description = "后台类别分页与关键词查询", tags = "GroupArticle", method = "GET",
+    @Operation(summary = "类别查询（分页&关键词）", description = "后台类别分页与关键词查询", tags = "GroupArticle", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -148,4 +152,20 @@ public class GroupArticleController {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return groupArticleService.getGroupArticleByPage(pageable, pageDTO.getKeyword());
     }
+
+    /**
+     * 文章分组查询（UserID）
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "文章分组查询（UserID）", description = "后台文章分组用户ID查询", tags = "GroupArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "文章分组所属用户ID", required = true, example = "1"),
+            })
+    @SaIgnore
+    @GetMapping("getByUserId")
+    public List<Map<String, Object>> getByUserId(Integer userId) {
+        return groupArticleService.getGroupArticleByUserId(userId);
+    }
+
 }

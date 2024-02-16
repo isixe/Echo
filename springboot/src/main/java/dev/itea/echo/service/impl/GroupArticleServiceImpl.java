@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 文章分组表 服务实现类
  *
@@ -26,6 +29,13 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
     GroupArticleMapper groupArticleMapper;
 
     @Override
+    public List<Map<String, Object>> getGroupArticleByUserId(Integer userId) {
+        return groupArticleMapper.selectMaps(new QueryWrapper<GroupArticle>()
+                .select("id", "user_id", "name", "description")
+                .eq("user_id", userId));
+    }
+
+    @Override
     public IPage<GroupArticle> getGroupArticleByPage(Pageable pageable, String keyword) {
         Page<GroupArticle> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
@@ -36,4 +46,6 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
         }
         return groupArticleMapper.selectPage(page, wrapper);
     }
+
+
 }
