@@ -112,7 +112,7 @@ public class ArticleController {
      *
      * @param id 文章ID
      */
-    @Operation(summary = "文章查询", description = "后台文章查询", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（ID）", description = "后台文章查询", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
             })
@@ -136,7 +136,7 @@ public class ArticleController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章分页与关键词查询", description = "后台文章分页与关键词查询", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（分页&关键词）", description = "后台文章分页与关键词查询", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })

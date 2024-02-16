@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2024-01-15
  */
 public interface UserService extends IService<User> {
-    List<UserVO> getUserListByName(String name);
+    List<UserVO> getUserListByName(String userName);
 
     IPage<User> getUserByPage(Pageable pageable, String keword);
 }

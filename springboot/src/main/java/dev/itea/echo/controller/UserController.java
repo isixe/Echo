@@ -218,11 +218,11 @@ public class UserController {
     }
 
     /**
-     * 用户信息查询
+     * 用户查询（ID）
      *
      * @param id 用户ID
      */
-    @Operation(summary = "用户信息查询", description = "前台用户信息查询", tags = "User", method = "GET",
+    @Operation(summary = "用户查询（ID）", description = "前台用户信息查询", tags = "User", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "用户ID", required = true, example = "2"),
             })
@@ -245,7 +245,7 @@ public class UserController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "用户分页与关键词查询", description = "后台用户分页与关键词查询", tags = "User", method = "GET",
+    @Operation(summary = "用户查询（分页&关键词）", description = "后台用户分页与关键词查询", tags = "User", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -257,17 +257,17 @@ public class UserController {
     }
 
     /**
-     * 用户模糊查询
+     * 用户模糊查询（Name）
      *
-     * @param name 用户名称
+     * @param userName 用户名称
      */
     @Operation(summary = "用户模糊查询", description = "用户模糊查询", tags = "User", method = "GET",
             parameters = {
-                    @Parameter(name = "name", description = "用户名关键词", required = true, example = "username")
+                    @Parameter(name = "userName", description = "用户名关键词", required = true, example = "username")
             })
     @SaIgnore
     @GetMapping("/queryByName")
-    public List<UserVO> getByName(String name) {
-        return userService.getUserListByName(name);
+    public List<UserVO> getByName(String userName) {
+        return userService.getUserListByName(userName);
     }
 }

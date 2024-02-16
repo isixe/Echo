@@ -186,7 +186,7 @@ public class AdminController {
      *
      * @param id 管理员用户ID
      */
-    @Operation(summary = "管理员查询", description = "后台管理员用户查询", tags = "Admin", method = "GET",
+    @Operation(summary = "管理员查询（ID）", description = "后台管理员用户查询", tags = "Admin", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "管理员用户ID", required = true, example = "2"),
             })
@@ -213,7 +213,7 @@ public class AdminController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "管理员分页与关键词查询", description = "后台管理员用户分页与关键词查询", tags = "Admin", method = "GET",
+    @Operation(summary = "管理员查询（分页&关键词）", description = "后台管理员用户分页与关键词查询", tags = "Admin", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
