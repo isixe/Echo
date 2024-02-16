@@ -6,6 +6,7 @@ import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.LoginDTO;
@@ -24,6 +25,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
@@ -31,6 +33,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户前端控制器
@@ -40,6 +44,7 @@ import java.time.LocalDateTime;
  */
 @Tag(name = "User", description = "用户接口")
 @RestController
+@Slf4j
 @RequestMapping("/api/v1/user")
 public class UserController {
     @Resource
@@ -251,5 +256,15 @@ public class UserController {
     public IPage<User> getByName(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return userService.getUserByPage(pageable, pageDTO.getKeyword());
+    }
+
+    /**
+     * 用户模糊查询
+     *
+     * @param name 用户名称
+     */
+    @GetMapping("/queryByName")
+    public List<UserVO> getUserByName(String name) {
+        return userService.getUserListByName(name);
     }
 }

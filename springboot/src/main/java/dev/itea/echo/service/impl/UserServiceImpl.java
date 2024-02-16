@@ -7,10 +7,13 @@ import dev.itea.echo.entity.User;
 import dev.itea.echo.mapper.UserMapper;
 import dev.itea.echo.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import dev.itea.echo.vo.UserVO;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.List;
 
 /**
  * 用户表 服务实现类
@@ -23,6 +26,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     UserMapper userMapper;
+
+    @Override
+    public List<UserVO> getUserListByName(String name) {
+        return userMapper.getUserListByName(name);
+    }
 
     @Override
     public IPage<User> getUserByPage(Pageable pageable, String keyword) {

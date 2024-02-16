@@ -15,4 +15,19 @@
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
+    <!-- 用户名模糊查询映射结果 -->
+    <resultMap id="UserVOResultMap" type="dev.itea.echo.vo.UserVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="avatar" property="avatar"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="last_active_time" property="lastActiveTime"/>
+    </resultMap>
+
+    <select id="getUserListByName" resultMap="UserVOResultMap" parameterType="String">
+        SELECT id, `name`, description, avatar, created_time, last_active_time
+        FROM `user`
+        WHERE name LIKE CONCAT('%',#{name},'%')
+    </select>
 </mapper>
