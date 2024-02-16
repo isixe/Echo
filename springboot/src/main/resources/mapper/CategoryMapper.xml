@@ -9,9 +9,4 @@
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
-    <select id="getCategotyListByName" resultMap="BaseResultMap" parameterType="string">
-        SELECT id, category_name
-        FROM category
-        WHERE category_name LIKE CONCAT('%', #{categoryName}, '%') LIMIT 0, 10;
-    </select>
 </mapper>

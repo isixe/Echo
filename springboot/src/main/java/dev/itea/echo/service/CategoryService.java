@@ -14,7 +14,5 @@ import java.util.List;
  * @since 2024-01-15
  */
 public interface CategoryService extends IService<Category> {
-    List<Category> getCategotyListByName(String categoryName);
-
     IPage<Category> getCategoryByPage(Pageable pageable, String keyword);
 }
