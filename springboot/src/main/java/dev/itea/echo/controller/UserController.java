@@ -230,7 +230,7 @@ public class UserController {
             })
     @SaIgnore
     @GetMapping
-    public UserVO getUserById(Integer id) {
+    public UserVO getById(Integer id) {
         User user = userService.getOne(new LambdaQueryWrapper<User>()
                 .eq(User::getId, id));
         UserVO userVO = MapstructMapperUtil.INSTANCE.userToUserVO(user);
@@ -253,7 +253,7 @@ public class UserController {
             })
     @SaCheckLogin
     @GetMapping("/queryAll")
-    public IPage<User> getByName(@Validated PageDTO pageDTO) {
+    public IPage<User> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return userService.getUserByPage(pageable, pageDTO.getKeyword());
     }
@@ -264,7 +264,7 @@ public class UserController {
      * @param name 用户名称
      */
     @GetMapping("/queryByName")
-    public List<UserVO> getUserByName(String name) {
+    public List<UserVO> getByName(String name) {
         return userService.getUserListByName(name);
     }
 }

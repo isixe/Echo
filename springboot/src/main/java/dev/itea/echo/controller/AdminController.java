@@ -213,7 +213,7 @@ public class AdminController {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
     @GetMapping("/queryAll")
-    public IPage<Admin> getByName(@Validated PageDTO pageDTO) {
+    public IPage<Admin> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return adminService.getAdminByPage(pageable, pageDTO.getKeyword());
     }

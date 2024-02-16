@@ -137,7 +137,7 @@ public class ArticleController {
             })
     @SaCheckLogin
     @GetMapping("/queryAll")
-    public IPage<ArticleVO> getByName(@Validated PageDTO pageDTO) {
+    public IPage<ArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getArticleByPage(pageable, pageDTO.getKeyword());
     }
