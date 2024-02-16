@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Article;
 import dev.itea.echo.utils.StpUserUtil;
@@ -50,7 +51,9 @@ public class ArticleController {
             parameters = {
                     @Parameter(name = "article", description = "文章实体", required = true),
             })
-    @SaCheckLogin
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
     @PostMapping
     public void add(@Validated(AddValidationGroup.class) Article article) {
         articleService.save(article);
@@ -89,7 +92,9 @@ public class ArticleController {
             parameters = {
                     @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
             })
-    @SaCheckLogin
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
     @DeleteMapping
     public void delete(Integer id) {
         //check article
@@ -111,7 +116,7 @@ public class ArticleController {
             parameters = {
                     @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
             })
-    @SaCheckLogin
+    @SaUserCheckLogin
     @GetMapping
     public Article getById(Integer id) {
         //get article
@@ -135,7 +140,7 @@ public class ArticleController {
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
-    @SaCheckLogin
+    @SaIgnore
     @GetMapping("/queryAll")
     public IPage<ArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());

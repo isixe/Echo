@@ -90,6 +90,7 @@ public class AdminController {
                             required = true,
                             example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOjEsInJuU3RyIjoiZ041S3pqTWRVWDBrQW80dXh1aDl4M2ZES0wwVHFidDEifQ.1qQAxChyCEy-kDNVKYALbEWsCfiO4ns2h0t01qZUFCk"),
             })
+    @SaCheckLogin
     @PostMapping("/logout")
     public void logout(@CookieValue(value = "satoken") String token) {
         //get admin login id
@@ -115,6 +116,7 @@ public class AdminController {
             parameters = {
                     @Parameter(name = "admin", description = "管理员用户实体", required = true),
             })
+    @SaCheckLogin
     @PostMapping
     public void add(@Validated(AddValidationGroup.class) Admin admin) {
         Admin checkAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
@@ -139,6 +141,7 @@ public class AdminController {
             parameters = {
                     @Parameter(name = "admin", description = "管理员用户实体", required = true),
             })
+    @SaCheckLogin
     @PutMapping
     public void update(@Validated(UpdateValidationGroup.class) Admin admin) {
         //check admin
@@ -165,6 +168,7 @@ public class AdminController {
             parameters = {
                     @Parameter(name = "id", description = "管理员用户ID", required = true, example = "2"),
             })
+    @SaCheckLogin
     @DeleteMapping
     public void delete(Integer id) {
         //check admin
@@ -186,6 +190,7 @@ public class AdminController {
             parameters = {
                     @Parameter(name = "id", description = "管理员用户ID", required = true, example = "2"),
             })
+    @SaCheckLogin
     @GetMapping
     public Admin getById(Integer id) {
         //get admin
@@ -212,6 +217,7 @@ public class AdminController {
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
+    @SaCheckLogin
     @GetMapping("/queryAll")
     public IPage<Admin> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());

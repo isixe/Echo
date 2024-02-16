@@ -6,7 +6,6 @@ import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.LoginDTO;
@@ -34,7 +33,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户前端控制器
@@ -263,6 +261,7 @@ public class UserController {
      *
      * @param name 用户名称
      */
+    @SaIgnore
     @GetMapping("/queryByName")
     public List<UserVO> getByName(String name) {
         return userService.getUserListByName(name);

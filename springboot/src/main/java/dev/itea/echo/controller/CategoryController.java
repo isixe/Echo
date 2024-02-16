@@ -49,7 +49,9 @@ public class CategoryController {
             parameters = {
                     @Parameter(name = "category", description = "类别实体", required = true),
             })
-    @SaCheckLogin
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
     @PostMapping
     public void add(@Validated(AddValidationGroup.class) Category category) {
         //check category
@@ -114,7 +116,9 @@ public class CategoryController {
             parameters = {
                     @Parameter(name = "id", description = "类别ID", required = true, example = "2"),
             })
-    @SaCheckLogin
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
     @GetMapping
     public Category getById(Integer id) {
         //get category
@@ -150,6 +154,9 @@ public class CategoryController {
      * @param categoryName 类别名称
      * @return category map
      */
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
     @GetMapping("/queryByName")
     public List<CategoryVO> getByName(String categoryName) {
         return categoryService.getCategotyListByName(categoryName);
