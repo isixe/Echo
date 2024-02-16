@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 文章传输实体类
+ * 文章值对象
  *
  * @author: isixe
  * @create: 2024-02-14 12:03

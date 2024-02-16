@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 用户信息类
+ * 用户值对象
  *
  * @author isixe
  * @since 2024-01-15

@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * 用户排行类
+ * 用户排行值对象
  *
  * @author: isixe
  * @create: 2024-02-13 11:55
