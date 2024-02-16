@@ -3,6 +3,7 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Category;
@@ -145,12 +146,12 @@ public class CategoryController {
     }
 
     /**
-     * 类别名称模糊查询
+     * 类别名称查询（Name）
      *
      * @param categoryName 类别名称
      * @return category map
      */
-    @Operation(summary = "类别名称模糊查询", description = "类别名称模糊查询", tags = "Category", method = "GET",
+    @Operation(summary = "类别名称查询（Name）", description = "类别名称模糊查询", tags = "Category", method = "GET",
             parameters = {
                     @Parameter(name = "categoryName", description = "类别名称关键词", required = true, example = "类别")
             })
@@ -158,8 +159,9 @@ public class CategoryController {
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
     )
     @GetMapping("/queryByName")
-    public List<Category> getByName(String categoryName) {
-        return categoryService.getCategotyListByName(categoryName);
+    public Category getByName(String categoryName) {
+        return categoryService.getOne(new QueryWrapper<Category>()
+                .eq("category_name", categoryName));
     }
 
 }
