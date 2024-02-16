@@ -3,7 +3,6 @@ package dev.itea.echo.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
-import dev.itea.echo.vo.CategoryVO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  * @since 2024-01-15
  */
 public interface CategoryService extends IService<Category> {
-    List<CategoryVO> getCategotyListByName(String categoryName);
+    List<Category> getCategotyListByName(String categoryName);
 
     IPage<Category> getCategoryByPage(Pageable pageable, String keyword);
 }

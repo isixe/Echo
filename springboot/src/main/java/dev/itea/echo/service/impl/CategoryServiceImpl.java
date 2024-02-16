@@ -7,7 +7,6 @@ import dev.itea.echo.entity.Category;
 import dev.itea.echo.mapper.CategoryMapper;
 import dev.itea.echo.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import dev.itea.echo.vo.CategoryVO;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     CategoryMapper categoryMapper;
 
     @Override
-    public List<CategoryVO> getCategotyListByName(String categoryName) {
+    public List<Category> getCategotyListByName(String categoryName) {
         return categoryMapper.getCategotyListByName(categoryName);
     }
 

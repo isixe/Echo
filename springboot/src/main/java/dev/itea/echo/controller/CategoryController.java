@@ -3,7 +3,6 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Category;
@@ -13,8 +12,6 @@ import dev.itea.echo.service.CategoryService;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
-import dev.itea.echo.vo.CategoryVO;
-import dev.itea.echo.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Resource;
@@ -25,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 类别控制器
@@ -162,7 +158,7 @@ public class CategoryController {
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
     )
     @GetMapping("/queryByName")
-    public List<CategoryVO> getByName(String categoryName) {
+    public List<Category> getByName(String categoryName) {
         return categoryService.getCategotyListByName(categoryName);
     }
 
