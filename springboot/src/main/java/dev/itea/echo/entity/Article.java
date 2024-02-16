@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.io.Serial;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -111,6 +112,8 @@ public class Article extends Model<Article> {
 
     @Schema(description = "是否删除")
     @TableField("is_deleted")
+    @TableLogic
+    @JsonIgnore
     private Byte isDeleted;
 
 
