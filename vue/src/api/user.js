@@ -47,7 +47,15 @@ export function get(params) {
   })
 }
 
-export function getUserList(params) {
+export function getUserListByName(params) {
+  return request({
+    url: '/user/queryByName',
+    method: 'get',
+    params
+  })
+}
+
+export function getUserListByKeyword(params) {
   return request({
     url: '/user/queryAll',
     method: 'get',
