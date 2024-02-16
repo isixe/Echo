@@ -4,9 +4,20 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.Category">
-        <id column="id" property="id" />
-        <result column="category_name" property="categoryName" />
-        <result column="is_deleted" property="isDeleted" />
+        <id column="id" property="id"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
+    <!-- 类别模糊查询通用查询映射结果 -->
+    <resultMap id="CategoryVOResultMap" type="dev.itea.echo.vo.CategoryVO">
+        <id column="id" property="id"/>
+        <result column="category_name" property="categoryName"/>
+    </resultMap>
+
+    <select id="getCategotyListByName" resultMap="CategoryVOResultMap" parameterType="string">
+        SELECT id, category_name
+        FROM category
+        WHERE category_name LIKE CONCAT('%', #{categoryName}, '%')
+    </select>
 </mapper>
