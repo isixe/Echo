@@ -1,13 +1,12 @@
 package dev.itea.echo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.io.Serial;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -78,6 +77,8 @@ public class Dynamic extends Model<Dynamic> {
 
     @Schema(description = "是否删除")
     @TableField("is_deleted")
+    @TableLogic
+    @JsonIgnore
     private Byte isDeleted;
 
 
