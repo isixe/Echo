@@ -415,10 +415,6 @@ const beforeUpload = (file) => {
     message.error('仅支持JPG和PNG格式!')
   }
 
-  const reader = new FileReader()
-  reader.readAsDataURL(file)
-  reader.onload = () => (newUserIcon.value = reader.result)
-
   return isJpgOrPng
 }
 
@@ -426,6 +422,8 @@ const avatarUploadAction = (info) => {
   const formData = new FormData()
   formData.append('file', info.file)
   uploadAvatar(formData).then((res) => {
+    message.success('上传成功')
+
     if (showAddModal.value) {
       newData.avatar = res.data
     }
@@ -433,6 +431,10 @@ const avatarUploadAction = (info) => {
     if (showEditModal.value) {
       editData.avatar = res.data
     }
+
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => (newUserIcon.value = reader.result)
   })
 }
 
