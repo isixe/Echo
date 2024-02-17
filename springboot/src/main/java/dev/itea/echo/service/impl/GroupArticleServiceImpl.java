@@ -47,5 +47,4 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
         return groupArticleMapper.selectPage(page, wrapper);
     }
 
-
 }
