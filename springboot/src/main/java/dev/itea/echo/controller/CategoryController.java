@@ -23,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 类别控制器
@@ -162,6 +163,24 @@ public class CategoryController {
     public Category getByName(String categoryName) {
         return categoryService.getOne(new QueryWrapper<Category>()
                 .eq("category_name", categoryName));
+    }
+
+    /**
+     * 类别模糊查询（Name）
+     *
+     * @param categoryName 类别名称
+     * @return category map
+     */
+    @Operation(summary = "类别模糊查询（Name）", description = "类别名称模糊查询", tags = "Category", method = "GET",
+            parameters = {
+                    @Parameter(name = "categoryName", description = "类别名称关键词", required = true, example = "类别")
+            })
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
+    @GetMapping("/queryAllByName")
+    public List<Map<String, Object>> getListByName(String categoryName) {
+        return categoryService.getCategoryListByName(categoryName);
     }
 
 }

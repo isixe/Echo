@@ -12,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 类别表 服务实现类
  *
@@ -23,6 +26,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Resource
     CategoryMapper categoryMapper;
+
+    @Override
+    public List<Map<String, Object>> getCategoryListByName(String categoryName) {
+        return categoryMapper.selectMaps(new QueryWrapper<Category>()
+                .select("id", "category_name AS categoryName")
+                .like("category_name", categoryName));
+    }
 
     @Override
     public IPage<Category> getCategoryByPage(Pageable pageable, String keyword) {
