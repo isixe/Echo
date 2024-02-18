@@ -70,6 +70,7 @@
                a.featured_pic,
                a.title,
                a.summary,
+               a.content,
                u.`name`        AS author,
                c.category_name AS category,
                a.tag,
