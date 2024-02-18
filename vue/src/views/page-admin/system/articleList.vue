@@ -6,7 +6,233 @@
     <a-button type="primary" class="editable-add-btn" danger @click="handleMutiDelete"
       >批量删除
     </a-button>
+    <a-table
+      :row-selection="rowSelection"
+      :loading="loading"
+      :columns="columns"
+      rowKey="id"
+      :data-source="dataSource"
+      :pagination="pagination"
+      :scroll="{ x: 1000 }"
+    >
+      <template #bodyCell="{ column, text, record }">
+        <div>
+          <template v-if="column.dataIndex === 'featuredPic'">
+            <a-image
+              v-if="record.featuredPic"
+              style="object-fit: cover"
+              class="featured-pic"
+              :width="80"
+              :height="56"
+              :src="record.featuredPic"
+            />
+            <img
+              v-else
+              style="object-fit: cover"
+              class="featured-pic"
+              width="80"
+              height="56"
+              src="../../../assets/png/noimage.png"
+            />
+          </template>
+          <template v-else-if="column.dataIndex === 'title'">
+            <div class="title">
+              {{ record.title }}
+            </div>
+          </template>
+          <template v-else-if="column.dataIndex === 'summary'">
+            <div class="summary">
+              {{ record.summary }}
+            </div>
+          </template>
+          <template v-else>
+            {{ text }}
+          </template>
+        </div>
+
+        <template v-if="column.dataIndex === 'action'">
+          <span>
+            <span>
+              <a @click="showEdit(record)">编辑</a>
+            </span>
+            <a-divider type="vertical" />
+            <a-popconfirm title="确认删除?" @confirm="handleDelete(record.id)">
+              <a>删除</a>
+            </a-popconfirm>
+          </span>
+        </template>
+      </template>
+    </a-table>
   </div>
+
+  <template>
+    <a-modal v-model:open="showAddModal" width="800px" title="新增文章">
+      <div class="form-container">
+        <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
+          <a-form-item name="featuredPic" label="头图">
+            <a-upload
+              :v-model="newData.featuredPic"
+              class="pic-upload"
+              list-type="picture-card"
+              :show-upload-list="false"
+              :max-count="1"
+              :customRequest="customAddUpload"
+              :before-upload="beforeUpload"
+              @change="handleChange"
+            >
+              <img
+                v-if="newData.featuredPic"
+                :src="newData.featuredPic"
+                alt="pic"
+                width="415"
+                height="150"
+                style="object-fit: cover; border-radius: 6px"
+              />
+              <div v-else>
+                <loading-outlined v-if="uploadLoading"></loading-outlined>
+                <plus-outlined v-else></plus-outlined>
+                <div class="ant-upload-text">上传</div>
+              </div>
+            </a-upload>
+          </a-form-item>
+          <a-form-item name="title" label="标题">
+            <a-input
+              v-model:value="newData.title"
+              placeholder="文章标题"
+              show-count
+              :maxlength="42"
+            />
+          </a-form-item>
+          <a-form-item name="content" label="正文">
+            <a-textarea v-model:value="newData.content" placeholder="文章内容" />
+          </a-form-item>
+          <a-form-item name="userId" label="作者">
+            <author-select v-model="newData.userId" />
+          </a-form-item>
+          <a-form-item name="categoryId" label="类别">
+            <category-select v-model:categoryId="newData.categoryId" />
+          </a-form-item>
+          <a-form-item name="tag" label="标签">
+            <tag-input v-model="newData.tag" />
+          </a-form-item>
+          <a-form-item name="articleGroupId" label="分组">
+            <article-group-select
+              v-model:userId="newData.userId"
+              v-model:articleGroupId="newData.articleGroupId"
+            />
+          </a-form-item>
+          <a-form-item name="publishTime" label="发布时间">
+            <a-date-picker v-model:value="newData.publishTime" />
+            <a-form-item-rest>
+              <a-time-picker v-model:value="newData.publishTime" style="margin-left: 10px" />
+            </a-form-item-rest>
+          </a-form-item>
+        </a-form>
+      </div>
+      <template #footer>
+        <a-button key="back" @click="() => (showAddModal = !showAddModal)">取消</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleAddOk"
+          >发布</a-button
+        >
+      </template>
+    </a-modal>
+  </template>
+
+  <template>
+    <a-modal ref="editModal" v-model:open="showEditModal" width="800px" title="更新文章">
+      <div class="form-container">
+        <a-form ref="form" v-bind="formItemLayout" :model="editData" :rules="rules">
+          <a-form-item name="featuredPic" label="头图">
+            <a-upload
+              :v-model="editData.featuredPic"
+              class="pic-upload"
+              list-type="picture-card"
+              :show-upload-list="false"
+              :max-count="1"
+              :customRequest="customEditUpload"
+              :before-upload="beforeUpload"
+              @change="handleChange"
+            >
+              <img
+                v-if="editData.featuredPic"
+                :src="editData.featuredPic"
+                alt="pic"
+                width="415"
+                height="150"
+                style="object-fit: cover; border-radius: 6px"
+              />
+              <div v-else>
+                <loading-outlined v-if="uploadLoading"></loading-outlined>
+                <plus-outlined v-else></plus-outlined>
+                <div class="ant-upload-text">上传</div>
+              </div>
+            </a-upload>
+          </a-form-item>
+          <a-form-item name="title" label="标题">
+            <a-input
+              v-model:value="editData.title"
+              placeholder="文章标题"
+              show-count
+              :maxlength="42"
+            />
+          </a-form-item>
+          <a-form-item name="content" label="正文">
+            <a-textarea v-model:value="editData.content" placeholder="文章内容" />
+          </a-form-item>
+
+          <a-form-item name="userId" label="作者">
+            <a-select
+              v-model:value="editData.userId"
+              style="width: 300px"
+              :options="userOptions"
+              disabled
+            />
+          </a-form-item>
+          <a-form-item name="categoryId" label="类别">
+            <category-select
+              v-model:categoryId="editData.categoryId"
+              v-model:categoryName="editData.category"
+            />
+          </a-form-item>
+          <a-form-item name="tag" label="标签">
+            <tag-input v-model="editData.tag" />
+          </a-form-item>
+          <a-form-item name="articleGroupId" label="分组">
+            <article-group-select
+              v-model:itemId="editData.id"
+              v-model:userId="editData.userId"
+              v-model:articleGroupId="editData.articleGroupId"
+              v-model:articleGroupName="editData.articleGroupName"
+            />
+          </a-form-item>
+          <a-form-item name="publishTime" label="发布时间">
+            <template v-if="editData.status === 1">
+              <a-date-picker v-model:value="editData.publishTime" disabled />
+              <a-form-item-rest>
+                <a-time-picker
+                  v-model:value="editData.publishTime"
+                  style="margin-left: 10px"
+                  disabled
+                />
+              </a-form-item-rest>
+            </template>
+            <template v-else>
+              <a-date-picker v-model:value="editData.publishTime" />
+              <a-form-item-rest>
+                <a-time-picker v-model:value="editData.publishTime" style="margin-left: 10px" />
+              </a-form-item-rest>
+            </template>
+          </a-form-item>
+        </a-form>
+      </div>
+      <template #footer>
+        <a-button key="back" @click="() => (showAddModal = !showAddModal)">取消</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleEditOk"
+          >发布</a-button
+        >
+      </template>
+    </a-modal>
+  </template>
 </template>
 
 <script setup>
@@ -15,7 +241,10 @@ import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
-import { add, update, remove, getUserList } from '@/api/article'
+import { uploadPic } from '@/api/file'
+import { add, update, remove, getArticleListByKeyword } from '@/api/article'
+import { tagInput } from '@/views/components'
+import { authorSelect, categorySelect, articleGroupSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const searchText = defineModel('search')
@@ -24,6 +253,7 @@ useSearch.value = true
 
 //table
 const loading = ref(true)
+const uploadLoading = ref(false)
 const dataSource = ref([])
 const selectedKeys = ref([])
 
@@ -33,18 +263,85 @@ const params = reactive({
   keyword: null
 })
 
-const rules = {}
+const rules = {
+  title: [
+    {
+      max: 42,
+      required: true,
+      trigger: 'blur',
+      message: '标题不能为空且大于42个字符'
+    }
+  ],
+  content: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '正文不能为空'
+    }
+  ],
+  userId: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '作者不能为空'
+    }
+  ],
+  categoryId: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '类别不能为空'
+    }
+  ],
+  publishTime: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '发布时间不能为空'
+    }
+  ]
+}
 
 // form
 const form = ref()
 const showAddModal = ref(false)
 const showEditModal = ref(false)
-const newUserIcon = ref('')
 
 const originData = ref()
-const newData = reactive({})
+const newData = reactive({
+  title: '',
+  featuredPic: '',
+  summary: '',
+  content: '',
+  userId: '',
+  categoryId: '',
+  tag: '',
+  articleGroupId: '',
+  publishTime: ''
+})
 
-const editData = reactive({})
+const userOptions = ref([])
+
+const editData = reactive({
+  id: null,
+  likeCount: null,
+  pvCount: null,
+  collecionCount: null,
+  createdTime: '',
+  status: null,
+  title: '',
+  author: '',
+  summary: '',
+  content: '',
+  category: '',
+  publishTime: '',
+  featuredPic: '',
+  articleGroupName: '',
+  articleGroupId: null,
+  tag: null,
+  userId: null,
+  categoryId: null
+})
 
 const disabledData = reactive({})
 
@@ -95,11 +392,10 @@ onMounted(() => {
 
 //get response
 const queryData = async (params) => {
-  return await getArticleList(params).then((res) => {
+  return await getArticleListByKeyword(params).then((res) => {
     const data = res.data
-    console.log(data)
-    // dataSource.value = data.records
-    // pagination.total = data.total
+    dataSource.value = data.records
+    pagination.total = data.total
     loading.value = false
   })
 }
@@ -107,6 +403,40 @@ const queryData = async (params) => {
 //add
 const handleAddOk = () => {
   loading.value = true
+
+  form.value
+    .validate()
+    .then(async () => {
+      newData.summary = newData.content.substring(0, 120)
+
+      const formData = new FormData()
+      Object.keys(newData).forEach((key) => {
+        formData.append(key, newData[key])
+      })
+
+      formData.set(
+        'publishTime',
+        DateTime.fromJSDate(newData.publishTime.$d).toFormat("yyyy-MM-dd'T'HH:mm:ss")
+      )
+
+      add(formData)
+        .then(() => {
+          message.success('发布成功')
+          queryData(params)
+
+          Object.keys(newData).forEach((key) => {
+            newData[key] = ''
+          })
+          loading.value = false
+          showAddModal.value = false
+        })
+        .catch(() => {
+          loading.value = false
+        })
+    })
+    .catch(() => {
+      loading.value = false
+    })
 }
 
 //delete
@@ -141,10 +471,61 @@ const handleMutiDelete = () => {
 }
 
 //edit
-const showEdit = (record) => {}
+const showEdit = async (record) => {
+  Object.keys(editData).forEach((key) => {
+    editData[key] = record[key]
+  })
+
+  editData['publishTime'] = editData['publishTime']
+    ? dayjs(editData['publishTime'], 'YYYY-MM-DD HH:mm:ss')
+    : null
+  userOptions.value = [{ value: editData.userId, label: editData.author }]
+
+  showEditModal.value = true
+}
 
 const handleEditOk = () => {
   loading.value = true
+  form.value
+    .validate()
+    .then(async () => {
+      editData.summary = editData.content.substring(0, 120)
+
+      const formData = new FormData()
+      Object.keys(editData).forEach((key) => {
+        formData.append(key, editData[key])
+      })
+
+      if (editData['publishTime']) {
+        formData.set(
+          'publishTime',
+          DateTime.fromJSDate(editData.publishTime.$d).toFormat("yyyy-MM-dd'T'HH:mm:ss")
+        )
+
+        formData.set('status', 1)
+      }
+
+      formData.set(
+        'createdTime',
+        DateTime.fromSQL(editData.createdTime).toFormat("yyyy-MM-dd'T'HH:mm:ss")
+      )
+
+      update(formData)
+        .then(() => {
+          message.success('更新成功')
+          queryData(params)
+        })
+        .then(() => {
+          showEditModal.value = false
+          loading.value = false
+        })
+        .catch(() => {
+          loading.value = false
+        })
+    })
+    .catch(() => {
+      loading.value = false
+    })
 }
 
 //select items
@@ -160,41 +541,125 @@ watch(searchText, (newValue) => {
   queryData(params)
 })
 
+//upload
+const handleChange = (info) => {
+  if (info.file.status === 'uploading') {
+    return (uploadLoading.value = true)
+  }
+
+  if (info.file.status === 'error') {
+    message.error('上传失败')
+  }
+  uploadLoading.value = false
+}
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  if (!isJpgOrPng) {
+    message.error('仅支持JPG和PNG格式!')
+  }
+
+  return isJpgOrPng
+}
+
+const customAddUpload = (e) => {
+  uploadPic({
+    file: e.file
+  })
+    .then((res) => {
+      message.success('上传成功')
+      newData.featuredPic = res.data
+      e.onSuccess(res.data, e)
+    })
+    .catch((err) => {
+      e.onError(err)
+    })
+}
+
+const customEditUpload = (e) => {
+  uploadPic({
+    file: e.file
+  })
+    .then((res) => {
+      message.success('上传成功')
+      editData.featuredPic = res.data
+      e.onSuccess(res.data, e)
+    })
+    .catch((err) => {
+      e.onError(err)
+    })
+}
+
 //set table head
 const columns = [
   {
     title: '文章标题',
     dataIndex: 'title',
-    width: 100
+    sorter: (a, b) => (a.title.length - b.title.length > 0 ? 1 : -1),
+    width: 250
   },
   {
-    title: '副标题',
-    dataIndex: 'subTitle',
-    sorter: (a, b) => (a.name.length - b.name.length > 0 ? 1 : -1),
-    width: 150
+    title: '头图',
+    dataIndex: 'featuredPic',
+    width: 110
+  },
+  {
+    title: '摘要',
+    dataIndex: 'summary',
+    sorter: (a, b) => (a.summary.length - b.summary.length > 0 ? 1 : -1),
+    width: 300
   },
   {
     title: '作者',
-    dataIndex: 'userId',
-    sorter: (a, b) => (a.email.length - b.email.length > 0 ? 1 : -1),
-    width: 200
+    dataIndex: 'author',
+    sorter: (a, b) => (a.author.length - b.author.length > 0 ? 1 : -1),
+    width: 100
   },
   {
-    title: '简介',
-    dataIndex: 'description',
-    sorter: (a, b) => (a.description.length - b.description.length > 0 ? 1 : -1),
-    width: 200
+    title: '类别',
+    dataIndex: 'category',
+    sorter: (a, b) => (a.category.length - b.category.length > 0 ? 1 : -1),
+    width: 110
   },
   {
-    title: '最后活跃时间',
-    dataIndex: 'lastActiveTime',
-    sorter: (a, b) => (new Date(a) - new Date(b) ? 1 : -1),
+    title: '标签',
+    dataIndex: 'tag',
+    sorter: (a, b) => (a.tag.length - b.tag.length > 0 ? 1 : -1),
+    width: 160
+  },
+  {
+    title: '分组',
+    dataIndex: 'articleGroupName',
+    sorter: (a, b) => (a.articleGroupName.length - b.articleGroupName.length > 0 ? 1 : -1),
+    width: 160
+  },
+  {
+    title: '收藏数',
+    dataIndex: 'collecionCount',
+    sorter: (a, b) => (a.collecionCount - b.collecionCount > 0 ? 1 : -1),
+    width: 110
+  },
+  {
+    title: '浏览数',
+    dataIndex: 'likeCount',
+    sorter: (a, b) => (a.likeCount - b.likeCount > 0 ? 1 : -1),
+    width: 110
+  },
+  {
+    title: '发布状态',
+    dataIndex: 'status',
+    sorter: (a, b) => (a.status.length - b.status.length > 0 ? 1 : -1),
+    width: 110
+  },
+  {
+    title: '发布时间',
+    dataIndex: 'publishTime',
+    sorter: (a, b) => (new Date(a.publishTime) > new Date(b.publishTime) > 0 ? 1 : -1),
     width: 160
   },
   {
     title: '创建时间',
     dataIndex: 'createdTime',
-    sorter: (a, b) => (new Date(a) - new Date(b) ? 1 : -1),
+    sorter: (a, b) => (new Date(a.createdTime) - new Date(b.createdTime) ? 1 : -1),
     width: 160
   },
   {
@@ -226,5 +691,34 @@ const columns = [
 
 .ant-form {
   margin-top: 20px;
+}
+
+.summary {
+  overflow: hidden;
+  width: 100%;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  display: block;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.title {
+  overflow: hidden;
+  font-size: 13px;
+  width: 100%;
+  text-overflow: ellipsis;
+  display: block;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+pic-upload > :global(.ant-upload.ant-upload-select.ant-upload-select-picture-card) {
+  width: 415px !important;
+  height: 152px !important;
 }
 </style>
