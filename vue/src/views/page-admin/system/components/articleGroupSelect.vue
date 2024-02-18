@@ -34,6 +34,7 @@ import {
 import { watch } from 'vue'
 
 const itemId = defineModel('itemId')
+const userId = defineModel('userId')
 const articleGroupId = defineModel('articleGroupId')
 const articleGroupName = defineModel('articleGroupName')
 
