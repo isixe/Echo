@@ -40,9 +40,17 @@ export function getCategoryListByKeyword(params) {
   })
 }
 
-export function getCategoryListByName(params) {
+export function getCategoryByName(params) {
   return request({
     url: '/category/queryByName',
+    method: 'get',
+    params
+  })
+}
+
+export function getCategoryListByName(params) {
+  return request({
+    url: '/category/queryAllByName',
     method: 'get',
     params
   })
