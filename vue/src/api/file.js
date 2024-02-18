@@ -10,3 +10,14 @@ export async function uploadAvatar(data) {
     data
   })
 }
+
+export async function uploadPic(data) {
+  return request({
+    url: '/upload/pic',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data
+  })
+}
