@@ -239,23 +239,6 @@ public class UserController {
     }
 
     /**
-     * 用户查询（Name）
-     *
-     * @param username 用户名
-     */
-    @Operation(summary = "用户查询（Name）", description = "前台用户用户名查询", tags = "User", method = "GET",
-            parameters = {
-                    @Parameter(name = "username", description = "用户名", required = true, example = "username"),
-            })
-    @SaCheckLogin
-    @GetMapping("/getByName")
-    public UserVO getByName(String username) {
-        User user = userService.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getName, username));
-        return MapstructMapperUtil.INSTANCE.userToUserVO(user);
-    }
-
-    /**
      * 用户查询（分页&关键词）
      *
      * @param pageDTO 分页数据传输对象

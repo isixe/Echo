@@ -27,12 +27,15 @@
     <resultMap id="ArticleListResultMap" type="dev.itea.echo.vo.ArticleVO">
         <id column="id" property="id"/>
         <result column="article_group_name" property="articleGroupName"/>
+        <result column="article_group_id" property="articleGroupId"/>
         <result column="author" property="author"/>
+        <result column="user_id" property="userId"/>
         <result column="featured_pic" property="featuredPic"/>
         <result column="title" property="title"/>
         <result column="summary" property="summary"/>
         <result column="content" property="content"/>
         <result column="category" property="category"/>
+        <result column="category_id" property="categoryId"/>
         <result column="tag" property="tag"/>
         <result column="status" property="status"/>
         <result column="pv_count" property="pvCount"/>
@@ -71,8 +74,11 @@
                a.title,
                a.summary,
                a.content,
+               a.article_group_id,
+               u.id            AS user_id,
                u.`name`        AS author,
                c.category_name AS category,
+               c.id            AS category_id,
                a.tag,
                g.name          AS article_group_name,
                a.`status`,

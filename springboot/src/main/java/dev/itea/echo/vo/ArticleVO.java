@@ -22,8 +22,14 @@ public class ArticleVO {
     @Schema(description = "文章分组")
     private String articleGroupName;
 
+    @Schema(description = "文章分组ID")
+    private String articleGroupId;
+
     @Schema(description = "作者")
     private String author;
+
+    @Schema(description = "作者ID")
+    private String userId;
 
     @Schema(description = "文章头图")
     private String featuredPic;
@@ -39,6 +45,9 @@ public class ArticleVO {
 
     @Schema(description = "类别")
     private String category;
+
+    @Schema(description = "类别ID")
+    private String categoryId;
 
     @Schema(description = "标签")
     private String tag;
