@@ -33,9 +33,11 @@ public class UploadFileUtil {
 
     public String uploadFile(MultipartFile file, String dir) {
         try {
-            String localHost = new HostUtil().getLocalHostExactAddress();
             String port = environment.getProperty("server.port");
             String appName = environment.getProperty("spring.application.name");
+            String mode = environment.getProperty("spring.profiles.active");
+
+            String localHost = "dev".equals(mode) || "test".equals(mode) ? "127.0.0.1" : new HostUtil().getLocalHostExactAddress();
 
             //target/upload
             String classpath = ResourceUtils.getURL("classpath:").getPath().substring(1);
