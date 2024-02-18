@@ -27,7 +27,6 @@
 <script setup>
 import { message } from 'ant-design-vue'
 import { add, getCategoryByName, getCategoryListByName } from '@/api/category'
-import { onMounted } from 'vue'
 
 const categoryId = defineModel('categoryId')
 const categoryName = defineModel('categoryName')
@@ -36,6 +35,10 @@ const categoryInput = ref('')
 const categoryOptions = ref([])
 
 onMounted(() => {
+  if (!categoryName.value) {
+    return
+  }
+
   categoryOptions.value.push({
     value: categoryId.value,
     label: categoryName.value
@@ -53,7 +56,6 @@ const categorySearch = (value) => {
   }
   getCategoryListByName({ categoryName: value }).then((res) => {
     const data = res.data
-
     categoryOptions.value = data.map((category) => ({
       value: category.id,
       label: category.categoryName
@@ -62,19 +64,14 @@ const categorySearch = (value) => {
 }
 
 const inputRef = ref()
-const addCategoryItem = (e) => {
+const addCategoryItem = async (e) => {
   e.preventDefault()
 
   const inputValue = categoryInput.value
 
-  console.log(inputValue)
-
-  if (!inputValue) {
-    return
-  }
   const formData = new FormData()
   formData.append('categoryName', inputValue)
-  add(formData).then(() => {
+  await add(formData).then(() => {
     message.success('添加成功')
   })
 
