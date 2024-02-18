@@ -305,29 +305,34 @@ const rowSelection = {
 //add
 const handleAddOk = () => {
   loading.value = true
-  form.value.validate().then(async () => {
-    const formData = new FormData()
-    Object.keys(newData).forEach((key) => {
-      formData.append(key, newData[key])
-    })
-    await add(formData)
-      .then(() => {
-        message.success('添加成功')
-        showAddModal.value = false
-        queryData(params)
-        Object.keys(newData).forEach((key) => {
-          newData[key] = ''
+  form.value
+    .validate()
+    .then(async () => {
+      const formData = new FormData()
+      Object.keys(newData).forEach((key) => {
+        formData.append(key, newData[key])
+      })
+      await add(formData)
+        .then(() => {
+          message.success('添加成功')
+          showAddModal.value = false
+          queryData(params)
+          Object.keys(newData).forEach((key) => {
+            newData[key] = ''
+          })
+          newUserIcon.value = ''
+          loading.value = false
+          showAddModal.value = false
         })
-        newUserIcon.value = ''
-        loading.value = false
-        showAddModal.value = false
-      })
-      .catch(() => {
-        showAddModal.value = false
-        loading.value = false
-        showAddModal.value = false
-      })
-  })
+        .catch(() => {
+          showAddModal.value = false
+          loading.value = false
+          showAddModal.value = false
+        })
+    })
+    .catch(() => {
+      loading.value = false
+    })
 }
 
 //delete
@@ -375,30 +380,39 @@ const showEdit = (record) => {
 
 const handleEditOk = () => {
   loading.value = true
-  if (originData.value === JSON.stringify(editData)) {
-    loading.value = false
-    return (showEditModal.value = false)
-  }
+  form.value
+    .validate()
+    .then(async () => {
+      if (originData.value === JSON.stringify(editData)) {
+        loading.value = false
+        return (showEditModal.value = false)
+      }
 
-  editData.lastActiveTime = DateTime.fromSQL(editData.lastActiveTime).toFormat(
-    "yyyy-MM-dd'T'HH:mm:ss"
-  )
-  editData.createdTime = DateTime.fromSQL(editData.createdTime).toFormat("yyyy-MM-dd'T'HH:mm:ss")
+      editData.lastActiveTime = DateTime.fromSQL(editData.lastActiveTime).toFormat(
+        "yyyy-MM-dd'T'HH:mm:ss"
+      )
+      editData.createdTime = DateTime.fromSQL(editData.createdTime).toFormat(
+        "yyyy-MM-dd'T'HH:mm:ss"
+      )
 
-  const formData = new FormData()
-  Object.keys(editData).forEach((key) => {
-    formData.append(key, editData[key])
-  })
-  update(formData)
-    .then(() => {
-      message.success('修改成功')
-      queryData(params)
-      loading.value = false
-      showEditModal.value = false
+      const formData = new FormData()
+      Object.keys(editData).forEach((key) => {
+        formData.append(key, editData[key])
+      })
+      update(formData)
+        .then(() => {
+          message.success('修改成功')
+          queryData(params)
+          loading.value = false
+          showEditModal.value = false
+        })
+        .catch(() => {
+          loading.value = false
+          showEditModal.value = false
+        })
     })
     .catch(() => {
       loading.value = false
-      showEditModal.value = false
     })
 }
 
