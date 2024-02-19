@@ -110,7 +110,7 @@
             />
           </a-form-item>
           <a-form-item name="content" label="正文">
-            <a-textarea v-model:value="newData.content" placeholder="文章内容" />
+            <article-editor v-model="editData.content" />
           </a-form-item>
           <a-form-item name="userId" label="作者">
             <author-select v-model="newData.userId" />
@@ -183,7 +183,7 @@
             />
           </a-form-item>
           <a-form-item name="content" label="正文">
-            <a-textarea v-model:value="editData.content" placeholder="文章内容" />
+            <article-editor v-model="editData.content" />
           </a-form-item>
 
           <a-form-item name="userId" label="作者">
@@ -253,13 +253,15 @@
 
 <script setup>
 import dayjs from 'dayjs'
+import { marked } from 'marked'
 import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
 import { uploadPic } from '@/api/file'
 import { add, update, remove, getArticleListByKeyword } from '@/api/article'
-import { tagInput } from '@/views/components'
+import { tagInput } from '@/components'
+import ArticleEditor from '@/components/ArticleEditor'
 import { authorSelect, categorySelect, articleGroupSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
@@ -423,7 +425,7 @@ const handleAddOk = () => {
   form.value
     .validate()
     .then(async () => {
-      newData.summary = newData.content.substring(0, 120)
+      newData.summary = marked.parse(newData.content).replace(/<[^>]+>|\n/g, '')
 
       const formData = new FormData()
       Object.keys(newData).forEach((key) => {
@@ -434,6 +436,8 @@ const handleAddOk = () => {
         'publishTime',
         DateTime.fromJSDate(newData.publishTime.$d).toFormat("yyyy-MM-dd'T'HH:mm:ss")
       )
+
+      formData.set('content', JSON.stringify(newData.content))
 
       add(formData)
         .then(() => {
@@ -492,6 +496,8 @@ const showEdit = async (record) => {
     editData[key] = record[key]
   })
 
+  editData['content'] = JSON.parse(editData['content'])
+
   editData['createdTime'] = dayjs(editData['createdTime'], 'YYYY-MM-DD HH:mm:ss')
   editData['publishTime'] = editData['publishTime']
     ? dayjs(editData['publishTime'], 'YYYY-MM-DD HH:mm:ss')
@@ -506,12 +512,14 @@ const handleEditOk = () => {
   form.value
     .validate()
     .then(async () => {
-      editData.summary = editData.content.substring(0, 120)
+      editData.summary = marked.parse(editData.content).replace(/<[^>]+>|\n/g, '')
 
       const formData = new FormData()
       Object.keys(editData).forEach((key) => {
         formData.append(key, editData[key])
       })
+
+      formData.set('content', JSON.stringify(editData.content))
 
       formData.set(
         'createdTime',
