@@ -45,6 +45,12 @@
               {{ record.summary }}
             </div>
           </template>
+          <template v-else-if="column.dataIndex === 'status'">
+            <div class="status">
+              <a-tag color="green" v-if="record.status === 1">已发布</a-tag>
+              <a-tag color="orange" v-else>未发布</a-tag>
+            </div>
+          </template>
           <template v-else>
             {{ text }}
           </template>
@@ -222,6 +228,16 @@
                 <a-time-picker v-model:value="editData.publishTime" style="margin-left: 10px" />
               </a-form-item-rest>
             </template>
+          </a-form-item>
+          <a-form-item name="createdTime" label="创建时间">
+            <a-date-picker v-model:value="editData.createdTime" disabled />
+            <a-form-item-rest>
+              <a-time-picker
+                v-model:value="editData.createdTime"
+                style="margin-left: 10px"
+                disabled
+              />
+            </a-form-item-rest>
           </a-form-item>
         </a-form>
       </div>
@@ -476,6 +492,7 @@ const showEdit = async (record) => {
     editData[key] = record[key]
   })
 
+  editData['createdTime'] = dayjs(editData['createdTime'], 'YYYY-MM-DD HH:mm:ss')
   editData['publishTime'] = editData['publishTime']
     ? dayjs(editData['publishTime'], 'YYYY-MM-DD HH:mm:ss')
     : null
@@ -496,6 +513,11 @@ const handleEditOk = () => {
         formData.append(key, editData[key])
       })
 
+      formData.set(
+        'createdTime',
+        DateTime.fromJSDate(editData.createdTime.$d).toFormat("yyyy-MM-dd'T'HH:mm:ss")
+      )
+
       if (editData['publishTime']) {
         formData.set(
           'publishTime',
@@ -504,11 +526,6 @@ const handleEditOk = () => {
 
         formData.set('status', 1)
       }
-
-      formData.set(
-        'createdTime',
-        DateTime.fromSQL(editData.createdTime).toFormat("yyyy-MM-dd'T'HH:mm:ss")
-      )
 
       update(formData)
         .then(() => {
