@@ -9,7 +9,7 @@ import cn.dev33.satoken.stp.StpLogic;
 import java.util.List;
 
 /**
- * Sa-Token 用户权限认证工具类
+ * Sa-Token StpUserUtil
  *
  * @author: isixe
  * @create: 2024-01-21 11:02
