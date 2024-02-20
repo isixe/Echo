@@ -91,6 +91,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faPen, faArrowRightArrowLeft, faGear } from '@fortawesome/free-solid-svg-icons'
 library.add(faUser, faPen, faArrowRightArrowLeft, faGear)
 
+defineModel('search')
 const useSearch = defineModel('useSearch')
 useSearch.value = false
 </script>
