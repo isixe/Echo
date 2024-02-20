@@ -101,6 +101,6 @@
         <if test="ew.customSqlSegment==null">
             WHERE a.is_deleted = 0
         </if>
-        ORDER BY a.id
+        ORDER BY a.update_time DESC
     </select>
 </mapper>
