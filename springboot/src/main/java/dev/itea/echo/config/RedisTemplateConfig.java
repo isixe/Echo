@@ -27,22 +27,22 @@ public class RedisTemplateConfig {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
 
-        //jackson2Json redis Serializer
+        //初始化 jackson2Json redis Serializer，设置 ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance,
                 ObjectMapper.DefaultTyping.NON_FINAL);
         GenericJackson2JsonRedisSerializer jackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer(objectMapper);
 
-        // String
+        // String     - StringRedisSerializer 序列化
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-        // key
+        // key        - StringRedisSerializer 序列化
         template.setKeySerializer(stringRedisSerializer);
-        // hash
+        // hash       - StringRedisSerializer 序列化
         template.setHashKeySerializer(stringRedisSerializer);
-        // value
+        // value      - jackson2JsonRedisSerializer 序列化
         template.setValueSerializer(jackson2JsonRedisSerializer);
-        // hash value
+        // hash value - jackson2JsonRedisSerializer 序列化
         template.setHashValueSerializer(jackson2JsonRedisSerializer);
         template.afterPropertiesSet();
         return template;

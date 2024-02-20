@@ -42,13 +42,12 @@ public class JacksonConfig {
                 //反射获取字段
                 Class<?> currentClass = jsonGenerator.getCurrentValue().getClass();
                 Field field = ReflectionUtils.findField(currentClass, fieldName);
-                System.out.println(field.getType());
                 //判断空值
                 if (ObjectUtils.isNull(field)) {
                     return;
                 }
                 //String类型返回""
-                if (Objects.equals(field.getType(), String.class)) {
+                if (Objects.equals(Objects.requireNonNull(field).getType(), String.class)) {
                     jsonGenerator.writeString("");
                     return;
                 }
