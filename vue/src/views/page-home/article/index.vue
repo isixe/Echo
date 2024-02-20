@@ -27,7 +27,9 @@
             mode="horizontal"
             :items="items"
           />
-          <EntryItem v-for="n in 10"></EntryItem>
+          <template v-for="record in dataSource" :key="record.id">
+            <EntryItem :item="record"></EntryItem>
+          </template>
         </a-layout-content>
         <a-layout-sider class="sidebar-container" width="320px">
           <div class="notice-card">
@@ -54,7 +56,7 @@
             <div class="rank-content">
               <RouterLink
                 class="rank-item"
-                to="/user/xxx"
+                :to="'/user/' + rankItem.id"
                 v-for="rankItem in rankList"
                 :key="rankItem.id"
               >
@@ -101,11 +103,32 @@
 <script setup>
 import { EntryItem } from '@/views/page-home/components'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { getUserRank } from '@/api/article'
+import { getArticleListByKeyword, getUserRank } from '@/api/article'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
 library.add(faTags, faBullhorn, faRankingStar)
 
+const dataSource = ref([])
 const current = ref(['latest'])
+
+const params = reactive({
+  pageNum: 1,
+  pageSize: 20,
+  keyword: null
+})
+
+const rankList = ref([])
+
+onMounted(() => {
+  getUserRank().then((res) => (rankList.value = res.data))
+
+  getArticleListByKeyword(params).then((res) => {
+    const data = res.data
+    console.log(data)
+    dataSource.value = data.records
+    // pagination.total = data.total
+    // loading.value = false
+  })
+})
 
 const items = ref([
   {
@@ -125,15 +148,6 @@ const items = ref([
     label: '订阅'
   }
 ])
-
-const rankList = ref([])
-
-onMounted(() => {
-  getUserRank().then((res) => {
-    console.log(res.data)
-    rankList.value = res.data
-  })
-})
 </script>
 
 <style scoped>

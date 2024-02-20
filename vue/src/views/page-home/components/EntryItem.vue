@@ -1,40 +1,47 @@
 <template>
   <div class="entry-item">
-    <RouterLink to="`/article/xxx`">
+    <RouterLink :to="'/article/' + item.id">
       <div class="item-message">
         <div class="item-message-left">
-          <RouterLink to="/user/13t4324" class="user-info">
-            <a-avatar class="user-avatar" :size="20" :style="{ marginRight: '10px' }">
+          <RouterLink :to="'/user/' + item.userId" class="user-info">
+            <a-avatar
+              class="user-avatar"
+              :src="item.avatar"
+              :size="20"
+              :style="{ marginRight: '10px' }"
+            >
               <template #icon>
                 <UserOutlined />
               </template>
             </a-avatar>
-            <span class="user-name">username</span>
+            <span class="user-name">{{ item.author }}</span>
           </RouterLink>
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <span>5分钟前</span>
+          <span>{{ updateTime }}</span>
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <RouterLink to="/category/xxx" class="category-container"> 前端 </RouterLink>
+          <RouterLink :to="'/category/' + item.categoryId" class="category-container">
+            {{ item.category }}
+          </RouterLink>
         </div>
         <div class="item-message-right">
-          <span> <EyeOutlined /> 468 </span>
+          <span> <EyeOutlined /> {{ item.pvCount }} </span>
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <span> <LikeOutlined /> 168 </span>
+          <span> <LikeOutlined /> {{ item.likeCount }} </span>
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <span> <MessageOutlined /> 48 </span>
+          <span> <MessageOutlined /> 0 </span>
         </div>
       </div>
       <div>
-        <p class="item-title">{{ n }}这是一个个个个个个标题个标题标题标题</p>
+        <p class="item-title">{{ item.title }}</p>
       </div>
       <div class="item-content">
         <div class="item-content-left">
           <p class="item-summary">
-            地址使用场景生活中啊啊啊哈哈啊啊啊啊哈哈啊啊啊啊哈哈啊啊啊啊哈哈啊啊啊啊啊啊啊啊啊啊啊啊啊哈哈哈哈哈哈啊啊啊啊啊啊啊啊啊啊啊啊哈哈哈哈哈哈啊啊啊啊啊啊啊啊啊啊啊啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+            {{ item.summary }}
           </p>
         </div>
         <div class="item-content-right">
-          <img class="entry-item-picture" src="../../../assets/png/left.png" />
+          <img class="entry-item-picture" v-if="item.featuredPic" :src="item.featuredPic" />
         </div>
       </div>
     </RouterLink>
@@ -42,7 +49,16 @@
 </template>
 
 <script setup>
-const data = defineModel()
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-cn'
+dayjs.extend(relativeTime)
+dayjs.locale('zh-cn')
+
+const props = defineProps(['item'])
+const { item } = toRefs(props)
+
+const updateTime = dayjs(item.value.updateTime).fromNow()
 </script>
 
 <style scoped>
@@ -123,7 +139,6 @@ const data = defineModel()
 }
 
 .item-summary {
-  width: 99%;
   flex: none;
   line-height: 28px;
   height: 56px;
