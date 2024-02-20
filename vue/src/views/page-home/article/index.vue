@@ -43,55 +43,57 @@
               </RouterLink>
             </div>
           </div>
-          <div class="rank-card">
-            <div class="rank-title">
-              <span
-                >发文榜
-                <font-awesome-icon
-                  :icon="['fas', 'ranking-star']"
-                  style="color: #c9c9c9; font-size: 14px; margin-left: 0"
-                />
-              </span>
-            </div>
-            <div class="rank-content">
-              <RouterLink
-                class="rank-item"
-                :to="'/user/' + rankItem.id"
-                v-for="rankItem in rankList"
-                :key="rankItem.id"
-              >
-                <div class="user-info">
-                  <a-avatar class="user-avatar" :size="35" :src="rankItem.avatar">
-                    <template #icon>
-                      <UserOutlined />
-                    </template>
-                  </a-avatar>
-                  <div class="user-content">
-                    <span class="user-name">{{ rankItem.name }}</span>
-                    <span class="user-desc">{{ rankItem.description }}</span>
+          <div class="sticky-card">
+            <div class="rank-card">
+              <div class="rank-title">
+                <span
+                  >发文榜
+                  <font-awesome-icon
+                    :icon="['fas', 'ranking-star']"
+                    style="color: #c9c9c9; font-size: 14px; margin-left: 0"
+                  />
+                </span>
+              </div>
+              <div class="rank-content">
+                <RouterLink
+                  class="rank-item"
+                  :to="'/user/' + rankItem.id"
+                  v-for="rankItem in rankList"
+                  :key="rankItem.id"
+                >
+                  <div class="user-info">
+                    <a-avatar class="user-avatar" :size="35" :src="rankItem.avatar">
+                      <template #icon>
+                        <UserOutlined />
+                      </template>
+                    </a-avatar>
+                    <div class="user-content">
+                      <span class="user-name">{{ rankItem.name }}</span>
+                      <span class="user-desc">{{ rankItem.description }}</span>
+                    </div>
                   </div>
-                </div>
-                <div class="article-count">{{ rankItem.rankSum }}</div>
-              </RouterLink>
+                  <div class="article-count">{{ rankItem.rankSum }}</div>
+                </RouterLink>
+              </div>
             </div>
-          </div>
-          <div class="recommend-category-card">
-            <div class="recommend-title">
-              <span>
-                推荐分类
-                <font-awesome-icon
-                  :icon="['fas', 'tags']"
-                  style="color: #c9c9c9; font-size: 14px; margin-left: 0"
-                />
-              </span>
-            </div>
-            <div class="recommend-content">
-              <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-              <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-              <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-              <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-              <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-              <RouterLink to="/categoty/xxx"> 类别 </RouterLink>
+            <div class="recommend-category-card">
+              <div class="recommend-title">
+                <span>
+                  推荐分类
+                  <font-awesome-icon
+                    :icon="['fas', 'tags']"
+                    style="color: #c9c9c9; font-size: 14px; margin-left: 0"
+                  />
+                </span>
+              </div>
+              <div class="recommend-content">
+                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
+                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
+                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
+                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
+                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
+                <RouterLink to="/categoty/xxx"> 类别 </RouterLink>
+              </div>
             </div>
           </div>
         </a-layout-sider>
@@ -240,6 +242,11 @@ const items = ref([
 .rank-card,
 .recommend-category-card {
   margin-top: 15px;
+}
+
+.sticky-card {
+  position: sticky;
+  top: 15px;
 }
 
 .notice-title,
