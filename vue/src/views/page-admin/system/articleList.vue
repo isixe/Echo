@@ -45,6 +45,16 @@
               {{ record.summary }}
             </div>
           </template>
+          <template v-else-if="column.dataIndex === 'tag' && record.tag">
+            <a-tag
+              class="tag"
+              v-for="tag in record.tag.split(',')"
+              :key="tag"
+              :color="tag.length < 3 ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
+            >
+              {{ tag }}
+            </a-tag>
+          </template>
           <template v-else-if="column.dataIndex === 'status'">
             <div class="status">
               <a-tag color="green" v-if="record.status === 1">已发布</a-tag>
@@ -425,7 +435,10 @@ const handleAddOk = () => {
   form.value
     .validate()
     .then(async () => {
-      newData.summary = marked.parse(newData.content).replace(/<[^>]+>|\n/g, '')
+      newData.summary = marked
+        .parse(newData.content)
+        .replace(/<[^>]+>|\n/g, '')
+        .substring(0, 120)
 
       const formData = new FormData()
       Object.keys(newData).forEach((key) => {
@@ -512,7 +525,10 @@ const handleEditOk = () => {
   form.value
     .validate()
     .then(async () => {
-      editData.summary = marked.parse(editData.content).replace(/<[^>]+>|\n/g, '')
+      editData.summary = marked
+        .parse(editData.content)
+        .replace(/<[^>]+>|\n/g, '')
+        .substring(0, 120)
 
       const formData = new FormData()
       Object.keys(editData).forEach((key) => {
@@ -649,7 +665,7 @@ const columns = [
     title: '标签',
     dataIndex: 'tag',
     sorter: (a, b) => (a.tag.length - b.tag.length > 0 ? 1 : -1),
-    width: 160
+    width: 200
   },
   {
     title: '分组',
@@ -674,6 +690,12 @@ const columns = [
     dataIndex: 'status',
     sorter: (a, b) => (a.status.length - b.status.length > 0 ? 1 : -1),
     width: 110
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'updateTime',
+    sorter: (a, b) => (new Date(a.updateTime) > new Date(b.updateTime) > 0 ? 1 : -1),
+    width: 160
   },
   {
     title: '发布时间',
@@ -740,6 +762,10 @@ const columns = [
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+.tag {
+  margin: 3px;
 }
 
 pic-upload > :global(.ant-upload.ant-upload-select.ant-upload-select-picture-card) {
