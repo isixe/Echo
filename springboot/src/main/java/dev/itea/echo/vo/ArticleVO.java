@@ -28,6 +28,9 @@ public class ArticleVO {
     @Schema(description = "作者")
     private String author;
 
+    @Schema(description = "作者头像")
+    private String avatar;
+
     @Schema(description = "作者ID")
     private String userId;
 

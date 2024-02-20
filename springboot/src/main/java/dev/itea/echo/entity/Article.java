@@ -55,7 +55,7 @@ public class Article extends Model<Article> {
     @Schema(description = "文章标题")
     @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @NotBlank(message = "不能为空字符串", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
-    @Length(message = "长度不能大于42个字符", max = 16, groups = {AddValidationGroup.class, UpdateValidationGroup.class})
+    @Length(message = "长度不能大于42个字符", max = 42, groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @TableField("title")
     private String title;
 

@@ -29,6 +29,7 @@
         <result column="article_group_name" property="articleGroupName"/>
         <result column="article_group_id" property="articleGroupId"/>
         <result column="author" property="author"/>
+        <result column="avatar" property="avatar"/>
         <result column="user_id" property="userId"/>
         <result column="featured_pic" property="featuredPic"/>
         <result column="title" property="title"/>
@@ -77,6 +78,7 @@
                a.article_group_id,
                u.id            AS user_id,
                u.`name`        AS author,
+               u.`avatar`,
                c.category_name AS category,
                c.id            AS category_id,
                a.tag,
