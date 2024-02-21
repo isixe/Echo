@@ -81,13 +81,12 @@ public class GroupArticleController {
     @PutMapping
     public void update(@Validated(UpdateValidationGroup.class) GroupArticle groupArticle) {
         //check groupArticle
-        GroupArticle checkGroupArticle = groupArticleService.getOne(new LambdaQueryWrapper<GroupArticle>()
-                .eq(GroupArticle::getId, groupArticle.getId()));
+        GroupArticle checkGroupArticle = groupArticleService.get(groupArticle.getId());
         if (ObjectUtils.isEmpty(checkGroupArticle)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         //update
-        groupArticleService.updateById(groupArticle);
+        groupArticleService.update(groupArticle);
     }
 
     /**
@@ -105,13 +104,12 @@ public class GroupArticleController {
     @DeleteMapping
     public void delete(Integer id) {
         //check groupArticle
-        GroupArticle checkGroupArticle = groupArticleService.getOne(new LambdaQueryWrapper<GroupArticle>()
-                .eq(GroupArticle::getId, id));
+        GroupArticle checkGroupArticle = groupArticleService.get(id);
         if (ObjectUtils.isEmpty(checkGroupArticle)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         //delete
-        groupArticleService.removeById(id);
+        groupArticleService.delete(id);
     }
 
     /**
@@ -127,8 +125,7 @@ public class GroupArticleController {
     @GetMapping
     public GroupArticle getById(Integer id) {
         //get groupArticle
-        GroupArticle groupArticle = groupArticleService.getOne(new LambdaQueryWrapper<GroupArticle>()
-                .eq(GroupArticle::getId, id));
+        GroupArticle groupArticle = groupArticleService.get(id);
         //check groupArticle
         if (ObjectUtils.isEmpty(groupArticle)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);

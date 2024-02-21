@@ -10,6 +10,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.UserRankVO;
 import jakarta.annotation.Resource;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -27,6 +30,25 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Resource
     ArticleMapper articleMapper;
+
+    @Override
+    @CacheEvict(cacheNames = "article", key = "#id")
+    public void delete(Integer id) {
+        articleMapper.deleteById(id);
+    }
+
+    @Override
+    @CachePut(cacheNames = "article", key = "#article.id")
+    public Article update(Article article) {
+        articleMapper.updateById(article);
+        return article;
+    }
+
+    @Override
+    @Cacheable(cacheNames = "article", key = "#id")
+    public Article get(Integer id) {
+        return articleMapper.selectById(id);
+    }
 
     @Override
     public List<UserRankVO> getUserArticleNumRankList() {

@@ -1,6 +1,7 @@
 package dev.itea.echo.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.entity.Category;
 import dev.itea.echo.entity.GroupArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,13 @@ import java.util.Map;
  * @since 2024-01-15
  */
 public interface GroupArticleService extends IService<GroupArticle> {
+
+    void delete(Integer id);
+
+    GroupArticle update(GroupArticle groupArticle);
+
+    GroupArticle get(Integer id);
+
     List<Map<String, Object>> getGroupArticleByUserId(Integer userId);
 
     IPage<GroupArticle> getGroupArticleByPage(Pageable pageable, String keyword);

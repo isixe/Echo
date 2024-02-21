@@ -8,6 +8,9 @@ import dev.itea.echo.mapper.CategoryMapper;
 import dev.itea.echo.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -26,6 +29,25 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Resource
     CategoryMapper categoryMapper;
+
+    @Override
+    @CacheEvict(cacheNames = "category", key = "#id")
+    public void delete(Integer id) {
+        categoryMapper.deleteById(id);
+    }
+
+    @Override
+    @CachePut(cacheNames = "category", key = "#category.id")
+    public Category update(Category category) {
+        categoryMapper.updateById(category);
+        return category;
+    }
+
+    @Override
+    @Cacheable(cacheNames = "category", key = "#id")
+    public Category get(Integer id) {
+        return categoryMapper.selectById(id);
+    }
 
     @Override
     public List<Map<String, Object>> getCategoryListByName(String categoryName) {

@@ -12,5 +12,12 @@ import org.springframework.data.domain.Pageable;
  * @since 2024-01-20
  */
 public interface AdminService extends IService<Admin> {
+
+    void delete(Integer id);
+
+    Admin update(Admin admin);
+
+    Admin get(Integer id);
+
     IPage<Admin> getAdminByPage(Pageable pageable,String keword);
 }

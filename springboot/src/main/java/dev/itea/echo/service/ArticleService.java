@@ -16,6 +16,13 @@ import java.util.List;
  * @since 2024-01-15
  */
 public interface ArticleService extends IService<Article> {
+
+    void delete(Integer id);
+
+    Article update(Article article);
+
+    Article get(Integer id);
+
     List<UserRankVO> getUserArticleNumRankList();
 
     IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword);

@@ -181,8 +181,7 @@ public class UserController {
     @PutMapping
     public void update(@Validated(UpdateValidationGroup.class) User user) {
         //check user
-        User checkUser = userService.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getId, user.getId()));
+        User checkUser = userService.get(user.getId());
         if (ObjectUtils.isEmpty(checkUser)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
@@ -192,7 +191,7 @@ public class UserController {
             user.setPassword(pwHash);
         }
         //update
-        userService.updateById(user);
+        userService.update(user);
     }
 
     /**
@@ -214,7 +213,7 @@ public class UserController {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
         //delete
-        userService.removeById(id);
+        userService.delete(id);
     }
 
     /**
@@ -229,8 +228,7 @@ public class UserController {
     @SaIgnore
     @GetMapping
     public UserVO getById(Integer id) {
-        User user = userService.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getId, id));
+        User user = userService.get(id);
         UserVO userVO = MapstructMapperUtil.INSTANCE.userToUserVO(user);
         if (ObjectUtils.isEmpty(userVO)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);

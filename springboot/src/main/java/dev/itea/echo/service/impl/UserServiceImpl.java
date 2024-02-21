@@ -9,6 +9,9 @@ import dev.itea.echo.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import dev.itea.echo.vo.UserVO;
 import jakarta.annotation.Resource;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -26,6 +29,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     UserMapper userMapper;
+
+    @Override
+    @CacheEvict(cacheNames = "user", key = "#id")
+    public void delete(Integer id) {
+        userMapper.deleteById(id);
+    }
+
+    @Override
+    @CachePut(cacheNames = "user", key = "#user.id")
+    public User update(User user) {
+        userMapper.updateById(user);
+        return user;
+    }
+
+    @Override
+    @Cacheable(cacheNames = "user", key = "#id")
+    public User get(Integer id) {
+        return userMapper.selectById(id);
+    }
 
     @Override
     public List<UserVO> getUserListByName(String userName) {

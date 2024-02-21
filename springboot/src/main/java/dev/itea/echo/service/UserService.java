@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import dev.itea.echo.vo.UserVO;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -15,6 +16,13 @@ import java.util.List;
  * @since 2024-01-15
  */
 public interface UserService extends IService<User> {
+
+    void delete(Integer id);
+
+    User update(User user);
+
+    User get(Integer id);
+
     List<UserVO> getUserListByName(String userName);
 
     IPage<User> getUserByPage(Pageable pageable, String keword);

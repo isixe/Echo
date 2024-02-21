@@ -74,13 +74,12 @@ public class CategoryController {
     @PutMapping
     public void update(@Validated(UpdateValidationGroup.class) Category category) {
         //check category
-        Category checkCategory = categoryService.getOne(new LambdaQueryWrapper<Category>()
-                .eq(Category::getId, category.getId()));
+        Category checkCategory = categoryService.get(category.getId());
         if (ObjectUtils.isEmpty(checkCategory)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         //update
-        categoryService.updateById(category);
+        categoryService.update(category);
     }
 
     /**
@@ -96,13 +95,12 @@ public class CategoryController {
     @DeleteMapping
     public void delete(Integer id) {
         //check category
-        Category checkCategory = categoryService.getOne(new LambdaQueryWrapper<Category>()
-                .eq(Category::getId, id));
+        Category checkCategory = categoryService.get(id);
         if (ObjectUtils.isEmpty(checkCategory)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         //delete
-        categoryService.removeById(id);
+        categoryService.delete(id);
     }
 
     /**
@@ -120,8 +118,7 @@ public class CategoryController {
     @GetMapping
     public Category getById(Integer id) {
         //get category
-        Category category = categoryService.getOne(new LambdaQueryWrapper<Category>()
-                .eq(Category::getId, id));
+        Category category = categoryService.get(id);
         //check category
         if (ObjectUtils.isEmpty(category)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);

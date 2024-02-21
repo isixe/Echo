@@ -99,10 +99,12 @@ public class Article extends Model<Article> {
 
     @Schema(description = "创建时间")
     @TableField(value = "created_time", fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NOT_NULL)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createdTime;
 
     @Schema(description = "发布时间")
     @TableField("publish_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime publishTime;
 
     @Schema(description = "更新时间")

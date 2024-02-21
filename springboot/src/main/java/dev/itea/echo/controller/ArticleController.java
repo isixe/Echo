@@ -74,13 +74,12 @@ public class ArticleController {
     @PutMapping
     public void update(@Validated(UpdateValidationGroup.class) Article article) {
         //check article
-        Article checkArticle = articleService.getOne(new LambdaQueryWrapper<Article>()
-                .eq(Article::getId, article.getId()));
+        Article checkArticle = articleService.get(article.getId());
         if (ObjectUtils.isEmpty(checkArticle)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         //update
-        articleService.updateById(article);
+        articleService.update(article);
     }
 
     /**
@@ -98,13 +97,12 @@ public class ArticleController {
     @DeleteMapping
     public void delete(Integer id) {
         //check article
-        Article checkArticle = articleService.getOne(new LambdaQueryWrapper<Article>()
-                .eq(Article::getId, id));
+        Article checkArticle = articleService.get(id);
         if (ObjectUtils.isEmpty(checkArticle)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         //delete
-        articleService.removeById(id);
+        articleService.delete(id);
     }
 
     /**
@@ -120,8 +118,7 @@ public class ArticleController {
     @GetMapping
     public Article getById(Integer id) {
         //get article
-        Article article = articleService.getOne(new LambdaQueryWrapper<Article>()
-                .eq(Article::getId, id));
+        Article article = articleService.get(id);
         //check article
         if (ObjectUtils.isEmpty(article)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);

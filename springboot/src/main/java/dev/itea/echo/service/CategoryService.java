@@ -15,6 +15,13 @@ import java.util.Map;
  * @since 2024-01-15
  */
 public interface CategoryService extends IService<Category> {
+
+    void delete(Integer id);
+
+    Category update(Category category);
+
+    Category get(Integer id);
+
     List<Map<String, Object>> getCategoryListByName(String categoryName);
 
     IPage<Category> getCategoryByPage(Pageable pageable, String keyword);

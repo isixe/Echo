@@ -145,8 +145,7 @@ public class AdminController {
     @PutMapping
     public void update(@Validated(UpdateValidationGroup.class) Admin admin) {
         //check admin
-        Admin checkAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
-                .eq(Admin::getId, admin.getId()));
+        Admin checkAdmin = adminService.get(admin.getId());
         if (ObjectUtils.isEmpty(checkAdmin)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
@@ -156,7 +155,7 @@ public class AdminController {
             admin.setPassword(pwHash);
         }
         //update
-        adminService.updateById(admin);
+        adminService.update(admin);
     }
 
     /**
@@ -172,13 +171,12 @@ public class AdminController {
     @DeleteMapping
     public void delete(Integer id) {
         //check admin
-        Admin checkAdmin = adminService.getOne(new LambdaQueryWrapper<Admin>()
-                .eq(Admin::getId, id));
+        Admin checkAdmin = adminService.get(id);
         if (ObjectUtils.isEmpty(checkAdmin)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
         //delete
-        adminService.removeById(id);
+        adminService.delete(id);
     }
 
     /**
@@ -194,8 +192,7 @@ public class AdminController {
     @GetMapping
     public Admin getById(Integer id) {
         //get admin
-        Admin admin = adminService.getOne(new LambdaQueryWrapper<Admin>()
-                .eq(Admin::getId, id));
+        Admin admin = adminService.get(id);
         //check admin
         if (ObjectUtils.isEmpty(admin)) {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);

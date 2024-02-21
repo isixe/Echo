@@ -9,6 +9,9 @@ import dev.itea.echo.service.GroupArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import dev.itea.echo.vo.ArticleVO;
 import jakarta.annotation.Resource;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -27,6 +30,25 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
 
     @Resource
     GroupArticleMapper groupArticleMapper;
+
+    @Override
+    @CacheEvict(cacheNames = "groupArticle", key = "#id")
+    public void delete(Integer id) {
+        groupArticleMapper.deleteById(id);
+    }
+
+    @Override
+    @CachePut(cacheNames = "groupArticle", key = "#groupArticle.id")
+    public GroupArticle update(GroupArticle groupArticle) {
+        groupArticleMapper.updateById(groupArticle);
+        return groupArticle;
+    }
+
+    @Override
+    @Cacheable(cacheNames = "groupArticle", key = "#id")
+    public GroupArticle get(Integer id) {
+        return groupArticleMapper.selectById(id);
+    }
 
     @Override
     public List<Map<String, Object>> getGroupArticleByUserId(Integer userId) {
