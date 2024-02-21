@@ -86,7 +86,6 @@ public class RedisConfig {
      * RedisTemplate配置与序列化
      */
     @Bean
-    @ConditionalOnSingleCandidate
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory());
@@ -119,32 +118,15 @@ public class RedisConfig {
 
                 .serializeValuesWith(RedisSerializationContext
                         .SerializationPair
-                        .fromSerializer(jackson2JsonRedisSerializer))
+                        .fromSerializer(jackson2JsonRedisSerializer));
 
-                .disableCachingNullValues();
+//                .disableCachingNullValues();
 
         //初始化RedisCacheManager实例
         return RedisCacheManager.builder(redisConnectionFactory())
                 .cacheDefaults(redisCacheConfiguration)
                 .transactionAware()
                 .build();
-    }
-
-    /**
-     * 自定义Redis键
-     */
-    @Bean
-    public KeyGenerator keyGenerator() {
-        return (o, method, params) -> {
-            StringBuilder builder = new StringBuilder();
-            builder.append(o.getClass().getName());
-            builder.append("。");
-            builder.append(method.getName());
-            for (Object param : params) {
-                builder.append(param.toString());
-            }
-            return builder.toString();
-        };
     }
 
 }
