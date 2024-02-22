@@ -86,30 +86,7 @@
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
           <a-form-item name="featuredPic" label="头图">
-            <a-upload
-              :v-model="newData.featuredPic"
-              class="pic-upload"
-              list-type="picture-card"
-              :show-upload-list="false"
-              :max-count="1"
-              :customRequest="customAddUpload"
-              :before-upload="beforeUpload"
-              @change="handleChange"
-            >
-              <img
-                v-if="newData.featuredPic"
-                :src="newData.featuredPic"
-                alt="pic"
-                width="415"
-                height="150"
-                style="object-fit: cover; border-radius: 6px"
-              />
-              <div v-else>
-                <loading-outlined v-if="uploadLoading"></loading-outlined>
-                <plus-outlined v-else></plus-outlined>
-                <div class="ant-upload-text">上传</div>
-              </div>
-            </a-upload>
+            <pic-upload v-model="newData.featuredPic" />
           </a-form-item>
           <a-form-item name="title" label="标题">
             <a-input
@@ -159,30 +136,7 @@
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="editData" :rules="rules">
           <a-form-item name="featuredPic" label="头图">
-            <a-upload
-              :v-model="editData.featuredPic"
-              class="pic-upload"
-              list-type="picture-card"
-              :show-upload-list="false"
-              :max-count="1"
-              :customRequest="customEditUpload"
-              :before-upload="beforeUpload"
-              @change="handleChange"
-            >
-              <img
-                v-if="editData.featuredPic"
-                :src="editData.featuredPic"
-                alt="pic"
-                width="415"
-                height="150"
-                style="object-fit: cover; border-radius: 6px"
-              />
-              <div v-else>
-                <loading-outlined v-if="uploadLoading"></loading-outlined>
-                <plus-outlined v-else></plus-outlined>
-                <div class="ant-upload-text">上传</div>
-              </div>
-            </a-upload>
+            <pic-upload v-model="editData.featuredPic" />
           </a-form-item>
           <a-form-item name="title" label="标题">
             <a-input
@@ -252,7 +206,7 @@
         </a-form>
       </div>
       <template #footer>
-        <a-button key="back" @click="() => (showAddModal = !showAddModal)">取消</a-button>
+        <a-button key="back" @click="() => (showEditModal = !showEditModal)">取消</a-button>
         <a-button key="submit" type="primary" :loading="loading" @click="handleEditOk"
           >发布</a-button
         >
@@ -267,11 +221,10 @@ import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
-import { uploadPic } from '@/api/file'
+import { PicUpload } from '@/components'
 import { add, update, remove, getArticleListByKeyword } from '@/api/article'
-import { tagInput } from '@/components'
-import ArticleEditor from '@/components/ArticleEditor'
-import { authorSelect, categorySelect, articleGroupSelect } from './components'
+import { TagInput, ArticleEditor, CategorySelect, ArticleGroupSelect } from '@/components/'
+import { authorSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const searchText = defineModel('search')
@@ -280,7 +233,6 @@ useSearch.value = true
 
 //table
 const loading = ref(true)
-const uploadLoading = ref(false)
 const dataSource = ref([])
 const selectedKeys = ref([])
 
@@ -334,7 +286,6 @@ const form = ref()
 const showAddModal = ref(false)
 const showEditModal = ref(false)
 
-const originData = ref()
 const newData = reactive({
   title: '',
   featuredPic: '',
@@ -369,8 +320,6 @@ const editData = reactive({
   userId: null,
   categoryId: null
 })
-
-const disabledData = reactive({})
 
 const formItemLayout = {
   labelCol: {
@@ -569,54 +518,6 @@ watch(searchText, (newValue) => {
   queryData(params)
 })
 
-//upload
-const handleChange = (info) => {
-  if (info.file.status === 'uploading') {
-    return (uploadLoading.value = true)
-  }
-
-  if (info.file.status === 'error') {
-    message.error('上传失败')
-  }
-  uploadLoading.value = false
-}
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-  if (!isJpgOrPng) {
-    message.error('仅支持JPG和PNG格式!')
-  }
-
-  return isJpgOrPng
-}
-
-const customAddUpload = (e) => {
-  uploadPic({
-    file: e.file
-  })
-    .then((res) => {
-      message.success('上传成功')
-      newData.featuredPic = res.data
-      e.onSuccess(res.data, e)
-    })
-    .catch((err) => {
-      e.onError(err)
-    })
-}
-
-const customEditUpload = (e) => {
-  uploadPic({
-    file: e.file
-  })
-    .then((res) => {
-      message.success('上传成功')
-      editData.featuredPic = res.data
-      e.onSuccess(res.data, e)
-    })
-    .catch((err) => {
-      e.onError(err)
-    })
-}
-
 //set table head
 const columns = [
   {
@@ -755,7 +656,7 @@ const columns = [
   margin: 3px;
 }
 
-pic-upload > :global(.ant-upload.ant-upload-select.ant-upload-select-picture-card) {
+.pic-upload > :global(.ant-upload.ant-upload-select.ant-upload-select-picture-card) {
   width: 415px !important;
   height: 152px !important;
 }
