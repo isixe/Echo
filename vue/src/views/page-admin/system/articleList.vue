@@ -120,7 +120,7 @@
             />
           </a-form-item>
           <a-form-item name="content" label="正文">
-            <article-editor v-model="editData.content" />
+            <article-editor v-model="newData.content" />
           </a-form-item>
           <a-form-item name="userId" label="作者">
             <author-select v-model="newData.userId" />
