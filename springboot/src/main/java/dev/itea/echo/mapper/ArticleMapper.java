@@ -24,4 +24,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
     List<UserRankVO> getUserArticleNumRankList();
 
     IPage<ArticleVO> getArticleByPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
+
+    ArticleVO getById(Integer id);
 }
