@@ -15,6 +15,16 @@ const generalRoutes = {
       path: '/user/:id',
       name: 'userProfile',
       component: () => import('@/views/page-home/user/UserProfile')
+    },
+    {
+      path: '/article/:id',
+      name: 'articleViewer',
+      component: () => import('@/views/page-home/article/articleViewer')
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('@/views/page-home/user/testView')
     }
   ]
 }
