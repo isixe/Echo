@@ -5,7 +5,7 @@ import userRoutes from './module/user'
 import { useUserStore } from '@/stores/user'
 import { useAdminStore } from '@/stores/admin'
 
-export const constantRoutes = [
+export let constantRoutes = [
   {
     path: '/login',
     name: 'login',
@@ -33,6 +33,8 @@ export const constantRoutes = [
   },
   { path: '/:pathMatch(.*)*', name: 'NoFound', redirect: '/404', hidden: true }
 ]
+
+constantRoutes = constantRoutes.concat(generalRoutes)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -90,8 +92,6 @@ router.beforeEach((to, from, next) => {
   return next()
 })
 
-// router.addRoute(adminRoutes)
-router.addRoute(generalRoutes)
 router.addRoute(adminRoutes)
 router.addRoute(userRoutes)
 export default router
