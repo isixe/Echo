@@ -26,4 +26,6 @@ public interface ArticleService extends IService<Article> {
     List<UserRankVO> getUserArticleNumRankList();
 
     IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword);
+
+    IPage<ArticleVO> getActiveArticleByPage(Pageable pageable, String keyword);
 }

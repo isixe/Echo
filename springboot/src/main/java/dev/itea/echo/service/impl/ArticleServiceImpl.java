@@ -73,4 +73,25 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         return articleMapper.getArticleByPage(page, wrapper);
     }
+
+    @Override
+    public IPage<ArticleVO> getActiveArticleByPage(Pageable pageable, String keyword) {
+        Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.eq("status", 1);
+
+        if (!ObjectUtils.isEmpty(keyword)) {
+            wrapper = wrapper.eq("status", 1)
+                    .like("title", keyword)
+                    .or()
+                    .like("content", keyword)
+                    .or()
+                    .like("u.name", keyword)
+                    .or()
+                    .like("category_name", keyword)
+                    .or()
+                    .like("tag", keyword);
+        }
+        return articleMapper.getArticleByPage(page, wrapper);
+    }
 }
