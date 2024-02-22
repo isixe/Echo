@@ -263,7 +263,6 @@
 
 <script setup>
 import dayjs from 'dayjs'
-import { marked } from 'marked'
 import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
@@ -435,10 +434,7 @@ const handleAddOk = () => {
   form.value
     .validate()
     .then(async () => {
-      newData.summary = marked
-        .parse(newData.content)
-        .replace(/<[^>]+>|\n/g, '')
-        .substring(0, 120)
+      newData.summary = newData.content.replace(/<[^>]+>|\n/g, '').substring(0, 120)
 
       const formData = new FormData()
       Object.keys(newData).forEach((key) => {
@@ -449,8 +445,6 @@ const handleAddOk = () => {
         'publishTime',
         DateTime.fromJSDate(newData.publishTime.$d).toFormat("yyyy-MM-dd'T'HH:mm:ss")
       )
-
-      formData.set('content', JSON.stringify(newData.content))
 
       add(formData)
         .then(() => {
@@ -509,8 +503,6 @@ const showEdit = async (record) => {
     editData[key] = record[key]
   })
 
-  editData['content'] = JSON.parse(editData['content'])
-
   editData['createdTime'] = dayjs(editData['createdTime'], 'YYYY-MM-DD HH:mm:ss')
   editData['publishTime'] = editData['publishTime']
     ? dayjs(editData['publishTime'], 'YYYY-MM-DD HH:mm:ss')
@@ -525,17 +517,12 @@ const handleEditOk = () => {
   form.value
     .validate()
     .then(async () => {
-      editData.summary = marked
-        .parse(editData.content)
-        .replace(/<[^>]+>|\n/g, '')
-        .substring(0, 120)
+      editData.summary = editData.content.replace(/<[^>]+>|\n/g, '').substring(0, 120)
 
       const formData = new FormData()
       Object.keys(editData).forEach((key) => {
         formData.append(key, editData[key])
       })
-
-      formData.set('content', JSON.stringify(editData.content))
 
       formData.set(
         'createdTime',
