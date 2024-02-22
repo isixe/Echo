@@ -48,6 +48,16 @@ onMounted(() => {
   ]
 })
 
+watch(categoryName, () => {
+  categoryOptions.value.push({
+    value: categoryId.value,
+    label: categoryName.value
+  })
+  categoryOptions.value = [
+    ...new Map(categoryOptions.value.map((item) => [item.id, item])).values()
+  ]
+})
+
 const filterOption = (input, option) => option.label.indexOf(input) >= 0
 
 const categorySearch = (value) => {

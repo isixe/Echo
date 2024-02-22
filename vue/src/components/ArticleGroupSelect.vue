@@ -49,6 +49,16 @@ onMounted(() => {
   })
 })
 
+watch(articleGroupName, () => {
+  articleGroupOptions.value.push({
+    value: articleGroupId.value,
+    label: articleGroupName.value
+  })
+  articleGroupOptions.value = [
+    ...new Map(articleGroupOptions.value.map((item) => [item.id, item])).values()
+  ]
+})
+
 watch(itemId, () => {
   articleGroupOptions.value.push({
     value: articleGroupId.value,
