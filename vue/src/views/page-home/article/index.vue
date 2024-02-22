@@ -105,7 +105,7 @@
 <script setup>
 import { EntryItem } from '@/views/page-home/components'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { getArticleListByKeyword, getUserRank } from '@/api/article'
+import { getActiveArticleListByKeyword, getUserRank } from '@/api/article'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
 library.add(faTags, faBullhorn, faRankingStar)
 
@@ -123,7 +123,7 @@ const rankList = ref([])
 onMounted(() => {
   getUserRank().then((res) => (rankList.value = res.data))
 
-  getArticleListByKeyword(params).then((res) => {
+  getActiveArticleListByKeyword(params).then((res) => {
     const data = res.data
     console.log(data)
     dataSource.value = data.records
