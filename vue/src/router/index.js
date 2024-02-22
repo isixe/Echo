@@ -34,7 +34,7 @@ export let constantRoutes = [
   { path: '/:pathMatch(.*)*', name: 'NoFound', redirect: '/404', hidden: true }
 ]
 
-constantRoutes = constantRoutes.concat(generalRoutes)
+constantRoutes = constantRoutes.concat(generalRoutes).concat(userRoutes)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -93,5 +93,4 @@ router.beforeEach((to, from, next) => {
 })
 
 router.addRoute(adminRoutes)
-router.addRoute(userRoutes)
 export default router

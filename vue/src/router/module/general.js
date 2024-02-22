@@ -29,11 +29,6 @@ const generalRoutes = [
         component: () => import('@/views/page-home/user/testView')
       }
     ]
-  },
-  {
-    path: '/article/edit',
-    name: 'articleEdit',
-    component: () => import('@/views/page-home/article/articleEdit')
   }
 ]
 
