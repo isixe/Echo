@@ -32,6 +32,9 @@ dependencies:
   '@wangeditor/editor-for-vue':
     specifier: ^5.1.12
     version: 5.1.12(@wangeditor/editor@5.1.23)(vue@3.4.15)
+  '@wangeditor/plugin-md':
+    specifier: ^1.0.0
+    version: 1.0.0(@wangeditor/editor@5.1.23)
   ant-design-vue:
     specifier: ~4.1.1
     version: 4.1.1(vue@3.4.15)
@@ -1387,6 +1390,14 @@ packages:
       dom7: 3.0.0
       slate: 0.72.8
       snabbdom: 3.6.2
+    dev: false
+
+  /@wangeditor/plugin-md@1.0.0(@wangeditor/editor@5.1.23):
+    resolution: {integrity: sha512-wpbusrhSNmb6keC5vmiaQ2nBBfiwwVWmfRp+zNB65nGrPHVRjaFQBNxTpGoL+rc02KCYdflzEbZAg+kzGtMXlQ==}
+    peerDependencies:
+      '@wangeditor/editor': '>=5.0.0'
+    dependencies:
+      '@wangeditor/editor': 5.1.23
     dev: false
 
   /@wangeditor/table-module@1.1.4(@wangeditor/core@1.1.19)(dom7@3.0.0)(lodash.isequal@4.5.0)(lodash.throttle@4.1.1)(nanoid@3.3.7)(slate@0.72.8)(snabbdom@3.6.2):
