@@ -13,6 +13,7 @@ import jakarta.annotation.Resource;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -32,13 +33,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     ArticleMapper articleMapper;
 
     @Override
-    @CacheEvict(cacheNames = "article", key = "#id")
+    @CacheEvict(cacheNames = "articleVO", key = "#id")
     public void delete(Integer id) {
         articleMapper.deleteById(id);
     }
 
     @Override
-    @CachePut(cacheNames = "article", key = "#article.id")
+    @CacheEvict(cacheNames = "article", key = "#article.id")
     public Article update(Article article) {
         articleMapper.updateById(article);
         return article;
@@ -46,8 +47,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     @Cacheable(cacheNames = "article", key = "#id")
-    public Article get(Integer id) {
-        return articleMapper.selectById(id);
+    public ArticleVO get(Integer id) {
+        return articleMapper.getById(id);
     }
 
     @Override

@@ -21,7 +21,7 @@ public interface ArticleService extends IService<Article> {
 
     Article update(Article article);
 
-    Article get(Integer id);
+    ArticleVO get(Integer id);
 
     List<UserRankVO> getUserArticleNumRankList();
 

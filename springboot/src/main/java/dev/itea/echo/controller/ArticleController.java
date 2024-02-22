@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Article;
+import dev.itea.echo.utils.MapstructMapperUtil;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -74,7 +75,8 @@ public class ArticleController {
     @PutMapping
     public void update(@Validated(UpdateValidationGroup.class) Article article) {
         //check article
-        Article checkArticle = articleService.get(article.getId());
+        ArticleVO articleVO = articleService.get(article.getId());
+        Article checkArticle = MapstructMapperUtil.INSTANCE.articleVOToArticle(articleVO);
         if (ObjectUtils.isEmpty(checkArticle)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
@@ -97,7 +99,7 @@ public class ArticleController {
     @DeleteMapping
     public void delete(Integer id) {
         //check article
-        Article checkArticle = articleService.get(id);
+        ArticleVO checkArticle = articleService.get(id);
         if (ObjectUtils.isEmpty(checkArticle)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
@@ -110,22 +112,21 @@ public class ArticleController {
      *
      * @param id 文章ID
      */
-    @Operation(summary = "文章查询（ID）", description = "后台文章查询", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（ID）", description = "前台文章查询", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
             })
-    @SaUserCheckLogin
+    @SaIgnore
     @GetMapping
-    public Article getById(Integer id) {
+    public ArticleVO get(Integer id) {
         //get article
-        Article article = articleService.get(id);
+        ArticleVO articleVO = articleService.get(id);
         //check article
-        if (ObjectUtils.isEmpty(article)) {
+        if (ObjectUtils.isEmpty(articleVO)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
-        return article;
+        return articleVO;
     }
-
 
     /**
      * 文章查询（分页&关键词）

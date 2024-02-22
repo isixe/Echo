@@ -1,7 +1,9 @@
 package dev.itea.echo.utils;
 
 import dev.itea.echo.dto.RegisterDTO;
+import dev.itea.echo.entity.Article;
 import dev.itea.echo.entity.User;
+import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.UserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -19,4 +21,6 @@ public interface MapstructMapperUtil {
     User registerDTOToUser(RegisterDTO registerDTO);
 
     UserVO userToUserVO(User user);
+
+    Article articleVOToArticle(ArticleVO articleVO);
 }
