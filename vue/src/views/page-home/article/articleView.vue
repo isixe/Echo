@@ -154,7 +154,6 @@ const data = ref()
 onMounted(() => {
   get({ id: route.params.id }).then((res) => {
     data.value = res.data
-    data.value.content = res.data.content
     console.log(res.data)
   })
 })
