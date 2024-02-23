@@ -114,6 +114,11 @@ const data = reactive({
 })
 
 onMounted(() => {
+  if (!data.userId) {
+    const store = useUserStore()
+    data.userId = store.id
+  }
+
   if (!route.query.id) {
     return
   }
@@ -123,7 +128,6 @@ onMounted(() => {
     })
 
     data.publishTime = dayjs(data.publishTime, 'YYYY-MM-DD HH:mm:ss')
-    console.log(res.data)
   })
 })
 
@@ -158,9 +162,6 @@ const postArticle = () => {
 }
 
 const addArticle = (formData) => {
-  const store = useUserStore()
-  formData.set('userId', store.id)
-
   add(formData)
     .then(() => {
       message.success('发布成功')

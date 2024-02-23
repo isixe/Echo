@@ -359,13 +359,24 @@ const deleteArticle = () => {
 }
 
 .content p,
+.content li,
 .content span {
   line-height: 1.8;
   margin: 0 0 15px;
   font-size: 16px;
 }
 
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  margin: 0 0 15px;
+}
+
 .content pre {
+  max-width: 670px;
   background-color: #f5f2f0;
   padding: 10px;
   border-radius: 4px 4px;
@@ -374,6 +385,7 @@ const deleteArticle = () => {
   border-color: #e8e8e8;
   text-indent: 0;
   margin-bottom: 15px;
+  overflow: scroll;
 }
 
 .content pre code {

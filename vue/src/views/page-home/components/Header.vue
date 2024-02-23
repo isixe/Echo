@@ -28,11 +28,13 @@
           <template #overlay>
             <a-menu>
               <a-menu-item key="1" style="display: grid">
-                <font-awesome-icon
-                  :icon="['fas', 'pen-to-square']"
-                  style="width: 20px; margin-left: -5px"
-                />
-                写文章
+                <RouterLink to="/article/edit">
+                  <font-awesome-icon
+                    :icon="['fas', 'pen-to-square']"
+                    style="width: 20px; margin-left: -5px"
+                  />
+                  写文章
+                </RouterLink>
               </a-menu-item>
               <a-menu-item key="2" style="display: grid">
                 <font-awesome-icon
