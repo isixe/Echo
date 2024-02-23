@@ -28,17 +28,17 @@
         <a-tabs class="nav-menu" v-model:activeKey="activeKey">
           <a-tab-pane key="1" tab="文章 22">
             <template v-for="n in 10" :key="n">
-              <EntryItem v-bind="user">{{ n }}</EntryItem>
+              <!-- <EntryItem v-bind="user">{{ n }}</EntryItem> -->
             </template>
           </a-tab-pane>
           <a-tab-pane key="2" tab="问答 23">
             <template v-for="n in 10" :key="n">
-              <EntryItem v-model="user"></EntryItem>
+              <!-- <EntryItem v-model="user"></EntryItem> -->
             </template>
           </a-tab-pane>
           <a-tab-pane key="3" tab="动态 12">
             <template v-for="n in 10" :key="n">
-              <EntryItem v-model="user"></EntryItem>
+              <!-- <EntryItem v-model="user"></EntryItem> -->
             </template>
           </a-tab-pane>
           <a-tab-pane key="4" tab="关注">
