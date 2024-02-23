@@ -74,16 +74,13 @@ instance.interceptors.response.use(
     const data = response.data
     switch (response.status) {
       case 401:
-        if (isRoleRoutes(userRoutes)) {
-          useUserStore().resetAction()
-          router.push('/login')
-        }
-
         if (isRoleRoutes(adminRoutes)) {
           useAdminStore().resetAction()
           router.push('/admin/login')
         }
 
+        useUserStore().resetAction()
+        router.push('/login')
         message.error('登录验证过期，请重新登录')
         break
       default:
