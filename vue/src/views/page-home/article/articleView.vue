@@ -100,14 +100,17 @@
         <div class="content-footer">
           <div class="tags-line">
             <span class="tag-title">文章标签：</span>
-            <a-tag
-              class="tag"
-              v-for="tag in data.tag.split(',')"
-              :key="tag"
-              :color="tag.length < 3 ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-            >
-              <a href="/tag?name=tag" target="_blank">{{ tag }}</a>
-            </a-tag>
+            <template v-if="data.tag">
+              <a-tag
+                class="tag"
+                v-for="tag in data.tag.split(',')"
+                :key="tag"
+                :color="tag.length < 3 ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
+              >
+                <a href="/tag?name=tag" target="_blank">{{ tag }}</a>
+              </a-tag>
+            </template>
+            <template v-else> 暂无标签 </template>
           </div>
 
           <div class="article-heart">

@@ -114,7 +114,7 @@ const current = ref(['latest'])
 
 const params = reactive({
   pageNum: 1,
-  pageSize: 20,
+  pageSize: 15,
   keyword: null
 })
 
