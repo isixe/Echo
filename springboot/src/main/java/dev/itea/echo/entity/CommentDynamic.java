@@ -2,6 +2,7 @@ package dev.itea.echo.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.io.Serial;
@@ -13,11 +14,11 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
-* 帖子评论表
-*
-* @author isixe
-* @since 2024-01-15
-*/
+ * 帖子评论表
+ *
+ * @author isixe
+ * @since 2024-01-15
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
@@ -35,7 +36,7 @@ public class CommentDynamic extends Model<CommentDynamic> {
     @TableField("user_id")
     private Integer userId;
 
-    @Schema(description = "帖子ID")
+    @Schema(description = "动态ID")
     @TableField("dynamic_id")
     private Integer dynamicId;
 
@@ -50,6 +51,14 @@ public class CommentDynamic extends Model<CommentDynamic> {
     @Schema(description = "评论内容")
     @TableField("content")
     private String content;
+
+    @Schema(description = "支持数")
+    @TableField("like_count")
+    private Integer likeCount;
+
+    @Schema(description = "否定数")
+    @TableField("dislike_count")
+    private Integer dislikeCount;
 
     @Schema(description = "发送时间")
     @TableField("created_time")

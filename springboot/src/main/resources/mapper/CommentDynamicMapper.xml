@@ -4,14 +4,16 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.CommentDynamic">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="post_id" property="postId" />
-        <result column="root_comment_id" property="rootCommentId" />
-        <result column="parent_comment_id" property="parentCommentId" />
-        <result column="content" property="content" />
-        <result column="created_time" property="createdTime" />
-        <result column="is_deleted" property="isDeleted" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="dynamic_id" property="dynamicId"/>
+        <result column="root_comment_id" property="rootCommentId"/>
+        <result column="parent_comment_id" property="parentCommentId"/>
+        <result column="content" property="content"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="dislike_count" property="dislikeCount"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
 </mapper>
