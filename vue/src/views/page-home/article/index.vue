@@ -23,7 +23,7 @@
         <a-layout-content class="article-items-container">
           <a-menu
             class="nav-menu"
-            v-model:selectedKeys="current"
+            v-model:selectedKeys="selectedKey"
             mode="horizontal"
             :items="items"
           />
@@ -105,31 +105,83 @@
 <script setup>
 import { EntryItem } from '@/views/page-home/components'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { getActiveArticleListByKeyword, getUserRank } from '@/api/article'
+import {
+  getActiveArticleListByKeyword,
+  getHotActiveArticleListByKeyword,
+  getUserRank
+} from '@/api/article'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
+import { useRoute } from 'vue-router'
 library.add(faTags, faBullhorn, faRankingStar)
 
+const route = useRoute()
+const router = useRouter()
 const dataSource = ref([])
-const current = ref(['latest'])
+const selectedKey = ref(['latest'])
 
 const params = reactive({
   pageNum: 1,
-  pageSize: 15,
-  keyword: null
+  pageSize: 15
 })
 
 const rankList = ref([])
 
+const getDataSource = (type) => {
+  switch (type) {
+    case 'latest':
+      getActiveArticleListByKeyword(params).then((res) => {
+        const data = res.data
+        dataSource.value = data.records
+        // pagination.total = data.total
+        // loading.value = false
+      })
+      break
+    case 'recommend':
+      break
+    case 'hot':
+      getHotActiveArticleListByKeyword(params).then((res) => {
+        const data = res.data
+        dataSource.value = data.records
+        // pagination.total = data.total
+        // loading.value = false
+      })
+      break
+    case 'subscribe':
+      break
+    default:
+      router.push('/article')
+      selectedKey.value = ['latest']
+  }
+}
+
 onMounted(() => {
   getUserRank().then((res) => (rankList.value = res.data))
 
-  getActiveArticleListByKeyword(params).then((res) => {
-    const data = res.data
-    console.log(data)
-    dataSource.value = data.records
-    // pagination.total = data.total
-    // loading.value = false
-  })
+  let type = route.query.type ? route.query.type : 'latest'
+
+  selectedKey.value = [type]
+  getDataSource(type)
+})
+
+watch(selectedKey, (key) => {
+  switch (key[0]) {
+    case 'latest':
+      router.push('/article')
+      getDataSource(key[0])
+      break
+    case 'recommend':
+      router.push({ path: '/article', query: { type: 'recommend' } })
+      getDataSource(key[0])
+      break
+    case 'hot':
+      router.push({ path: '/article', query: { type: 'hot' } })
+      getDataSource(key[0])
+      break
+    case 'subscribe':
+      router.push({ path: '/article', query: { type: 'subscribe' } })
+      getDataSource(key[0])
+      break
+  }
 })
 
 const items = ref([
