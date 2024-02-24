@@ -113,4 +113,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         return articleMapper.getHotArticleByPage(page, wrapper);
     }
+
+    @Override
+    public List<Article> getArticleListByTitle(String title) {
+        return articleMapper.getArticleByTitle(title);
+    }
 }

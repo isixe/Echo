@@ -30,4 +30,6 @@ public interface ArticleService extends IService<Article> {
     IPage<ArticleVO> getActiveArticleByPage(Pageable pageable, String keyword);
 
     IPage<ArticleVO> getActiveHotArticleByPage(Pageable pageable, String keyword);
+
+    List<Article> getArticleListByTitle(String title);
 }

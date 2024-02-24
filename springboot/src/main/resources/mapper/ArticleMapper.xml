@@ -200,4 +200,10 @@
         WHERE a.id = #{id}
           AND a.is_deleted = 0
     </select>
+
+    <select id="getArticleByTitle" resultType="dev.itea.echo.entity.Article" parameterType="string">
+        SELECT id, title
+        FROM article
+        WHERE title LIKE CONCAT('%', #{name}, '%') LIMIT 0, 10;
+    </select>
 </mapper>

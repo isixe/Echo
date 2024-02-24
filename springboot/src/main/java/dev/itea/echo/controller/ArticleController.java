@@ -127,6 +127,21 @@ public class ArticleController {
     }
 
     /**
+     * 文章模糊查询（标题）
+     *
+     * @param title 文章标题
+     */
+    @Operation(summary = "文章查询（ID）", description = "前台文章查询", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
+            })
+    @SaCheckLogin
+    @GetMapping("/getListByTitle")
+    public List<Article> getByTitle(String title) {
+        return articleService.getArticleListByTitle(title);
+    }
+
+    /**
      * 文章查询（分页&关键词&发布状态）
      *
      * @param pageDTO 分页数据传输对象

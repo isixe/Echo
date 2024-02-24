@@ -30,4 +30,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
     IPage<ArticleVO> getHotArticleByPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
 
     ArticleVO getById(Integer id);
+
+    List<Article> getArticleByTitle(String title);
 }
