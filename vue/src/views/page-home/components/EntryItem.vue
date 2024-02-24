@@ -70,15 +70,6 @@ const updateTime = dayjs(item.value.updateTime).fromNow()
   background-color: #f7f7ff;
 }
 
-.entry-item-picture {
-  border-radius: 4px;
-  height: 105px;
-  object-fit: cover;
-  vertical-align: middle;
-  width: 140px;
-  margin-top: -45px;
-}
-
 .item-message {
   display: flex;
   padding: 15px;
@@ -153,8 +144,6 @@ const updateTime = dayjs(item.value.updateTime).fromNow()
 .entry-item-picture {
   border-radius: 4px;
   height: 105px;
-  object-fit: cover;
-  vertical-align: middle;
   width: 140px;
   margin-top: -45px;
 }
