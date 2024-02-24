@@ -40,6 +40,14 @@ export function getActiveArticleListByKeyword(params) {
   })
 }
 
+export function getHotActiveArticleListByKeyword(params) {
+  return request({
+    url: '/article/queryAllHotActive',
+    method: 'get',
+    params
+  })
+}
+
 export function getArticleListByKeyword(params) {
   return request({
     url: '/article/queryAll',
