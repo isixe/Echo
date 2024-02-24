@@ -140,9 +140,26 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping("/queryAllActive")
-    public IPage<ArticleVO> getPageByStatusAndKeyword(@Validated PageDTO pageDTO) {
+    public IPage<ArticleVO> getActivePageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getActiveArticleByPage(pageable, pageDTO.getKeyword());
+    }
+
+    /**
+     * 文章查询（分页&关键词&发布状态）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "文章查询（分页&关键词）", description = "前台文章分页与关键词查询", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+            })
+    @SaIgnore
+    @GetMapping("/queryAllHotActive")
+    public IPage<ArticleVO> getActiveHotPageByKeyword(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getActiveHotArticleByPage(pageable, pageDTO.getKeyword());
     }
 
     /**

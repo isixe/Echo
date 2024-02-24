@@ -28,4 +28,6 @@ public interface ArticleService extends IService<Article> {
     IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword);
 
     IPage<ArticleVO> getActiveArticleByPage(Pageable pageable, String keyword);
+
+    IPage<ArticleVO> getActiveHotArticleByPage(Pageable pageable, String keyword);
 }

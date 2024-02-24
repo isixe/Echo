@@ -71,29 +71,29 @@
 
     <select id="getArticleByPage" resultMap="ArticleListResultMap">
         SELECT a.id,
-               a.featured_pic,
-               a.title,
-               a.summary,
-               a.content,
-               a.article_group_id,
-               u.id            AS user_id,
-               u.`name`        AS author,
-               u.`avatar`,
-               c.category_name AS category,
-               c.id            AS category_id,
-               a.tag,
-               g.name          AS article_group_name,
-               a.`status`,
-               a.`pv_count`,
-               a.`like_count`,
-               a.`collecion_count`,
-               a.`created_time`,
-               a.`publish_time`,
-               a.`update_time`
+        a.featured_pic,
+        a.title,
+        a.summary,
+        a.content,
+        a.article_group_id,
+        u.id AS user_id,
+        u.`name` AS author,
+        u.`avatar`,
+        c.category_name AS category,
+        c.id AS category_id,
+        a.tag,
+        g.name AS article_group_name,
+        a.`status`,
+        a.`pv_count`,
+        a.`like_count`,
+        a.`collecion_count`,
+        a.`created_time`,
+        a.`publish_time`,
+        a.`update_time`
         FROM article AS a
-                 JOIN `user` AS u ON a.user_id = u.id
-                 JOIN category AS c ON a.category_id = c.id
-                 LEFT JOIN group_article AS g ON a.article_group_id = g.id
+        JOIN `user` AS u ON a.user_id = u.id
+        JOIN category AS c ON a.category_id = c.id
+        LEFT JOIN group_article AS g ON a.article_group_id = g.id
         <if test="ew.customSqlSegment.length>0">
             ${ew.customSqlSegment}
             AND a.is_deleted = 0
@@ -103,6 +103,75 @@
         </if>
         ORDER BY a.update_time DESC
     </select>
+
+    <select id="getActiveArticleByPage" resultMap="ArticleListResultMap">
+        SELECT a.id,
+        a.featured_pic,
+        a.title,
+        a.summary,
+        a.article_group_id,
+        u.id AS user_id,
+        u.`name` AS author,
+        u.`avatar`,
+        c.category_name AS category,
+        c.id AS category_id,
+        a.tag,
+        g.name AS article_group_name,
+        a.`status`,
+        a.`pv_count`,
+        a.`like_count`,
+        a.`collecion_count`,
+        a.`created_time`,
+        a.`publish_time`,
+        a.`update_time`
+        FROM article AS a
+        JOIN `user` AS u ON a.user_id = u.id
+        JOIN category AS c ON a.category_id = c.id
+        LEFT JOIN group_article AS g ON a.article_group_id = g.id
+        <if test="ew.customSqlSegment.length>0">
+            ${ew.customSqlSegment}
+            AND a.is_deleted = 0
+        </if>
+        <if test="!ew.customSqlSegment.length>0">
+            WHERE a.is_deleted = 0
+        </if>
+        ORDER BY a.update_time DESC
+    </select>
+
+    <select id="getHotArticleByPage" resultMap="ArticleListResultMap">
+        SELECT a.id,
+        a.featured_pic,
+        a.title,
+        a.summary,
+        a.article_group_id,
+        u.id AS user_id,
+        u.`name` AS author,
+        u.`avatar`,
+        c.category_name AS category,
+        c.id AS category_id,
+        a.tag,
+        g.name AS article_group_name,
+        a.`status`,
+        a.`pv_count`,
+        a.`like_count`,
+        a.`collecion_count`,
+        a.`created_time`,
+        a.`publish_time`,
+        a.`update_time`
+        FROM article AS a
+        JOIN `user` AS u ON a.user_id = u.id
+        JOIN category AS c ON a.category_id = c.id
+        LEFT JOIN group_article AS g ON a.article_group_id = g.id
+        <if test="ew.customSqlSegment.length>0">
+            ${ew.customSqlSegment}
+            AND a.is_deleted = 0
+        </if>
+        <if test="!ew.customSqlSegment.length>0">
+            WHERE a.is_deleted = 0
+        </if>
+        ORDER BY a.`pv_count` DESC, a.`like_count`
+    </select>
+
     <select id="getById" resultType="dev.itea.echo.vo.ArticleVO" parameterType="integer">
         SELECT a.id,
                a.featured_pic,
@@ -129,6 +198,6 @@
                  JOIN category AS c ON a.category_id = c.id
                  LEFT JOIN group_article AS g ON a.article_group_id = g.id
         WHERE a.id = #{id}
-        AND a.is_deleted = 0
+          AND a.is_deleted = 0
     </select>
 </mapper>

@@ -25,5 +25,9 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     IPage<ArticleVO> getArticleByPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
 
+    IPage<ArticleVO> getActiveArticleByPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
+
+    IPage<ArticleVO> getHotArticleByPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
+
     ArticleVO getById(Integer id);
 }
