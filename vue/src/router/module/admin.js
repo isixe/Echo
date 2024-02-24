@@ -27,7 +27,7 @@ const adminRoutes = {
       component: () => import('@/views/page-admin/permission/roleList')
     },
     {
-      path: '/permission/commentArticleList',
+      path: '/system/commentArticleList',
       name: 'commentArticleList',
       component: () => import('@/views/page-admin/system/commentArticle')
     }
