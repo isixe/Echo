@@ -32,6 +32,14 @@ export function get(params) {
   })
 }
 
+export function getArticleListByName(params) {
+  return request({
+    url: '/article/getListByTitle',
+    method: 'get',
+    params
+  })
+}
+
 export function getActiveArticleListByKeyword(params) {
   return request({
     url: '/article/queryAllActive',
