@@ -80,8 +80,11 @@
               <RouterLink :to="'/category/' + data.categoryId" class="category-container">
                 {{ data.category }}
               </RouterLink>
-              <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
               <template v-if="data.userId === userId">
+                <a-divider
+                  type="vertical"
+                  style="height: 15px; top: 0; background-color: #e1cee7"
+                />
                 <RouterLink :to="{ path: '/article/edit', query: { id: data.id } }">
                   编辑
                 </RouterLink>
@@ -127,14 +130,34 @@
                   <span class="action-hover"><ShareAltOutlined /></span>
                   <span class="action-hover"><StarOutlined /></span>
                   <span class="action-hover"><LikeOutlined /></span>
-                  <span class="action-hover"><MessageOutlined /></span>
+                  <span class="action-hover"
+                    ><a href="#comment"><MessageOutlined /></a
+                  ></span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="comment-box" id="comment">
+        <a-textarea v-model:value="postContent" />
+        <div class="button-box">
+          <a-button type="primary" style="background-color: #4d45e5" @click="postComment()"
+            >发布评论</a-button
+          >
+        </div>
+        <div>
+          <template v-for="comment in commentData" :key="comment">
+            <article-comment-item
+              :comment="comment"
+              v-model="data.userId"
+              @onCommentUpdate="queryComment()"
+            />
+          </template>
+        </div>
+      </div>
     </div>
+
     <div class="sidebar-right"></div>
   </div>
 </template>
@@ -145,7 +168,9 @@ import { get } from '@/api/article'
 import { remove } from '@/api/article'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
+import { add, getCommentArticleRootList } from '@/api/articleComment'
 import { useUserStore } from '@/stores/user'
+import { ArticleCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
@@ -153,13 +178,22 @@ const store = useUserStore()
 const userId = store.id
 const route = useRoute()
 const data = ref()
+const postContent = ref()
+const commentData = ref()
 
-onMounted(() => {
-  get({ id: route.params.id }).then((res) => {
+onMounted(async () => {
+  await get({ id: route.params.id }).then((res) => {
     data.value = res.data
-    console.log(res.data)
   })
+
+  queryComment()
 })
+
+const queryComment = () => {
+  getCommentArticleRootList({ articleId: data.value.id }).then((res) => {
+    commentData.value = res.data
+  })
+}
 
 const deleteArticle = () => {
   Modal.confirm({
@@ -177,6 +211,17 @@ const deleteArticle = () => {
         router.push('/article')
       })
     }
+  })
+}
+
+const postComment = () => {
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('articleId', data.value.id)
+  formData.append('content', postContent.value)
+  add(formData).then(() => {
+    message.success('发布成功')
+    queryComment()
   })
 }
 </script>
@@ -219,13 +264,14 @@ const deleteArticle = () => {
 .container {
   flex: 1;
   margin: 10px auto;
-  background-color: #ffffff;
   border-radius: 4px;
   position: relative;
 }
 
 .content {
+  background-color: #ffffff;
   padding: 30px 30px 0 30px;
+  border-radius: 4px;
 }
 
 .title {
@@ -252,6 +298,7 @@ const deleteArticle = () => {
 
 .featuredPic {
   height: 300px;
+  background-color: #ffffff;
 }
 
 .featuredPic img {
@@ -265,6 +312,7 @@ const deleteArticle = () => {
 
 .featuredPic-thin {
   height: 170px;
+  background-color: #ffffff;
 }
 
 .title-thin {
@@ -334,8 +382,24 @@ const deleteArticle = () => {
   background-color: #f1f1ff;
 }
 
-.action-hover:hover {
+.action-hover a {
+  color: #000000;
+}
+
+.action-hover a:hover {
   color: #4d45e5;
+  cursor: pointer;
+}
+
+.comment-box {
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 4px;
+}
+
+.comment-box .button-box {
+  text-align: right;
+  margin: 20px 0;
 }
 </style>
 
