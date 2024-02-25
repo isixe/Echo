@@ -1,6 +1,9 @@
 package dev.itea.echo.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -8,14 +11,14 @@ import lombok.experimental.Accessors;
 import java.time.LocalDateTime;
 
 /**
- * 文章评论值对象
+ * 文章评论顶级评论值对象
  *
  * @author: isixe
- * @create: 2024-02-24 14:26
+ * @create: 2024-02-25 15:16
  **/
 @Data
 @Accessors(chain = true)
-public class CommentArticleVO {
+public class RootCommentArticleVO {
 
     @Schema(description = "ID")
     private Integer id;
@@ -31,15 +34,6 @@ public class CommentArticleVO {
 
     @Schema(description = "文章ID")
     private Integer articleId;
-
-    @Schema(description = "文章标题")
-    private String articleTitle;
-
-    @Schema(description = "顶层评论ID")
-    private Integer rootCommentId;
-
-    @Schema(description = "关联父评论ID")
-    private Integer parentCommentId;
 
     @Schema(description = "评论内容")
     private String content;
