@@ -32,6 +32,22 @@ export function get(params) {
   })
 }
 
+export function getCommentArticleRootList(params) {
+  return request({
+    url: '/commentArticle/getRootCommentByArticleId',
+    method: 'get',
+    params
+  })
+}
+
+export function getCommentArticleChildList(params) {
+  return request({
+    url: '/commentArticle/getChildCommentByRootId',
+    method: 'get',
+    params
+  })
+}
+
 export function getCommentArticleListByKeyword(params) {
   return request({
     url: '/commentArticle/queryAll',
