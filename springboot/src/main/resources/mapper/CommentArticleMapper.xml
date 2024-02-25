@@ -31,15 +31,38 @@
         <result column="created_time" property="createdTime"/>
     </resultMap>
 
+    <resultMap id="RootCommentArticleVOResultMap" type="dev.itea.echo.vo.RootCommentArticleVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="article_id" property="articleId"/>
+        <result column="content" property="content"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="dislike_count" property="dislikeCount"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <resultMap id="ChildCommentArticleVOResultMap" type="dev.itea.echo.vo.ChildCommentArticleVO">
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="parent_comment_id" property="parentCommentId"/>
+        <result column="parent_user_id" property="parentUserId"/>
+        <result column="parent_user_name" property="parentUserName"/>
+        <result column="content" property="content"/>
+        <result column="parent_content" property="parentContent"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="dislike_count" property="dislikeCount"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
     <select id="getArticleCommentByPage" resultMap="CommentArticleVOResultMap">
         SELECT ca.id,
         ca.user_id,
         u.name AS user_name,
         u.avatar,
         ca.article_id,
-        a.title AS article_title,
-        ca.root_comment_id,
-        ca.parent_comment_id,
         ca.content,
         ca.like_count,
         ca.dislike_count,
@@ -57,5 +80,43 @@
         ORDER BY ca.created_time DESC
     </select>
 
+    <select id="getRootListByArticleId" resultMap="RootCommentArticleVOResultMap">
+        SELECT ca.id,
+               ca.user_id,
+               u.name  AS user_name,
+               u.avatar,
+               a.title AS article_title,
+               ca.article_id,
+               ca.root_comment_id,
+               ca.parent_comment_id,
+               ca.content,
+               ca.like_count,
+               ca.dislike_count,
+               ca.created_time
+        FROM comment_article AS ca
+                 JOIN `user` AS u ON u.id = ca.user_id
+                 JOIN article AS a on a.id = ca.article_id ${ew.customSqlSegment}
+            AND ca.is_deleted = 0
+        ORDER BY ca.created_time DESC
+    </select>
 
+    <select id="getChildListByArticleId" resultMap="ChildCommentArticleVOResultMap">
+        SELECT ca.id,
+               ca.user_id,
+               u.name                                          AS user_name,
+               u.avatar,
+               ca.parent_comment_id,
+               cb.user_id                                      AS parent_user_id,
+               (SELECT name FROM `user` WHERE id = cb.user_id) AS parent_user_name,
+               ca.content,
+               cb.content                                      AS parent_content,
+               ca.like_count,
+               ca.dislike_count,
+               ca.created_time
+        FROM comment_article AS ca
+                 JOIN `user` AS u ON u.id = ca.user_id
+                 JOIN comment_article AS cb ON cb.id = ca.parent_comment_id ${ew.customSqlSegment}
+            AND ca.is_deleted = 0
+        ORDER BY ca.created_time
+    </select>
 </mapper>

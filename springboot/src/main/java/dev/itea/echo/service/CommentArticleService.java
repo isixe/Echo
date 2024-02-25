@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.CommentArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
 import dev.itea.echo.vo.ArticleVO;
+import dev.itea.echo.vo.ChildCommentArticleVO;
 import dev.itea.echo.vo.CommentArticleVO;
+import dev.itea.echo.vo.RootCommentArticleVO;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * 文章评论表 服务类
@@ -22,4 +26,8 @@ public interface CommentArticleService extends IService<CommentArticle> {
     void delete(Integer id);
 
     IPage<CommentArticleVO> getArticleByPage(Pageable pageable, String keyword);
+
+    List<RootCommentArticleVO> getRootListByArticleId(Integer id);
+
+    List<ChildCommentArticleVO> getChildListByArticleId(Integer rootId);
 }

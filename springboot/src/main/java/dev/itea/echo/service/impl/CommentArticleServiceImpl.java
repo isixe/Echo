@@ -8,7 +8,9 @@ import dev.itea.echo.mapper.CommentArticleMapper;
 import dev.itea.echo.service.CommentArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import dev.itea.echo.vo.ArticleVO;
+import dev.itea.echo.vo.ChildCommentArticleVO;
 import dev.itea.echo.vo.CommentArticleVO;
+import dev.itea.echo.vo.RootCommentArticleVO;
 import jakarta.annotation.Resource;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -16,6 +18,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.List;
 
 /**
  * 文章评论表 服务实现类
@@ -60,5 +64,17 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
                     .like("a.title", keyword);
         }
         return commentArticleMapper.getArticleCommentByPage(page, wrapper);
+    }
+
+    @Override
+    public List<RootCommentArticleVO> getRootListByArticleId(Integer id) {
+        return commentArticleMapper.getRootListByArticleId(new QueryWrapper<RootCommentArticleVO>()
+                .eq("ca.article_id", id).isNull("ca.root_comment_id"));
+    }
+
+    @Override
+    public List<ChildCommentArticleVO> getChildListByArticleId(Integer rootId) {
+        return commentArticleMapper.getChildListByArticleId(new QueryWrapper<ChildCommentArticleVO>()
+                .eq("ca.root_comment_id", rootId).isNotNull("ca.root_comment_id"));
     }
 }

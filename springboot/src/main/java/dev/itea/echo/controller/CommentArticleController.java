@@ -13,7 +13,9 @@ import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
 import dev.itea.echo.vo.ArticleVO;
+import dev.itea.echo.vo.ChildCommentArticleVO;
 import dev.itea.echo.vo.CommentArticleVO;
+import dev.itea.echo.vo.RootCommentArticleVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Resource;
@@ -22,6 +24,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 文章评论控制器
@@ -118,6 +122,36 @@ public class CommentArticleController {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         return commentArticle;
+    }
+
+    /**
+     * 文章评论查询（文章ID）
+     *
+     * @param articleId 文章ID
+     */
+    @Operation(summary = "文章评论查询（文章ID）", description = "文章评论顶级列表查询", tags = "CommentArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/getRootCommentByArticleId")
+    public List<RootCommentArticleVO> getRootListByArticleId(Integer articleId) {
+        return commentArticleService.getRootListByArticleId(articleId);
+    }
+
+    /**
+     * 文章评论查询（文章评论rootId）
+     *
+     * @param rootId 文章评论rootId
+     */
+    @Operation(summary = "文章评论查询（rootId）", description = "文章评论次级列表查询", tags = "CommentArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "文章顶级评论ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/getChildCommentByRootId")
+    public List<ChildCommentArticleVO> getChildListByRootId(Integer rootId) {
+        return commentArticleService.getChildListByArticleId(rootId);
     }
 
     /**
