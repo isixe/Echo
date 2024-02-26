@@ -87,12 +87,11 @@
                 </span>
               </div>
               <div class="recommend-content">
-                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-                <RouterLink to="/categoty/xxx"> 类别1 </RouterLink>
-                <RouterLink to="/categoty/xxx"> 类别 </RouterLink>
+                <template v-for="category in recommendCategory" :key="category.id">
+                  <RouterLink :to="'/category/' + category.id">
+                    {{ category.categoryName }}
+                  </RouterLink>
+                </template>
               </div>
             </div>
           </div>
@@ -110,14 +109,15 @@ import {
   getHotActiveArticleListByKeyword,
   getUserRank
 } from '@/api/article'
+import { getCategoryListByKeyword } from '@/api/category'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
-import { useRoute } from 'vue-router'
 library.add(faTags, faBullhorn, faRankingStar)
 
 const route = useRoute()
 const router = useRouter()
 const dataSource = ref([])
 const selectedKey = ref(['latest'])
+const recommendCategory = ref([])
 
 const params = reactive({
   pageNum: 1,
@@ -161,6 +161,10 @@ onMounted(() => {
 
   selectedKey.value = [type]
   getDataSource(type)
+
+  getCategoryListByKeyword({ pageSize: 6 }).then((res) => {
+    recommendCategory.value = res.data.records
+  })
 })
 
 watch(selectedKey, (key) => {
