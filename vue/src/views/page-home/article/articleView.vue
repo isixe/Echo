@@ -1,11 +1,38 @@
 <template>
   <div class="main">
     <div class="sidebar-left">
-      <div class="group-card" v-if="data && data.articleGroupName">
-        <div class="group-title">合集</div>
-        <div class="group-content"></div>
+      <div class="sticky-card">
+        <div class="group-card" v-if="data && data.articleGroupName">
+          <div class="group-title">合集</div>
+          <div class="group-content" v-show="groupArticleList">
+            <div v-for="article in groupArticleList" :key="article.id">
+              <template v-if="data && data.id === article.id">
+                <a :href="'/article/' + article.id">
+                  <div class="group-item item-active">
+                    <span>
+                      <BookOutlined style="margin-right: 3px; margin-top: 5px" />
+                    </span>
+                    <span>
+                      {{ article.title }}
+                    </span>
+                  </div>
+                </a>
+              </template>
+              <template v-else>
+                <a :href="'/article/' + article.id">
+                  <div class="group-item">
+                    <BookOutlined style="margin-right: 3px; margin-top: 5px" />
+                    {{ article.title }}
+                  </div>
+                </a>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="contents-card">
+          <div class="contents-title">目录</div>
+        </div>
       </div>
-      <div class="title-card"></div>
     </div>
     <div class="container" v-if="data">
       <div>
@@ -164,7 +191,7 @@
 
 <script setup>
 import { createVNode } from 'vue'
-import { get } from '@/api/article'
+import { get, getArticleListByGroupId } from '@/api/article'
 import { remove } from '@/api/article'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
@@ -178,12 +205,17 @@ const store = useUserStore()
 const userId = store.id
 const route = useRoute()
 const data = ref()
-const postContent = ref()
-const commentData = ref()
+const postContent = ref('')
+const commentData = ref([])
+const groupArticleList = ref([])
 
 onMounted(async () => {
   await get({ id: route.params.id }).then((res) => {
     data.value = res.data
+  })
+
+  getArticleListByGroupId({ groupId: data.value.articleGroupId }).then((res) => {
+    groupArticleList.value = res.data
   })
 
   queryComment()
@@ -238,15 +270,29 @@ const postComment = () => {
   margin: 10px;
 }
 
-.group-card,
-.title-card {
+.sticky-card {
+  position: sticky;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.group-card {
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  max-height: 50vh;
+}
+
+.contents-card {
   background-color: #ffffff;
   margin-bottom: 15px;
   border-radius: 4px;
-  height: 200px;
+  flex: 1;
 }
 
-.group-title {
+.group-title,
+.contents-title {
   font-weight: 700;
   font-size: 16px;
   padding: 0 15px;
@@ -400,6 +446,49 @@ const postComment = () => {
 .comment-box .button-box {
   text-align: right;
   margin: 20px 0;
+}
+
+.group-content {
+  padding: 5px 15px 10px 15px;
+  font-size: 14px;
+  overflow: scroll;
+}
+
+.group-item {
+  padding: 5px 5px 5px 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.item-active {
+  background-color: #f7f7ff;
+  color: #000;
+}
+
+.group-content a {
+  color: #666;
+}
+
+.group-content a:hover {
+  color: #4d45e5;
+}
+
+.group-item a:hover {
+  color: #4d45e5;
+}
+
+.group-item:hover {
+  background-color: #f7f7ff;
+}
+
+@media screen and (max-width: 1200px) {
+  .sidebar-left {
+    display: none;
+  }
+
+  .container {
+    margin-left: 10px;
+  }
 }
 </style>
 
