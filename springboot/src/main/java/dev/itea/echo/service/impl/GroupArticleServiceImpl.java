@@ -69,4 +69,11 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
         return groupArticleMapper.selectPage(page, wrapper);
     }
 
+    @Override
+    public GroupArticle getByUserIdAndGroupName(Integer userId, String groupName) {
+        return groupArticleMapper.selectOne(new QueryWrapper<GroupArticle>()
+                .eq("user_id", userId)
+                .eq("name", groupName));
+    }
+
 }

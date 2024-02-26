@@ -178,8 +178,6 @@ public class GroupArticleController {
     @SaIgnore
     @GetMapping("getByUserIdAndGroupName")
     public GroupArticle getByUserIdAndGroupName(Integer userId, String groupName) {
-        return groupArticleService.getOne(new QueryWrapper<GroupArticle>()
-                .eq("user_id", userId)
-                .eq("name", groupName));
+        return groupArticleService.getByUserIdAndGroupName(userId,groupName);
     }
 }

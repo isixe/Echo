@@ -26,4 +26,6 @@ public interface GroupArticleService extends IService<GroupArticle> {
     List<Map<String, Object>> getGroupArticleByUserId(Integer userId);
 
     IPage<GroupArticle> getGroupArticleByPage(Pageable pageable, String keyword);
+
+    GroupArticle getByUserIdAndGroupName(Integer userId, String groupName);
 }
