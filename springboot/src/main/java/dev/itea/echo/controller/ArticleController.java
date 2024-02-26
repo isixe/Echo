@@ -127,6 +127,21 @@ public class ArticleController {
     }
 
     /**
+     * 文章查询（文章分类ID）
+     *
+     * @param groupId 文章分组ID
+     */
+    @Operation(summary = "文章查询（文章分组ID）", description = "前台根据文章分组ID查询文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "文章分组ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/getListByGroupId")
+    public List<Article> getListByGroupId(Integer groupId) {
+        return articleService.getListByGroupId(groupId);
+    }
+
+    /**
      * 文章模糊查询（标题）
      *
      * @param title 文章标题

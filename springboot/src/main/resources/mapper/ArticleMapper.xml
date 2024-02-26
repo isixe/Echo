@@ -206,4 +206,12 @@
         FROM article
         WHERE title LIKE CONCAT('%', #{name}, '%') LIMIT 0, 10;
     </select>
+
+    <select id="getListByGroupId" resultMap="BaseResultMap" parameterType="integer">
+        SELECT a.id, title
+        FROM article as a
+                 JOIN group_article ga on a.article_group_id = ga.id
+        WHERE ga.id = #{groupId}
+        ORDER BY a.created_time
+    </select>
 </mapper>

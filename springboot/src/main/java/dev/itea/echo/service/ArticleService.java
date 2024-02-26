@@ -23,6 +23,8 @@ public interface ArticleService extends IService<Article> {
 
     ArticleVO get(Integer id);
 
+    List<Article> getListByGroupId(Integer groupId);
+
     List<UserRankVO> getUserArticleNumRankList();
 
     IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword);

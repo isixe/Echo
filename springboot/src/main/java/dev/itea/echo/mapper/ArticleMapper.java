@@ -21,7 +21,6 @@ import java.util.List;
  * @since 2024-01-15
  */
 public interface ArticleMapper extends BaseMapper<Article> {
-    List<UserRankVO> getUserArticleNumRankList();
 
     IPage<ArticleVO> getArticleByPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
 
@@ -32,4 +31,9 @@ public interface ArticleMapper extends BaseMapper<Article> {
     ArticleVO getById(Integer id);
 
     List<Article> getArticleByTitle(String title);
+
+    List<Article> getListByGroupId(Integer groupId);
+
+    List<UserRankVO> getUserArticleNumRankList();
+
 }

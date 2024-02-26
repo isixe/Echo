@@ -160,7 +160,7 @@ public class GroupArticleController {
                     @Parameter(name = "userId", description = "文章分组所属用户ID", required = true, example = "1"),
             })
     @SaIgnore
-    @GetMapping("getByUserId")
+    @GetMapping("/getByUserId")
     public List<Map<String, Object>> getByUserId(Integer userId) {
         return groupArticleService.getGroupArticleByUserId(userId);
     }
@@ -176,7 +176,7 @@ public class GroupArticleController {
                     @Parameter(name = "groupName", description = "文章分组名称", required = true, example = "分组名"),
             })
     @SaIgnore
-    @GetMapping("getByUserIdAndGroupName")
+    @GetMapping("/getByUserIdAndGroupName")
     public GroupArticle getByUserIdAndGroupName(Integer userId, String groupName) {
         return groupArticleService.getByUserIdAndGroupName(userId,groupName);
     }
