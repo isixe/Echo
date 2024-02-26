@@ -16,7 +16,15 @@
       :scroll="{ x: 1000 }"
     >
       <template #bodyCell="{ column, text, record }">
-        {{ text }}
+        <template v-if="column.dataIndex === 'rootCommentId' && !record.rootCommentId"
+          ><span></span
+        ></template>
+        <template v-else-if="column.dataIndex === 'parentCommentId' && !record.parentCommentId"
+          ><span></span
+        ></template>
+        <template v-else>
+          {{ text }}
+        </template>
         <template v-if="column.dataIndex === 'action'">
           <span>
             <span>
@@ -217,6 +225,7 @@ const queryData = async (params) => {
     dataSource.value = data.records
     pagination.total = data.total
     loading.value = false
+    console.log(res.data)
   })
 }
 
