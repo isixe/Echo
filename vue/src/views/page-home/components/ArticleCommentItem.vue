@@ -33,8 +33,12 @@
         <p>{{ comment.content }}</p>
       </div>
       <div class="footer-info">
-        <a @click="likeComment()"
+        <a @click="likeComment(comment.id)"
           ><span> <LikeOutlined /> {{ comment.likeCount }} </span></a
+        >
+        <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
+        <a @click="dislikeComment(comment.id)"
+          ><span> <DislikeOutlined /> {{ comment.dislikeCount }} </span></a
         >
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
         <a
@@ -96,8 +100,12 @@
               </p>
             </div>
             <div class="footer-info">
-              <a @click="likeComment()"
+              <a @click="likeComment(child.id)"
                 ><span> <LikeOutlined /> {{ child.likeCount }} </span></a
+              >
+              <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
+              <a @click="dislikeComment(child.id)"
+                ><span> <DislikeOutlined /> {{ child.dislikeCount }} </span></a
               >
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
               <a
@@ -198,8 +206,12 @@ const postComment = (formData) => {
   })
 }
 
-const likeComment = () => {
+const likeComment = (commentId) => {
   alert('支持')
+}
+
+const dislikeComment = (commentId) => {
+  alert('不支持')
 }
 </script>
 
