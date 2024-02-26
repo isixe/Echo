@@ -32,6 +32,14 @@ export function get(params) {
   })
 }
 
+export function getArticleListByGroupId(params) {
+  return request({
+    url: '/article/getListByGroupId',
+    method: 'get',
+    params
+  })
+}
+
 export function getArticleListByName(params) {
   return request({
     url: '/article/getListByTitle',
