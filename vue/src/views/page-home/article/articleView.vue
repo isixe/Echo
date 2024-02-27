@@ -31,6 +31,9 @@
         </div>
         <div class="contents-card">
           <div class="contents-title">目录</div>
+          <div class="contents-content">
+            <div id="toc-content"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -126,7 +129,7 @@
         </template>
       </div>
       <div class="content">
-        <div class="content-top" v-html="data.content"></div>
+        <div class="content-top"></div>
         <div class="content-footer">
           <div class="tags-line">
             <span class="tag-title">文章标签：</span>
@@ -190,7 +193,8 @@
 </template>
 
 <script setup>
-import { createVNode } from 'vue'
+import tocbot from 'tocbot'
+import { createVNode, watch } from 'vue'
 import { get, getArticleListByGroupId } from '@/api/article'
 import { remove } from '@/api/article'
 import { Modal } from 'ant-design-vue'
@@ -209,10 +213,36 @@ const postContent = ref('')
 const commentData = ref([])
 const groupArticleList = ref([])
 
+tocbot.init({
+  tocSelector: '#toc-content',
+  contentSelector: '.content-top',
+  headingSelector: 'h1, h2, h3, h4, h5, h6'
+})
+
 onMounted(async () => {
   await get({ id: route.params.id }).then((res) => {
     data.value = res.data
   })
+
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(data.value.content, 'text/html')
+  const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6')
+  const headingIds = {}
+  const tagCounts = {}
+  headings.forEach((heading) => {
+    const tagName = heading.tagName.toLowerCase()
+    const baseId = `toc-${tagName}`
+
+    tagCounts[tagName] = !tagCounts[tagName] ? 1 : tagCounts[tagName] + 1
+
+    const id = tagCounts[tagName] > 1 ? `${baseId}-${tagCounts[tagName]}` : baseId
+
+    headingIds[id] = true
+    heading.setAttribute('id', id)
+  })
+
+  document.querySelector('.content-top').innerHTML = doc.body.innerHTML
+  tocbot.refresh()
 
   getArticleListByGroupId({ groupId: data.value.articleGroupId }).then((res) => {
     groupArticleList.value = res.data
@@ -481,6 +511,10 @@ const postComment = () => {
   background-color: #f7f7ff;
 }
 
+#toc-content {
+  padding: 0 15px 15px 15px;
+}
+
 @media screen and (max-width: 1200px) {
   .sidebar-left {
     display: none;
@@ -566,5 +600,29 @@ const postComment = () => {
   white-space: pre;
   word-break: normal;
   word-spacing: normal;
+}
+
+.toc-list a {
+  color: #666;
+}
+
+.toc-list a:hover {
+  color: #4d45e5;
+}
+
+.is-active-link {
+  color: #4d45e5 !important;
+}
+
+.toc-list-item {
+  padding: 3px 0;
+}
+
+.is-active-li {
+  background: #f7f7ff;
+}
+
+.toc-list {
+  padding-left: 20px;
 }
 </style>
