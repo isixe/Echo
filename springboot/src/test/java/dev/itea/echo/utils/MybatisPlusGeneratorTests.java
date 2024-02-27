@@ -41,9 +41,9 @@ public class MybatisPlusGeneratorTests {
     @Test
     void generatorload() {
         // 作者
-        String author = "";
+        String author = "isixe";
         //单表名称
-        String tableName = "user";
+        String tableName = "question_thumb";
         // 启动
         MybatisPlusGenerator generator = new MybatisPlusGenerator(dbUrl, dbUsername, dbPassword);
         generator.generate(tableName, author);

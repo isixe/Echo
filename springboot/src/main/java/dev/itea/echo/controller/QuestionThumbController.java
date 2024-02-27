@@ -5,14 +5,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- * 收藏分组表 前端控制器
+ *  前端控制器
  * </p>
  *
  * @author isixe
- * @since 2024-01-15
+ * @since 2024-02-27
  */
 @RestController
-@RequestMapping("/api/v0/group-collection")
-public class GroupCollectionController {
+@RequestMapping("/question-thumb")
+public class QuestionThumbController {
 
 }
