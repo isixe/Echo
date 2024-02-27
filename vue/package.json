@@ -32,6 +32,7 @@
     "normalize.css": "^8.0.1",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
+    "tocbot": "^4.25.0",
     "vue": "^3.4.15",
     "vue-echarts": "^6.6.8",
     "vue-request": "^2.0.4",

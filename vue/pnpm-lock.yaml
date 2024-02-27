@@ -65,6 +65,9 @@ dependencies:
   pinia-plugin-persistedstate:
     specifier: ^3.2.1
     version: 3.2.1(pinia@2.1.7)
+  tocbot:
+    specifier: ^4.25.0
+    version: 4.25.0
   vue:
     specifier: ^3.4.15
     version: 3.4.15
@@ -3418,6 +3421,10 @@ packages:
     dependencies:
       is-number: 7.0.0
     dev: true
+
+  /tocbot@4.25.0:
+    resolution: {integrity: sha512-kE5wyCQJ40hqUaRVkyQ4z5+4juzYsv/eK+aqD97N62YH0TxFhzJvo22RUQQZdO3YnXAk42ZOfOpjVdy+Z0YokA==}
+    dev: false
 
   /tough-cookie@4.1.3:
     resolution: {integrity: sha512-aX/y5pVRkfRnfmuX+OdbSdXvPe6ieKX/G2s7e98f4poJHnqH3281gDPm/metm6E/WRamfx7WC4HUqkWHfQHprw==}
