@@ -188,13 +188,42 @@
       </div>
     </div>
 
-    <div class="sidebar-right"></div>
+    <div class="sidebar-right">
+      <div class="sticky-card">
+        <div class="user-card" v-if="data && data.userId">
+          <div class="user-title">关于作者</div>
+          <div class="user-content">
+            <div class="user-box">
+              <RouterLink :to="'/user/' + data.userId" class="user-info">
+                <a-avatar
+                  class="user-avatar"
+                  :src="data.avatar"
+                  :size="40"
+                  :style="{ marginRight: '10px', marginTop: '-3px' }"
+                >
+                  <template #icon>
+                    <UserOutlined />
+                  </template>
+                </a-avatar>
+                <span class="user-name">{{ data.author }}</span>
+              </RouterLink>
+              <a-button
+                class="user-subscribe-btn"
+                type="primary"
+                style="background-color: #4d45e5; border-radius: 3px"
+                >关注</a-button
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import tocbot from 'tocbot'
-import { createVNode, watch } from 'vue'
+import { createVNode } from 'vue'
 import { get, getArticleListByGroupId } from '@/api/article'
 import { remove } from '@/api/article'
 import { Modal } from 'ant-design-vue'
@@ -308,7 +337,8 @@ const postComment = () => {
   height: 100vh;
 }
 
-.group-card {
+.group-card,
+.user-card {
   background-color: #ffffff;
   margin-bottom: 10px;
   max-height: 50vh;
@@ -322,6 +352,7 @@ const postComment = () => {
 }
 
 .group-title,
+.user-title,
 .contents-title {
   font-weight: 700;
   font-size: 16px;
@@ -335,6 +366,23 @@ const postComment = () => {
 .title-card {
   position: sticky;
   top: 0;
+}
+
+.user-content {
+  padding: 15px;
+}
+
+.user-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-name {
+  color: #666;
+}
+.user-name:hover {
+  color: #4d45e5;
+  cursor: pointer;
 }
 
 .container {
@@ -482,6 +530,7 @@ const postComment = () => {
   padding: 5px 15px 10px 15px;
   font-size: 14px;
   overflow: scroll;
+  max-height: 360px;
 }
 
 .group-item {
