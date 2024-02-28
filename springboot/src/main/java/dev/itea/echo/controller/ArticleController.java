@@ -208,7 +208,7 @@ public class ArticleController {
     }
 
     /**
-     * 文章查询（分类ID）
+     * 文章分页查询（分类ID）
      *
      * @param categoryId 分类ID
      */
@@ -218,9 +218,25 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping(value = "/queryAllByCategoryId")
-    public IPage<ArticleVO> getPageByCategoryName(@Validated PageDTO pageDTO, Integer categoryId) {
+    public IPage<ArticleVO> getPageByCategoryid(@Validated PageDTO pageDTO, Integer categoryId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getPageByCategoryId(pageable, categoryId);
+    }
+
+    /**
+     * 文章分页模糊查询（标签名称）
+     *
+     * @param tagName 标签名称
+     */
+    @Operation(summary = "文章查询（标签名称）", description = "前台根据标签名称查询文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "tagName", description = "标签名称", required = true, example = "MySQL"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllByTagName")
+    public IPage<ArticleVO> getPageByTagName(@Validated PageDTO pageDTO, String tagName) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getPageByTagName(pageable, tagName);
     }
 
     /**

@@ -128,6 +128,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public IPage<ArticleVO> getPageByTagName(Pageable pageable, String tagName) {
+        Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.eq("status", 1).like("tag", tagName);
+        return articleMapper.getActiveArticleByPage(page, wrapper);
+    }
+
+    @Override
     public List<Article> getArticleListByTitle(String title) {
         return articleMapper.getArticleByTitle(title);
     }
