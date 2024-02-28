@@ -140,7 +140,9 @@
                 :key="tag"
                 :color="tag.length < 3 ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
               >
-                <a href="/tag?name=tag" target="_blank">{{ tag }}</a>
+                <RouterLink :to="{ path: '/tag', query: { tagName: tag } }" target="_blank">{{
+                  tag
+                }}</RouterLink>
               </a-tag>
             </template>
             <template v-else> 暂无标签 </template>

@@ -28,6 +28,11 @@ const generalRoutes = [
         component: () => import('@/views/page-home/category')
       },
       {
+        path: '/tag',
+        name: 'tag',
+        component: () => import('@/views/page-home/tag')
+      },
+      {
         path: '/test',
         name: 'test',
         component: () => import('@/views/page-home/user/testView')
