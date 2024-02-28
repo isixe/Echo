@@ -9,8 +9,6 @@
           <RouterLink to="/"> Echo </RouterLink>
           <RouterLink to="/article"> 文章 </RouterLink>
           <RouterLink to="/faq"> 问答 </RouterLink>
-          <RouterLink to="/wiki"> Wiki </RouterLink>
-          <RouterLink to="/dynamic"> 动态 </RouterLink>
         </div>
       </div>
       <div class="header-right">

@@ -22,7 +22,11 @@ const generalRoutes = [
         name: 'articleView',
         component: () => import('@/views/page-home/article/articleView')
       },
-
+      {
+        path: '/category/:id',
+        name: 'category',
+        component: () => import('@/views/page-home/category')
+      },
       {
         path: '/test',
         name: 'test',
