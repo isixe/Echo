@@ -80,6 +80,14 @@ export function getArticleListByCategoryId(params) {
   })
 }
 
+export function getArticleListByTagName(params) {
+  return request({
+    url: '/article/queryAllByTagName',
+    method: 'get',
+    params
+  })
+}
+
 export async function getUserRank() {
   return request({
     url: '/article/userRank',
