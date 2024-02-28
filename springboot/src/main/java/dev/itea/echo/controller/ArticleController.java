@@ -146,7 +146,7 @@ public class ArticleController {
      *
      * @param title 文章标题
      */
-    @Operation(summary = "文章查询（ID）", description = "前台文章标题文章查询", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（标题）", description = "前台文章标题文章查询", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "title", description = "文章标题", required = true, example = "标题"),
             })
@@ -221,6 +221,22 @@ public class ArticleController {
     public IPage<ArticleVO> getPageByCategoryid(@Validated PageDTO pageDTO, Integer categoryId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getPageByCategoryId(pageable, categoryId);
+    }
+
+    /**
+     * 文章分页查询（用户ID）
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "文章查询（标签名称）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllByUserId")
+    public IPage<ArticleVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getPageByUserId(pageable, userId);
     }
 
     /**

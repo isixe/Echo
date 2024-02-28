@@ -38,4 +38,6 @@ public interface ArticleService extends IService<Article> {
     IPage<ArticleVO> getPageByCategoryId(Pageable pageable,Integer categoryId);
 
     IPage<ArticleVO> getPageByTagName(Pageable pageable, String tagName);
+
+    IPage<ArticleVO> getPageByUserId(Pageable pageable, Integer userId);
 }
