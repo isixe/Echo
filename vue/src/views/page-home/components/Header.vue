@@ -8,7 +8,7 @@
         <div class="header-route">
           <RouterLink to="/"> Echo </RouterLink>
           <RouterLink to="/article"> 文章 </RouterLink>
-          <RouterLink to="/faq"> 问答 </RouterLink>
+          <RouterLink to="/question"> 问答 </RouterLink>
         </div>
       </div>
       <div class="header-right">
@@ -40,13 +40,6 @@
                   style="width: 20px; margin-left: -5px"
                 />
                 提问题
-              </a-menu-item>
-              <a-menu-item key="3" style="display: grid">
-                <font-awesome-icon
-                  :icon="['fas', 'hashtag']"
-                  style="width: 20px; margin-left: -5px"
-                />
-                发动态
               </a-menu-item>
             </a-menu>
           </template>
