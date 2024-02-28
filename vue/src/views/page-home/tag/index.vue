@@ -10,7 +10,7 @@
 
 <script setup>
 import { EntryItem } from '@/views/page-home/components'
-import { getArticleListByCategoryId } from '@/api/article'
+import { getArticleListByTagName } from '@/api/article'
 const route = useRoute()
 const data = ref()
 const tagName = ref(route.query.tagName)
@@ -18,7 +18,7 @@ const selectedKey = ref(['article'])
 const params = reactive({
   pageNum: 1,
   pageSize: 15,
-  categoryId: route.params.id
+  tagName: route.query.tagName
 })
 
 onMounted(() => {
@@ -26,8 +26,9 @@ onMounted(() => {
 })
 
 const getArticleDataSource = () => {
-  getArticleListByCategoryId(params).then((res) => {
+  getArticleListByTagName(params).then((res) => {
     data.value = res.data.records
+    console.log(res.data.records)
   })
 }
 

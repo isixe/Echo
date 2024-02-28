@@ -67,14 +67,14 @@
             </div>
             <template #overlay>
               <a-menu>
-                <a-menu-item @click="handleToUserCenter">
-                  <UserOutlined />
-                  个人中心
-                </a-menu-item>
-                <a-menu-item> <ClockCircleOutlined />&nbsp; 浏览历史 </a-menu-item>
+                <RouterLink :to="'/user/' + user.id">
+                  <a-menu-item> <UserOutlined />&nbsp; 我的主页 </a-menu-item>
+                </RouterLink>
+                <!-- <a-menu-item> <ClockCircleOutlined />&nbsp; 浏览历史 </a-menu-item> -->
                 <a-menu-item> <HeartOutlined />&nbsp; 我的收藏 </a-menu-item>
-                <a-menu-item> <LikeOutlined />&nbsp; 我的点赞 </a-menu-item>
-                <a-menu-item> <SettingOutlined />&nbsp; 设置中心 </a-menu-item>
+                <a-menu-item @click="handleToUserCenter">
+                  <SettingOutlined />&nbsp; 个人中心
+                </a-menu-item>
                 <a-menu-item @click="handleLoginOut"> <LoginOutlined />&nbsp; 退出 </a-menu-item>
               </a-menu>
             </template>
