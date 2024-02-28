@@ -27,11 +27,13 @@ public interface ArticleService extends IService<Article> {
 
     List<UserRankVO> getUserArticleNumRankList();
 
+    List<Article> getArticleListByTitle(String title);
+
     IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword);
 
     IPage<ArticleVO> getActiveArticleByPage(Pageable pageable, String keyword);
 
     IPage<ArticleVO> getActiveHotArticleByPage(Pageable pageable, String keyword);
 
-    List<Article> getArticleListByTitle(String title);
+    IPage<ArticleVO> getPageByCategoryId(Pageable pageable,Integer categoryId);
 }

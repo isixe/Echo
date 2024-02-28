@@ -120,7 +120,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public IPage<ArticleVO> getPageByCategoryId(Pageable pageable, Integer categoryId) {
+        Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.eq("status", 1).eq("c.id", categoryId);
+        return articleMapper.getActiveArticleByPage(page, wrapper);
+    }
+
+    @Override
     public List<Article> getArticleListByTitle(String title) {
         return articleMapper.getArticleByTitle(title);
     }
+
+
 }

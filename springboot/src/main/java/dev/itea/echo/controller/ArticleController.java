@@ -133,10 +133,10 @@ public class ArticleController {
      */
     @Operation(summary = "文章查询（文章分组ID）", description = "前台根据文章分组ID查询文章", tags = "Article", method = "GET",
             parameters = {
-                    @Parameter(name = "id", description = "文章分组ID", required = true, example = "2"),
+                    @Parameter(name = "groupId", description = "文章分组ID", required = true, example = "2"),
             })
     @SaIgnore
-    @GetMapping("/getListByGroupId")
+    @GetMapping(value = "/getList", params = "groupId")
     public List<Article> getListByGroupId(Integer groupId) {
         return articleService.getListByGroupId(groupId);
     }
@@ -146,13 +146,13 @@ public class ArticleController {
      *
      * @param title 文章标题
      */
-    @Operation(summary = "文章查询（ID）", description = "前台文章查询", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（ID）", description = "前台文章标题文章查询", tags = "Article", method = "GET",
             parameters = {
-                    @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
+                    @Parameter(name = "title", description = "文章标题", required = true, example = "标题"),
             })
     @SaCheckLogin
-    @GetMapping("/getListByTitle")
-    public List<Article> getByTitle(String title) {
+    @GetMapping(value = "/getList", params = "title")
+    public List<Article> getListByTitle(String title) {
         return articleService.getArticleListByTitle(title);
     }
 
@@ -205,6 +205,22 @@ public class ArticleController {
     public IPage<ArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getArticleByPage(pageable, pageDTO.getKeyword());
+    }
+
+    /**
+     * 文章查询（分类ID）
+     *
+     * @param categoryId 分类ID
+     */
+    @Operation(summary = "文章查询（分类ID）", description = "前台根据文章分类ID查询文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "categoryId", description = "分类ID", required = true, example = "1"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllByCategoryId")
+    public IPage<ArticleVO> getPageByCategoryName(@Validated PageDTO pageDTO, Integer categoryId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getPageByCategoryId(pageable, categoryId);
     }
 
     /**
