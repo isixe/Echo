@@ -88,6 +88,14 @@ export function getArticleListByTagName(params) {
   })
 }
 
+export function getArticleListByUserId(params) {
+  return request({
+    url: '/article/queryAllByUserId',
+    method: 'get',
+    params
+  })
+}
+
 export async function getUserRank() {
   return request({
     url: '/article/userRank',
