@@ -1,24 +1,25 @@
 <template>
   <div class="user-container">
-    <div class="user-info-box">
+    <div class="user-info-box" v-if="user">
       <div class="avatar-content">
-        <img
-          class="user-avatar"
-          src="https://pic1.zhimg.com/v2-1e1363e9670078b4ae450446d0abd60a_xll.jpg?source=32738c0c"
-          alt="avatar"
-        />
+        <img class="user-avatar" v-if="user.avatar" :src="user.avatar" alt="avatar" />
       </div>
       <div class="info-content">
-        <div class="user-name">用户名</div>
+        <div class="user-name">{{ user.name }}</div>
 
         <div class="user-detail">
-          <span>加入时间：2023-2-2</span>
-          <span>最后活跃时间：2023-2-3</span>
+          <span>加入时间：{{ user.createdTime }}</span>
+          <span>最后活跃时间：{{ user.lastActiveTime }}</span>
         </div>
-        <div class="user-desc">这个人很懒，什么都没有写...</div>
+        <div class="user-desc" v-if="user.description">{{ user.description }}</div>
+        <div class="user-desc" v-else>这个人很懒，什么都没有写...</div>
       </div>
       <div class="footer-content">
-        <a-button class="user-subscribe-btn" type="primary" style="background-color: #4d45e5"
+        <a-button
+          v-if="!store.id == user.id"
+          class="user-subscribe-btn"
+          type="primary"
+          style="background-color: #4d45e5"
           >关注</a-button
         >
       </div>
@@ -26,18 +27,13 @@
     <div class="user-dynamic-box">
       <a-layout-content class="dynamic-entry-content">
         <a-tabs class="nav-menu" v-model:activeKey="activeKey">
-          <a-tab-pane key="1" tab="文章 22">
-            <template v-for="n in 10" :key="n">
-              <!-- <EntryItem v-bind="user">{{ n }}</EntryItem> -->
+          <a-tab-pane key="1" :tab="'文章 ' + data.articleTotal">
+            <template v-for="item in data.article" :key="item.id">
+              <EntryItem :item="item"></EntryItem>
             </template>
           </a-tab-pane>
-          <a-tab-pane key="2" tab="问答 23">
-            <template v-for="n in 10" :key="n">
-              <!-- <EntryItem v-model="user"></EntryItem> -->
-            </template>
-          </a-tab-pane>
-          <a-tab-pane key="3" tab="动态 12">
-            <template v-for="n in 10" :key="n">
+          <a-tab-pane key="2" :tab="'问答 ' + data.questionTotal">
+            <template v-for="item in data.question" :key="item.id">
               <!-- <EntryItem v-model="user"></EntryItem> -->
             </template>
           </a-tab-pane>
@@ -64,15 +60,35 @@
 
 <script setup>
 import { get } from '@/api/user'
+import { useUserStore } from '@/stores/user'
 import { EntryItem } from '@/views/page-home/components'
+import { getArticleListByUserId } from '@/api/article'
+import { reactive, ref } from 'vue'
 
 const user = ref()
 const route = useRoute()
+const store = useUserStore()
+const data = reactive({
+  article: [],
+  question: [],
+  articleTotal: 0,
+  questionTotal: 0
+})
 const activeKey = ref('1')
+const params = reactive({
+  pageNum: 1,
+  pageSize: 15,
+  userId: route.params.id
+})
 
 onMounted(() => {
   get({ id: route.params.id }).then((result) => {
     user.value = result.data
+  })
+
+  getArticleListByUserId(params).then((res) => {
+    data.article = res.data.records
+    data.articleTotal = res.data.total
   })
 })
 </script>
