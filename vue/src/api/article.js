@@ -34,15 +34,15 @@ export function get(params) {
 
 export function getArticleListByGroupId(params) {
   return request({
-    url: '/article/getListByGroupId',
+    url: '/article/getList',
     method: 'get',
     params
   })
 }
 
-export function getArticleListByName(params) {
+export function getArticleListByTitle(params) {
   return request({
-    url: '/article/getListByTitle',
+    url: '/article/getList',
     method: 'get',
     params
   })
@@ -67,6 +67,14 @@ export function getHotActiveArticleListByKeyword(params) {
 export function getArticleListByKeyword(params) {
   return request({
     url: '/article/queryAll',
+    method: 'get',
+    params
+  })
+}
+
+export function getArticleListByCategoryId(params) {
+  return request({
+    url: '/article/queryAllByCategoryId',
     method: 'get',
     params
   })

@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { getArticleListByName } from '@/api/article'
+import { getArticleListByTitle } from '@/api/article'
 
 const articleId = defineModel()
 
@@ -23,7 +23,7 @@ const authorSearch = (value) => {
   if (value === null || value === '') {
     return
   }
-  getArticleListByName({ title: value }).then((res) => {
+  getArticleListByTitle({ title: value }).then((res) => {
     const data = res.data
     articleOptions.value = data.map((article) => ({ value: article.id, label: article.title }))
   })
