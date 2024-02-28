@@ -29,7 +29,7 @@ const adminRoutes = {
     {
       path: '/system/commentArticleList',
       name: 'commentArticleList',
-      component: () => import('@/views/page-admin/system/commentArticle')
+      component: () => import('@/views/page-admin/system/commentArticleList')
     }
   ]
 }
