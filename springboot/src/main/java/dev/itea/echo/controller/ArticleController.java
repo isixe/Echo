@@ -179,7 +179,7 @@ public class ArticleController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章查询（分页&关键词）", description = "前台文章分页与关键词查询", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（分页&关键词&发布状态）", description = "前台文章分页、发布状态与关键词查询", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -228,7 +228,7 @@ public class ArticleController {
      *
      * @param userId 用户ID
      */
-    @Operation(summary = "文章查询（标签名称）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
+    @Operation(summary = "文章分页查询（用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
             })
@@ -244,7 +244,7 @@ public class ArticleController {
      *
      * @param tagName 标签名称
      */
-    @Operation(summary = "文章查询（标签名称）", description = "前台根据标签名称查询文章", tags = "Article", method = "GET",
+    @Operation(summary = "文章分页模糊查询（标签名称）", description = "前台根据标签名称查询文章分页", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "tagName", description = "标签名称", required = true, example = "MySQL"),
             })
