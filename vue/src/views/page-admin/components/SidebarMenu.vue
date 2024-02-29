@@ -21,7 +21,9 @@
       <a-menu-item key="/system/articleList">
         <RouterLink to="/system/articleList">文章管理</RouterLink>
       </a-menu-item>
-      <a-menu-item key="5">问答管理</a-menu-item>
+      <a-menu-item key="/system/questionList">
+        <RouterLink to="/system/questionList"> 问答管理 </RouterLink>
+      </a-menu-item>
       <a-menu-item key="/system/categoryList">
         <RouterLink to="/system/categoryList"> 分类管理 </RouterLink>
       </a-menu-item>

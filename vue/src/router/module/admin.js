@@ -22,6 +22,11 @@ const adminRoutes = {
       component: () => import('@/views/page-admin/system/articleList')
     },
     {
+      path: '/system/questionList',
+      name: 'questionList',
+      component: () => import('@/views/page-admin/system/questionList')
+    },
+    {
       path: '/system/categoryList',
       name: 'categoryList',
       component: () => import('@/views/page-admin/system/categoryList')
