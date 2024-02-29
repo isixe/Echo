@@ -122,7 +122,7 @@
                   type="vertical"
                   style="height: 15px; top: 0; background-color: #e1cee7"
                 />
-                <a> 删除 </a>
+                <a @click="deleteArticle()"> 删除 </a>
               </template>
             </div>
           </div>
