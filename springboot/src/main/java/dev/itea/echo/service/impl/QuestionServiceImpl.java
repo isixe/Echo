@@ -64,4 +64,46 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         }
         return questionMapper.getQuestionByPage(page, wrapper);
     }
+
+    @Override
+    public IPage<QuestionVO> getActiveQuestionByPage(Pageable pageable, String keyword) {
+        Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.eq("status", 1);
+
+        if (!ObjectUtils.isEmpty(keyword)) {
+            wrapper = wrapper.eq("status", 1)
+                    .like("title", keyword)
+                    .or()
+                    .like("content", keyword)
+                    .or()
+                    .like("u.name", keyword)
+                    .or()
+                    .like("category_name", keyword)
+                    .or()
+                    .like("tag", keyword);
+        }
+        return questionMapper.getActiveQuestionByPage(page, wrapper);
+    }
+
+    @Override
+    public IPage<QuestionVO> getActiveHotArticleByPage(Pageable pageable, String keyword) {
+        Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.eq("status", 1);
+
+        if (!ObjectUtils.isEmpty(keyword)) {
+            wrapper = wrapper.eq("status", 1)
+                    .like("title", keyword)
+                    .or()
+                    .like("content", keyword)
+                    .or()
+                    .like("u.name", keyword)
+                    .or()
+                    .like("category_name", keyword)
+                    .or()
+                    .like("tag", keyword);
+        }
+        return questionMapper.getHotQuestionByPage(page, wrapper);
+    }
 }

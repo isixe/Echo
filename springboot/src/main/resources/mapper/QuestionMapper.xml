@@ -98,4 +98,64 @@
         ORDER BY q.update_time DESC
     </select>
 
+    <select id="getActiveQuestionByPage" resultMap="QuestionVOListResultMap">
+        SELECT q.id,
+        q.title,
+        q.summary,
+        u.id AS user_id,
+        u.`name` AS author,
+        u.`avatar`,
+        c.category_name AS category,
+        c.id AS category_id,
+        q.tag,
+        q.`status`,
+        q.`pv_count`,
+        q.`like_count`,
+        q.`collection_count`,
+        q.`created_time`,
+        q.`publish_time`,
+        q.`update_time`
+        FROM question AS q
+        JOIN `user` AS u ON q.user_id = u.id
+        JOIN category AS c ON q.category_id = c.id
+        <if test="ew.customSqlSegment.length>0">
+            ${ew.customSqlSegment}
+            AND q.is_deleted = 0
+        </if>
+        <if test="!ew.customSqlSegment.length>0">
+            WHERE q.is_deleted = 0
+        </if>
+        ORDER BY q.update_time DESC
+    </select>
+
+    <select id="getHotQuestionByPage" resultMap="QuestionVOListResultMap">
+        SELECT q.id,
+        q.title,
+        q.summary,
+        u.id AS user_id,
+        u.`name` AS author,
+        u.`avatar`,
+        c.category_name AS category,
+        c.id AS category_id,
+        q.tag,
+        q.`status`,
+        q.`pv_count`,
+        q.`like_count`,
+        q.`collection_count`,
+        q.`created_time`,
+        q.`publish_time`,
+        q.`update_time`
+        FROM question AS q
+        JOIN `user` AS u ON q.user_id = u.id
+        JOIN category AS c ON q.category_id = c.id
+        <if test="ew.customSqlSegment.length>0">
+            ${ew.customSqlSegment}
+            AND q.is_deleted = 0
+        </if>
+        <if test="!ew.customSqlSegment.length>0">
+            WHERE q.is_deleted = 0
+        </if>
+        ORDER BY q.`pv_count` DESC, q.`like_count`
+    </select>
+
 </mapper>

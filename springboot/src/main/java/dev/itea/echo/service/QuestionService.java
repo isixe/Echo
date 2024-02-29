@@ -22,4 +22,8 @@ public interface QuestionService extends IService<Question> {
     void delete(Integer id);
 
     IPage<QuestionVO> getQuestionByPage(Pageable pageable, String keyword);
+
+    IPage<QuestionVO> getActiveQuestionByPage(Pageable pageable, String keyword);
+
+    IPage<QuestionVO> getActiveHotArticleByPage(Pageable pageable, String keyword);
 }

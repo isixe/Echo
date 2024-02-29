@@ -127,7 +127,7 @@ public class QuestionController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章查询（分页&关键词）", description = "后台文章分页与关键词查询", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（分页&关键词）", description = "后台问答分页与关键词查询", tags = "Question", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -136,5 +136,39 @@ public class QuestionController {
     public IPage<QuestionVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return questionService.getQuestionByPage(pageable, pageDTO.getKeyword());
+    }
+
+    /**
+     * 问答查询（分页&关键词&发布状态）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "问答查询（分页&关键词&发布状态）", description = "前台问答分页、发布状态与关键词查询", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+            })
+    @SaIgnore
+    @GetMapping("/queryAllActive")
+    public IPage<QuestionVO> getActivePageByKeyword(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getActiveQuestionByPage(pageable, pageDTO.getKeyword());
+    }
+
+    /**
+     * 问答查询（分页&关键词&发布状态）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "问答查询（分页&关键词&发布状态）", description = "前台问答分页、发布状态与关键词查询", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+            })
+    @SaIgnore
+    @GetMapping("/queryAllHotActive")
+    public IPage<QuestionVO> getActiveHotPageByKeyword(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getActiveHotArticleByPage(pageable, pageDTO.getKeyword());
     }
 }
