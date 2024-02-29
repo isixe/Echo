@@ -29,7 +29,7 @@
         <a-tabs class="nav-menu" v-model:activeKey="activeKey">
           <a-tab-pane key="1" :tab="'文章 ' + data.articleTotal">
             <template v-for="item in data.article" :key="item.id">
-              <EntryItem :item="item"></EntryItem>
+              <article-entry-item :item="item"></article-entry-item>
             </template>
           </a-tab-pane>
           <a-tab-pane key="2" :tab="'问答 ' + data.questionTotal">
@@ -61,7 +61,7 @@
 <script setup>
 import { get } from '@/api/user'
 import { useUserStore } from '@/stores/user'
-import { EntryItem } from '@/views/page-home/components'
+import { ArticleEntryItem } from '@/views/page-home/components'
 import { getArticleListByUserId } from '@/api/article'
 import { reactive, ref } from 'vue'
 
