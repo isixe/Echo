@@ -31,7 +31,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     ArticleMapper articleMapper;
 
     @Override
-    @CacheEvict(cacheNames = "articleVO", key = "#id")
+    @CacheEvict(cacheNames = "article", key = "#id")
     public void delete(Integer id) {
         articleMapper.deleteById(id);
     }

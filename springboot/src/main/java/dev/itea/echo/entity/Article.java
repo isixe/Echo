@@ -95,7 +95,7 @@ public class Article extends Model<Article> {
 
     @Schema(description = "收藏数")
     @TableField("collecion_count")
-    private Integer collecionCount;
+    private Integer collectionCount;
 
     @Schema(description = "创建时间")
     @TableField(value = "created_time", fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NOT_NULL)

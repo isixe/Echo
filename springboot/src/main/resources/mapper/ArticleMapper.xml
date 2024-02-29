@@ -16,7 +16,7 @@
         <result column="status" property="status"/>
         <result column="pv_count" property="pvCount"/>
         <result column="like_count" property="likeCount"/>
-        <result column="collecion_count" property="collecionCount"/>
+        <result column="collection_count" property="collectionCount"/>
         <result column="created_time" property="createdTime"/>
         <result column="publish_time" property="publishTime"/>
         <result column="update_time" property="updateTime"/>
@@ -24,7 +24,7 @@
     </resultMap>
 
     <!-- 文章关联值对象映射结果 -->
-    <resultMap id="ArticleListResultMap" type="dev.itea.echo.vo.ArticleVO">
+    <resultMap id="ArticleVOListResultMap" type="dev.itea.echo.vo.ArticleVO">
         <id column="id" property="id"/>
         <result column="article_group_name" property="articleGroupName"/>
         <result column="article_group_id" property="articleGroupId"/>
@@ -41,7 +41,7 @@
         <result column="status" property="status"/>
         <result column="pv_count" property="pvCount"/>
         <result column="like_count" property="likeCount"/>
-        <result column="collecion_count" property="collecionCount"/>
+        <result column="collection_count" property="collectionCount"/>
         <result column="created_time" property="createdTime"/>
         <result column="publish_time" property="publishTime"/>
         <result column="update_time" property="updateTime"/>
@@ -69,7 +69,7 @@
         ORDER BY article_sum DESC LIMIT 0, 5;
     </select>
 
-    <select id="getArticleByPage" resultMap="ArticleListResultMap">
+    <select id="getArticleByPage" resultMap="ArticleVOListResultMap">
         SELECT a.id,
         a.featured_pic,
         a.title,
@@ -86,7 +86,7 @@
         a.`status`,
         a.`pv_count`,
         a.`like_count`,
-        a.`collecion_count`,
+        a.`collection_count`,
         a.`created_time`,
         a.`publish_time`,
         a.`update_time`
@@ -104,7 +104,7 @@
         ORDER BY a.update_time DESC
     </select>
 
-    <select id="getActiveArticleByPage" resultMap="ArticleListResultMap">
+    <select id="getActiveArticleByPage" resultMap="ArticleVOListResultMap">
         SELECT a.id,
         a.featured_pic,
         a.title,
@@ -120,7 +120,7 @@
         a.`status`,
         a.`pv_count`,
         a.`like_count`,
-        a.`collecion_count`,
+        a.`collection_count`,
         a.`created_time`,
         a.`publish_time`,
         a.`update_time`
@@ -138,7 +138,7 @@
         ORDER BY a.update_time DESC
     </select>
 
-    <select id="getHotArticleByPage" resultMap="ArticleListResultMap">
+    <select id="getHotArticleByPage" resultMap="ArticleVOListResultMap">
         SELECT a.id,
         a.featured_pic,
         a.title,
@@ -154,7 +154,7 @@
         a.`status`,
         a.`pv_count`,
         a.`like_count`,
-        a.`collecion_count`,
+        a.`collection_count`,
         a.`created_time`,
         a.`publish_time`,
         a.`update_time`
@@ -189,7 +189,7 @@
                a.`status`,
                a.`pv_count`,
                a.`like_count`,
-               a.`collecion_count`,
+               a.`collection_count`,
                a.`created_time`,
                a.`publish_time`,
                a.`update_time`
