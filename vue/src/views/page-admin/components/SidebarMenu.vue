@@ -22,7 +22,9 @@
         <RouterLink to="/system/articleList">文章管理</RouterLink>
       </a-menu-item>
       <a-menu-item key="5">问答管理</a-menu-item>
-      <a-menu-item key="6">分类管理</a-menu-item>
+      <a-menu-item key="/system/categoryList">
+        <RouterLink to="/system/categoryList"> 分类管理 </RouterLink>
+      </a-menu-item>
       <a-menu-item key="8">收藏管理</a-menu-item>
       <a-menu-item key="/system/commentArticleList">
         <RouterLink to="/system/commentArticleList">文章评论管理</RouterLink>

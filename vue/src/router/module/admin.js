@@ -22,14 +22,19 @@ const adminRoutes = {
       component: () => import('@/views/page-admin/system/articleList')
     },
     {
-      path: '/permission/roleList',
-      name: 'roleList',
-      component: () => import('@/views/page-admin/permission/roleList')
+      path: '/system/categoryList',
+      name: 'categoryList',
+      component: () => import('@/views/page-admin/system/categoryList')
     },
     {
       path: '/system/commentArticleList',
       name: 'commentArticleList',
       component: () => import('@/views/page-admin/system/commentArticleList')
+    },
+    {
+      path: '/permission/roleList',
+      name: 'roleList',
+      component: () => import('@/views/page-admin/permission/roleList')
     }
   ]
 }
