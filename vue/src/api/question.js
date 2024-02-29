@@ -88,9 +88,9 @@ export function getQuestionListByKeyword(params) {
 //   })
 // }
 
-// export async function getUserRank() {
-//   return request({
-//     url: '/question/userRank',
-//     method: 'get'
-//   })
-// }
+export async function getUserRank() {
+  return request({
+    url: '/question/userRank',
+    method: 'get'
+  })
+}
