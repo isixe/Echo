@@ -3,13 +3,13 @@
   <div class="container">
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
     <div v-for="item in data" :key="item.id">
-      <entry-item :item="item"></entry-item>
+      <article-entry-item :item="item"></article-entry-item>
     </div>
   </div>
 </template>
 
 <script setup>
-import { EntryItem } from '@/views/page-home/components'
+import { ArticleEntryItem } from '@/views/page-home/components'
 import { getArticleListByTagName } from '@/api/article'
 const route = useRoute()
 const data = ref()
