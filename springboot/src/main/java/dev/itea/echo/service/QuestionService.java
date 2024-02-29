@@ -5,7 +5,10 @@ import dev.itea.echo.entity.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
 import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
+import dev.itea.echo.vo.UserRankVO;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * 问答表 服务类
@@ -26,4 +29,6 @@ public interface QuestionService extends IService<Question> {
     IPage<QuestionVO> getActiveQuestionByPage(Pageable pageable, String keyword);
 
     IPage<QuestionVO> getActiveHotArticleByPage(Pageable pageable, String keyword);
+
+    List<UserRankVO> getUserQuestionNumRankList();
 }

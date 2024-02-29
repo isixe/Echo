@@ -15,6 +15,7 @@ import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
 import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
+import dev.itea.echo.vo.UserRankVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Resource;
@@ -23,6 +24,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 问答控制器
@@ -170,5 +173,15 @@ public class QuestionController {
     public IPage<QuestionVO> getActiveHotPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return questionService.getActiveHotArticleByPage(pageable, pageDTO.getKeyword());
+    }
+
+    /**
+     * 用户问答数量排行查询
+     */
+    @Operation(summary = "用户问答数量排行查询", description = "前台用户问答数量排行查询", tags = "Article", method = "GET")
+    @SaIgnore
+    @GetMapping("/userRank")
+    public List<UserRankVO> getByUserRankList() {
+        return questionService.getUserQuestionNumRankList();
     }
 }

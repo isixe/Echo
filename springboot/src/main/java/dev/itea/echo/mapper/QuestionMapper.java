@@ -8,7 +8,10 @@ import dev.itea.echo.entity.Question;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
+import dev.itea.echo.vo.UserRankVO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,4 +30,6 @@ public interface QuestionMapper extends BaseMapper<Question> {
     IPage<QuestionVO> getActiveQuestionByPage(Page<QuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<QuestionVO> wrapper);
 
     IPage<QuestionVO> getHotQuestionByPage(Page<QuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<QuestionVO> wrapper);
+
+    List<UserRankVO> getUserQuestionNumRankList();
 }

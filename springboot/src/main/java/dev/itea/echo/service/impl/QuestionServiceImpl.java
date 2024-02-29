@@ -9,12 +9,15 @@ import dev.itea.echo.service.QuestionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
+import dev.itea.echo.vo.UserRankVO;
 import jakarta.annotation.Resource;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.List;
 
 /**
  * 问答表 服务实现类
@@ -105,5 +108,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                     .like("tag", keyword);
         }
         return questionMapper.getHotQuestionByPage(page, wrapper);
+    }
+
+    @Override
+    public List<UserRankVO> getUserQuestionNumRankList() {
+        return questionMapper.getUserQuestionNumRankList();
     }
 }

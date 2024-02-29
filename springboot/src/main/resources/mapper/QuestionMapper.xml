@@ -42,6 +42,28 @@
         <result column="created_time" property="createdTime"/>
     </resultMap>
 
+    <!-- 用户排行查询映射结果 -->
+    <resultMap id="UserRankResultMap" type="dev.itea.echo.vo.UserRankVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="avatar" property="avatar"/>
+        <result column="question_sum" property="rankSum"/>
+    </resultMap>
+    
+    <select id="getUserQuestionNumRankList" resultMap="UserRankResultMap">
+        SELECT u.id,
+               u.`name`,
+               u.description,
+               u.avatar,
+               COUNT(q.id) AS question_sum
+        FROM `user` AS u
+                 JOIN
+             `question` AS q ON u.id = q.user_id
+        GROUP BY u.id, u.`name`, u.description, u.avatar
+        ORDER BY question_sum DESC LIMIT 0, 5;
+    </select>
+
     <select id="getById" resultType="dev.itea.echo.vo.QuestionVO" parameterType="integer">
         SELECT q.id,
                q.title,
@@ -157,5 +179,6 @@
         </if>
         ORDER BY q.`pv_count` DESC, q.`like_count`
     </select>
+
 
 </mapper>
