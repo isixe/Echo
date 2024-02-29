@@ -32,14 +32,6 @@ export function get(params) {
   })
 }
 
-export function getQuestionListByGroupId(params) {
-  return request({
-    url: '/question/getList',
-    method: 'get',
-    params
-  })
-}
-
 // export function getQuestionListByTitle(params) {
 //   return request({
 //     url: '/question/getList',
@@ -48,13 +40,13 @@ export function getQuestionListByGroupId(params) {
 //   })
 // }
 
-// export function getActiveQuestionListByKeyword(params) {
-//   return request({
-//     url: '/question/queryAllActive',
-//     method: 'get',
-//     params
-//   })
-// }
+export function getActiveQuestionListByKeyword(params) {
+  return request({
+    url: '/question/queryAllActive',
+    method: 'get',
+    params
+  })
+}
 
 export function getHotActiveQuestionListByKeyword(params) {
   return request({
