@@ -106,8 +106,8 @@ import { ArticleEntryItem } from '@/views/page-home/components'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   getActiveQuestionListByKeyword,
-  getHotActiveQuestionListByKeyword
-  //   getUserRank
+  getHotActiveQuestionListByKeyword,
+  getUserRank
 } from '@/api/question'
 import { getCategoryListByKeyword } from '@/api/category'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
@@ -155,7 +155,7 @@ const getDataSource = (type) => {
 }
 
 onMounted(() => {
-  // getUserRank().then((res) => (rankList.value = res.data))
+  getUserRank().then((res) => (rankList.value = res.data))
 
   let type = route.query.type ? route.query.type : 'latest'
 
