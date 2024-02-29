@@ -41,7 +41,7 @@
   </div>
 
   <template>
-    <a-modal v-model:open="showAddModal" width="800px" title="新增文章">
+    <a-modal v-model:open="showAddModal" width="800px" title="新增评论">
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
           <a-form-item name="userId" label="用户">
@@ -65,7 +65,7 @@
   </template>
 
   <template>
-    <a-modal ref="editModal" v-model:open="showEditModal" width="800px" title="更新文章">
+    <a-modal ref="editModal" v-model:open="showEditModal" width="800px" title="更新评论">
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="editData" :rules="rules">
           <a-form-item name="userId" label="用户">
