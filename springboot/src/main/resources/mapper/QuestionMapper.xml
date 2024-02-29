@@ -4,19 +4,98 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.Question">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="title" property="title" />
-        <result column="content" property="content" />
-        <result column="category_id" property="categoryId" />
-        <result column="tag" property="tag" />
-        <result column="status" property="status" />
-        <result column="pv_count" property="pvCount" />
-        <result column="like_count" property="likeCount" />
-        <result column="collection_count" property="collectionCount" />
-        <result column="update_time" property="updateTime" />
-        <result column="created_time" property="createdTime" />
-        <result column="is_deleted" property="isDeleted" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="summary" property="summary"/>
+        <result column="content" property="content"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="tag" property="tag"/>
+        <result column="status" property="status"/>
+        <result column="pv_count" property="pvCount"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="collection_count" property="collectionCount"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
+
+    <!-- 问答关联值对象查询映射结果 -->
+    <resultMap id="QuestionVOListResultMap" type="dev.itea.echo.vo.QuestionVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="author" property="author"/>
+        <result column="avatar" property="avatar"/>
+        <result column="title" property="title"/>
+        <result column="summary" property="summary"/>
+        <result column="content" property="content"/>
+        <result column="category" property="category"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="tag" property="tag"/>
+        <result column="status" property="status"/>
+        <result column="pv_count" property="pvCount"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="collection_count" property="collectionCount"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <select id="getById" resultType="dev.itea.echo.vo.QuestionVO" parameterType="integer">
+        SELECT q.id,
+               q.title,
+               q.summary,
+               q.content,
+               u.id            AS user_id,
+               u.`name`        AS author,
+               u.`avatar`,
+               c.category_name AS category,
+               c.id            AS category_id,
+               q.tag,
+               q.`status`,
+               q.`pv_count`,
+               q.`like_count`,
+               q.`collection_count`,
+               q.`created_time`,
+               q.`publish_time`,
+               q.`update_time`
+        FROM question AS q
+                 JOIN `user` AS u ON q.user_id = u.id
+                 JOIN category AS c ON q.category_id = c.id
+        WHERE q.id = #{id}
+          AND q.is_deleted = 0
+    </select>
+
+    <select id="getQuestionByPage" resultMap="QuestionVOListResultMap">
+        SELECT q.id,
+        q.title,
+        q.summary,
+        q.content,
+        u.id AS user_id,
+        u.`name` AS author,
+        u.`avatar`,
+        c.category_name AS category,
+        c.id AS category_id,
+        q.tag,
+        q.`status`,
+        q.`pv_count`,
+        q.`like_count`,
+        q.`collection_count`,
+        q.`created_time`,
+        q.`publish_time`,
+        q.`update_time`
+        FROM question AS q
+        JOIN `user` AS u ON q.user_id = u.id
+        JOIN category AS c ON q.category_id = c.id
+        <if test="ew.customSqlSegment.length>0">
+            ${ew.customSqlSegment}
+            AND q.is_deleted = 0
+        </if>
+        <if test="!ew.customSqlSegment.length>0">
+            WHERE q.is_deleted = 0
+        </if>
+        ORDER BY q.update_time DESC
+    </select>
 
 </mapper>
