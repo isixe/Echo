@@ -22,11 +22,6 @@
               {{ record.title }}
             </div>
           </template>
-          <template v-else-if="column.dataIndex === 'summary'">
-            <div class="summary">
-              {{ record.summary }}
-            </div>
-          </template>
           <template v-else-if="column.dataIndex === 'tag' && record.tag">
             <a-tag
               class="tag"
@@ -249,7 +244,6 @@ const showEditModal = ref(false)
 
 const newData = reactive({
   title: '',
-  summary: '',
   content: '',
   userId: '',
   categoryId: '',
@@ -267,7 +261,6 @@ const editData = reactive({
   status: null,
   title: '',
   author: '',
-  summary: '',
   content: '',
   category: '',
   publishTime: '',
@@ -338,8 +331,6 @@ const handleAddOk = () => {
   form.value
     .validate()
     .then(async () => {
-      newData.summary = newData.content.replace(/<[^>]+>|\n/g, '').substring(0, 120)
-
       const formData = new FormData()
       Object.keys(newData).forEach((key) => {
         formData.append(key, newData[key])
@@ -421,8 +412,6 @@ const handleEditOk = () => {
   form.value
     .validate()
     .then(async () => {
-      editData.summary = editData.content.replace(/<[^>]+>|\n/g, '').substring(0, 120)
-
       const formData = new FormData()
       Object.keys(editData).forEach((key) => {
         formData.append(key, editData[key])
@@ -480,12 +469,6 @@ const columns = [
     dataIndex: 'title',
     sorter: (a, b) => (a.title.length - b.title.length > 0 ? 1 : -1),
     width: 250
-  },
-  {
-    title: '摘要',
-    dataIndex: 'summary',
-    sorter: (a, b) => (a.summary.length - b.summary.length > 0 ? 1 : -1),
-    width: 300
   },
   {
     title: '作者',
@@ -570,18 +553,6 @@ const columns = [
 
 .ant-form {
   margin-top: 20px;
-}
-
-.summary {
-  overflow: hidden;
-  width: 100%;
-  font-size: 13px;
-  text-overflow: ellipsis;
-  display: block;
-  white-space: normal;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
 }
 
 .title {
