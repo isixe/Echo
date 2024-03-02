@@ -41,11 +41,6 @@ const generalRoutes = [
         path: '/tag',
         name: 'tag',
         component: () => import('@/views/page-home/tag')
-      },
-      {
-        path: '/test',
-        name: 'test',
-        component: () => import('@/views/page-home/user/testView')
       }
     ]
   }
