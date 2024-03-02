@@ -50,13 +50,6 @@ public class Question extends Model<Question> {
     @Length(message = "长度不能大于42个字符", max = 42, groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     private String title;
 
-    @Schema(description = "摘要")
-    @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
-    @NotBlank(message = "不能为空字符串", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
-    @Length(message = "长度不能大于200个字符", max = 200, groups = {AddValidationGroup.class, UpdateValidationGroup.class})
-    @TableField("summary")
-    private String summary;
-
     @Schema(description = "问答内容")
     @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @NotBlank(message = "不能为空字符串", groups = {AddValidationGroup.class, UpdateValidationGroup.class})

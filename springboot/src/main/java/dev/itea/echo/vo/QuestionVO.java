@@ -2,14 +2,9 @@ package dev.itea.echo.vo;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import dev.itea.echo.validation.AddValidationGroup;
-import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
@@ -35,11 +30,8 @@ public class QuestionVO {
     @Schema(description = "作者头像")
     private String avatar;
 
-    @TableField("title")
+    @Schema(description = "标题")
     private String title;
-
-    @Schema(description = "摘要")
-    private String summary;
 
     @Schema(description = "问答内容")
     private String content;
