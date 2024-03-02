@@ -308,6 +308,11 @@ const deleteArticle = () => {
 }
 
 const postComment = () => {
+  if (!userId) {
+    message.warning('请先登录')
+    return router.push('/login')
+  }
+
   const formData = new FormData()
   formData.append('userId', store.id)
   formData.append('articleId', data.value.id)
