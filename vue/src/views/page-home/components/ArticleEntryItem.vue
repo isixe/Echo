@@ -28,7 +28,7 @@
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
           <span> <LikeOutlined /> {{ item.likeCount }} </span>
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <span> <MessageOutlined /> 0 </span>
+          <span> <MessageOutlined /> {{ item.commentCount }} </span>
         </div>
       </div>
       <div>
