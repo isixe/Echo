@@ -57,6 +57,9 @@ public class QuestionVO {
     @Schema(description = "收藏数")
     private Integer collectionCount;
 
+    @Schema(description = "评论数")
+    private Integer commentCount;
+
     @Schema(description = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
