@@ -137,6 +137,7 @@ public class QuestionController {
         updateWrapper.eq("id", id).set("pv_count", pvCount);
         questionService.update(updateWrapper);
 
+        questionVO.setPvCount(pvCount);
         return questionVO;
     }
 
