@@ -371,6 +371,7 @@ const queryData = async (params) => {
   return await getArticleListByKeyword(params).then((res) => {
     const data = res.data
     dataSource.value = data.records
+    console.log(data.records)
     pagination.total = data.total
     loading.value = false
   })
@@ -562,14 +563,14 @@ const columns = [
     width: 160
   },
   {
-    title: '收藏数',
-    dataIndex: 'collecionCount',
-    sorter: (a, b) => (a.collecionCount - b.collecionCount > 0 ? 1 : -1),
+    title: '浏览数',
+    dataIndex: 'likeCount',
+    sorter: (a, b) => (a.likeCount - b.likeCount > 0 ? 1 : -1),
     width: 110
   },
   {
-    title: '浏览数',
-    dataIndex: 'likeCount',
+    title: '评论数',
+    dataIndex: 'commentCount',
     sorter: (a, b) => (a.likeCount - b.likeCount > 0 ? 1 : -1),
     width: 110
   },

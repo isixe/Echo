@@ -489,12 +489,6 @@ const columns = [
     width: 200
   },
   {
-    title: '收藏数',
-    dataIndex: 'collecionCount',
-    sorter: (a, b) => (a.collecionCount - b.collecionCount > 0 ? 1 : -1),
-    width: 110
-  },
-  {
     title: '浏览数',
     dataIndex: 'likeCount',
     sorter: (a, b) => (a.likeCount - b.likeCount > 0 ? 1 : -1),
