@@ -171,7 +171,7 @@
         <if test="!ew.customSqlSegment.length>0">
             WHERE a.is_deleted = 0
         </if>
-        ORDER BY a.`pv_count` DESC, a.`like_count`
+        ORDER BY a.`pv_count` DESC, `like_count`
     </select>
 
     <select id="getById" resultType="dev.itea.echo.vo.ArticleVO" parameterType="integer">
