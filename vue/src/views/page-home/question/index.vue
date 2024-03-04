@@ -28,7 +28,7 @@
             :items="items"
           />
           <template v-for="record in dataSource" :key="record.id">
-            <article-entry-item :item="record"></article-entry-item>
+            <question-entry-item :item="record"></question-entry-item>
           </template>
         </a-layout-content>
         <a-layout-sider class="sidebar-container" width="320px">
@@ -102,7 +102,7 @@
 </template>
 
 <script setup>
-import { ArticleEntryItem } from '@/views/page-home/components'
+import { QuestionEntryItem } from '@/views/page-home/components'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   getActiveQuestionListByKeyword,
