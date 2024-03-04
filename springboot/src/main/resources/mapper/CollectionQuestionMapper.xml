@@ -9,7 +9,6 @@
         <result column="user_id" property="userId" />
         <result column="question_id" property="questionId" />
         <result column="question_title" property="questionTitle" />
-        <result column="question_desc" property="questionDesc" />
         <result column="is_delete" property="isDelete" />
     </resultMap>
 

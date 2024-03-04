@@ -46,10 +46,6 @@ public class CollectionQuestion extends Model<CollectionQuestion> {
     @TableField("question_title")
     private String questionTitle;
 
-    @Schema(description = "问答摘要")
-    @TableField("question_desc")
-    private String questionDesc;
-
     @Schema(description = "是否删除")
     @TableField("is_delete")
     @TableLogic
