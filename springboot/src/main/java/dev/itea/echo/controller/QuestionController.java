@@ -3,6 +3,7 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Question;
@@ -13,7 +14,6 @@ import dev.itea.echo.utils.MapstructMapperUtil;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
-import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
 import dev.itea.echo.vo.UserRankVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,11 +21,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 问答控制器
@@ -38,6 +40,9 @@ import java.util.List;
 public class QuestionController {
     @Resource
     QuestionService questionService;
+
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 问答新增
@@ -121,6 +126,17 @@ public class QuestionController {
         if (ObjectUtils.isEmpty(questionVO)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
+
+        //sync update redis question pv
+        Integer pvCount = questionVO.getPvCount() + 1;
+        QuestionVO articleCache = (QuestionVO) redisTemplate.opsForValue().get("question::" + id);
+        Objects.requireNonNull(articleCache).setPvCount(pvCount);
+        redisTemplate.opsForValue().set("question::" + id, articleCache);
+
+        UpdateWrapper<Question> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", id).set("pv_count", pvCount);
+        questionService.update(updateWrapper);
+
         return questionVO;
     }
 
