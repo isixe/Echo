@@ -3,6 +3,7 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Article;
@@ -21,11 +22,13 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 文章前端控制器
@@ -40,6 +43,9 @@ public class ArticleController {
 
     @Resource
     ArticleService articleService;
+
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 文章新增
@@ -123,6 +129,18 @@ public class ArticleController {
         if (ObjectUtils.isEmpty(articleVO)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
+
+        //sync update redis article pv
+        Integer pvCount = articleVO.getPvCount() + 1;
+        ArticleVO articleCache = (ArticleVO) redisTemplate.opsForValue().get("article::" + id);
+        Objects.requireNonNull(articleCache).setPvCount(pvCount);
+        redisTemplate.opsForValue().set("article::" + id, articleCache);
+
+        UpdateWrapper<Article> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", id).set("pv_count", pvCount);
+        articleService.update(updateWrapper);
+
+        articleVO.setPvCount(pvCount);
         return articleVO;
     }
 
