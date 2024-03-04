@@ -201,4 +201,20 @@ public class QuestionController {
     public List<UserRankVO> getByUserRankList() {
         return questionService.getUserQuestionNumRankList();
     }
+
+    /**
+     * 问答分页查询（用户ID）
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "问答分页查询（用户ID）", description = "前台根据用户ID查询问答", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllByUserId")
+    public IPage<QuestionVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getPageByUserId(pageable, userId);
+    }
 }

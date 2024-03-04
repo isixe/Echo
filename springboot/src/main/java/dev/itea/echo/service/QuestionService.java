@@ -31,4 +31,6 @@ public interface QuestionService extends IService<Question> {
     IPage<QuestionVO> getActiveHotArticleByPage(Pageable pageable, String keyword);
 
     List<UserRankVO> getUserQuestionNumRankList();
+
+    IPage<QuestionVO> getPageByUserId(Pageable pageable, Integer userId);
 }

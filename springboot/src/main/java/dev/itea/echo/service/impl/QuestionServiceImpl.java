@@ -7,7 +7,6 @@ import dev.itea.echo.entity.Question;
 import dev.itea.echo.mapper.QuestionMapper;
 import dev.itea.echo.service.QuestionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
 import dev.itea.echo.vo.UserRankVO;
 import jakarta.annotation.Resource;
@@ -113,5 +112,13 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     @Override
     public List<UserRankVO> getUserQuestionNumRankList() {
         return questionMapper.getUserQuestionNumRankList();
+    }
+
+    @Override
+    public IPage<QuestionVO> getPageByUserId(Pageable pageable, Integer userId) {
+        Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.eq("status", 1).like("u.id", userId);
+        return questionMapper.getQuestionByPage(page, wrapper);
     }
 }
