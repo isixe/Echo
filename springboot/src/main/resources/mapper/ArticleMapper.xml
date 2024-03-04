@@ -15,8 +15,6 @@
         <result column="tag" property="tag"/>
         <result column="status" property="status"/>
         <result column="pv_count" property="pvCount"/>
-        <result column="like_count" property="likeCount"/>
-        <result column="collection_count" property="collectionCount"/>
         <result column="created_time" property="createdTime"/>
         <result column="publish_time" property="publishTime"/>
         <result column="update_time" property="updateTime"/>
@@ -42,6 +40,7 @@
         <result column="pv_count" property="pvCount"/>
         <result column="like_count" property="likeCount"/>
         <result column="collection_count" property="collectionCount"/>
+        <result column="comment_count" property="commentCount"/>
         <result column="created_time" property="createdTime"/>
         <result column="publish_time" property="publishTime"/>
         <result column="update_time" property="updateTime"/>
@@ -85,8 +84,9 @@
         g.name AS article_group_name,
         a.`status`,
         a.`pv_count`,
-        a.`like_count`,
-        a.`collection_count`,
+        (SELECT count(*) FROM article_thumb WHERE article_id = a.id) AS `like_count`,
+        (SELECT count(*) FROM collection_article WHERE article_id = a.id) AS `collection_count`,
+        (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
         a.`created_time`,
         a.`publish_time`,
         a.`update_time`
@@ -119,8 +119,9 @@
         g.name AS article_group_name,
         a.`status`,
         a.`pv_count`,
-        a.`like_count`,
-        a.`collection_count`,
+        (SELECT count(*) FROM article_thumb WHERE article_id = a.id) AS `like_count`,
+        (SELECT count(*) FROM collection_article WHERE article_id = a.id) AS `collection_count`,
+        (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
         a.`created_time`,
         a.`publish_time`,
         a.`update_time`
@@ -153,8 +154,9 @@
         g.name AS article_group_name,
         a.`status`,
         a.`pv_count`,
-        a.`like_count`,
-        a.`collection_count`,
+        (SELECT count(*) FROM article_thumb WHERE article_id = a.id) AS `like_count`,
+        (SELECT count(*) FROM collection_article WHERE article_id = a.id) AS `collection_count`,
+        (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
         a.`created_time`,
         a.`publish_time`,
         a.`update_time`
@@ -179,17 +181,18 @@
                a.summary,
                a.content,
                a.article_group_id,
-               u.id            AS user_id,
-               u.`name`        AS author,
+               u.id                                                              AS user_id,
+               u.`name`                                                          AS author,
                u.`avatar`,
-               c.category_name AS category,
-               c.id            AS category_id,
+               c.category_name                                                   AS category,
+               c.id                                                              AS category_id,
                a.tag,
-               g.name          AS article_group_name,
+               g.name                                                            AS article_group_name,
                a.`status`,
                a.`pv_count`,
-               a.`like_count`,
-               a.`collection_count`,
+               (SELECT count(*) FROM article_thumb WHERE article_id = a.id)      AS `like_count`,
+               (SELECT count(*) FROM collection_article WHERE article_id = a.id) AS `collection_count`,
+               (SELECT count(*) FROM comment_article WHERE article_id = a.id)    AS `comment_count`,
                a.`created_time`,
                a.`publish_time`,
                a.`update_time`

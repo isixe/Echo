@@ -12,8 +12,6 @@
         <result column="tag" property="tag"/>
         <result column="status" property="status"/>
         <result column="pv_count" property="pvCount"/>
-        <result column="like_count" property="likeCount"/>
-        <result column="collection_count" property="collectionCount"/>
         <result column="update_time" property="updateTime"/>
         <result column="publish_time" property="publishTime"/>
         <result column="created_time" property="createdTime"/>
@@ -35,6 +33,7 @@
         <result column="pv_count" property="pvCount"/>
         <result column="like_count" property="likeCount"/>
         <result column="collection_count" property="collectionCount"/>
+        <result column="comment_count" property="commentCount"/>
         <result column="update_time" property="updateTime"/>
         <result column="publish_time" property="publishTime"/>
         <result column="created_time" property="createdTime"/>
@@ -66,15 +65,16 @@
         SELECT q.id,
                q.title,
                q.content,
-               u.id            AS user_id,
-               u.`name`        AS author,
+               u.id                                                                AS user_id,
+               u.`name`                                                            AS author,
                u.`avatar`,
-               c.category_name AS category,
-               c.id            AS category_id,
+               c.category_name                                                     AS category,
+               c.id                                                                AS category_id,
                q.tag,
                q.`status`,
-               q.`pv_count`,
-               q.`like_count`,
+               (SELECT count(*) FROM question_thumb WHERE question_id = q.id)      AS `like_count`,
+               (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
+               (SELECT count(*) FROM comment_question WHERE question_id = q.id)    AS `comment_count`,
                q.`collection_count`,
                q.`created_time`,
                q.`publish_time`,
@@ -98,8 +98,9 @@
         q.tag,
         q.`status`,
         q.`pv_count`,
-        q.`like_count`,
-        q.`collection_count`,
+        (SELECT count(*) FROM question_thumb WHERE question_id = q.id) AS `like_count`,
+        (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
+        (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
         q.`created_time`,
         q.`publish_time`,
         q.`update_time`
@@ -127,8 +128,9 @@
         q.tag,
         q.`status`,
         q.`pv_count`,
-        q.`like_count`,
-        q.`collection_count`,
+        (SELECT count(*) FROM question_thumb WHERE question_id = q.id) AS `like_count`,
+        (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
+        (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
         q.`created_time`,
         q.`publish_time`,
         q.`update_time`
@@ -156,8 +158,9 @@
         q.tag,
         q.`status`,
         q.`pv_count`,
-        q.`like_count`,
-        q.`collection_count`,
+        (SELECT count(*) FROM question_thumb WHERE question_id = q.id) AS `like_count`,
+        (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
+        (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
         q.`created_time`,
         q.`publish_time`,
         q.`update_time`
