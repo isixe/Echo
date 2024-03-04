@@ -89,14 +89,6 @@ public class Article extends Model<Article> {
     @TableField("pv_count")
     private Integer pvCount;
 
-    @Schema(description = "支持数")
-    @TableField("like_count")
-    private Integer likeCount;
-
-    @Schema(description = "收藏数")
-    @TableField("collecion_count")
-    private Integer collectionCount;
-
     @Schema(description = "创建时间")
     @TableField(value = "created_time", fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NOT_NULL)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

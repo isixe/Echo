@@ -73,14 +73,6 @@ public class Question extends Model<Question> {
     @TableField("pv_count")
     private Integer pvCount;
 
-    @Schema(description = "支持数")
-    @TableField("like_count")
-    private Integer likeCount;
-
-    @Schema(description = "收藏数")
-    @TableField("collection_count")
-    private Integer collectionCount;
-
     @Schema(description = "更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE, updateStrategy = FieldStrategy.NOT_NULL)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
