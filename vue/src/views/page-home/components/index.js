@@ -4,5 +4,14 @@ import Main from './Main.vue'
 import ArticleEntryItem from './ArticleEntryItem.vue'
 import QuestionEntryItem from './QuestionEntryItem.vue'
 import ArticleCommentItem from './ArticleCommentItem.vue'
+import QuestionCommentItem from './QuestionCommentItem.vue'
 
-export { Header, Main, Footer, ArticleEntryItem, QuestionEntryItem, ArticleCommentItem }
+export {
+  Header,
+  Main,
+  Footer,
+  ArticleEntryItem,
+  QuestionEntryItem,
+  ArticleCommentItem,
+  QuestionCommentItem
+}
