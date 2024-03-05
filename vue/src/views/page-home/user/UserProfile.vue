@@ -34,7 +34,7 @@
           </a-tab-pane>
           <a-tab-pane key="2" :tab="'问答 ' + data.questionTotal">
             <template v-for="item in data.question" :key="item.id">
-              <!-- <EntryItem v-model="user"></EntryItem> -->
+              <question-entry-item :item="item"></question-entry-item>
             </template>
           </a-tab-pane>
           <a-tab-pane key="4" tab="关注">
@@ -61,9 +61,10 @@
 <script setup>
 import { get } from '@/api/user'
 import { useUserStore } from '@/stores/user'
+import { QuestionEntryItem } from '@/views/page-home/components'
 import { ArticleEntryItem } from '@/views/page-home/components'
 import { getArticleListByUserId } from '@/api/article'
-import { reactive, ref } from 'vue'
+import { getQuestionListByUserId } from '@/api/question'
 
 const user = ref()
 const route = useRoute()
@@ -89,6 +90,11 @@ onMounted(() => {
   getArticleListByUserId(params).then((res) => {
     data.article = res.data.records
     data.articleTotal = res.data.total
+  })
+
+  getQuestionListByUserId(params).then((res) => {
+    data.question = res.data.records
+    data.questionTotal = res.data.total
   })
 })
 </script>
