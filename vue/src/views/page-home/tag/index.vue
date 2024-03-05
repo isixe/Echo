@@ -2,17 +2,27 @@
   <div class="category-header">标签 ：{{ tagName }}</div>
   <div class="container">
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
-    <div v-for="item in data" :key="item.id">
-      <article-entry-item :item="item"></article-entry-item>
-    </div>
+    <template v-if="selectedKey == 'article'">
+      <div v-for="item in articleData" :key="item.id">
+        <article-entry-item :item="item"></article-entry-item>
+      </div>
+    </template>
+    <template v-else-if="selectedKey == 'question'">
+      <div v-for="item in questionData" :key="item.id">
+        <question-entry-item :item="item"></question-entry-item>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { ArticleEntryItem } from '@/views/page-home/components'
+import { ArticleEntryItem, QuestionEntryItem } from '@/views/page-home/components'
 import { getArticleListByTagName } from '@/api/article'
+import { getQuestionListByTagName } from '@/api/question'
+
 const route = useRoute()
-const data = ref()
+const articleData = ref()
+const questionData = ref()
 const tagName = ref(route.query.tagName)
 const selectedKey = ref(['article'])
 const params = reactive({
@@ -27,12 +37,15 @@ onMounted(() => {
 
 const getArticleDataSource = () => {
   getArticleListByTagName(params).then((res) => {
-    data.value = res.data.records
-    console.log(res.data.records)
+    articleData.value = res.data.records
   })
 }
 
-const getQuestionDataSource = () => {}
+const getQuestionDataSource = () => {
+  getQuestionListByTagName(params).then((res) => {
+    questionData.value = res.data.records
+  })
+}
 
 watch(selectedKey, (key) => {
   switch (key[0]) {
