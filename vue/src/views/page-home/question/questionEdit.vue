@@ -76,7 +76,6 @@ import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
 import { get, add, update } from '@/api/question'
 import { TagInput, CategorySelect } from '@/components'
-import QuestionEditor from '@/components/QuestionEditor'
 
 const loading = ref()
 const route = useRoute()
