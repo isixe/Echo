@@ -38,8 +38,6 @@ const userId = defineModel('userId')
 const articleGroupId = defineModel('articleGroupId')
 const articleGroupName = defineModel('articleGroupName')
 
-console.log(userId.value)
-
 const inputRef = ref()
 const articleGroupInput = ref('')
 const articleGroupOptions = ref([])

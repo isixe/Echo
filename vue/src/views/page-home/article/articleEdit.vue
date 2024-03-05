@@ -36,7 +36,7 @@
       <article-editor class="right-content" v-model="data.content" />
       <div class="right-footer">
         <div class="right-footer-left">
-          <template v-if="data.publishTime">
+          <template v-if="data.status">
             <a-date-picker v-model:value="data.publishTime" disabled />
             <a-time-picker v-model:value="data.publishTime" style="margin-left: 10px" disabled />
           </template>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="right-footer-right">
-          <template v-if="data.content && data.status !== 1">
+          <template v-if="data.content && data.status !== 1 && !data.publishTime">
             <a-button
               type="primary"
               style="background-color: #008000; margin-right: 10px"
@@ -138,6 +138,7 @@ const draftArticle = () => {
     formData.append(key, data[key])
   })
   formData.set('status', 0)
+  formData.delete('publishTime')
   addArticle(formData)
 }
 
