@@ -73,12 +73,12 @@ router.beforeEach((to, from, next) => {
 
   //get route hit
   const isRoleRoutes = (routes) => {
-    const pathList = extractPaths([routes]).flat()
+    const pathList = extractPaths(routes).flat()
     return pathList.includes(path)
   }
 
   const user = isRoleRoutes(userRoutes)
-  const admin = isRoleRoutes(adminRoutes)
+  const admin = isRoleRoutes([adminRoutes])
 
   //redirect to login page
   if (tokens.user && user) {
