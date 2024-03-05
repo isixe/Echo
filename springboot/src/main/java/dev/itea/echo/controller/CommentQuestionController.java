@@ -125,7 +125,7 @@ public class CommentQuestionController {
     /**
      * 问答评论查询（问答ID）
      *
-     * @param articleId 问答ID
+     * @param questionId 问答ID
      */
     @Operation(summary = "问答评论查询（问答ID）", description = "问答评论顶级列表查询", tags = "CommentQuestion", method = "GET",
             parameters = {
