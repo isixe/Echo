@@ -35,11 +35,13 @@
                 </RouterLink>
               </a-menu-item>
               <a-menu-item key="2" style="display: grid">
-                <font-awesome-icon
-                  :icon="['fas', 'question']"
-                  style="width: 20px; margin-left: -5px"
-                />
-                提问题
+                <RouterLink to="/question/edit">
+                  <font-awesome-icon
+                    :icon="['fas', 'question']"
+                    style="width: 20px; margin-left: -5px"
+                  />
+                  提问题
+                </RouterLink>
               </a-menu-item>
             </a-menu>
           </template>
