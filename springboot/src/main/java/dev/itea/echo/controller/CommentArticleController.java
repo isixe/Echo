@@ -12,8 +12,7 @@ import dev.itea.echo.service.CommentArticleService;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
-import dev.itea.echo.vo.ArticleVO;
-import dev.itea.echo.vo.ChildCommentArticleVO;
+import dev.itea.echo.vo.ChildCommentVO;
 import dev.itea.echo.vo.CommentArticleVO;
 import dev.itea.echo.vo.RootCommentArticleVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -150,7 +149,7 @@ public class CommentArticleController {
             })
     @SaIgnore
     @GetMapping("/getChildCommentByRootId")
-    public List<ChildCommentArticleVO> getChildListByRootId(Integer rootId) {
+    public List<ChildCommentVO> getChildListByRootId(Integer rootId) {
         return commentArticleService.getChildListByArticleId(rootId);
     }
 

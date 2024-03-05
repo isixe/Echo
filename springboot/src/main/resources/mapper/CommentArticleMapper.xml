@@ -43,7 +43,7 @@
         <result column="created_time" property="createdTime"/>
     </resultMap>
 
-    <resultMap id="ChildCommentArticleVOResultMap" type="dev.itea.echo.vo.ChildCommentArticleVO">
+    <resultMap id="ChildCommentVOResultMap" type="dev.itea.echo.vo.ChildCommentVO">
         <result column="user_id" property="userId"/>
         <result column="user_name" property="userName"/>
         <result column="avatar" property="avatar"/>
@@ -103,7 +103,7 @@
         ORDER BY ca.created_time DESC
     </select>
 
-    <select id="getChildListByArticleId" resultMap="ChildCommentArticleVOResultMap">
+    <select id="getChildListByArticleId" resultMap="ChildCommentVOResultMap">
         SELECT ca.id,
                ca.user_id,
                u.name                                          AS user_name,

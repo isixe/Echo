@@ -12,14 +12,14 @@ import lombok.experimental.Accessors;
 import java.time.LocalDateTime;
 
 /**
- * ca.root_comment_id,
+ * 文章子级评论值对象
  *
  * @author: isixe
  * @create: 2024-02-25 15:19
  **/
 @Data
 @Accessors(chain = true)
-public class ChildCommentArticleVO {
+public class ChildCommentVO {
 
     @Schema(description = "ID")
     private Integer id;
@@ -49,11 +49,9 @@ public class ChildCommentArticleVO {
     private String parentContent;
 
     @Schema(description = "支持数")
-    @TableField("like_count")
     private Integer likeCount;
 
     @Schema(description = "否定数")
-    @TableField("dislike_count")
     private Integer dislikeCount;
 
     @Schema(description = "发送时间")

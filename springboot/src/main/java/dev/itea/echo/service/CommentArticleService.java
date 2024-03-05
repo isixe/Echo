@@ -3,8 +3,7 @@ package dev.itea.echo.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.CommentArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
-import dev.itea.echo.vo.ArticleVO;
-import dev.itea.echo.vo.ChildCommentArticleVO;
+import dev.itea.echo.vo.ChildCommentVO;
 import dev.itea.echo.vo.CommentArticleVO;
 import dev.itea.echo.vo.RootCommentArticleVO;
 import org.springframework.data.domain.Pageable;
@@ -29,5 +28,5 @@ public interface CommentArticleService extends IService<CommentArticle> {
 
     List<RootCommentArticleVO> getRootListByArticleId(Integer id);
 
-    List<ChildCommentArticleVO> getChildListByArticleId(Integer rootId);
+    List<ChildCommentVO> getChildListByArticleId(Integer rootId);
 }

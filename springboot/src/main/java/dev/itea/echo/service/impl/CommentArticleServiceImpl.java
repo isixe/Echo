@@ -7,8 +7,7 @@ import dev.itea.echo.entity.CommentArticle;
 import dev.itea.echo.mapper.CommentArticleMapper;
 import dev.itea.echo.service.CommentArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import dev.itea.echo.vo.ArticleVO;
-import dev.itea.echo.vo.ChildCommentArticleVO;
+import dev.itea.echo.vo.ChildCommentVO;
 import dev.itea.echo.vo.CommentArticleVO;
 import dev.itea.echo.vo.RootCommentArticleVO;
 import jakarta.annotation.Resource;
@@ -73,8 +72,8 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
     }
 
     @Override
-    public List<ChildCommentArticleVO> getChildListByArticleId(Integer rootId) {
-        return commentArticleMapper.getChildListByArticleId(new QueryWrapper<ChildCommentArticleVO>()
+    public List<ChildCommentVO> getChildListByArticleId(Integer rootId) {
+        return commentArticleMapper.getChildListByArticleId(new QueryWrapper<ChildCommentVO>()
                 .eq("ca.root_comment_id", rootId).isNotNull("ca.root_comment_id"));
     }
 }
