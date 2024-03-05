@@ -132,6 +132,14 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
+    public IPage<QuestionVO> getPageByTagName(Pageable pageable, String tagName) {
+        Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.eq("status", 1).like("tag", tagName);
+        return questionMapper.getActiveQuestionByPage(page, wrapper);
+    }
+
+    @Override
     public List<Question> getArticleListByTitle(String title) {
         return questionMapper.getQuestionByTitle(title);
     }

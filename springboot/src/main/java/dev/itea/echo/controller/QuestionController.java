@@ -157,22 +157,6 @@ public class QuestionController {
     }
 
     /**
-     * 问答分页查询（分类ID）
-     *
-     * @param categoryId 分类ID
-     */
-    @Operation(summary = "问答查询（分类ID）", description = "前台根据问答分类ID查询问答", tags = "Question", method = "GET",
-            parameters = {
-                    @Parameter(name = "categoryId", description = "分类ID", required = true, example = "1"),
-            })
-    @SaIgnore
-    @GetMapping(value = "/queryAllByCategoryId")
-    public IPage<QuestionVO> getPageByCategoryid(@Validated PageDTO pageDTO, Integer categoryId) {
-        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getPageByCategoryId(pageable, categoryId);
-    }
-
-    /**
      * 问答查询（分页&关键词）
      *
      * @param pageDTO 分页数据传输对象
@@ -221,6 +205,38 @@ public class QuestionController {
     public IPage<QuestionVO> getActiveHotPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return questionService.getActiveHotArticleByPage(pageable, pageDTO.getKeyword());
+    }
+
+    /**
+     * 问答分页查询（分类ID）
+     *
+     * @param categoryId 分类ID
+     */
+    @Operation(summary = "问答查询（分类ID）", description = "前台根据问答分类ID查询问答", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "categoryId", description = "分类ID", required = true, example = "1"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllByCategoryId")
+    public IPage<QuestionVO> getPageByCategoryid(@Validated PageDTO pageDTO, Integer categoryId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getPageByCategoryId(pageable, categoryId);
+    }
+
+    /**
+     * 问答分页模糊查询（标签名称）
+     *
+     * @param tagName 标签名称
+     */
+    @Operation(summary = "问答分页模糊查询（标签名称）", description = "前台根据标签名称查询问答分页", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "tagName", description = "标签名称", required = true, example = "MySQL"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllByTagName")
+    public IPage<QuestionVO> getPageByTagName(@Validated PageDTO pageDTO, String tagName) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getPageByTagName(pageable, tagName);
     }
 
     /**
