@@ -80,13 +80,13 @@ export function getQuestionListByKeyword(params) {
 //   })
 // }
 
-// export function getQuestionListByUserId(params) {
-//   return request({
-//     url: '/question/queryAllByUserId',
-//     method: 'get',
-//     params
-//   })
-// }
+export function getQuestionListByUserId(params) {
+  return request({
+    url: '/question/queryAllByUserId',
+    method: 'get',
+    params
+  })
+}
 
 export async function getUserRank() {
   return request({
