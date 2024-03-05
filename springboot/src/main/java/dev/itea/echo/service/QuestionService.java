@@ -32,6 +32,8 @@ public interface QuestionService extends IService<Question> {
 
     IPage<QuestionVO> getPageByUserId(Pageable pageable, Integer userId);
 
+    IPage<QuestionVO> getPageByCategoryId(Pageable pageable, Integer categoryId);
+
     List<Question> getArticleListByTitle(String title);
 
     List<UserRankVO> getUserQuestionNumRankList();

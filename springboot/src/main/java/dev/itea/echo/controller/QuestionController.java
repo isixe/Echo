@@ -157,6 +157,22 @@ public class QuestionController {
     }
 
     /**
+     * 问答分页查询（分类ID）
+     *
+     * @param categoryId 分类ID
+     */
+    @Operation(summary = "问答查询（分类ID）", description = "前台根据问答分类ID查询问答", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "categoryId", description = "分类ID", required = true, example = "1"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllByCategoryId")
+    public IPage<QuestionVO> getPageByCategoryid(@Validated PageDTO pageDTO, Integer categoryId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getPageByCategoryId(pageable, categoryId);
+    }
+
+    /**
      * 问答查询（分页&关键词）
      *
      * @param pageDTO 分页数据传输对象
