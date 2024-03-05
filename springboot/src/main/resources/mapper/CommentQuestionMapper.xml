@@ -4,16 +4,124 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.CommentQuestion">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="question_id" property="questionId" />
-        <result column="root_comment_id" property="rootCommentId" />
-        <result column="parent_comment_id" property="parentCommentId" />
-        <result column="content" property="content" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="question_id" property="questionId"/>
+        <result column="root_comment_id" property="rootCommentId"/>
+        <result column="parent_comment_id" property="parentCommentId"/>
+        <result column="content" property="content"/>
         <result column="like_count" property="likeCount"/>
         <result column="dislike_count" property="dislikeCount"/>
-        <result column="created_time" property="createdTime" />
-        <result column="is_deleted" property="isDeleted" />
+        <result column="created_time" property="createdTime"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
+
+    <resultMap id="CommentQuestionVOResultMap" type="dev.itea.echo.vo.CommentQuestionVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="question_id" property="questionId"/>
+        <result column="question_title" property="questionTitle"/>
+        <result column="root_comment_id" property="rootCommentId"/>
+        <result column="parent_comment_id" property="parentCommentId"/>
+        <result column="content" property="content"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="dislike_count" property="dislikeCount"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <resultMap id="RootCommentQuestionVOResultMap" type="dev.itea.echo.vo.RootCommentQuestionVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="question_id" property="questionId"/>
+        <result column="content" property="content"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="dislike_count" property="dislikeCount"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <resultMap id="ChildCommentVOResultMap" type="dev.itea.echo.vo.ChildCommentVO">
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="parent_comment_id" property="parentCommentId"/>
+        <result column="parent_user_id" property="parentUserId"/>
+        <result column="parent_user_name" property="parentUserName"/>
+        <result column="content" property="content"/>
+        <result column="parent_content" property="parentContent"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="dislike_count" property="dislikeCount"/>
+        <result column="created_time" property="createdTime"/>
+    </resultMap>
+
+    <select id="getQuestionCommentByPage" resultMap="CommentQuestionVOResultMap">
+        SELECT cq.id,
+        cq.user_id,
+        u.name AS user_name,
+        u.avatar,
+        cq.question_id,
+        cq.content,
+        q.title AS question_title,
+        cq.root_comment_id,
+        cq.parent_comment_id,
+        cq.like_count,
+        cq.dislike_count,
+        cq.created_time
+        FROM comment_question AS cq
+        JOIN `user` AS u ON u.id = cq.user_id
+        JOIN question AS q on q.id = cq.question_id
+        <if test="ew.customSqlSegment.length>0">
+            ${ew.customSqlSegment}
+            AND cq.is_deleted = 0
+        </if>
+        <if test="!ew.customSqlSegment.length>0">
+            WHERE cq.is_deleted = 0
+        </if>
+        ORDER BY cq.created_time DESC
+    </select>
+
+
+    <select id="getRootListByQuestionId" resultMap="RootCommentQuestionVOResultMap">
+        SELECT cq.id,
+               cq.user_id,
+               u.name  AS user_name,
+               u.avatar,
+               q.title AS question_title,
+               cq.question_id,
+               cq.root_comment_id,
+               cq.parent_comment_id,
+               cq.content,
+               cq.like_count,
+               cq.dislike_count,
+               cq.created_time
+        FROM comment_question AS cq
+                 JOIN `user` AS u ON u.id = cq.user_id
+                 JOIN question AS q on q.id = cq.question_id ${ew.customSqlSegment}
+            AND cq.is_deleted = 0
+        ORDER BY cq.created_time DESC
+    </select>
+
+    <select id="getChildListByQuestionId" resultMap="ChildCommentVOResultMap">
+        SELECT cq.id,
+               cq.user_id,
+               u.name                                          AS user_name,
+               u.avatar,
+               cq.parent_comment_id,
+               cb.user_id                                      AS parent_user_id,
+               (SELECT name FROM `user` WHERE id = cb.user_id) AS parent_user_name,
+               cq.content,
+               cb.content                                      AS parent_content,
+               cq.like_count,
+               cq.dislike_count,
+               cq.created_time
+        FROM comment_question AS cq
+                 JOIN `user` AS u ON u.id = cq.user_id
+                 JOIN comment_question AS cb ON cb.id = cq.parent_comment_id ${ew.customSqlSegment}
+            AND cq.is_deleted = 0
+        ORDER BY cq.created_time
+    </select>
 
 </mapper>
