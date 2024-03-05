@@ -94,21 +94,30 @@ const data = reactive({
 })
 
 onMounted(() => {
+  const store = useUserStore()
   if (!data.userId) {
-    const store = useUserStore()
     data.userId = store.id
   }
 
   if (!route.query.id) {
     return
   }
-  get({ id: route.query.id }).then((res) => {
-    Object.keys(data).forEach((key) => {
-      data[key] = res.data[key]
-    })
+  get({ id: route.query.id })
+    .then((res) => {
+      Object.keys(data).forEach((key) => {
+        data[key] = res.data[key]
+      })
 
-    data.publishTime = dayjs(data.publishTime, 'YYYY-MM-DD HH:mm:ss')
-  })
+      if (res.data.userId !== store.id) {
+        message.error('无访问权限')
+        router.push('/403')
+      }
+
+      data.publishTime = dayjs(data.publishTime, 'YYYY-MM-DD HH:mm:ss')
+    })
+    .catch(() => {
+      router.push('/404')
+    })
 })
 
 const draftArticle = () => {
