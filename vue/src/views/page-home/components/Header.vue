@@ -43,6 +43,15 @@
                   提问题
                 </RouterLink>
               </a-menu-item>
+              <a-menu-item key="2" style="display: grid">
+                <RouterLink to="/draft">
+                  <font-awesome-icon
+                    :icon="['fas', 'box-archive']"
+                    style="width: 20px; margin-left: -5px"
+                  />
+                  草稿箱
+                </RouterLink>
+              </a-menu-item>
             </a-menu>
           </template>
           <a-button type="primary" style="background-color: #4d45e5">
@@ -101,8 +110,8 @@ import { get } from '@/api/user'
 import { useUserStore } from '@/stores/user'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
-import { faPenToSquare, faHashtag, faQuestion } from '@fortawesome/free-solid-svg-icons'
-library.add(faPenToSquare, faHashtag, faQuestion)
+import { faPenToSquare, faQuestion, faBoxArchive } from '@fortawesome/free-solid-svg-icons'
+library.add(faPenToSquare, faQuestion, faBoxArchive)
 
 const user = ref()
 const store = useUserStore()
