@@ -32,4 +32,6 @@ public interface QuestionMapper extends BaseMapper<Question> {
     IPage<QuestionVO> getHotQuestionByPage(Page<QuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<QuestionVO> wrapper);
 
     List<UserRankVO> getUserQuestionNumRankList();
+
+    List<Question> getQuestionByTitle(String title);
 }

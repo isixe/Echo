@@ -121,4 +121,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         wrapper = wrapper.eq("status", 1).like("u.id", userId);
         return questionMapper.getQuestionByPage(page, wrapper);
     }
+
+    @Override
+    public List<Question> getArticleListByTitle(String title) {
+        return questionMapper.getQuestionByTitle(title);
+    }
 }

@@ -142,6 +142,21 @@ public class QuestionController {
     }
 
     /**
+     * 问答模糊查询（标题）
+     *
+     * @param title 问答标题
+     */
+    @Operation(summary = "问答查询（标题）", description = "前台问答标题问答查询", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "title", description = "问答标题", required = true, example = "标题"),
+            })
+    @SaCheckLogin
+    @GetMapping(value = "/getList", params = "title")
+    public List<Question> getListByTitle(String title) {
+        return questionService.getArticleListByTitle(title);
+    }
+
+    /**
      * 问答查询（分页&关键词）
      *
      * @param pageDTO 分页数据传输对象
