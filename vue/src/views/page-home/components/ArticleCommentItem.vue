@@ -42,8 +42,8 @@
         >
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
         <a
-          ><span @click="() => (showRootReplay = !showRootReplay)"> <MessageOutlined /> 0 </span></a
-        >
+          ><span @click="() => (showRootReplay = !showRootReplay)"> <MessageOutlined /></span
+        ></a>
         <div class="replay-root-info-box" v-show="showRootReplay">
           <a-textarea v-model:value="rootContent" :autoSize="true" />
           <div class="button-box">

@@ -1,5 +1,10 @@
 <template v-if="comment">
   <div class="comment-main-container root-info group-main">
+    <div class="info-message">
+      <a @click="likeComment(comment.id)"><CaretUpOutlined style="font-size: 24px" /></a>
+      <p>{{ comment.likeCount - comment.dislikeCount }}</p>
+      <a @click="dislikeComment(comment.id)"><CaretDownOutlined style="font-size: 24px" /></a>
+    </div>
     <div class="comment-message">
       <RouterLink :to="'/user/' + comment.userId">
         <a-avatar
@@ -16,34 +21,30 @@
     </div>
     <div class="comment-user-info">
       <div class="base-info">
-        <RouterLink :to="'/user/' + comment.userId">
-          <span class="user-name g-hover"
-            >{{ comment.userName }}
-            <span v-show="comment.userId == authorId" style="color: #ccc">[作者]</span>
-          </span>
-        </RouterLink>
-        <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-        <span class="comment-time">{{ comment.createdTime }}</span>
-        <template v-if="store.id == comment.userId">
+        <div>
+          <RouterLink :to="'/user/' + comment.userId">
+            <span class="user-name g-hover"
+              >{{ comment.userName }}
+              <span v-show="comment.userId == authorId" style="color: #ccc">[作者]</span>
+            </span>
+          </RouterLink>
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-          <a class="comment-delete" @click="deleteComment(comment.id)">删除</a>
-        </template>
+          <span class="comment-time">{{ comment.createdTime }}</span>
+          <template v-if="store.id == comment.userId">
+            <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
+            <a class="comment-delete" @click="deleteComment(comment.id)">删除</a>
+          </template>
+        </div>
+        <div>
+          <a class="comment-switch"
+            ><span @click="() => (showRootReplay = !showRootReplay)"> <MessageOutlined /> </span
+          ></a>
+        </div>
       </div>
       <div class="ex-info">
         <p>{{ comment.content }}</p>
       </div>
       <div class="footer-info">
-        <a @click="likeComment(comment.id)"
-          ><span> <LikeOutlined /> {{ comment.likeCount }} </span></a
-        >
-        <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-        <a @click="dislikeComment(comment.id)"
-          ><span> <DislikeOutlined /> {{ comment.dislikeCount }} </span></a
-        >
-        <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-        <a
-          ><span @click="() => (showRootReplay = !showRootReplay)"> <MessageOutlined /> 0 </span></a
-        >
         <div class="replay-root-info-box" v-show="showRootReplay">
           <a-textarea v-model:value="rootContent" :autoSize="true" />
           <div class="button-box">
@@ -70,28 +71,35 @@
           </div>
           <div class="comment-user-info">
             <div class="base-info">
-              <span class="user-name g-hover">
-                <RouterLink :to="'/user/' + child.userId">
-                  {{ child.userName }}
-                  <span v-show="child.userId == authorId" style="color: #ccc">[作者]</span>
-                </RouterLink>
-                <template v-if="child.parentCommentId && child.userId !== child.parentUserId">
-                  <CaretRightOutlined style="color: #ccc" />
-                  <RouterLink :to="'/user/' + child.parentUserId">
-                    @{{ child.parentUserName }}
-                    <span v-show="child.parentUserId == authorId" style="color: #ccc">[作者]</span>
+              <div>
+                <span class="user-name g-hover">
+                  <RouterLink :to="'/user/' + child.userId">
+                    {{ child.userName }}
+                    <span v-show="child.userId == authorId" style="color: #ccc">[作者]</span>
                   </RouterLink>
-                </template>
-              </span>
-              <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-              <span class="comment-time">{{ child.createdTime }}</span>
-              <template v-if="store.id == child.userId">
+                  <template v-if="child.parentCommentId && child.userId !== child.parentUserId">
+                    <CaretRightOutlined style="color: #ccc" />
+                    <RouterLink :to="'/user/' + child.parentUserId">
+                      @{{ child.parentUserName }}
+                      <span v-show="child.parentUserId == authorId" style="color: #ccc"
+                        >[作者]</span
+                      >
+                    </RouterLink>
+                  </template>
+                </span>
                 <a-divider
                   type="vertical"
                   style="height: 15px; top: 0; background-color: #e1cee7"
                 />
-                <a class="comment-delete" @click="deleteComment(child.id)">删除</a>
-              </template>
+                <span class="comment-time">{{ child.createdTime }}</span>
+                <template v-if="store.id == child.userId">
+                  <a-divider
+                    type="vertical"
+                    style="height: 15px; top: 0; background-color: #e1cee7"
+                  />
+                  <a class="comment-delete" @click="deleteComment(child.id)">删除</a>
+                </template>
+              </div>
             </div>
             <div class="ex-info">
               <p>{{ child.content }}</p>
@@ -112,9 +120,8 @@
                 ><span
                   @click="() => (showChildReplay = showChildReplay == child.id ? 0 : child.id)"
                 >
-                  <MessageOutlined /> 0
-                </span></a
-              >
+                  <MessageOutlined /> </span
+              ></a>
               <div class="replay-child-info-box" v-show="showChildReplay == child.id">
                 <a-textarea v-model:value="childContent" :autoSize="true" />
                 <div class="button-box">
@@ -222,6 +229,21 @@ const dislikeComment = (commentId) => {
   padding: 15px 0;
 }
 
+.info-message {
+  display: flex;
+  margin-right: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-message a {
+  color: #ccc;
+}
+
+.info-message a:hover {
+  color: #4d45e5;
+}
+
 .comment-user-info {
   flex: 1;
   font-size: 15px;
@@ -230,6 +252,16 @@ const dislikeComment = (commentId) => {
 .base-info {
   color: #ccc;
   margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-switch {
+  color: #666;
+}
+
+.comment-switch:hover {
+  color: #4d45e5;
 }
 
 .user-name {

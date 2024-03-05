@@ -1,6 +1,6 @@
 <template>
   <div class="entry-item">
-    <RouterLink :to="'/question/' + item.id" style="display: flex">
+    <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
       <div class="item-left">
         <div class="item-left-message">
           <p>0</p>

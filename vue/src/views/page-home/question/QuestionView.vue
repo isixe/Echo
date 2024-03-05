@@ -28,7 +28,7 @@
             </RouterLink>
             <template v-if="data.userId == userId">
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-              <RouterLink :to="{ path: '/article/edit', query: { id: data.id } }">
+              <RouterLink :to="{ path: '/question/edit', query: { id: data.id } }">
                 编辑
               </RouterLink>
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
