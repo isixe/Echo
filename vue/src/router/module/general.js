@@ -20,7 +20,7 @@ const generalRoutes = [
       {
         path: '/user/:id',
         name: 'userProfile',
-        component: () => import('@/views/page-home/user/UserProfile')
+        component: () => import('@/views/page-home/user/userProfile')
       },
       {
         path: '/article/:id',

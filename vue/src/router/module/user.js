@@ -8,6 +8,11 @@ const userRoutes = [
     path: '/question/edit',
     name: 'questionEdit',
     component: () => import('@/views/page-home/question/questionEdit')
+  },
+  {
+    path: '/draft',
+    name: 'userDraft',
+    component: () => import('@/views/page-home/user/userDraft')
   }
 ]
 
