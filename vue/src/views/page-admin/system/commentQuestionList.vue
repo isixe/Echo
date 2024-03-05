@@ -50,8 +50,8 @@
           <a-form-item name="content" label="评论内容">
             <a-textarea v-model:value="newData.content" />
           </a-form-item>
-          <a-form-item name="articleId" label="关联文章">
-            <article-select v-model="newData.articleId" />
+          <a-form-item name="questionId" label="关联问答">
+            <question-select v-model="newData.questionId" />
           </a-form-item>
         </a-form>
       </div>
@@ -74,8 +74,8 @@
           <a-form-item name="content" label="评论内容">
             <a-textarea v-model:value="editData.content" />
           </a-form-item>
-          <a-form-item name="articleId" label="关联文章">
-            <a-select v-model:value="editData.articleId" :options="articleOptions" disabled />
+          <a-form-item name="questionId" label="关联问答">
+            <a-select v-model:value="editData.questionId" :options="questionOptions" disabled />
           </a-form-item>
           <a-form-item name="createdTime" label="创建时间">
             <a-date-picker v-model:value="editData.createdTime" disabled />
@@ -105,8 +105,8 @@ import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
-import { add, update, remove, getCommentArticleListByKeyword } from '@/api/articleComment'
-import { authorSelect, articleSelect } from './components'
+import { add, update, remove, getCommentQuestionListByKeyword } from '@/api/questionComment'
+import { authorSelect, questionSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const searchText = defineModel('search')
@@ -139,11 +139,11 @@ const rules = {
       message: '作者不能为空'
     }
   ],
-  articleId: [
+  questionId: [
     {
       required: true,
       trigger: 'blur',
-      message: '文章不能为空'
+      message: '问答不能为空'
     }
   ]
 }
@@ -155,17 +155,17 @@ const showEditModal = ref(false)
 
 const newData = reactive({
   userId: null,
-  articleId: null,
+  questionId: null,
   content: ''
 })
 
 const userOptions = ref([])
-const articleOptions = ref([])
+const questionOptions = ref([])
 const editData = reactive({
   id: null,
   content: '',
-  articleId: null,
-  articleTitle: '',
+  questionId: null,
+  questionTitle: '',
   userId: null,
   userName: '',
   rootCommentId: null,
@@ -220,7 +220,7 @@ onMounted(() => {
 
 //get response
 const queryData = async (params) => {
-  return await getCommentArticleListByKeyword(params).then((res) => {
+  return await getCommentQuestionListByKeyword(params).then((res) => {
     const data = res.data
     dataSource.value = data.records
     pagination.total = data.total
@@ -294,7 +294,7 @@ const showEdit = async (record) => {
 
   editData['createdTime'] = dayjs(editData['createdTime'], 'YYYY-MM-DD HH:mm:ss')
   userOptions.value = [{ value: editData.userId, label: editData.userName }]
-  articleOptions.value = [{ value: editData.articleId, label: editData.articleTitle }]
+  questionOptions.value = [{ value: editData.questionId, label: editData.questionTitle }]
 
   showEditModal.value = true
 }
@@ -365,9 +365,9 @@ const columns = [
     width: 300
   },
   {
-    title: '相关文章',
-    dataIndex: 'articleTitle',
-    sorter: (a, b) => (a.articleTitle.length - b.articleTitle.length > 0 ? 1 : -1),
+    title: '相关问答',
+    dataIndex: 'questionTitle',
+    sorter: (a, b) => (a.questionTitle.length - b.questionTitle.length > 0 ? 1 : -1),
     width: 200
   },
   {
