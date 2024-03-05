@@ -108,7 +108,7 @@ onMounted(() => {
         data[key] = res.data[key]
       })
 
-      if (res.data.userId !== store.id) {
+      if (res.data.userId != store.id) {
         message.error('无访问权限')
         router.push('/403')
       }
