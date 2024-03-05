@@ -40,6 +40,14 @@ export function getQuestionListByTitle(params) {
   })
 }
 
+export function getQuestionDraftList(params) {
+  return request({
+    url: '/question/getDraftList',
+    method: 'get',
+    params
+  })
+}
+
 export function getActiveQuestionListByKeyword(params) {
   return request({
     url: '/question/queryAllActive',

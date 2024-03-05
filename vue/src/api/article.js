@@ -48,6 +48,14 @@ export function getArticleListByTitle(params) {
   })
 }
 
+export function getArticleDraftList(params) {
+  return request({
+    url: '/article/getDraftList',
+    method: 'get',
+    params
+  })
+}
+
 export function getActiveArticleListByKeyword(params) {
   return request({
     url: '/article/queryAllActive',
