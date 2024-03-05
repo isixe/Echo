@@ -226,8 +226,7 @@
 <script setup>
 import tocbot from 'tocbot'
 import { createVNode } from 'vue'
-import { get, getArticleListByGroupId } from '@/api/article'
-import { remove } from '@/api/article'
+import { get, remove, getArticleListByGroupId } from '@/api/article'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { add, getCommentArticleRootList } from '@/api/articleComment'
