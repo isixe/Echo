@@ -3,7 +3,6 @@ package dev.itea.echo.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
-import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
 import dev.itea.echo.vo.UserRankVO;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +39,5 @@ public interface QuestionService extends IService<Question> {
 
     List<UserRankVO> getUserQuestionNumRankList();
 
+    List<Question> getDraftListByUserId(Integer userId);
 }

@@ -170,8 +170,8 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping(value = "/getDraftList")
-    public List<Article> getDraftListByUserID(Integer userId) {
-        return articleService.getDraftListByUserID(userId);
+    public List<Article> getDraftListByUserId(Integer userId) {
+        return articleService.getDraftListByUserId(userId);
     }
 
     /**

@@ -157,6 +157,22 @@ public class QuestionController {
     }
 
     /**
+     * 问答草稿查询（用户ID）
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "问答查询（用户ID）", description = "前台根据用户ID查询问答", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/getDraftList")
+    public List<Question> getDraftListByUserId(Integer userId) {
+        return questionService.getDraftListByUserId(userId);
+    }
+
+
+    /**
      * 问答查询（分页&关键词）
      *
      * @param pageDTO 分页数据传输对象

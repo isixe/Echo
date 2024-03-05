@@ -3,6 +3,7 @@ package dev.itea.echo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import dev.itea.echo.entity.Article;
 import dev.itea.echo.entity.Question;
 import dev.itea.echo.mapper.QuestionMapper;
 import dev.itea.echo.service.QuestionService;
@@ -113,6 +114,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     @Override
     public List<UserRankVO> getUserQuestionNumRankList() {
         return questionMapper.getUserQuestionNumRankList();
+    }
+
+    @Override
+    public List<Question> getDraftListByUserId(Integer userId) {
+        QueryWrapper<Question> wrapper = new QueryWrapper<Question>().eq("user_id", userId).eq("status", 0);
+        return questionMapper.selectList(wrapper);
     }
 
     @Override
