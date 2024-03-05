@@ -113,7 +113,9 @@ onMounted(() => {
         router.push('/403')
       }
 
-      data.publishTime = dayjs(data.publishTime, 'YYYY-MM-DD HH:mm:ss')
+      if (data.publishTime) {
+        data.publishTime = dayjs(data.publishTime, 'YYYY-MM-DD HH:mm:ss')
+      }
     })
     .catch(() => {
       router.push('/404')
