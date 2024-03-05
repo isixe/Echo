@@ -26,13 +26,13 @@
             <RouterLink :to="'/category/' + data.categoryId" class="category-container">
               {{ data.category }}
             </RouterLink>
-            <template v-if="data.userId === userId">
+            <template v-if="data.userId == userId">
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
               <RouterLink :to="{ path: '/article/edit', query: { id: data.id } }">
                 编辑
               </RouterLink>
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-              <a> 删除 </a>
+              <a @click="deleteQuestion()"> 删除 </a>
             </template>
           </div>
         </div>
@@ -128,13 +128,12 @@
 
 <script setup>
 import { createVNode } from 'vue'
-import { get } from '@/api/question'
-import { remove } from '@/api/article'
+import { get, remove } from '@/api/question'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { add, getCommentQuestionRootList } from '@/api/questionComment'
 import { useUserStore } from '@/stores/user'
-// import { QuestionCommentItem } from '../components'
+import { QuestionCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
@@ -172,9 +171,9 @@ onMounted(async () => {
 })
 
 const queryComment = () => {
-  // getCommentQuestionRootList({ articleId: data.value.id }).then((res) => {
-  //   commentData.value = res.data
-  // })
+  getCommentQuestionRootList({ questionId: data.value.id }).then((res) => {
+    commentData.value = res.data
+  })
 }
 
 const deleteQuestion = () => {
@@ -190,7 +189,7 @@ const deleteQuestion = () => {
       formData.append('id', data.value.id)
       remove(formData).then(() => {
         message.success('删除成功')
-        router.push('/article')
+        router.push('/question')
       })
     }
   })
@@ -199,12 +198,12 @@ const deleteQuestion = () => {
 const postComment = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
-  formData.append('articleId', data.value.id)
+  formData.append('questionId', data.value.id)
   formData.append('content', postContent.value)
-  // add(formData).then(() => {
-  //   message.success('发布成功')
-  //   queryComment()
-  // })
+  add(formData).then(() => {
+    message.success('发布成功')
+    queryComment()
+  })
 }
 </script>
 
