@@ -160,21 +160,6 @@ public class ArticleController {
     }
 
     /**
-     * 文章草稿查询（用户ID）
-     *
-     * @param userId 用户ID
-     */
-    @Operation(summary = "文章查询（用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
-            parameters = {
-                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
-            })
-    @SaIgnore
-    @GetMapping(value = "/getDraftList")
-    public List<Article> getDraftListByUserId(Integer userId) {
-        return articleService.getDraftListByUserId(userId);
-    }
-
-    /**
      * 文章模糊查询（标题）
      *
      * @param title 文章标题
@@ -187,6 +172,21 @@ public class ArticleController {
     @GetMapping(value = "/getList", params = "title")
     public List<Article> getListByTitle(String title) {
         return articleService.getArticleListByTitle(title);
+    }
+
+    /**
+     * 文章草稿查询（用户ID）
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "文章查询（用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/getDraftList")
+    public List<Article> getDraftListByUserId(Integer userId) {
+        return articleService.getDraftListByUserId(userId);
     }
 
     /**

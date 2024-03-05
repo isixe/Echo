@@ -258,7 +258,7 @@ public class QuestionController {
     /**
      * 用户问答数量排行查询
      */
-    @Operation(summary = "用户问答数量排行查询", description = "前台用户问答数量排行查询", tags = "Article", method = "GET")
+    @Operation(summary = "用户问答数量排行查询", description = "前台用户问答数量排行查询", tags = "Question", method = "GET")
     @SaIgnore
     @GetMapping("/userRank")
     public List<UserRankVO> getByUserRankList() {
@@ -270,7 +270,7 @@ public class QuestionController {
      *
      * @param userId 用户ID
      */
-    @Operation(summary = "问答分页查询（用户ID）", description = "前台根据用户ID查询问答", tags = "Article", method = "GET",
+    @Operation(summary = "问答分页查询（用户ID）", description = "前台根据用户ID查询问答", tags = "Question", method = "GET",
             parameters = {
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
             })
