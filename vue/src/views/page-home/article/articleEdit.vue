@@ -128,6 +128,8 @@ onMounted(() => {
         data[key] = res.data[key]
       })
 
+      console.log(res.data)
+
       if (res.data.userId != store.id) {
         message.error('无访问权限')
         router.push('/403')
@@ -148,9 +150,14 @@ const draftArticle = () => {
   Object.keys(data).forEach((key) => {
     formData.append(key, data[key])
   })
-  formData.set('status', 0)
   formData.delete('publishTime')
-  addArticle(formData)
+
+  if (data.status === 0) {
+    updateArticle(formData)
+  } else {
+    formData.set('status', 0)
+    addArticle(formData)
+  }
 }
 
 const postArticle = () => {

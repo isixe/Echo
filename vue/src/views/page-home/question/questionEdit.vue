@@ -28,7 +28,7 @@
           <a-button
             type="primary"
             style="background-color: #008000; margin-right: 10px"
-            @click="draftArticle()"
+            @click="draftQuestion()"
             :loading="loading"
             >保存为草稿</a-button
           >
@@ -45,7 +45,7 @@
           <a-button
             type="primary"
             style="background-color: #4d45e5"
-            @click="postArticle()"
+            @click="postQuestion()"
             :loading="loading"
             >发布</a-button
           >
@@ -76,7 +76,7 @@ import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
 import { get, add, update } from '@/api/question'
 import { TagInput, CategorySelect } from '@/components'
-import ArticleEditor from '@/components/ArticleEditor'
+import QuestionEditor from '@/components/QuestionEditor'
 
 const loading = ref()
 const route = useRoute()
@@ -122,17 +122,22 @@ onMounted(() => {
     })
 })
 
-const draftArticle = () => {
+const draftQuestion = () => {
   const formData = new FormData()
   Object.keys(data).forEach((key) => {
     formData.append(key, data[key])
   })
-  formData.set('status', 0)
   formData.delete('publishTime')
-  addArticle(formData)
+
+  if (data.status === 0) {
+    updateQuestion(formData)
+  } else {
+    formData.set('status', 0)
+    addQuestion(formData)
+  }
 }
 
-const postArticle = () => {
+const postQuestion = () => {
   const formData = new FormData()
   Object.keys(data).forEach((key) => {
     formData.append(key, data[key])
@@ -144,14 +149,14 @@ const postArticle = () => {
 
   if (data.status) {
     formData.set('status', 1)
-    updateArticle(formData)
+    updateQuestion(formData)
   } else {
     formData.set('status', 1)
-    addArticle(formData)
+    addQuestion(formData)
   }
 }
 
-const addArticle = (formData) => {
+const addQuestion = (formData) => {
   add(formData)
     .then(() => {
       message.success('发布成功')
@@ -163,7 +168,7 @@ const addArticle = (formData) => {
     })
 }
 
-const updateArticle = (formData) => {
+const updateQuestion = (formData) => {
   update(formData)
     .then(() => {
       message.success('更新成功')
