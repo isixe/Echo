@@ -32,13 +32,13 @@ export function get(params) {
   })
 }
 
-// export function getQuestionListByTitle(params) {
-//   return request({
-//     url: '/question/getList',
-//     method: 'get',
-//     params
-//   })
-// }
+export function getQuestionListByTitle(params) {
+  return request({
+    url: '/question/getList',
+    method: 'get',
+    params
+  })
+}
 
 export function getActiveQuestionListByKeyword(params) {
   return request({
@@ -64,21 +64,21 @@ export function getQuestionListByKeyword(params) {
   })
 }
 
-// export function getQuestionListByCategoryId(params) {
-//   return request({
-//     url: '/question/queryAllByCategoryId',
-//     method: 'get',
-//     params
-//   })
-// }
+export function getQuestionListByCategoryId(params) {
+  return request({
+    url: '/question/queryAllByCategoryId',
+    method: 'get',
+    params
+  })
+}
 
-// export function getQuestionListByTagName(params) {
-//   return request({
-//     url: '/question/queryAllByTagName',
-//     method: 'get',
-//     params
-//   })
-// }
+export function getQuestionListByTagName(params) {
+  return request({
+    url: '/question/queryAllByTagName',
+    method: 'get',
+    params
+  })
+}
 
 export function getQuestionListByUserId(params) {
   return request({
