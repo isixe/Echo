@@ -148,5 +148,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleMapper.getArticleByTitle(title);
     }
 
-
+    @Override
+    public List<Article> getDraftListByUserID(Integer userId) {
+        QueryWrapper<Article> wrapper = new QueryWrapper<Article>().eq("user_id", userId).eq("status", 0);
+        return articleMapper.selectList(wrapper);
+    }
 }

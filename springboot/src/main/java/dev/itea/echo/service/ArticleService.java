@@ -29,6 +29,8 @@ public interface ArticleService extends IService<Article> {
 
     List<Article> getArticleListByTitle(String title);
 
+    List<Article> getDraftListByUserID(Integer userId);
+
     IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword);
 
     IPage<ArticleVO> getActiveArticleByPage(Pageable pageable, String keyword);
@@ -40,4 +42,5 @@ public interface ArticleService extends IService<Article> {
     IPage<ArticleVO> getPageByTagName(Pageable pageable, String tagName);
 
     IPage<ArticleVO> getPageByUserId(Pageable pageable, Integer userId);
+
 }

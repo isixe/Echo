@@ -145,7 +145,7 @@ public class ArticleController {
     }
 
     /**
-     * 文章查询（文章分类ID）
+     * 文章查询（分组ID）
      *
      * @param groupId 文章分组ID
      */
@@ -157,6 +157,21 @@ public class ArticleController {
     @GetMapping(value = "/getList", params = "groupId")
     public List<Article> getListByGroupId(Integer groupId) {
         return articleService.getListByGroupId(groupId);
+    }
+
+    /**
+     * 文章草稿查询（用户ID）
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "文章查询（用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/getDraftList")
+    public List<Article> getDraftListByUserID(Integer userId) {
+        return articleService.getDraftListByUserID(userId);
     }
 
     /**
