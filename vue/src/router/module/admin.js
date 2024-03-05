@@ -37,6 +37,11 @@ const adminRoutes = {
       component: () => import('@/views/page-admin/system/commentArticleList')
     },
     {
+      path: '/system/commentQuestionList',
+      name: 'commentQuestionList',
+      component: () => import('@/views/page-admin/system/commentQuestionList')
+    },
+    {
       path: '/permission/roleList',
       name: 'roleList',
       component: () => import('@/views/page-admin/permission/roleList')

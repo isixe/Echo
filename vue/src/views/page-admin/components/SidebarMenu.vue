@@ -31,7 +31,9 @@
       <a-menu-item key="/system/commentArticleList">
         <RouterLink to="/system/commentArticleList">文章评论管理</RouterLink>
       </a-menu-item>
-      <a-menu-item key="7">问答评论管理</a-menu-item>
+      <a-menu-item key="7"
+        ><RouterLink to="/system/commentQuestionList">问答评论管理</RouterLink></a-menu-item
+      >
     </a-sub-menu>
     <a-sub-menu key="/permission">
       <template #title>
