@@ -52,9 +52,11 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
 
     @Override
     public List<Map<String, Object>> getGroupArticleByUserId(Integer userId) {
-        return groupArticleMapper.selectMaps(new QueryWrapper<GroupArticle>()
-                .select("id", "name", "description")
-                .eq("user_id", userId));
+        QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.select("id", "name", "description")
+                .eq("user_id", userId)
+                .orderByDesc("update_time");
+        return groupArticleMapper.selectMaps(wrapper);
     }
 
     @Override
