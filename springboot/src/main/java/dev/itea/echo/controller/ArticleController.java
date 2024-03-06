@@ -273,6 +273,22 @@ public class ArticleController {
     }
 
     /**
+     * 未分组文章列表查询（用户ID）
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "未分组文章列表查询（用户ID）", description = "前台根据用户ID查询未分组文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryUnGroupByUserId")
+    public IPage<ArticleVO> getUnGroupPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getUnGroupPageByUserId(pageable, userId);
+    }
+
+    /**
      * 文章分页模糊查询（标签名称）
      *
      * @param tagName 标签名称
@@ -296,5 +312,52 @@ public class ArticleController {
     @GetMapping("/userRank")
     public List<UserRankVO> getByUserRankList() {
         return articleService.getUserArticleNumRankList();
+    }
+
+
+    /**
+     * 文章分组更新
+     *
+     * @param id      文章ID
+     * @param groupId 分组ID
+     */
+    @Operation(summary = "文章分组更新", description = "文章分组更新", tags = "Article", method = "PUT",
+            parameters = {
+                    @Parameter(name = "id", description = "文章ID", required = true),
+                    @Parameter(name = "groupId", description = "文章分组ID", required = true),
+            })
+    @SaCheckLogin(type = StpUserUtil.TYPE)
+    @PutMapping("/group")
+    public void updateGroupId(Integer id, Integer groupId) {
+        //check article
+        ArticleVO articleVO = articleService.get(id);
+        Article checkArticle = MapstructMapperUtil.INSTANCE.articleVOToArticle(articleVO);
+        if (ObjectUtils.isEmpty(checkArticle)) {
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
+        }
+        //update
+        articleService.updateArticleGroupId(id, groupId);
+    }
+
+    /**
+     * 文章分组更新
+     *
+     * @param id 文章ID
+     */
+    @Operation(summary = "文章分组移除", description = "文章分组移除", tags = "Article", method = "PUT",
+            parameters = {
+                    @Parameter(name = "id", description = "文章ID", required = true),
+            })
+    @SaCheckLogin(type = StpUserUtil.TYPE)
+    @DeleteMapping("/group")
+    public void deleteGroupId(Integer id) {
+        //check article
+        ArticleVO articleVO = articleService.get(id);
+        Article checkArticle = MapstructMapperUtil.INSTANCE.articleVOToArticle(articleVO);
+        if (ObjectUtils.isEmpty(checkArticle)) {
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
+        }
+        //delete
+        articleService.deleteArticleGroupId(id);
     }
 }

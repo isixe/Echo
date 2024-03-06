@@ -199,13 +199,13 @@
                a.featured_pic,
                a.title,
                a.summary,
-               u.id AS user_id,
-               u.`name` AS author,
+               u.id                                                           AS user_id,
+               u.`name`                                                       AS author,
                u.`avatar`,
-               c.category_name AS category,
-               c.id AS category_id,
+               c.category_name                                                AS category,
+               c.id                                                           AS category_id,
                a.`pv_count`,
-               (SELECT count(*) FROM article_thumb WHERE article_id = a.id) AS `like_count`,
+               (SELECT count(*) FROM article_thumb WHERE article_id = a.id)   AS `like_count`,
                (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
                a.`update_time`
         FROM article AS a

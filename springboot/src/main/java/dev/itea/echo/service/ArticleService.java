@@ -43,4 +43,9 @@ public interface ArticleService extends IService<Article> {
 
     IPage<ArticleVO> getPageByUserId(Pageable pageable, Integer userId);
 
+    void updateArticleGroupId(Integer id, Integer groupId);
+
+    void deleteArticleGroupId(Integer id);
+
+    IPage<ArticleVO> getUnGroupPageByUserId(Pageable pageable, Integer userId);
 }

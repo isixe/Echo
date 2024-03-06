@@ -1,6 +1,7 @@
 package dev.itea.echo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import dev.itea.echo.entity.Article;
@@ -139,7 +140,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public IPage<ArticleVO> getPageByUserId(Pageable pageable, Integer userId) {
         Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1).like("u.id", userId);
+        wrapper = wrapper.eq("status", 1).eq("u.id", userId);
         return articleMapper.getActiveArticleByPage(page, wrapper);
     }
 
@@ -153,4 +154,31 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         QueryWrapper<Article> wrapper = new QueryWrapper<Article>().eq("user_id", userId).eq("status", 0);
         return articleMapper.selectList(wrapper);
     }
+
+    @Override
+    @CacheEvict(cacheNames = "article", key = "#id")
+    public void updateArticleGroupId(Integer id, Integer groupId) {
+        UpdateWrapper<Article> wrapper = new UpdateWrapper<Article>()
+                .eq("id", id)
+                .set("article_group_id", groupId);
+        articleMapper.update(null, wrapper);
+    }
+
+    @Override
+    @CacheEvict(cacheNames = "article", key = "#id")
+    public void deleteArticleGroupId(Integer id) {
+        UpdateWrapper<Article> wrapper = new UpdateWrapper<Article>()
+                .eq("id", id)
+                .set("article_group_id", null);
+        articleMapper.update(null, wrapper);
+    }
+
+    @Override
+    public IPage<ArticleVO> getUnGroupPageByUserId(Pageable pageable, Integer userId) {
+        Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.eq("status", 1).eq("u.id", userId).isNull("article_group_id");
+        return articleMapper.getActiveArticleByPage(page, wrapper);
+    }
+
 }
