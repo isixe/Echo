@@ -134,12 +134,12 @@ public class GroupArticleController {
     }
 
     /**
-     * 类别查询（分页&关键词）
+     * 文章分组查询（分页&关键词）
      *
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "类别查询（分页&关键词）", description = "后台类别分页与关键词查询", tags = "GroupArticle", method = "GET",
+    @Operation(summary = "文章分组查询（分页&关键词）", description = "后台文章分组分页与关键词查询", tags = "GroupArticle", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -178,6 +178,6 @@ public class GroupArticleController {
     @SaIgnore
     @GetMapping("/getByUserIdAndGroupName")
     public GroupArticle getByUserIdAndGroupName(Integer userId, String groupName) {
-        return groupArticleService.getByUserIdAndGroupName(userId,groupName);
+        return groupArticleService.getByUserIdAndGroupName(userId, groupName);
     }
 }
