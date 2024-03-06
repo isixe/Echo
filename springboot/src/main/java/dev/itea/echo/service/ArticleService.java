@@ -23,7 +23,7 @@ public interface ArticleService extends IService<Article> {
 
     ArticleVO get(Integer id);
 
-    List<Article> getListByGroupId(Integer groupId);
+    List<ArticleVO> getListByGroupId(Integer groupId);
 
     List<UserRankVO> getUserArticleNumRankList();
 

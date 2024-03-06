@@ -50,7 +50,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public List<Article> getListByGroupId(Integer groupId) {
+    public List<ArticleVO> getListByGroupId(Integer groupId) {
         return articleMapper.getListByGroupId(groupId);
     }
 

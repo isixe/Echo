@@ -195,8 +195,22 @@
     </select>
 
     <select id="getListByGroupId" resultMap="ArticleVOListResultMap" parameterType="integer">
-        SELECT a.id, title
-        FROM article as a
+        SELECT a.id,
+               a.featured_pic,
+               a.title,
+               a.summary,
+               u.id AS user_id,
+               u.`name` AS author,
+               u.`avatar`,
+               c.category_name AS category,
+               c.id AS category_id,
+               a.`pv_count`,
+               (SELECT count(*) FROM article_thumb WHERE article_id = a.id) AS `like_count`,
+               (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
+               a.`update_time`
+        FROM article AS a
+                 JOIN `user` AS u ON a.user_id = u.id
+                 JOIN category AS c ON a.category_id = c.id
                  JOIN group_article ga on a.article_group_id = ga.id
         WHERE ga.id = #{groupId}
         ORDER BY a.update_time

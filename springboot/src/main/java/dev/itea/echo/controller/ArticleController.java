@@ -155,7 +155,7 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping(value = "/getList", params = "groupId")
-    public List<Article> getListByGroupId(Integer groupId) {
+    public List<ArticleVO> getListByGroupId(Integer groupId) {
         return articleService.getListByGroupId(groupId);
     }
 

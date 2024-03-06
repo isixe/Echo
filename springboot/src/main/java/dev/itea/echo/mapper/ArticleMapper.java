@@ -32,7 +32,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     List<Article> getArticleByTitle(String title);
 
-    List<Article> getListByGroupId(Integer groupId);
+    List<ArticleVO> getListByGroupId(Integer groupId);
 
     List<UserRankVO> getUserArticleNumRankList();
 
