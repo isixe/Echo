@@ -109,26 +109,18 @@
         a.featured_pic,
         a.title,
         a.summary,
-        a.article_group_id,
         u.id AS user_id,
         u.`name` AS author,
         u.`avatar`,
         c.category_name AS category,
         c.id AS category_id,
-        a.tag,
-        g.name AS article_group_name,
-        a.`status`,
         a.`pv_count`,
         (SELECT count(*) FROM article_thumb WHERE article_id = a.id) AS `like_count`,
-        (SELECT count(*) FROM collection_article WHERE article_id = a.id) AS `collection_count`,
         (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
-        a.`created_time`,
-        a.`publish_time`,
         a.`update_time`
         FROM article AS a
         JOIN `user` AS u ON a.user_id = u.id
         JOIN category AS c ON a.category_id = c.id
-        LEFT JOIN group_article AS g ON a.article_group_id = g.id
         <if test="ew.customSqlSegment.length>0">
             ${ew.customSqlSegment}
             AND a.is_deleted = 0
@@ -144,26 +136,18 @@
         a.featured_pic,
         a.title,
         a.summary,
-        a.article_group_id,
         u.id AS user_id,
         u.`name` AS author,
         u.`avatar`,
         c.category_name AS category,
         c.id AS category_id,
-        a.tag,
-        g.name AS article_group_name,
-        a.`status`,
         a.`pv_count`,
         (SELECT count(*) FROM article_thumb WHERE article_id = a.id) AS `like_count`,
-        (SELECT count(*) FROM collection_article WHERE article_id = a.id) AS `collection_count`,
         (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
-        a.`created_time`,
-        a.`publish_time`,
         a.`update_time`
         FROM article AS a
         JOIN `user` AS u ON a.user_id = u.id
         JOIN category AS c ON a.category_id = c.id
-        LEFT JOIN group_article AS g ON a.article_group_id = g.id
         <if test="ew.customSqlSegment.length>0">
             ${ew.customSqlSegment}
             AND a.is_deleted = 0
@@ -210,11 +194,11 @@
         WHERE title LIKE CONCAT('%', #{name}, '%') LIMIT 0, 10;
     </select>
 
-    <select id="getListByGroupId" resultMap="BaseResultMap" parameterType="integer">
+    <select id="getListByGroupId" resultMap="ArticleVOListResultMap" parameterType="integer">
         SELECT a.id, title
         FROM article as a
                  JOIN group_article ga on a.article_group_id = ga.id
         WHERE ga.id = #{groupId}
-        ORDER BY a.created_time
+        ORDER BY a.update_time
     </select>
 </mapper>

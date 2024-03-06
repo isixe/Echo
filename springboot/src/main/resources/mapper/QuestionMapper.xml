@@ -125,14 +125,9 @@
         u.`avatar`,
         c.category_name AS category,
         c.id AS category_id,
-        q.tag,
-        q.`status`,
         q.`pv_count`,
         (SELECT count(*) FROM question_thumb WHERE question_id = q.id) AS `like_count`,
-        (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
         (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
-        q.`created_time`,
-        q.`publish_time`,
         q.`update_time`
         FROM question AS q
         JOIN `user` AS u ON q.user_id = u.id
@@ -155,14 +150,9 @@
         u.`avatar`,
         c.category_name AS category,
         c.id AS category_id,
-        q.tag,
-        q.`status`,
         q.`pv_count`,
         (SELECT count(*) FROM question_thumb WHERE question_id = q.id) AS `like_count`,
-        (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
         (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
-        q.`created_time`,
-        q.`publish_time`,
         q.`update_time`
         FROM question AS q
         JOIN `user` AS u ON q.user_id = u.id
