@@ -8,6 +8,8 @@
         <result column="user_id" property="userId" />
         <result column="name" property="name" />
         <result column="description" property="description" />
+        <result column="update_time" property="updateTime"/>
+        <result column="created_time" property="createdTime"/>
         <result column="is_deleted" property="isDeleted" />
     </resultMap>
 
