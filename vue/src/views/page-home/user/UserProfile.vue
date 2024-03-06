@@ -32,7 +32,26 @@
               <article-entry-item :item="item"></article-entry-item>
             </template>
           </a-tab-pane>
-          <a-tab-pane key="2" :tab="'问答 ' + data.questionTotal">
+          <a-tab-pane key="2" :tab="'合集 ' + data.articleGroupTotal">
+            <div
+              class="group-box-set"
+              v-if="store.id == user.id"
+              @click="() => (showAddModal = !showAddModal)"
+            >
+              <span><PlusOutlined /> 添加合集</span>
+            </div>
+            <template v-for="item in data.articleGroup" :key="item.id">
+              <RouterLink :to="'/article/group/' + item.id"
+                ><a-card class="group-box" :title="item.name">
+                  <template #extra v-if="store.id == user.id">
+                    <a @click="deleteGroup(item.id)">删除</a>
+                  </template>
+                  <p class="item-summary">{{ item.description }}</p>
+                </a-card>
+              </RouterLink>
+            </template>
+          </a-tab-pane>
+          <a-tab-pane key="3" :tab="'问答 ' + data.questionTotal">
             <template v-for="item in data.question" :key="item.id">
               <question-entry-item :item="item"></question-entry-item>
             </template>
@@ -56,24 +75,62 @@
       </a-layout-sider>
     </div>
   </div>
+
+  <template>
+    <a-modal v-model:open="showAddModal" width="700px" title="新建集合">
+      <div class="form-container">
+        <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
+          <a-form-item name="name" label="集合名">
+            <a-input
+              v-model:value="newData.name"
+              placeholder="请输入集合名"
+              show-count
+              :maxlength="42"
+            />
+          </a-form-item>
+          <a-form-item name="description" label="描述">
+            <a-textarea
+              v-model:value="newData.description"
+              placeholder="请输入描述"
+              show-count
+              :maxlength="120"
+            />
+          </a-form-item>
+        </a-form>
+      </div>
+      <template #footer>
+        <a-button key="back" @click="() => (showAddModal = !showAddModal)">取消</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="addGroup">提交</a-button>
+      </template>
+    </a-modal>
+  </template>
 </template>
 
 <script setup>
 import { get } from '@/api/user'
+import { createVNode } from 'vue'
+import { Modal } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
 import { QuestionEntryItem } from '@/views/page-home/components'
 import { ArticleEntryItem } from '@/views/page-home/components'
 import { getArticleListByUserId } from '@/api/article'
 import { getQuestionListByUserId } from '@/api/question'
+import { add, update, remove, getArticleGroupListByUserId } from '@/api/articleGroup'
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const user = ref()
 const route = useRoute()
+const router = useRouter()
 const store = useUserStore()
+
 const data = reactive({
   article: [],
+  articleGroup: [],
   question: [],
   articleTotal: 0,
-  questionTotal: 0
+  questionTotal: 0,
+  articleGroupTotal: 0
 })
 const activeKey = ref('1')
 const params = reactive({
@@ -82,21 +139,131 @@ const params = reactive({
   userId: route.params.id
 })
 
+const form = ref()
+const loading = ref(false)
+const showAddModal = ref(false)
+
+const newData = reactive({
+  userId: store.id,
+  name: '',
+  description: ''
+})
+
 onMounted(() => {
-  get({ id: route.params.id }).then((result) => {
-    user.value = result.data
-  })
+  get({ id: route.params.id })
+    .then((result) => {
+      user.value = result.data
+    })
+    .catch(() => {
+      router.push('/404')
+    })
 
   getArticleListByUserId(params).then((res) => {
     data.article = res.data.records
     data.articleTotal = res.data.total
   })
 
+  queryGroupData()
+
   getQuestionListByUserId(params).then((res) => {
     data.question = res.data.records
     data.questionTotal = res.data.total
   })
 })
+
+const queryGroupData = () => {
+  getArticleGroupListByUserId(params).then((res) => {
+    data.articleGroup = res.data
+    data.articleGroupTotal = res.data.length
+  })
+}
+
+const addGroup = () => {
+  loading.value = true
+  form.value
+    .validate()
+    .then(async () => {
+      const formData = new FormData()
+      Object.keys(newData).forEach((key) => {
+        formData.append(key, newData[key])
+      })
+      await add(formData)
+        .then(() => {
+          message.success('新建成功')
+          showAddModal.value = false
+          queryGroupData(params)
+          Object.keys(newData).forEach((key) => {
+            newData[key] = ''
+          })
+          loading.value = false
+          showAddModal.value = false
+        })
+        .catch(() => {
+          loading.value = false
+          showAddModal.value = false
+        })
+    })
+    .catch(() => {
+      loading.value = false
+    })
+}
+
+const deleteGroup = (groupId) => {
+  Modal.confirm({
+    title: `确定要删除合集吗?`,
+    icon: createVNode(ExclamationCircleOutlined),
+    content: '文章合集删除后，不能恢复',
+    okText: '确定',
+    okType: 'danger',
+    cancelText: '取消',
+    onOk() {
+      const formData = new FormData()
+      formData.append('id', groupId)
+      remove(formData).then(() => {
+        message.success('删除成功')
+        queryGroupData()
+      })
+    }
+  })
+}
+
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24
+    },
+    sm: {
+      span: 6
+    }
+  },
+  wrapperCol: {
+    xs: {
+      span: 24
+    },
+    sm: {
+      span: 14
+    }
+  }
+}
+
+const rules = {
+  name: [
+    {
+      max: 42,
+      required: true,
+      trigger: 'blur',
+      message: '合集名称不能为空和大于16个字符'
+    }
+  ],
+  description: [
+    {
+      max: 120,
+      required: false,
+      trigger: 'blur',
+      message: '描述不能大于120个字符'
+    }
+  ]
+}
 </script>
 
 <style scoped>
@@ -201,5 +368,62 @@ onMounted(() => {
 .subscirbe-count {
   font-weight: 700;
   font-size: 16px;
+}
+
+.group-box {
+  margin-bottom: 15px;
+  border-color: #dadada;
+}
+
+.group-box a {
+  color: #666;
+  margin-left: 10px;
+}
+
+.group-box a:hover {
+  color: #6d66f1;
+}
+
+.group-box-set {
+  text-align: center;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px dashed #666;
+  border-spacing: 5px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.group-box:hover,
+.group-box-set:hover {
+  background-color: #f7f7ff;
+  cursor: pointer;
+}
+
+.item-title {
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+  flex: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.item-title:hover {
+  color: #4d45e5;
+}
+
+.item-summary {
+  flex: none;
+  line-height: 28px;
+  max-height: 56px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 </style>
