@@ -30,10 +30,6 @@ public class CollectionQuestion extends Model<CollectionQuestion> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Schema(description = "收藏分组ID")
-    @TableField("collection_group_id")
-    private Integer collectionGroupId;
-
     @Schema(description = "用户ID")
     @TableField("user_id")
     private Integer userId;
@@ -41,10 +37,6 @@ public class CollectionQuestion extends Model<CollectionQuestion> {
     @Schema(description = "问答ID")
     @TableField("question_id")
     private Integer questionId;
-
-    @Schema(description = "问答标题")
-    @TableField("question_title")
-    private String questionTitle;
 
     @Schema(description = "是否删除")
     @TableField("is_delete")

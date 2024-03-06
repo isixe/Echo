@@ -5,11 +5,8 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.CollectionArticle">
         <id column="id" property="id" />
-        <result column="collection_group_id" property="collectionGroupId" />
         <result column="user_id" property="userId" />
         <result column="article_id" property="articleId" />
-        <result column="article_title" property="articleTitle" />
-        <result column="article_desc" property="articleDesc" />
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
