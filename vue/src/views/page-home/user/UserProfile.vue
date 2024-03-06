@@ -44,7 +44,7 @@
               <RouterLink :to="'/article/group/' + item.id"
                 ><a-card class="group-box" :title="item.name">
                   <template #extra v-if="store.id == user.id">
-                    <a @click="deleteGroup(item.id)">删除</a>
+                    <a @click="deleteGroup(item.id)"><DeleteOutlined /> 删除</a>
                   </template>
                   <p class="item-summary">{{ item.description }}</p>
                 </a-card>
@@ -190,7 +190,6 @@ const addGroup = () => {
       await add(formData)
         .then(() => {
           message.success('新建成功')
-          showAddModal.value = false
           queryGroupData(params)
           Object.keys(newData).forEach((key) => {
             newData[key] = ''
