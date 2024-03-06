@@ -1,8 +1,8 @@
 <template>
   <div class="main">
-    <div class="sidebar-left">
+    <div class="sidebar-left" v-if="data">
       <div class="sticky-card">
-        <div class="group-card" v-if="data && data.articleGroupName">
+        <div class="group-card" v-if="data.articleGroupName">
           <div class="group-title">合集</div>
           <div class="group-content" v-show="groupArticleList">
             <div v-for="article in groupArticleList" :key="article.id">
