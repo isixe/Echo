@@ -67,18 +67,18 @@
               <span>{{ data.updateTime }}</span>
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
               <RouterLink :to="'/category/' + data.categoryId" class="category-container">
-                {{ data.category }}
+                <FolderOutlined /> {{ data.category }}
               </RouterLink>
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
               <template v-if="data.userId === userId">
                 <RouterLink :to="{ path: '/article/edit', query: { id: data.id } }">
-                  编辑
+                  <EditOutlined /> 编辑
                 </RouterLink>
                 <a-divider
                   type="vertical"
                   style="height: 15px; top: 0; background-color: #e1cee7"
                 />
-                <a @click="deleteArticle()"> 删除 </a>
+                <a @click="deleteArticle()"> <DeleteOutlined /> 删除 </a>
               </template>
             </div>
           </div>
@@ -108,7 +108,7 @@
               <span>{{ data.updateTime }}</span>
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
               <RouterLink :to="'/category/' + data.categoryId" class="category-container">
-                {{ data.category }}
+                <FolderOutlined /> {{ data.category }}
               </RouterLink>
               <template v-if="data.userId === userId">
                 <a-divider
@@ -116,13 +116,13 @@
                   style="height: 15px; top: 0; background-color: #e1cee7"
                 />
                 <RouterLink :to="{ path: '/article/edit', query: { id: data.id } }">
-                  编辑
+                  <EditOutlined /> 编辑
                 </RouterLink>
                 <a-divider
                   type="vertical"
                   style="height: 15px; top: 0; background-color: #e1cee7"
                 />
-                <a @click="deleteArticle()"> 删除 </a>
+                <a @click="deleteArticle()"> <DeleteOutlined /> 删除 </a>
               </template>
             </div>
           </div>
