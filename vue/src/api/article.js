@@ -110,3 +110,27 @@ export async function getUserRank() {
     method: 'get'
   })
 }
+
+export async function putArticleGroup(params) {
+  return request({
+    url: '/article/group',
+    method: 'put',
+    params
+  })
+}
+
+export async function removeArticleGroup(params) {
+  return request({
+    url: '/article/group',
+    method: 'put',
+    params
+  })
+}
+
+export function getUnGroupArticleByUserId(params) {
+  return request({
+    url: '/article/queryUnGroupByUserId',
+    method: 'get',
+    params
+  })
+}
