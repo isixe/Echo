@@ -337,7 +337,6 @@ const handleAddOk = () => {
           showAddModal.value = false
         })
         .catch(() => {
-          showAddModal.value = false
           loading.value = false
           showAddModal.value = false
         })
