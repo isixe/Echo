@@ -62,7 +62,9 @@
                   <p>{{ data.title }}</p>
                 </div>
                 <div class="action-right">
-                  <span class="action-hover"><ShareAltOutlined /></span>
+                  <span class="action-hover"
+                    ><a @click="shareQuesion()"><ShareAltOutlined /></a
+                  ></span>
                   <span class="action-hover"><StarOutlined /></span>
                   <span class="action-hover"><LikeOutlined /></span>
                   <span class="action-hover"
@@ -204,6 +206,17 @@ const postComment = () => {
     message.success('发布成功')
     queryComment()
   })
+}
+
+const shareQuesion = () => {
+  navigator.clipboard
+    .writeText(window.location.href)
+    .then(() => {
+      message.success('URL已成功复制到剪贴板: ' + window.location.href)
+    })
+    .catch(() => {
+      message.error('复制失败')
+    })
 }
 </script>
 

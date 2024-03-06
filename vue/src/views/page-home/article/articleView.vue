@@ -152,14 +152,16 @@
             <div class="praise-box">
               <LikeOutlined style="font-size: 28px; color: #ccc" />
             </div>
-            <p class="pv-box">{{ data.pvCount }} 人已点赞</p>
+            <p class="pv-box">{{ data.likeCount }} 人已点赞</p>
             <div class="posts-affix-box">
               <div class="article-action-box">
                 <div class="action-left">
                   <p>{{ data.title }}</p>
                 </div>
                 <div class="action-right">
-                  <span class="action-hover"><ShareAltOutlined /></span>
+                  <span class="action-hover"
+                    ><a @click="shareArticle()"><ShareAltOutlined /></a
+                  ></span>
                   <span class="action-hover"><StarOutlined /></span>
                   <span class="action-hover"><LikeOutlined /></span>
                   <span class="action-hover"
@@ -320,6 +322,17 @@ const postComment = () => {
     message.success('发布成功')
     queryComment()
   })
+}
+
+const shareArticle = () => {
+  navigator.clipboard
+    .writeText(window.location.href)
+    .then(() => {
+      message.success('URL已成功复制到剪贴板: ' + window.location.href)
+    })
+    .catch(() => {
+      message.error('复制失败')
+    })
 }
 </script>
 
