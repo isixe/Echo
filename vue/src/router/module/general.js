@@ -41,6 +41,11 @@ const generalRoutes = [
         path: '/tag',
         name: 'tag',
         component: () => import('@/views/page-home/tag')
+      },
+      {
+        path: '/article/group/:id',
+        name: 'articleGroup',
+        component: () => import('@/views/page-home/article/articleGroup')
       }
     ]
   }
