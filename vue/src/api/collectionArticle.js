@@ -23,3 +23,11 @@ export function getCollectionArticleListByKeyword(params) {
     params
   })
 }
+
+export function getCollectByUserAndArticle(params) {
+  return request({
+    url: '/collectionArticle/getCollect',
+    method: 'get',
+    params
+  })
+}

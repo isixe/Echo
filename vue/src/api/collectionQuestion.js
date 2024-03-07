@@ -23,3 +23,11 @@ export function getCollectionQuestionListByKeyword(params) {
     params
   })
 }
+
+export function getCollectByUserAndQuestion(params) {
+  return request({
+    url: '/collectionQuestion/getCollect',
+    method: 'get',
+    params
+  })
+}
