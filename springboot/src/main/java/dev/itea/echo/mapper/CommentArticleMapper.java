@@ -14,9 +14,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * <p>
  * 文章评论表 Mapper 接口
- * </p>
  *
  * @author isixe
  * @since 2024-01-15

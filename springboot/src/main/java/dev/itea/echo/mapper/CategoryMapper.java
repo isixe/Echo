@@ -6,9 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import java.util.List;
 
 /**
- * <p>
  * 类别表 Mapper 接口
- * </p>
  *
  * @author isixe
  * @since 2024-01-15

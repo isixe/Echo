@@ -7,9 +7,7 @@ import dev.itea.echo.vo.UserVO;
 import java.util.List;
 
 /**
- * <p>
  * 用户表 Mapper 接口
- * </p>
  *
  * @author isixe
  * @since 2024-01-15
