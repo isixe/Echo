@@ -18,6 +18,11 @@ const generalRoutes = [
         component: () => import('@/views/page-home/question')
       },
       {
+        path: '/search',
+        name: 'search',
+        component: () => import('@/views/page-home/search')
+      },
+      {
         path: '/user/:id',
         name: 'userProfile',
         component: () => import('@/views/page-home/user/userProfile')
