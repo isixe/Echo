@@ -23,7 +23,7 @@ public class CollectionArticleVO {
     private Integer userId;
 
     @Schema(description = "用户名")
-    private String username;
+    private String author;
 
     @Schema(description = "用户头像")
     private String avatar;

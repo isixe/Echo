@@ -29,10 +29,10 @@ public class CommentQuestionVO {
     @Schema(description = "作者头像")
     private String avatar;
 
-    @Schema(description = "文章ID")
+    @Schema(description = "问答ID")
     private Integer questionId;
 
-    @Schema(description = "文章标题")
+    @Schema(description = "问答标题")
     private String questionTitle;
 
     @Schema(description = "顶层评论ID")
