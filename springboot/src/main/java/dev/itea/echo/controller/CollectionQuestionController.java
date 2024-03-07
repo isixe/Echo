@@ -13,6 +13,7 @@ import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.CollectionQuestionService;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.vo.CollectionArticleVO;
 import dev.itea.echo.vo.CollectionQuestionVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -108,7 +109,7 @@ public class CollectionQuestionController {
      *
      * @param collectionArticle 问答收藏实体
      */
-    @Operation(summary = "问答收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询问答收藏", tags = "CommentArticle", method = "GET",
+    @Operation(summary = "问答收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询问答收藏", tags = "CollectionQuestion", method = "GET",
             parameters = {
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
                     @Parameter(name = "questionId", description = "文章ID", required = true, example = "2"),
@@ -121,4 +122,20 @@ public class CollectionQuestionController {
                 .eq(CollectionQuestion::getQuestionId, collectionArticle.getQuestionId()));
     }
 
+    /**
+     * 问答收藏查询（分页&用户ID）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "问答收藏查询（分页&用户ID）", description = "根据用户ID查询问答收藏分页", tags = "CollectionQuestion", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+            })
+    @SaCheckLogin
+    @GetMapping("/queryAllByUserId")
+    public IPage<CollectionQuestionVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return collectionQuestionService.getCollectionQuestionPageByUserId(pageable, userId);
+    }
 }

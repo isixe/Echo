@@ -49,7 +49,15 @@ public class CollectionQuestionServiceImpl extends ServiceImpl<CollectionQuestio
                     .or()
                     .like("q.title", keyword);
         }
-        return collectionQuestionMapper.getCollectionArticleByPage(page, wrapper);
+        return collectionQuestionMapper.getCollectionQuestionByPage(page, wrapper);
+    }
+
+    @Override
+    public IPage<CollectionQuestionVO> getCollectionQuestionPageByUserId(Pageable pageable, Integer userId) {
+        Page<CollectionQuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<CollectionQuestionVO> wrapper = new QueryWrapper<CollectionQuestionVO>().eq("cq.user_id", userId);
+        return collectionQuestionMapper.getCollectionQuestionByPage(page, wrapper);
+
     }
 
 }
