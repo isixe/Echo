@@ -27,7 +27,12 @@
       <a-menu-item key="/system/categoryList">
         <RouterLink to="/system/categoryList"> 分类管理 </RouterLink>
       </a-menu-item>
-      <a-menu-item key="8">收藏管理</a-menu-item>
+      <a-menu-item key="/system/collectionArticleList"
+        ><RouterLink to="/system/collectionArticleList">文章收藏管理</RouterLink></a-menu-item
+      >
+      <a-menu-item key="/system/collectionQuestionList"
+        ><RouterLink to="/system/collectionQuestionList">问答收藏管理</RouterLink></a-menu-item
+      >
       <a-menu-item key="/system/commentArticleList">
         <RouterLink to="/system/commentArticleList">文章评论管理</RouterLink>
       </a-menu-item>
