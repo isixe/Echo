@@ -2,9 +2,11 @@ package dev.itea.echo.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
+import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.dto.PageDTO;
+import dev.itea.echo.entity.CollectionQuestion;
 import dev.itea.echo.entity.CollectionQuestion;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -41,9 +43,9 @@ public class CollectionQuestionController {
      *
      * @param collectionQuestion 问答收藏实体
      */
-    @Operation(summary = "问答收藏新增", description = "问答收藏新增", tags = "GroupQuestion", method = "POST",
+    @Operation(summary = "问答收藏新增", description = "问答收藏新增", tags = "CollectionQuestion", method = "POST",
             parameters = {
-                    @Parameter(name = "groupQuestion", description = "问答收藏实体", required = true),
+                    @Parameter(name = "collectionQuestion", description = "问答收藏实体", required = true),
             })
     @SaCheckOr(
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
@@ -65,7 +67,7 @@ public class CollectionQuestionController {
      *
      * @param id 问答收藏ID
      */
-    @Operation(summary = "问答收藏删除", description = "后台问答收藏删除", tags = "GroupQuestion", method = "DELETE",
+    @Operation(summary = "问答收藏删除", description = "后台问答收藏删除", tags = "CollectionQuestion", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "问答收藏ID", required = true, example = "2"),
             })
@@ -74,7 +76,7 @@ public class CollectionQuestionController {
     )
     @DeleteMapping
     public void delete(Integer id) {
-        //check groupQuestion
+        //check collectionQuestion
         CollectionQuestion checkCollectionQuestion = collectionQuestionService.get(id);
         if (ObjectUtils.isEmpty(checkCollectionQuestion)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
@@ -89,7 +91,7 @@ public class CollectionQuestionController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "问答收藏查询（分页&关键词）", description = "后台问答收藏分页与关键词查询", tags = "GroupQuestion", method = "GET",
+    @Operation(summary = "问答收藏查询（分页&关键词）", description = "后台问答收藏分页与关键词查询", tags = "CollectionQuestion", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -98,6 +100,25 @@ public class CollectionQuestionController {
     public IPage<CollectionQuestionVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return collectionQuestionService.getCollectionQuestionByPage(pageable, pageDTO.getKeyword());
+    }
+
+
+    /**
+     * 问答收藏查询（问答ID&用户ID）
+     *
+     * @param collectionArticle 问答收藏实体
+     */
+    @Operation(summary = "问答收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询问答收藏", tags = "CommentArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+                    @Parameter(name = "questionId", description = "文章ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/getCollect")
+    public CollectionQuestion getCollect(CollectionQuestion collectionArticle) {
+        return collectionQuestionService.getOne(new LambdaQueryWrapper<CollectionQuestion>()
+                .eq(CollectionQuestion::getUserId, collectionArticle.getUserId())
+                .eq(CollectionQuestion::getQuestionId, collectionArticle.getQuestionId()));
     }
 
 }

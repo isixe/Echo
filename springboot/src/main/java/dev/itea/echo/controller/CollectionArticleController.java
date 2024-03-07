@@ -2,17 +2,18 @@ package dev.itea.echo.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
+import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.CollectionArticle;
-import dev.itea.echo.entity.GroupArticle;
+import dev.itea.echo.entity.CommentArticle;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.CollectionArticleService;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
-import dev.itea.echo.validation.UpdateValidationGroup;
 import dev.itea.echo.vo.CollectionArticleVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -41,9 +42,9 @@ public class CollectionArticleController {
      *
      * @param collectionArticle 文章收藏实体
      */
-    @Operation(summary = "文章收藏新增", description = "文章收藏新增", tags = "GroupArticle", method = "POST",
+    @Operation(summary = "文章收藏新增", description = "文章收藏新增", tags = "CollectionArticle", method = "POST",
             parameters = {
-                    @Parameter(name = "groupArticle", description = "文章收藏实体", required = true),
+                    @Parameter(name = "collectionArticle", description = "文章收藏实体", required = true),
             })
     @SaCheckOr(
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
@@ -65,7 +66,7 @@ public class CollectionArticleController {
      *
      * @param id 文章收藏ID
      */
-    @Operation(summary = "文章收藏删除", description = "后台文章收藏删除", tags = "GroupArticle", method = "DELETE",
+    @Operation(summary = "文章收藏删除", description = "后台文章收藏删除", tags = "CollectionArticle", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "文章收藏ID", required = true, example = "2"),
             })
@@ -74,7 +75,7 @@ public class CollectionArticleController {
     )
     @DeleteMapping
     public void delete(Integer id) {
-        //check groupArticle
+        //check collectionArticle
         CollectionArticle checkCollectionArticle = collectionArticleService.get(id);
         if (ObjectUtils.isEmpty(checkCollectionArticle)) {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
@@ -89,7 +90,7 @@ public class CollectionArticleController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章收藏查询（分页&关键词）", description = "后台文章收藏分页与关键词查询", tags = "GroupArticle", method = "GET",
+    @Operation(summary = "文章收藏查询（分页&关键词）", description = "后台文章收藏分页与关键词查询", tags = "CollectionArticle", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -98,6 +99,25 @@ public class CollectionArticleController {
     public IPage<CollectionArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return collectionArticleService.getCollectionArticleByPage(pageable, pageDTO.getKeyword());
+    }
+
+
+    /**
+     * 文章收藏查询（文章ID&用户ID）
+     *
+     * @param collectionArticle 文章收藏实体
+     */
+    @Operation(summary = "文章收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询文章收藏", tags = "CommentArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+                    @Parameter(name = "articleId", description = "文章ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/getCollect")
+    public CollectionArticle getCollect(CollectionArticle collectionArticle) {
+        return collectionArticleService.getOne(new LambdaQueryWrapper<CollectionArticle>()
+                .eq(CollectionArticle::getUserId, collectionArticle.getUserId())
+                .eq(CollectionArticle::getArticleId, collectionArticle.getArticleId()));
     }
 
 }
