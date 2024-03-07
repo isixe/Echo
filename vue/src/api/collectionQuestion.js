@@ -24,6 +24,14 @@ export function getCollectionQuestionListByKeyword(params) {
   })
 }
 
+export function getCollectionQuestionListByUserId(params) {
+  return request({
+    url: '/collectionQuestion/queryAllByUserId',
+    method: 'get',
+    params
+  })
+}
+
 export function getCollectByUserAndQuestion(params) {
   return request({
     url: '/collectionQuestion/getCollect',

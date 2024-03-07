@@ -24,6 +24,14 @@ export function getCollectionArticleListByKeyword(params) {
   })
 }
 
+export function getCollectionArticleListByUserId(params) {
+  return request({
+    url: '/collectionArticle/queryAllByUserId',
+    method: 'get',
+    params
+  })
+}
+
 export function getCollectByUserAndArticle(params) {
   return request({
     url: '/collectionArticle/getCollect',
