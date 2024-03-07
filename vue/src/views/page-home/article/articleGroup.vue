@@ -206,7 +206,6 @@ const putArticleToGroup = async () => {
     .filter((checkbox) => checkbox.checked)
     .map((checkbox) => checkbox.value)
 
-  console.log(checkboxValues)
   checkboxValues.forEach(async (articleId) => {
     await putArticleGroup({ id: articleId, groupId: data.value.id })
       .then(() => {
