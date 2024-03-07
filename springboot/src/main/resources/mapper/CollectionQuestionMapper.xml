@@ -4,10 +4,53 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.CollectionQuestion">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="question_id" property="questionId" />
-        <result column="is_delete" property="isDelete" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="question_id" property="questionId"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
+
+    <!-- 问答收藏值对象查询映射结果 -->
+    <resultMap id="CollectionQuestionVOResultMap" type="dev.itea.echo.vo.CollectionArticleVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="username"/>
+        <result column="avatar" property="avatar"/>
+        <result column="question_id" property="articleId"/>
+        <result column="title" property="title"/>
+        <result column="category" property="category"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="pv_count" property="pvCount"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="comment_count" property="commentCount"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="getCollectionArticleByPage" resultMap="CollectionQuestionVOResultMap">
+        SELECT cq.id,
+        cq.question_id,
+        q.title,
+        cq.user_id,
+        u.`name`,
+        u.`avatar`,
+        q.category_id,
+        (SELECT category_name FROM category WHERE category.id = q.category_id) AS category,
+        q.`pv_count`,
+        (SELECT count(*) FROM article_thumb WHERE question_id = q.id) AS `like_count`,
+        (SELECT count(*) FROM comment_article WHERE question_id = q.id) AS `comment_count`,
+        q.`update_time`
+        FROM collection_question AS cq
+        JOIN question AS q ON q.id = cq.question_id
+        JOIN `user` AS u ON cq.user_id = u.id
+        <if test="ew.customSqlSegment.length>0">
+            ${ew.customSqlSegment}
+            AND q.is_deleted = 0
+        </if>
+        <if test="!ew.customSqlSegment.length>0">
+            WHERE q.is_deleted = 0
+        </if>
+        AND cq.is_deleted = 0
+        ORDER BY q.update_time DESC
+    </select>
 
 </mapper>

@@ -39,10 +39,10 @@ public class CollectionQuestion extends Model<CollectionQuestion> {
     private Integer questionId;
 
     @Schema(description = "是否删除")
-    @TableField("is_delete")
+    @TableField("is_deleted")
     @TableLogic
     @JsonIgnore
-    private Byte isDelete;
+    private Byte isDeleted;
 
 
     @Override

@@ -7,7 +7,10 @@ import java.io.Serializable;
 import java.io.Serial;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -28,22 +31,25 @@ public class CollectionArticle extends Model<CollectionArticle> {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "ID")
+    @NotNull(message = "不能为空", groups = UpdateValidationGroup.class)
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @Schema(description = "用户ID")
+    @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @TableField("user_id")
     private Integer userId;
 
     @Schema(description = "文章ID")
+    @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @TableField("article_id")
     private Integer articleId;
 
     @Schema(description = "是否删除")
-    @TableField("is_delete")
+    @TableField("is_deleted")
     @TableLogic
     @JsonIgnore
-    private Byte isDelete;
+    private Byte isDeleted;
 
 
     @Override

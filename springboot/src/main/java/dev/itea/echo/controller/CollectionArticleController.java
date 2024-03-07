@@ -3,6 +3,8 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.CollectionArticle;
 import dev.itea.echo.entity.GroupArticle;
 import dev.itea.echo.entity.result.ResultCode;
@@ -10,14 +12,16 @@ import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.CollectionArticleService;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.validation.UpdateValidationGroup;
+import dev.itea.echo.vo.CollectionArticleVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Resource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 收藏控制器
@@ -26,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2024-01-15
  */
 @RestController
-@RequestMapping("/api/v1/collection-article")
+@RequestMapping("/api/v1/collectionArticle")
 public class CollectionArticleController {
 
     @Resource
@@ -54,6 +58,46 @@ public class CollectionArticleController {
             throw new BusinessException(ResultCode.DATA_ALREADY_EXISTED);
         }
         collectionArticleService.save(collectionArticle);
+    }
+
+    /**
+     * 文章收藏删除
+     *
+     * @param id 文章收藏ID
+     */
+    @Operation(summary = "文章收藏删除", description = "后台文章收藏删除", tags = "GroupArticle", method = "DELETE",
+            parameters = {
+                    @Parameter(name = "id", description = "文章收藏ID", required = true, example = "2"),
+            })
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
+    @DeleteMapping
+    public void delete(Integer id) {
+        //check groupArticle
+        CollectionArticle checkCollectionArticle = collectionArticleService.get(id);
+        if (ObjectUtils.isEmpty(checkCollectionArticle)) {
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
+        }
+        //delete
+        collectionArticleService.delete(id);
+    }
+
+    /**
+     * 文章收藏查询（分页&关键词）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "文章收藏查询（分页&关键词）", description = "后台文章收藏分页与关键词查询", tags = "GroupArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+            })
+    @SaCheckLogin
+    @GetMapping("/queryAll")
+    public IPage<CollectionArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return collectionArticleService.getCollectionArticleByPage(pageable, pageDTO.getKeyword());
     }
 
 }

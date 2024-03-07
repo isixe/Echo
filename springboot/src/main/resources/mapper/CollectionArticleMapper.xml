@@ -4,10 +4,57 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.CollectionArticle">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="article_id" property="articleId" />
-        <result column="is_delete" property="isDelete" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="article_id" property="articleId"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
+
+    <!-- 文章收藏值对象查询映射结果 -->
+    <resultMap id="CollectionArticleVOResultMap" type="dev.itea.echo.vo.CollectionArticleVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="username"/>
+        <result column="avatar" property="avatar"/>
+        <result column="article_id" property="articleId"/>
+        <result column="featured_pic" property="featuredPic"/>
+        <result column="title" property="title"/>
+        <result column="summary" property="summary"/>
+        <result column="category" property="category"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="pv_count" property="pvCount"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="comment_count" property="commentCount"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="getCollectionArticleByPage" resultMap="CollectionArticleVOResultMap">
+        SELECT ca.id,
+        ca.article_id,
+        a.featured_pic,
+        a.title,
+        a.summary,
+        ca.user_id,
+        u.`name`,
+        u.`avatar`,
+        a.category_id,
+        (SELECT category_name FROM category WHERE category.id = a.category_id) AS category,
+        a.`pv_count`,
+        (SELECT count(*) FROM article_thumb WHERE article_id = a.id) AS `like_count`,
+        (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
+        a.`update_time`
+        FROM collection_article AS ca
+        JOIN article a ON a.id = ca.article_id
+        JOIN `user` AS u ON ca.user_id = u.id
+        <if test="ew.customSqlSegment.length>0">
+            ${ew.customSqlSegment}
+            AND a.is_deleted = 0
+        </if>
+        <if test="!ew.customSqlSegment.length>0">
+            WHERE a.is_deleted = 0
+        </if>
+        AND ca.is_deleted = 0
+        ORDER BY a.update_time DESC
+    </select>
 
 </mapper>
