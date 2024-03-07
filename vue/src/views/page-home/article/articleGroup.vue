@@ -15,7 +15,9 @@
         <span><PlusOutlined /> 添加文章</span>
       </div>
       <div class="group-article-list" v-for="item in groupArticleData" :key="item.id">
-        <article-entry-item :item="item"></article-entry-item>
+        <RouterLink :to="'/article/' + item.id" class="entry-item-box">
+          <article-entry-item :item="item"></article-entry-item>
+        </RouterLink>
         <a class="article-remove" v-if="store.id == data.userId" @click="removeArticle(item.id)"
           ><DeleteOutlined />&nbsp;移除</a
         >
@@ -346,7 +348,7 @@ const rules = {
   display: flex;
 }
 
-.entry-item {
+.entry-item-box {
   flex: 1;
 }
 
