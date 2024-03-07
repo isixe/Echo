@@ -13,6 +13,11 @@ const userRoutes = [
     path: '/draft',
     name: 'userDraft',
     component: () => import('@/views/page-home/user/userDraft')
+  },
+  {
+    path: '/collection',
+    name: 'userCollection',
+    component: () => import('@/views/page-home/user/userCollection')
   }
 ]
 
