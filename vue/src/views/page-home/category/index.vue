@@ -11,7 +11,9 @@
     </template>
     <template v-else-if="selectedKey == 'question'">
       <div v-for="item in questionData" :key="item.id">
-        <question-entry-item :item="item"></question-entry-item>
+        <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+          <question-entry-item :item="item"></question-entry-item>
+        </RouterLink>
       </div>
     </template>
   </div>

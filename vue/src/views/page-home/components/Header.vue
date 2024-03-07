@@ -75,7 +75,9 @@
                   <a-menu-item> <UserOutlined />&nbsp; 我的主页 </a-menu-item>
                 </RouterLink>
                 <!-- <a-menu-item> <ClockCircleOutlined />&nbsp; 浏览历史 </a-menu-item> -->
-                <a-menu-item> <HeartOutlined />&nbsp; 我的收藏 </a-menu-item>
+                <RouterLink to="/collection">
+                  <a-menu-item> <HeartOutlined />&nbsp; 我的收藏 </a-menu-item></RouterLink
+                >
                 <a-menu-item @click="handleToUserCenter">
                   <SettingOutlined />&nbsp; 个人中心
                 </a-menu-item>

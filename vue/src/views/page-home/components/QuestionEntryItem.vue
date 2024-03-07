@@ -1,46 +1,44 @@
 <template>
   <div class="entry-item">
-    <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
-      <div class="item-left">
-        <div class="item-left-message">
-          <p>0</p>
-          <p>回复</p>
+    <div class="item-left">
+      <div class="item-left-message">
+        <p>0</p>
+        <p>回复</p>
+      </div>
+      <div class="item-left-message">
+        <p>{{ item.pvCount }}</p>
+        <p>阅读</p>
+      </div>
+    </div>
+    <div class="item-main">
+      <div>
+        <p class="item-title">{{ item.title }}</p>
+      </div>
+      <div class="item-message">
+        <div class="item-message-left">
+          <RouterLink :to="'/category/' + item.categoryId" class="category-container">
+            {{ item.category }}
+          </RouterLink>
         </div>
-        <div class="item-left-message">
-          <p>{{ item.pvCount }}</p>
-          <p>阅读</p>
+        <div class="item-message-right">
+          <RouterLink :to="'/user/' + item.userId" class="user-info">
+            <a-avatar
+              class="user-avatar"
+              :src="item.avatar"
+              :size="20"
+              :style="{ marginRight: '10px' }"
+            >
+              <template #icon>
+                <UserOutlined />
+              </template>
+            </a-avatar>
+            <span class="user-name">{{ item.author }}</span>
+          </RouterLink>
+          <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
+          <span>{{ updateTime }}提问</span>
         </div>
       </div>
-      <div class="item-main">
-        <div>
-          <p class="item-title">{{ item.title }}</p>
-        </div>
-        <div class="item-message">
-          <div class="item-message-left">
-            <RouterLink :to="'/category/' + item.categoryId" class="category-container">
-              {{ item.category }}
-            </RouterLink>
-          </div>
-          <div class="item-message-right">
-            <RouterLink :to="'/user/' + item.userId" class="user-info">
-              <a-avatar
-                class="user-avatar"
-                :src="item.avatar"
-                :size="20"
-                :style="{ marginRight: '10px' }"
-              >
-                <template #icon>
-                  <UserOutlined />
-                </template>
-              </a-avatar>
-              <span class="user-name">{{ item.author }}</span>
-            </RouterLink>
-            <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-            <span>{{ updateTime }}提问</span>
-          </div>
-        </div>
-      </div>
-    </RouterLink>
+    </div>
   </div>
 </template>
 

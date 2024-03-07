@@ -242,7 +242,7 @@ const columns = [
   },
   {
     title: '用户',
-    dataIndex: 'username',
+    dataIndex: 'author',
     sorter: (a, b) => (a.username.length - b.username.length > 0 ? 1 : -1)
   },
   {

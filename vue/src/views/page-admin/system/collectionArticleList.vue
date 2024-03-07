@@ -276,8 +276,8 @@ const columns = [
   },
   {
     title: '用户',
-    dataIndex: 'username',
-    sorter: (a, b) => (a.username.length - b.username.length > 0 ? 1 : -1),
+    dataIndex: 'author',
+    sorter: (a, b) => (a.author.length - b.author.length > 0 ? 1 : -1),
     width: 100
   },
   {

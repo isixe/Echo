@@ -28,7 +28,9 @@
             :items="items"
           />
           <template v-for="record in dataSource" :key="record.id">
-            <question-entry-item :item="record"></question-entry-item>
+            <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+              <question-entry-item :item="record"></question-entry-item>
+            </RouterLink>
           </template>
         </a-layout-content>
         <a-layout-sider class="sidebar-container" width="320px">

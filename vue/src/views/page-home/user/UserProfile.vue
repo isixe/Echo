@@ -55,7 +55,9 @@
           </a-tab-pane>
           <a-tab-pane key="3" :tab="'问答 ' + data.questionTotal">
             <template v-for="item in data.question" :key="item.id">
-              <question-entry-item :item="item"></question-entry-item>
+              <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+                <question-entry-item :item="item"></question-entry-item>
+              </RouterLink>
             </template>
           </a-tab-pane>
           <a-tab-pane key="4" tab="关注">
