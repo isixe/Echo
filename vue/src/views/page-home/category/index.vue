@@ -4,7 +4,9 @@
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
     <template v-if="selectedKey == 'article'">
       <div v-for="item in articleData" :key="item.id">
-        <article-entry-item :item="item"></article-entry-item>
+        <RouterLink :to="'/article/' + item.id">
+          <article-entry-item :item="item"></article-entry-item
+        ></RouterLink>
       </div>
     </template>
     <template v-else-if="selectedKey == 'question'">

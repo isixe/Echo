@@ -58,10 +58,11 @@
   <template>
     <a-modal v-model:open="openPutter" width="700px" title="添加文章">
       <div class="form-container">
-        我的文章列表
         <div class="group-article-list" v-for="item in userArticleData" :key="item.id">
-          <input type="checkbox" :value="item.id" />
-          <article-entry-item :item="item"></article-entry-item>
+          <label>
+            <input type="checkbox" :value="item.id" />
+            <article-entry-item :item="item"></article-entry-item>
+          </label>
         </div>
       </div>
       <template #footer>
@@ -200,11 +201,12 @@ const showPutter = () => {
 }
 
 const putArticleToGroup = async () => {
-  const checkboxList = document.querySelectorAll('.group-article-list>input')
+  const checkboxList = document.querySelectorAll('.group-article-list>label>input')
   const checkboxValues = Array.from(checkboxList)
     .filter((checkbox) => checkbox.checked)
     .map((checkbox) => checkbox.value)
 
+  console.log(checkboxValues)
   checkboxValues.forEach(async (articleId) => {
     await putArticleGroup({ id: articleId, groupId: data.value.id })
       .then(() => {
@@ -335,6 +337,14 @@ const rules = {
 .group-article-list {
   display: flex;
   justify-content: space-between;
+}
+
+.group-article-list input {
+  margin-right: 10px;
+}
+
+.group-article-list label {
+  display: flex;
 }
 
 .entry-item {

@@ -1,50 +1,48 @@
 <template>
   <div class="entry-item">
-    <RouterLink :to="'/article/' + item.id">
-      <div class="item-message">
-        <div class="item-message-left">
-          <RouterLink :to="'/user/' + item.userId" class="user-info">
-            <a-avatar
-              class="user-avatar"
-              :src="item.avatar"
-              :size="20"
-              :style="{ marginRight: '10px' }"
-            >
-              <template #icon>
-                <UserOutlined />
-              </template>
-            </a-avatar>
-            <span class="user-name">{{ item.author }}</span>
-          </RouterLink>
-          <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <span>{{ updateTime }}</span>
-          <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <RouterLink :to="'/category/' + item.categoryId" class="category-container">
-            {{ item.category }}
-          </RouterLink>
-        </div>
-        <div class="item-message-right">
-          <span> <EyeOutlined /> {{ item.pvCount }} </span>
-          <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <span> <LikeOutlined /> {{ item.likeCount }} </span>
-          <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-          <span> <MessageOutlined /> {{ item.commentCount }} </span>
-        </div>
+    <div class="item-message">
+      <div class="item-message-left">
+        <RouterLink :to="'/user/' + item.userId" class="user-info">
+          <a-avatar
+            class="user-avatar"
+            :src="item.avatar"
+            :size="20"
+            :style="{ marginRight: '10px' }"
+          >
+            <template #icon>
+              <UserOutlined />
+            </template>
+          </a-avatar>
+          <span class="user-name">{{ item.author }}</span>
+        </RouterLink>
+        <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
+        <span>{{ updateTime }}</span>
+        <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
+        <RouterLink :to="'/category/' + item.categoryId" class="category-container">
+          {{ item.category }}
+        </RouterLink>
       </div>
-      <div>
-        <p class="item-title">{{ item.title }}</p>
+      <div class="item-message-right">
+        <span> <EyeOutlined /> {{ item.pvCount }} </span>
+        <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
+        <span> <LikeOutlined /> {{ item.likeCount }} </span>
+        <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
+        <span> <MessageOutlined /> {{ item.commentCount }} </span>
       </div>
-      <div class="item-content">
-        <div class="item-content-left">
-          <p class="item-summary">
-            {{ item.summary }}
-          </p>
-        </div>
-        <div class="item-content-right">
-          <img class="entry-item-picture" v-if="item.featuredPic" :src="item.featuredPic" />
-        </div>
+    </div>
+    <div>
+      <p class="item-title">{{ item.title }}</p>
+    </div>
+    <div class="item-content">
+      <div class="item-content-left">
+        <p class="item-summary">
+          {{ item.summary }}
+        </p>
       </div>
-    </RouterLink>
+      <div class="item-content-right">
+        <img class="entry-item-picture" v-if="item.featuredPic" :src="item.featuredPic" />
+      </div>
+    </div>
   </div>
 </template>
 

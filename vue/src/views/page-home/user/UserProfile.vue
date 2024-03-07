@@ -29,7 +29,9 @@
         <a-tabs class="nav-menu" v-model:activeKey="activeKey">
           <a-tab-pane key="1" :tab="'文章 ' + data.articleTotal">
             <template v-for="item in data.article" :key="item.id">
-              <article-entry-item :item="item"></article-entry-item>
+              <RouterLink :to="'/article/' + item.id">
+                <article-entry-item :item="item"></article-entry-item>
+              </RouterLink>
             </template>
           </a-tab-pane>
           <a-tab-pane key="2" :tab="'合集 ' + data.articleGroupTotal">
