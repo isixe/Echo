@@ -14,6 +14,7 @@
       <div class="header-right">
         <a-input
           class="search-box"
+          v-model:value="keyword"
           placeholder="请输入关键词"
           style="width: 200px"
           @pressEnter="onSearch"
@@ -117,6 +118,7 @@ library.add(faPenToSquare, faQuestion, faBoxArchive)
 
 const user = ref()
 const store = useUserStore()
+const keyword = ref('')
 
 onMounted(() => {
   if (store.id) {
@@ -126,7 +128,9 @@ onMounted(() => {
   }
 })
 
-const onSearch = () => {}
+const onSearch = () => {
+  router.push({ path: '/search', query: { q: keyword.value } })
+}
 
 const handleLoginOut = () => {
   const modal = Modal.confirm({
