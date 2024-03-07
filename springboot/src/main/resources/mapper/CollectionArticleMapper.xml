@@ -13,7 +13,7 @@
     <resultMap id="CollectionArticleVOResultMap" type="dev.itea.echo.vo.CollectionArticleVO">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
-        <result column="name" property="username"/>
+        <result column="username" property="author"/>
         <result column="avatar" property="avatar"/>
         <result column="article_id" property="articleId"/>
         <result column="featured_pic" property="featuredPic"/>
@@ -34,7 +34,7 @@
         a.title,
         a.summary,
         ca.user_id,
-        u.`name`,
+        u.`name` AS username,
         u.`avatar`,
         a.category_id,
         (SELECT category_name FROM category WHERE category.id = a.category_id) AS category,

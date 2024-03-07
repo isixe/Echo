@@ -43,13 +43,20 @@ public class CollectionArticleServiceImpl extends ServiceImpl<CollectionArticleM
 
     @Override
     public IPage<CollectionArticleVO> getCollectionArticleByPage(Pageable pageable, String keyword) {
-        Page<CollectionArticle> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<CollectionArticle> wrapper = new QueryWrapper<>();
+        Page<CollectionArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<CollectionArticleVO> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {
             wrapper = wrapper.like("u.name", keyword)
                     .or()
                     .like("a.title", keyword);
         }
+        return collectionArticleMapper.getCollectionArticleByPage(page, wrapper);
+    }
+
+    @Override
+    public IPage<CollectionArticleVO> getCollectionArticlePageByUserId(Pageable pageable, Integer userId) {
+        Page<CollectionArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<CollectionArticleVO> wrapper = new QueryWrapper<CollectionArticleVO>().eq("ca.user_id", userId);
         return collectionArticleMapper.getCollectionArticleByPage(page, wrapper);
     }
 }

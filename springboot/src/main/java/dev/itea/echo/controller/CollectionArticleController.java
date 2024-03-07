@@ -4,11 +4,9 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.CollectionArticle;
-import dev.itea.echo.entity.CommentArticle;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.CollectionArticleService;
@@ -101,6 +99,22 @@ public class CollectionArticleController {
         return collectionArticleService.getCollectionArticleByPage(pageable, pageDTO.getKeyword());
     }
 
+    /**
+     * 文章收藏查询（分页&用户ID）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "文章收藏查询（分页&用户ID）", description = "根据用户ID查询文章收藏分页", tags = "CollectionArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+            })
+    @SaCheckLogin
+    @GetMapping("/queryAllByUserId")
+    public IPage<CollectionArticleVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return collectionArticleService.getCollectionArticlePageByUserId(pageable, userId);
+    }
 
     /**
      * 文章收藏查询（文章ID&用户ID）
