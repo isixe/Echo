@@ -162,7 +162,12 @@
                   <span class="action-hover"
                     ><a @click="shareArticle()"><ShareAltOutlined /></a
                   ></span>
-                  <span class="action-hover"><StarOutlined /></span>
+                  <span class="action-hover"
+                    ><a v-if="collectData && collectData.id" @click="unCollectArticle()"
+                      ><StarFilled style="color: #4d45e5"
+                    /></a>
+                    <a v-else @click="collectArticle()"><StarOutlined /></a
+                  ></span>
                   <span class="action-hover"><LikeOutlined /></span>
                   <span class="action-hover"
                     ><a href="#comment"><MessageOutlined /></a
@@ -232,6 +237,11 @@ import { get, remove, getArticleListByGroupId } from '@/api/article'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { add, getCommentArticleRootList } from '@/api/articleComment'
+import {
+  add as collect,
+  remove as unCollect,
+  getCollectByUserAndArticle
+} from '@/api/collectionArticle'
 import { useUserStore } from '@/stores/user'
 import { ArticleCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
@@ -244,6 +254,7 @@ const data = ref()
 const postContent = ref('')
 const commentData = ref([])
 const groupArticleList = ref([])
+const collectData = ref()
 
 tocbot.init({
   tocSelector: '#toc-content',
@@ -280,6 +291,7 @@ onMounted(async () => {
     groupArticleList.value = res.data
   })
 
+  getCollect()
   queryComment()
 })
 
@@ -333,6 +345,31 @@ const shareArticle = () => {
     .catch(() => {
       message.error('复制失败')
     })
+}
+
+const getCollect = () => {
+  const params = {
+    userId: store.id,
+    articleId: data.value.id
+  }
+  getCollectByUserAndArticle(params).then((res) => {
+    collectData.value = res.data
+  })
+}
+
+const collectArticle = () => {
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('articleId', data.value.id)
+  collect(formData).then(() => getCollect())
+}
+
+const unCollectArticle = () => {
+  const formData = new FormData()
+  formData.append('id', collectData.value.id)
+  unCollect(formData).then(() => {
+    collectData.value = null
+  })
 }
 </script>
 

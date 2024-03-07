@@ -65,7 +65,12 @@
                   <span class="action-hover"
                     ><a @click="shareQuesion()"><ShareAltOutlined /></a
                   ></span>
-                  <span class="action-hover"><StarOutlined /></span>
+                  <span class="action-hover"
+                    ><a v-if="collectData && collectData.id" @click="unCollectQuestion()"
+                      ><StarFilled style="color: #4d45e5"
+                    /></a>
+                    <a v-else @click="collectQuestion()"><StarOutlined /></a
+                  ></span>
                   <span class="action-hover"><LikeOutlined /></span>
                   <span class="action-hover"
                     ><a href="#comment"><MessageOutlined /></a
@@ -137,6 +142,11 @@ import { add, getCommentQuestionRootList } from '@/api/questionComment'
 import { useUserStore } from '@/stores/user'
 import { QuestionCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import {
+  add as collect,
+  remove as unCollect,
+  getCollectByUserAndQuestion
+} from '@/api/collectionQuestion'
 
 const router = useRouter()
 const store = useUserStore()
@@ -145,6 +155,7 @@ const route = useRoute()
 const data = ref()
 const postContent = ref('')
 const commentData = ref([])
+const collectData = ref()
 
 onMounted(async () => {
   await get({ id: route.params.id }).then((res) => {
@@ -169,6 +180,8 @@ onMounted(async () => {
   })
 
   document.querySelector('.content-top').innerHTML = doc.body.innerHTML
+
+  getCollect()
   queryComment()
 })
 
@@ -217,6 +230,31 @@ const shareQuesion = () => {
     .catch(() => {
       message.error('复制失败')
     })
+}
+
+const getCollect = () => {
+  const params = {
+    userId: store.id,
+    questionId: data.value.id
+  }
+  getCollectByUserAndQuestion(params).then((res) => {
+    collectData.value = res.data
+  })
+}
+
+const collectQuestion = () => {
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('questionId', data.value.id)
+  collect(formData).then(() => getCollect())
+}
+
+const unCollectQuestion = () => {
+  const formData = new FormData()
+  formData.append('id', collectData.value.id)
+  unCollect(formData).then(() => {
+    collectData.value = null
+  })
 }
 </script>
 
