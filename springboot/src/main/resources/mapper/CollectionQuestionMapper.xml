@@ -7,7 +7,6 @@
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="question_id" property="questionId"/>
-        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
     <!-- 问答收藏值对象查询映射结果 -->
@@ -49,7 +48,6 @@
         <if test="!ew.customSqlSegment.length>0">
             WHERE q.is_deleted = 0
         </if>
-        AND cq.is_deleted = 0
         ORDER BY q.update_time DESC
     </select>
 

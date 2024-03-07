@@ -45,13 +45,6 @@ public class CollectionArticle extends Model<CollectionArticle> {
     @TableField("article_id")
     private Integer articleId;
 
-    @Schema(description = "是否删除")
-    @TableField("is_deleted")
-    @TableLogic
-    @JsonIgnore
-    private Byte isDeleted;
-
-
     @Override
     public Serializable pkVal() {
         return this.id;
