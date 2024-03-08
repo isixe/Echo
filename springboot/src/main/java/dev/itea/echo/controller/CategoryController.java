@@ -113,9 +113,7 @@ public class CategoryController {
             parameters = {
                     @Parameter(name = "id", description = "类别ID", required = true, example = "2"),
             })
-    @SaCheckOr(
-            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
-    )
+    @SaIgnore
     @GetMapping
     public Category getById(Integer id) {
         //get category

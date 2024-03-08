@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.CollectionArticle;
 import dev.itea.echo.entity.result.ResultCode;
@@ -109,7 +110,7 @@ public class CollectionArticleController {
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
-    @SaCheckLogin
+    @SaIgnore
     @GetMapping("/queryAllByUserId")
     public IPage<CollectionArticleVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());

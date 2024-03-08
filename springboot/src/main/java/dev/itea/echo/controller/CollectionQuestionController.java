@@ -5,15 +5,14 @@ import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.PageDTO;
-import dev.itea.echo.entity.CollectionQuestion;
 import dev.itea.echo.entity.CollectionQuestion;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.CollectionQuestionService;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
-import dev.itea.echo.vo.CollectionArticleVO;
 import dev.itea.echo.vo.CollectionQuestionVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -132,7 +131,7 @@ public class CollectionQuestionController {
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
-    @SaCheckLogin
+    @SaUserCheckLogin
     @GetMapping("/queryAllByUserId")
     public IPage<CollectionQuestionVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
