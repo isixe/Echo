@@ -373,6 +373,10 @@ const items = ref([
   font-size: 12px;
 }
 
+.entry-item {
+  flex: 1;
+}
+
 @media screen and (max-width: 1200px) {
   .nav-box,
   .content-box {

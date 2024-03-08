@@ -333,6 +333,7 @@ const postComment = () => {
   add(formData).then(() => {
     message.success('发布成功')
     queryComment()
+    postContent.value = null
   })
 }
 

@@ -78,7 +78,6 @@ const getArticleDataSource = () => {
 const getQuestionDataSource = () => {
   getCollectionQuestionListByUserId(params).then((res) => {
     questionData.value = res.data.records
-    console.log(res.data.records)
   })
 }
 

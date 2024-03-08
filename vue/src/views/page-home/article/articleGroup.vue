@@ -10,15 +10,18 @@
         <a @click="deleteGroup(data.id)"><DeleteOutlined /> 删除</a>
       </div>
     </div>
+    <div class="group-box-set" v-if="store.id && store.id == data.userId" @click="showPutter()">
+      <span><PlusOutlined /> 添加文章</span>
+    </div>
     <template v-if="groupArticleData && groupArticleData.length > 0">
-      <div class="group-box-set" v-if="store.id == data.userId" @click="showPutter()">
-        <span><PlusOutlined /> 添加文章</span>
-      </div>
       <div class="group-article-list" v-for="item in groupArticleData" :key="item.id">
         <RouterLink :to="'/article/' + item.id" class="entry-item-box">
           <article-entry-item :item="item"></article-entry-item>
         </RouterLink>
-        <a class="article-remove" v-if="store.id == data.userId" @click="removeArticle(item.id)"
+        <a
+          class="article-remove"
+          v-if="store.id && store.id == data.userId"
+          @click="removeArticle(item.id)"
           ><DeleteOutlined />&nbsp;移除</a
         >
       </div>
