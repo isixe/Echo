@@ -60,8 +60,8 @@ router.beforeEach((to, from, next) => {
 
   //get token exists
   const tokens = {
-    user: useUserStore().tokenValue === null,
-    admin: useAdminStore().tokenValue === null
+    user: useUserStore().tokenValue == null,
+    admin: useAdminStore().tokenValue == null
   }
 
   //get all routes path
