@@ -146,13 +146,25 @@ const postQuestion = () => {
     DateTime.fromJSDate(data.publishTime.$d).toFormat("yyyy-MM-dd'T'HH:mm:ss")
   )
 
-  if (data.status) {
-    formData.set('status', 1)
-    updateQuestion(formData)
-  } else {
+  if (!data.id && !data.status) {
     formData.set('status', 1)
     addQuestion(formData)
+    return
   }
+
+  if (!data.status) {
+    formData.set('status', 1)
+    updateQuestion(formData)
+    return
+  }
+
+  if (data.id && data.status) {
+    updateQuestion(formData)
+    return
+  }
+
+  formData.set('status', 1)
+  addQuestion(formData)
 }
 
 const addQuestion = (formData) => {
