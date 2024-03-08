@@ -169,13 +169,25 @@ const postArticle = () => {
     DateTime.fromJSDate(data.publishTime.$d).toFormat("yyyy-MM-dd'T'HH:mm:ss")
   )
 
-  if (data.status) {
-    formData.set('status', 1)
-    updateArticle(formData)
-  } else {
+  if (!data.id && !data.status) {
     formData.set('status', 1)
     addArticle(formData)
+    return
   }
+
+  if (!data.status) {
+    formData.set('status', 1)
+    updateArticle(formData)
+    return
+  }
+
+  if (data.id && data.status) {
+    updateArticle(formData)
+    return
+  }
+
+  formData.set('status', 1)
+  addArticle(formData)
 }
 
 const addArticle = (formData) => {
