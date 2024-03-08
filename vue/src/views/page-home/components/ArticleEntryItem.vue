@@ -40,7 +40,7 @@
         </p>
       </div>
       <div class="item-content-right">
-        <img class="entry-item-picture" v-if="item.featuredPic" :src="item.featuredPic" />
+        <img class="entry-item-picture" v-if="item.featuredPic" v-lazy="item.featuredPic" />
       </div>
     </div>
   </div>
