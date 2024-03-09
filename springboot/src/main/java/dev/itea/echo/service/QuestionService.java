@@ -25,7 +25,7 @@ public interface QuestionService extends IService<Question> {
 
     IPage<QuestionVO> getQuestionByPage(Pageable pageable, String keyword);
 
-    IPage<QuestionVO> getActiveQuestionByPage(Pageable pageable, String keyword);
+    IPage<QuestionVO> getActiveQuestionByPage(Pageable pageable, String keyword, String sort);
 
     IPage<QuestionVO> getActiveHotArticleByPage(Pageable pageable, String keyword);
 

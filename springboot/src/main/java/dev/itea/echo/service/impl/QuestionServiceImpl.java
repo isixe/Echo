@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 问答表 服务实现类
@@ -54,7 +55,8 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     @Override
     public IPage<QuestionVO> getQuestionByPage(Pageable pageable, String keyword) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>().eq("q.is_deleted", 0);
+
         if (!ObjectUtils.isEmpty(keyword)) {
             wrapper = wrapper.like("title", keyword)
                     .or()
@@ -66,17 +68,24 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                     .or()
                     .like("tag", keyword);
         }
+        wrapper.orderByDesc("q.update_time");
+
         return questionMapper.getQuestionByPage(page, wrapper);
     }
 
     @Override
-    public IPage<QuestionVO> getActiveQuestionByPage(Pageable pageable, String keyword) {
+    public IPage<QuestionVO> getActiveQuestionByPage(Pageable pageable, String keyword, String sort) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1);
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
+                .eq("status", 1)
+                .eq("q.is_deleted", 0);
+
+        if (ObjectUtils.isEmpty(keyword)) {
+            return questionMapper.getActiveQuestionByPage(page, wrapper.orderByDesc("q.update_time"));
+        }
 
         if (!ObjectUtils.isEmpty(keyword)) {
-            wrapper = wrapper.eq("status", 1)
+            wrapper.and(qw -> qw
                     .like("title", keyword)
                     .or()
                     .like("content", keyword)
@@ -85,30 +94,32 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                     .or()
                     .like("category_name", keyword)
                     .or()
-                    .like("tag", keyword);
+                    .like("tag", keyword));
         }
-        return questionMapper.getActiveQuestionByPage(page, wrapper);
+
+        QueryWrapper<QuestionVO> sortedWrapper = Optional.ofNullable(sort)
+                .map(s -> switch (s) {
+                    case "likeCount" -> wrapper.orderByDesc("like_count");
+                    case "updateTime" -> wrapper.orderByDesc("q.update_time");
+                    default -> wrapper.orderByDesc("q.`pv_count`")
+                            .orderByDesc("like_count")
+                            .orderByDesc("q.update_time");
+                })
+                .orElse(wrapper);
+
+        return questionMapper.getActiveQuestionByPage(page, sortedWrapper);
     }
 
     @Override
     public IPage<QuestionVO> getActiveHotArticleByPage(Pageable pageable, String keyword) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1);
-
-        if (!ObjectUtils.isEmpty(keyword)) {
-            wrapper = wrapper.eq("status", 1)
-                    .like("title", keyword)
-                    .or()
-                    .like("content", keyword)
-                    .or()
-                    .like("u.name", keyword)
-                    .or()
-                    .like("category_name", keyword)
-                    .or()
-                    .like("tag", keyword);
-        }
-        return questionMapper.getHotQuestionByPage(page, wrapper);
+        wrapper = wrapper.eq("status", 1)
+                .eq("q.is_deleted", 0)
+                .orderByDesc("q.`pv_count`")
+                .orderByDesc("like_count")
+                .orderByDesc("q.update_time");
+        return questionMapper.getActiveQuestionByPage(page, wrapper);
     }
 
     @Override

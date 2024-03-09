@@ -201,9 +201,9 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping("/queryAllActive")
-    public IPage<ArticleVO> getActivePageByKeyword(@Validated PageDTO pageDTO) {
+    public IPage<ArticleVO> getActivePageByKeyword(@Validated PageDTO pageDTO, String sort) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getActiveArticleByPage(pageable, pageDTO.getKeyword());
+        return articleService.getActiveArticleByPage(pageable, pageDTO.getKeyword(), sort);
     }
 
     /**

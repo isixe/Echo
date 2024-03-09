@@ -201,9 +201,9 @@ public class QuestionController {
             })
     @SaIgnore
     @GetMapping("/queryAllActive")
-    public IPage<QuestionVO> getActivePageByKeyword(@Validated PageDTO pageDTO) {
+    public IPage<QuestionVO> getActivePageByKeyword(@Validated PageDTO pageDTO, String sort) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getActiveQuestionByPage(pageable, pageDTO.getKeyword());
+        return questionService.getActiveQuestionByPage(pageable, pageDTO.getKeyword(), sort);
     }
 
     /**
