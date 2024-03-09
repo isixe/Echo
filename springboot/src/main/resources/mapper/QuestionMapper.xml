@@ -88,83 +88,62 @@
 
     <select id="getQuestionByPage" resultMap="QuestionVOListResultMap">
         SELECT q.id,
-        q.title,
-        q.content,
-        u.id AS user_id,
-        u.`name` AS author,
-        u.`avatar`,
-        c.category_name AS category,
-        c.id AS category_id,
-        q.tag,
-        q.`status`,
-        q.`pv_count`,
-        (SELECT count(*) FROM question_thumb WHERE question_id = q.id) AS `like_count`,
-        (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
-        (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
-        q.`created_time`,
-        q.`publish_time`,
-        q.`update_time`
+               q.title,
+               q.content,
+               u.id                                                                AS user_id,
+               u.`name`                                                            AS author,
+               u.`avatar`,
+               c.category_name                                                     AS category,
+               c.id                                                                AS category_id,
+               q.tag,
+               q.`status`,
+               q.`pv_count`,
+               (SELECT count(*) FROM question_thumb WHERE question_id = q.id)      AS `like_count`,
+               (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
+               (SELECT count(*) FROM comment_question WHERE question_id = q.id)    AS `comment_count`,
+               q.`created_time`,
+               q.`publish_time`,
+               q.`update_time`
         FROM question AS q
-        JOIN `user` AS u ON q.user_id = u.id
-        JOIN category AS c ON q.category_id = c.id
-        <if test="ew.customSqlSegment.length>0">
+                 JOIN `user` AS u ON q.user_id = u.id
+                 JOIN category AS c ON q.category_id = c.id
             ${ew.customSqlSegment}
-            AND q.is_deleted = 0
-        </if>
-        <if test="!ew.customSqlSegment.length>0">
-            WHERE q.is_deleted = 0
-        </if>
-        ORDER BY q.update_time DESC
     </select>
 
     <select id="getActiveQuestionByPage" resultMap="QuestionVOListResultMap">
         SELECT q.id,
-        q.title,
-        u.id AS user_id,
-        u.`name` AS author,
-        u.`avatar`,
-        c.category_name AS category,
-        c.id AS category_id,
-        q.`pv_count`,
-        (SELECT count(*) FROM question_thumb WHERE question_id = q.id) AS `like_count`,
-        (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
-        q.`update_time`
+               q.title,
+               u.id                                                             AS user_id,
+               u.`name`                                                         AS author,
+               u.`avatar`,
+               c.category_name                                                  AS category,
+               c.id                                                             AS category_id,
+               q.`pv_count`,
+               (SELECT count(*) FROM question_thumb WHERE question_id = q.id)   AS `like_count`,
+               (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
+               q.`update_time`
         FROM question AS q
-        JOIN `user` AS u ON q.user_id = u.id
-        JOIN category AS c ON q.category_id = c.id
-        <if test="ew.customSqlSegment.length>0">
+                 JOIN `user` AS u ON q.user_id = u.id
+                 JOIN category AS c ON q.category_id = c.id
             ${ew.customSqlSegment}
-            AND q.is_deleted = 0
-        </if>
-        <if test="!ew.customSqlSegment.length>0">
-            WHERE q.is_deleted = 0
-        </if>
-        ORDER BY q.update_time DESC
     </select>
 
     <select id="getHotQuestionByPage" resultMap="QuestionVOListResultMap">
         SELECT q.id,
-        q.title,
-        u.id AS user_id,
-        u.`name` AS author,
-        u.`avatar`,
-        c.category_name AS category,
-        c.id AS category_id,
-        q.`pv_count`,
-        (SELECT count(*) FROM question_thumb WHERE question_id = q.id) AS `like_count`,
-        (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
-        q.`update_time`
+               q.title,
+               u.id                                                             AS user_id,
+               u.`name`                                                         AS author,
+               u.`avatar`,
+               c.category_name                                                  AS category,
+               c.id                                                             AS category_id,
+               q.`pv_count`,
+               (SELECT count(*) FROM question_thumb WHERE question_id = q.id)   AS `like_count`,
+               (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
+               q.`update_time`
         FROM question AS q
-        JOIN `user` AS u ON q.user_id = u.id
-        JOIN category AS c ON q.category_id = c.id
-        <if test="ew.customSqlSegment.length>0">
+                 JOIN `user` AS u ON q.user_id = u.id
+                 JOIN category AS c ON q.category_id = c.id
             ${ew.customSqlSegment}
-            AND q.is_deleted = 0
-        </if>
-        <if test="!ew.customSqlSegment.length>0">
-            WHERE q.is_deleted = 0
-        </if>
-        ORDER BY q.`pv_count` DESC, `like_count`
     </select>
 
     <select id="getQuestionByTitle" resultType="dev.itea.echo.entity.Question" parameterType="string">
