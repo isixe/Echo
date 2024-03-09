@@ -8,7 +8,10 @@
         :items="items"
       />
       <div>
-        <a class="operation-filter" @click="() => (showFilter = !showFilter)"
+        <a
+          class="operation-filter"
+          @click="() => (showFilter = !showFilter)"
+          v-show="selectedKey != 'user'"
           ><FilterOutlined /> 筛选</a
         >
       </div>
@@ -58,20 +61,34 @@
         </template>
         <template v-else> <a-empty style="padding-bottom: 30px" /></template>
       </template>
+      <template v-else-if="selectedKey == 'user'">
+        <template v-if="userData">
+          <div v-for="item in userData" :key="item.id">
+            <RouterLink :to="'/user/' + item.id" style="display: flex; width: 100%">
+              <user-entry-item :item="item"></user-entry-item>
+            </RouterLink>
+          </div>
+        </template>
+        <template v-else> <a-empty style="padding-bottom: 30px" /></template>
+      </template>
       <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ArticleEntryItem, QuestionEntryItem } from '@/views/page-home/components'
+import { ArticleEntryItem, QuestionEntryItem, UserEntryItem } from '@/views/page-home/components'
 import { getActiveArticleListByKeyword } from '@/api/article'
 import { getActiveQuestionListByKeyword } from '@/api/question'
+import { getUserListByKeyword } from '@/api/user'
 
 const route = useRoute()
 const router = useRouter()
+
 const articleData = ref()
 const questionData = ref()
+const userData = ref()
+
 const selectedKey = ref(['article'])
 const showFilter = ref(false)
 
@@ -95,6 +112,12 @@ watch(
       getQuestionDataSource()
       return
     }
+
+    if (search.type === 'user') {
+      getUserDataSource()
+      return
+    }
+
     getArticleDataSource()
   }
 )
@@ -126,6 +149,13 @@ const getQuestionDataSource = () => {
   })
 }
 
+const getUserDataSource = () => {
+  getUserListByKeyword(params).then((res) => {
+    userData.value = res.data.records
+    console.log(res.data.records)
+  })
+}
+
 watch(selectedKey, (key) => {
   switch (key[0]) {
     case 'article':
@@ -135,6 +165,10 @@ watch(selectedKey, (key) => {
     case 'question':
       router.push({ path: '/search', query: { type: 'question', q: route.query.q } })
       getQuestionDataSource(key[0])
+      break
+    case 'user':
+      router.push({ path: '/search', query: { type: 'user', q: route.query.q } })
+      getUserDataSource(key[0])
       break
   }
 })
@@ -147,6 +181,10 @@ const items = ref([
   {
     key: 'question',
     label: '问答'
+  },
+  {
+    key: 'user',
+    label: '用户'
   }
 ])
 </script>
