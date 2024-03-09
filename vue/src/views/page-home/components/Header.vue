@@ -130,6 +130,7 @@ onMounted(() => {
 
 const onSearch = () => {
   router.push({ path: '/search', query: { q: keyword.value } })
+  keyword.value = ''
 }
 
 const handleLoginOut = () => {
