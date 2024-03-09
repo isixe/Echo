@@ -3,6 +3,7 @@ import Footer from './Footer.vue'
 import Main from './Main.vue'
 import ArticleEntryItem from './ArticleEntryItem.vue'
 import QuestionEntryItem from './QuestionEntryItem.vue'
+import UserEntryItem from './UserEntryItem.vue'
 import ArticleCommentItem from './ArticleCommentItem.vue'
 import QuestionCommentItem from './QuestionCommentItem.vue'
 
@@ -12,6 +13,7 @@ export {
   Footer,
   ArticleEntryItem,
   QuestionEntryItem,
+  UserEntryItem,
   ArticleCommentItem,
   QuestionCommentItem
 }
