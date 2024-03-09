@@ -74,7 +74,7 @@
                       <span class="user-desc">{{ rankItem.description }}</span>
                     </div>
                   </div>
-                  <div class="article-count">{{ rankItem.rankSum }}</div>
+                  <div class="counter-count">{{ rankItem.rankSum }}</div>
                 </RouterLink>
               </div>
             </div>

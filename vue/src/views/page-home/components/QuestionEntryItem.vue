@@ -57,9 +57,11 @@ const updateTime = dayjs(item.value.updateTime).fromNow()
 
 <style scoped>
 .entry-item {
+  width: 100%;
   position: relative;
   display: flex;
   padding: 15px 0;
+  border-bottom: 1px solid #ebeef5;
 }
 
 .entry-item:hover {
