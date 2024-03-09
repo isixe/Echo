@@ -18,18 +18,18 @@
     <div class="filter-option">
       <RouterLink
         :to="{ path: 'search', query: { type: search.type, q: search.q } }"
-        :class="!search.type ? 'active' : ''"
+        :class="!search.sort ? 'active' : ''"
       >
         综合排序
       </RouterLink>
       <RouterLink
         :to="{ path: 'search', query: { type: search.type, sort: 'likeCount', q: search.q } }"
-        :class="search.type == 'likeCount' ? 'active' : ''"
+        :class="search.sort == 'likeCount' ? 'active' : ''"
         >最多点赞</RouterLink
       >
       <RouterLink
         :to="{ path: 'search', query: { type: search.type, sort: 'updateTime', q: search.q } }"
-        :class="search.type == 'updateTime' ? 'active' : ''"
+        :class="search.sort == 'updateTime' ? 'active' : ''"
       >
         最新发布
       </RouterLink>
@@ -81,14 +81,29 @@ const search = reactive({
   q: route.query.q
 })
 
-watch(search, () => {
-  console.log(search)
-})
+watch(
+  () => route.query,
+  () => {
+    Object.keys(search).forEach((key) => {
+      search[key] = route.query[key]
+    })
+
+    params.keyword = search.q
+    params.sort = search.sort
+
+    if (search.type === 'question') {
+      getQuestionDataSource()
+      return
+    }
+    getArticleDataSource()
+  }
+)
 
 const params = reactive({
   pageNum: 1,
   pageSize: 15,
-  keyword: route.query.q
+  keyword: route.query.q,
+  sort: route.query.sort
 })
 
 onMounted(() => {
