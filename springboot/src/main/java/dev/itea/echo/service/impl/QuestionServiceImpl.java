@@ -123,38 +123,52 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public List<UserRankVO> getUserQuestionNumRankList() {
-        return questionMapper.getUserQuestionNumRankList();
-    }
-
-    @Override
     public List<Question> getDraftListByUserId(Integer userId) {
-        QueryWrapper<Question> wrapper = new QueryWrapper<Question>().eq("user_id", userId).eq("status", 0);
+        QueryWrapper<Question> wrapper = new QueryWrapper<Question>()
+                .eq("user_id", userId)
+                .eq("status", 0)
+                .eq("q.is_deleted", 0)
+                .orderByDesc("q.update_time");
         return questionMapper.selectList(wrapper);
     }
 
     @Override
     public IPage<QuestionVO> getPageByUserId(Pageable pageable, Integer userId) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1).like("u.id", userId);
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
+                .eq("status", 1)
+                .eq("u.id", userId)
+                .eq("q.is_deleted", 0)
+                .orderByDesc("q.update_time");
         return questionMapper.getQuestionByPage(page, wrapper);
     }
 
     @Override
     public IPage<QuestionVO> getPageByCategoryId(Pageable pageable, Integer categoryId) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1).eq("c.id", categoryId);
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
+                .eq("status", 1)
+                .eq("c.id", categoryId)
+                .eq("q.is_deleted", 0)
+                .orderByDesc("q.update_time");
         return questionMapper.getActiveQuestionByPage(page, wrapper);
     }
 
     @Override
     public IPage<QuestionVO> getPageByTagName(Pageable pageable, String tagName) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1).like("tag", tagName);
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
+                .eq("status", 1)
+                .like("tag", tagName)
+                .eq("q.is_deleted", 0)
+                .orderByDesc("q.update_time");
         return questionMapper.getActiveQuestionByPage(page, wrapper);
+    }
+
+
+    @Override
+    public List<UserRankVO> getUserQuestionNumRankList() {
+        return questionMapper.getUserQuestionNumRankList();
     }
 
     @Override

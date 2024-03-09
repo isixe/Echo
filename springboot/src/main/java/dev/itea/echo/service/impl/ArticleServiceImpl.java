@@ -149,8 +149,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public IPage<ArticleVO> getPageByTagName(Pageable pageable, String tagName) {
         Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1)
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<ArticleVO>()
+                .eq("status", 1)
                 .like("tag", tagName)
                 .eq("a.is_deleted", 0)
                 .orderByDesc("a.update_time");
@@ -160,17 +160,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public IPage<ArticleVO> getPageByUserId(Pageable pageable, Integer userId) {
         Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1)
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<ArticleVO>()
+                .eq("status", 1)
                 .eq("u.id", userId)
                 .eq("a.is_deleted", 0)
                 .orderByDesc("a.update_time");
         return articleMapper.getActiveArticleByPage(page, wrapper);
-    }
-
-    @Override
-    public List<Article> getArticleListByTitle(String title) {
-        return articleMapper.getArticleByTitle(title);
     }
 
     @Override
@@ -202,8 +197,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public IPage<ArticleVO> getUnGroupPageByUserId(Pageable pageable, Integer userId) {
         Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1)
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<ArticleVO>()
+                .eq("status", 1)
                 .eq("u.id", userId)
                 .isNull("article_group_id")
                 .eq("a.is_deleted", 0)
@@ -211,4 +206,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleMapper.getActiveArticleByPage(page, wrapper);
     }
 
+    @Override
+    public List<Article> getArticleListByTitle(String title) {
+        return articleMapper.getArticleByTitle(title);
+    }
 }
