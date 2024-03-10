@@ -1,6 +1,7 @@
 package dev.itea.echo.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Category;
 import dev.itea.echo.entity.GroupArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -25,8 +26,7 @@ public interface GroupArticleService extends IService<GroupArticle> {
 
     GroupArticle getByUserIdAndGroupName(Integer userId, String groupName);
 
-    List<Map<String, Object>> getListByUserId(Integer userId);
-
     IPage<GroupArticle> getPage(Pageable pageable, String keyword);
 
+    IPage<GroupArticle> getPageByUserId(Pageable pageable, Integer userId);
 }

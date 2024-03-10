@@ -153,16 +153,19 @@ public class GroupArticleController {
     /**
      * 文章分组查询（UserID）
      *
-     * @param userId 用户ID
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
      */
     @Operation(summary = "文章分组查询（UserID）", description = "后台文章分组用户ID查询", tags = "GroupArticle", method = "GET",
             parameters = {
                     @Parameter(name = "userId", description = "文章分组所属用户ID", required = true, example = "1"),
             })
     @SaIgnore
-    @GetMapping("/getByUserId")
-    public List<Map<String, Object>> getByUserId(Integer userId) {
-        return groupArticleService.getListByUserId(userId);
+    @GetMapping("/queryAllByUserId")
+    public IPage<GroupArticle> getByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return groupArticleService.getPageByUserId(pageable, userId);
     }
 
     /**

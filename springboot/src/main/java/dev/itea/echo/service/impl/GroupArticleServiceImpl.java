@@ -3,6 +3,7 @@ package dev.itea.echo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.GroupArticle;
 import dev.itea.echo.mapper.GroupArticleMapper;
 import dev.itea.echo.service.GroupArticleService;
@@ -51,15 +52,6 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
     }
 
     @Override
-    public List<Map<String, Object>> getListByUserId(Integer userId) {
-        QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.select("id", "name", "description")
-                .eq("user_id", userId)
-                .orderByDesc("update_time");
-        return groupArticleMapper.selectMaps(wrapper);
-    }
-
-    @Override
     public IPage<GroupArticle> getPage(Pageable pageable, String keyword) {
         Page<GroupArticle> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
@@ -68,6 +60,16 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
                     .or()
                     .like("description", keyword);
         }
+        return groupArticleMapper.selectPage(page, wrapper);
+    }
+
+    @Override
+    public IPage<GroupArticle> getPageByUserId(Pageable pageable, Integer userId) {
+        Page<GroupArticle> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
+        wrapper = wrapper.select("id", "name", "description")
+                .eq("user_id", userId)
+                .orderByDesc("update_time");
         return groupArticleMapper.selectPage(page, wrapper);
     }
 
