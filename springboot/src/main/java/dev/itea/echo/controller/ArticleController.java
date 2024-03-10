@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 文章前端控制器
+ * 文章控制器
  *
  * @author isixe
  * @since 2024-01-15

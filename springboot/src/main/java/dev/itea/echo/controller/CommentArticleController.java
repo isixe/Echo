@@ -106,6 +106,7 @@ public class CommentArticleController {
      * 文章评论查询（ID）
      *
      * @param id 文章评论ID
+     * @return CommentArticle 文章评论对象
      */
     @Operation(summary = "文章评论查询（ID）", description = "文章评论查询", tags = "CommentArticle", method = "GET",
             parameters = {
@@ -127,6 +128,7 @@ public class CommentArticleController {
      * 文章评论查询（文章ID）
      *
      * @param articleId 文章ID
+     * @return List<RootCommentArticleVO> 顶级文章评论值对象列表
      */
     @Operation(summary = "文章评论查询（文章ID）", description = "文章评论顶级列表查询", tags = "CommentArticle", method = "GET",
             parameters = {
@@ -142,6 +144,7 @@ public class CommentArticleController {
      * 文章评论查询（文章评论rootId）
      *
      * @param rootId 文章评论rootId
+     * @return List<ChildCommentVO> 子级文章评论值对象列表
      */
     @Operation(summary = "文章评论查询（rootId）", description = "文章评论次级列表查询", tags = "CommentArticle", method = "GET",
             parameters = {

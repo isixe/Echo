@@ -24,9 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>
- * 收藏表 前端控制器
- * </p>
+ * 问答收藏控制器
  *
  * @author isixe
  * @since 2024-01-15
@@ -89,6 +87,7 @@ public class CollectionQuestionController {
      * 问答收藏查询（问答ID&用户ID）
      *
      * @param collectionArticle 问答收藏实体
+     * @return CollectionArticle 问答收藏实体
      */
     @Operation(summary = "问答收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询问答收藏", tags = "CollectionQuestion", method = "GET",
             parameters = {
@@ -128,7 +127,8 @@ public class CollectionQuestionController {
      */
     @Operation(summary = "问答收藏查询（分页&用户ID）", description = "根据用户ID查询问答收藏分页", tags = "CollectionQuestion", method = "GET",
             parameters = {
-                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "1")
             })
     @SaUserCheckLogin
     @GetMapping("/queryAllByUserId")

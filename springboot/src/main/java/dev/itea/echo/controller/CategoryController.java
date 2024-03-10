@@ -108,6 +108,7 @@ public class CategoryController {
      * 类别查询（ID）
      *
      * @param id 类别ID
+     * @return Category 类别实体
      */
     @Operation(summary = "类别查询", description = "后台类别查询", tags = "Category", method = "GET",
             parameters = {
@@ -146,7 +147,7 @@ public class CategoryController {
      * 类别名称查询（Name）
      *
      * @param categoryName 类别名称
-     * @return category map
+     * @return Category 类别实体
      */
     @Operation(summary = "类别名称查询（Name）", description = "类别名称模糊查询", tags = "Category", method = "GET",
             parameters = {
@@ -164,11 +165,13 @@ public class CategoryController {
     /**
      * 类别模糊查询（Name）
      *
+     * @param pageDTO      分页数据传输对象
      * @param categoryName 类别名称
-     * @return category map
+     * @return IPage 分页对象
      */
     @Operation(summary = "类别模糊查询（Name）", description = "类别名称模糊查询", tags = "Category", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "categoryName", description = "类别名称关键词", required = true, example = "类别")
             })
     @SaCheckOr(

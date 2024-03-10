@@ -220,6 +220,7 @@ public class UserController {
      * 用户查询（ID）
      *
      * @param id 用户ID
+     * @return UserVO 用户值对象
      */
     @Operation(summary = "用户查询（ID）", description = "前台用户信息查询", tags = "User", method = "GET",
             parameters = {

@@ -105,6 +105,7 @@ public class CommentQuestionController {
      * 问答评论查询（ID）
      *
      * @param id 问答评论ID
+     * @return CommentQuestion 问答评论对象
      */
     @Operation(summary = "问答评论查询（ID）", description = "问答评论查询", tags = "CommentQuestion", method = "GET",
             parameters = {
@@ -126,6 +127,7 @@ public class CommentQuestionController {
      * 问答评论查询（问答ID）
      *
      * @param questionId 问答ID
+     * @return List<RootCommentQuestionVO> 顶级问答评论值对象列表
      */
     @Operation(summary = "问答评论查询（问答ID）", description = "问答评论顶级列表查询", tags = "CommentQuestion", method = "GET",
             parameters = {
@@ -141,6 +143,7 @@ public class CommentQuestionController {
      * 问答评论查询（问答评论rootId）
      *
      * @param rootId 问答评论rootId
+     * @return List<ChildCommentVO> 子级问答评论值对象
      */
     @Operation(summary = "问答评论查询（rootId）", description = "问答评论次级列表查询", tags = "CommentQuestion", method = "GET",
             parameters = {

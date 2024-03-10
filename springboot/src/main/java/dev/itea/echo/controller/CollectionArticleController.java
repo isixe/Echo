@@ -5,7 +5,6 @@ import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.CollectionArticle;
 import dev.itea.echo.entity.result.ResultCode;
@@ -87,6 +86,7 @@ public class CollectionArticleController {
      * 文章收藏查询（文章ID&用户ID）
      *
      * @param collectionArticle 文章收藏实体
+     * @return CollectionArticle 文章收藏实体
      */
     @Operation(summary = "文章收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询文章收藏", tags = "CommentArticle", method = "GET",
             parameters = {
@@ -126,7 +126,8 @@ public class CollectionArticleController {
      */
     @Operation(summary = "文章收藏查询（分页&用户ID）", description = "根据用户ID查询文章收藏分页", tags = "CollectionArticle", method = "GET",
             parameters = {
-                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "1")
             })
     @SaIgnore
     @GetMapping("/queryAllByUserId")

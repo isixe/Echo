@@ -116,6 +116,7 @@ public class GroupArticleController {
      * 文章分组查询（ID）
      *
      * @param id 文章分组ID
+     * @return GroupArticle 文章分组对象
      */
     @Operation(summary = "文章分组查询（ID）", description = "后台文章分组查询", tags = "GroupArticle", method = "GET",
             parameters = {
@@ -136,7 +137,9 @@ public class GroupArticleController {
     /**
      * 文章分组查询（UserID&GroupName）
      *
-     * @param userId 用户ID
+     * @param userId    用户ID
+     * @param groupName 文章分组名称
+     * @return GroupArticle 文章分组对象
      */
     @Operation(summary = "文章分组查询（UserID&GroupName）", description = "后台文章分组用户ID和分组名称查询", tags = "GroupArticle", method = "GET",
             parameters = {
@@ -175,6 +178,7 @@ public class GroupArticleController {
      */
     @Operation(summary = "文章分组查询（UserID）", description = "后台文章分组用户ID查询", tags = "GroupArticle", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "userId", description = "文章分组所属用户ID", required = true, example = "1"),
             })
     @SaIgnore

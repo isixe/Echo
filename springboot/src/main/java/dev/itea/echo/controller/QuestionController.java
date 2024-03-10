@@ -112,6 +112,7 @@ public class QuestionController {
      * 问答查询（ID）
      *
      * @param id 问答ID
+     * @return QuestionVO 问答值对象
      */
     @Operation(summary = "问答查询（ID）", description = "前台问答查询", tags = "Question", method = "GET",
             parameters = {
@@ -145,6 +146,7 @@ public class QuestionController {
      * 问答模糊查询（标题）
      *
      * @param title 问答标题
+     * @return List<Question> 问答对象列表
      */
     @Operation(summary = "问答查询（标题）", description = "前台问答标题问答查询", tags = "Question", method = "GET",
             parameters = {
@@ -160,6 +162,7 @@ public class QuestionController {
      * 问答草稿查询（用户ID）
      *
      * @param userId 用户ID
+     * @return List<Question> 问答对象列表
      */
     @Operation(summary = "问答查询（用户ID）", description = "前台根据用户ID查询问答", tags = "Question", method = "GET",
             parameters = {
