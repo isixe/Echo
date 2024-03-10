@@ -141,7 +141,6 @@ onMounted(() => {
   let type = route.query.type ? route.query.type : 'latest'
 
   selectedKey.value = [type]
-  getDataSource(type)
 
   getCategoryListByKeyword({ pageSize: 6 }).then((res) => {
     recommendCategory.value = res.data.records
