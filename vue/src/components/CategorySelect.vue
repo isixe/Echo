@@ -4,16 +4,18 @@
     show-search
     placeholder="请选择类别"
     style="width: 300px"
+    @focus="onCategoryFocus"
     :options="categoryOptions"
-    :filter-option="filterOption"
-    @search="categorySearch"
+    @popupScroll="onPopupScroll"
+    :filter-option="() => true"
+    @search="onCategorySearch"
   >
     <template #dropdownRender="{ menuNode: menu }">
       <v-nodes :vnodes="menu" />
       <a-divider style="margin: 4px 0" />
       <a-space style="padding: 4px 8px">
         <a-input ref="inputRef" v-model:value="categoryInput" placeholder="请输入类别" />
-        <a-button type="text" @click="addCategoryItem">
+        <a-button type="text" @click.prevent="addCategoryItem">
           <template #icon>
             <plus-outlined />
           </template>
@@ -33,6 +35,13 @@ const categoryName = defineModel('categoryName')
 
 const categoryInput = ref('')
 const categoryOptions = ref([])
+const pages = ref(0)
+
+const params = reactive({
+  pageNum: 1,
+  pageSize: 15,
+  keyword: ''
+})
 
 onMounted(() => {
   if (!categoryName.value) {
@@ -58,14 +67,25 @@ watch(categoryName, () => {
   ]
 })
 
-const filterOption = (input, option) => option.label.indexOf(input) >= 0
+const queryCategoryData = () => {
+  getCategoryListByName(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    categoryOptions.value.push(
+      ...data.map((group) => ({
+        value: group.id,
+        label: group.categoryName
+      }))
+    )
+  })
+}
 
-const categorySearch = (value) => {
-  if (value === null || value === '') {
-    return
-  }
-  getCategoryListByName({ categoryName: value }).then((res) => {
-    const data = res.data
+const onCategorySearch = (value) => {
+  params.keyword = value
+  params.pageNum = 1
+  getCategoryListByName(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
     categoryOptions.value = data.map((category) => ({
       value: category.id,
       label: category.categoryName
@@ -73,10 +93,31 @@ const categorySearch = (value) => {
   })
 }
 
-const inputRef = ref()
-const addCategoryItem = async (e) => {
-  e.preventDefault()
+const onPopupScroll = (e) => {
+  const { scrollTop, offsetHeight, scrollHeight } = e.target
+  if (scrollTop + offsetHeight !== scrollHeight || params.pageNum >= pages.value) {
+    return
+  }
+  params.pageNum += 1
+  queryCategoryData()
+}
 
+const onCategoryFocus = () => {
+  params.pageNum = 1
+  getCategoryListByName(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    categoryOptions.value = data.map((group) => ({
+      value: group.id,
+      label: group.categoryName
+    }))
+
+    categoryId.value = parseInt(categoryId.value)
+  })
+}
+
+const inputRef = ref()
+const addCategoryItem = async () => {
   const inputValue = categoryInput.value
 
   const formData = new FormData()
