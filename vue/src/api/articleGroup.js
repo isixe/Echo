@@ -42,7 +42,7 @@ export function getArticleGroupListByKeyword(params) {
 
 export function getArticleGroupListByUserId(params) {
   return request({
-    url: '/groupArticle/getByUserId',
+    url: '/groupArticle/queryAllByUserId',
     method: 'get',
     params
   })
