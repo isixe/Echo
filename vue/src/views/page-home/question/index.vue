@@ -27,11 +27,13 @@
             mode="horizontal"
             :items="items"
           />
-          <template v-for="item in dataSource" :key="item.id">
-            <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
-              <question-entry-item :item="item"></question-entry-item>
-            </RouterLink>
-          </template>
+          <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
+            <template #renderItem="{ item }">
+              <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+                <question-entry-item :item="item"></question-entry-item>
+              </RouterLink>
+            </template>
+          </a-list>
         </a-layout-content>
         <a-layout-sider class="sidebar-container" width="320px">
           <div class="notice-card">
@@ -117,10 +119,13 @@ library.add(faTags, faBullhorn, faRankingStar)
 
 const route = useRoute()
 const router = useRouter()
-const dataSource = ref([])
 const selectedKey = ref(['latest'])
 const recommendCategory = ref([])
 
+const initLoading = ref(true)
+const loading = ref(false)
+const fullList = ref([])
+const pages = ref(0)
 const params = reactive({
   pageNum: 1,
   pageSize: 15
@@ -128,35 +133,9 @@ const params = reactive({
 
 const rankList = ref([])
 
-const getDataSource = (type) => {
-  switch (type) {
-    case 'latest':
-      getActiveQuestionListByKeyword(params).then((res) => {
-        const data = res.data
-        dataSource.value = data.records
-        // pagination.total = data.total
-        // loading.value = false
-      })
-      break
-    case 'recommend':
-      break
-    case 'hot':
-      getHotActiveQuestionListByKeyword(params).then((res) => {
-        const data = res.data
-        dataSource.value = data.records
-        // pagination.total = data.total
-        // loading.value = false
-      })
-      break
-    case 'subscribe':
-      break
-    default:
-      router.push('/question')
-      selectedKey.value = ['latest']
-  }
-}
-
 onMounted(() => {
+  window.addEventListener('scroll', scrollBottom, true)
+
   getUserRank().then((res) => (rankList.value = res.data))
 
   let type = route.query.type ? route.query.type : 'latest'
@@ -169,7 +148,35 @@ onMounted(() => {
   })
 })
 
+onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
+
+const scrollBottom = () => {
+  if (initLoading.value || loading.value || params.pageNum >= pages.value) {
+    return
+  }
+
+  const windowHeight = document.body.scrollHeight
+  const scrollHeight = window.innerHeight + window.scrollY
+  if (windowHeight - scrollHeight >= 1) {
+    return
+  }
+
+  onLoadMore()
+}
+
+const onLoadMore = () => {
+  loading.value = true
+  params.pageNum += 1
+  let type = route.query.type ? route.query.type : 'latest'
+  getDataSource(type)
+  nextTick(() => {
+    window.dispatchEvent(new Event('resize'))
+  })
+}
+
 watch(selectedKey, (key) => {
+  fullList.value = []
+  params.pageNum = 1
   switch (key[0]) {
     case 'latest':
       router.push('/question')
@@ -189,6 +196,34 @@ watch(selectedKey, (key) => {
       break
   }
 })
+
+const getDataSource = (type) => {
+  switch (type) {
+    case 'latest':
+      getActiveQuestionListByKeyword(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+      })
+      break
+    case 'recommend':
+      break
+    case 'hot':
+      getHotActiveQuestionListByKeyword(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+      })
+      break
+    case 'subscribe':
+      break
+    default:
+      router.push('/question')
+      selectedKey.value = ['latest']
+  }
+}
 
 const items = ref([
   {
