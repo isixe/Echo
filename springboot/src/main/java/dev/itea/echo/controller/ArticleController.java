@@ -115,6 +115,7 @@ public class ArticleController {
      * 文章查询（ID）
      *
      * @param id 文章ID
+     * @return ArticleVO 文章值对象
      */
     @Operation(summary = "文章查询（ID）", description = "前台文章查询", tags = "Article", method = "GET",
             parameters = {
@@ -194,6 +195,7 @@ public class ArticleController {
      * 文章查询（分组ID）
      *
      * @param groupId 文章分组ID
+     * @return List<ArticleVO> 文章值对象列表
      */
     @Operation(summary = "文章查询（文章分组ID）", description = "前台根据文章分组ID查询文章", tags = "Article", method = "GET",
             parameters = {
@@ -209,6 +211,7 @@ public class ArticleController {
      * 文章模糊查询（标题）
      *
      * @param title 文章标题
+     * @return List<Article> 文章对象列表
      */
     @Operation(summary = "文章查询（标题）", description = "前台文章标题文章查询", tags = "Article", method = "GET",
             parameters = {
@@ -224,6 +227,7 @@ public class ArticleController {
      * 文章草稿查询（用户ID）
      *
      * @param userId 用户ID
+     * @return List<Article> 文章对象列表
      */
     @Operation(summary = "文章查询（用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
             parameters = {
@@ -237,6 +241,8 @@ public class ArticleController {
 
     /**
      * 用户文章数量排行查询
+     *
+     * @return List<UserRankVO> 用户排行列表
      */
     @Operation(summary = "用户文章数量排行查询", description = "前台用户文章数量排行查询", tags = "Article", method = "GET")
     @SaIgnore
@@ -267,6 +273,7 @@ public class ArticleController {
      * 文章查询（分页&关键词&发布状态）
      *
      * @param pageDTO 分页数据传输对象
+     * @param sort    排序字段
      * @return IPage 分页对象
      */
     @Operation(summary = "文章查询（分页&关键词）", description = "前台文章分页与关键词查询", tags = "Article", method = "GET",
@@ -300,10 +307,13 @@ public class ArticleController {
     /**
      * 文章分页查询（分类ID）
      *
+     * @param pageDTO    分页数据传输对象
      * @param categoryId 分类ID
+     * @return IPage 分页对象
      */
     @Operation(summary = "文章查询（分类ID）", description = "前台根据文章分类ID查询文章", tags = "Article", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "categoryId", description = "分类ID", required = true, example = "1"),
             })
     @SaIgnore
@@ -316,10 +326,13 @@ public class ArticleController {
     /**
      * 文章分页查询（用户ID）
      *
-     * @param userId 用户ID
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
      */
     @Operation(summary = "文章分页查询（用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
             })
     @SaIgnore
@@ -332,10 +345,13 @@ public class ArticleController {
     /**
      * 未分组文章列表查询（用户ID）
      *
-     * @param userId 用户ID
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
      */
     @Operation(summary = "未分组文章列表查询（用户ID）", description = "前台根据用户ID查询未分组文章", tags = "Article", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
             })
     @SaIgnore
@@ -348,10 +364,13 @@ public class ArticleController {
     /**
      * 文章分页模糊查询（标签名称）
      *
+     * @param pageDTO 分页数据传输对象
      * @param tagName 标签名称
+     * @return IPage 分页对象
      */
     @Operation(summary = "文章分页模糊查询（标签名称）", description = "前台根据标签名称查询文章分页", tags = "Article", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "tagName", description = "标签名称", required = true, example = "MySQL"),
             })
     @SaIgnore

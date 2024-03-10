@@ -183,6 +183,7 @@ public class AdminController {
      * 管理员查询（ID）
      *
      * @param id 管理员用户ID
+     * @return Admin 管理员实体
      */
     @Operation(summary = "管理员查询（ID）", description = "后台管理员用户查询", tags = "Admin", method = "GET",
             parameters = {
