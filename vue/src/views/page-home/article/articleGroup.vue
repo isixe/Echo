@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="data">
+  <div class="group-container" v-if="data">
     <div class="group-header">
       <div>
         <p class="group-title">{{ data.name }}</p>
@@ -286,7 +286,7 @@ const rules = {
 </script>
 
 <style scoped>
-.container {
+.group-container {
   margin: 15px 200px;
   background-color: #ffffff;
   border-radius: 4px;
