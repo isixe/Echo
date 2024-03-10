@@ -175,8 +175,9 @@ public class CategoryController {
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
     )
     @GetMapping("/queryAllByName")
-    public List<Map<String, Object>> getListByName(String categoryName) {
-        return categoryService.getListByName(categoryName);
+    public IPage<Category> getPageByName(@Validated PageDTO pageDTO, String categoryName) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return categoryService.getPageByName(pageable, pageDTO.getKeyword(), categoryName);
     }
 
 }
