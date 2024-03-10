@@ -262,7 +262,7 @@ public class QuestionController {
     @SaIgnore
     @GetMapping("/userRank")
     public List<UserRankVO> getByUserRankList() {
-        return questionService.getUserQuestionNumRankList();
+        return questionService.getListWithUserNumRank();
     }
 
     /**

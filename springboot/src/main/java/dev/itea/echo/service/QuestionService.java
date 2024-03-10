@@ -37,7 +37,7 @@ public interface QuestionService extends IService<Question> {
 
     List<Question> getListByTitle(String title);
 
-    List<UserRankVO> getUserQuestionNumRankList();
+    List<UserRankVO> getListWithUserNumRank();
 
     List<Question> getListWithDraftByUserId(Integer userId);
 }

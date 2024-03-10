@@ -311,7 +311,7 @@ public class ArticleController {
     @SaIgnore
     @GetMapping("/userRank")
     public List<UserRankVO> getByUserRankList() {
-        return articleService.getUserArticleNumRankList();
+        return articleService.getListWithUserNumRank();
     }
 
 

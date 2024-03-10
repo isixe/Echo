@@ -167,7 +167,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
 
     @Override
-    public List<UserRankVO> getUserQuestionNumRankList() {
+    public List<UserRankVO> getListWithUserNumRank() {
         return questionMapper.getUserQuestionNumRankList();
     }
 

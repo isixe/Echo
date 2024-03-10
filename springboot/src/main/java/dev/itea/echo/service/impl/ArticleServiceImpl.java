@@ -57,7 +57,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public List<UserRankVO> getUserArticleNumRankList() {
+    public List<UserRankVO> getListWithUserNumRank() {
         return articleMapper.getUserArticleNumRankList();
     }
 

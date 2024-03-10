@@ -25,7 +25,7 @@ public interface ArticleService extends IService<Article> {
 
     List<ArticleVO> getListByGroupId(Integer groupId);
 
-    List<UserRankVO> getUserArticleNumRankList();
+    List<UserRankVO> getListWithUserNumRank();
 
     List<Article> getListByTitle(String title);
 
