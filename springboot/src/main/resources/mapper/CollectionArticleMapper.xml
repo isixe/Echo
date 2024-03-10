@@ -27,7 +27,7 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <select id="getCollectionArticleByPage" resultMap="CollectionArticleVOResultMap">
+    <select id="getPage" resultMap="CollectionArticleVOResultMap">
         SELECT ca.id,
         ca.article_id,
         a.featured_pic,

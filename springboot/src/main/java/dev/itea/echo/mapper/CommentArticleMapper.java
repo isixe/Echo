@@ -21,9 +21,10 @@ import java.util.List;
  */
 public interface CommentArticleMapper extends BaseMapper<CommentArticle> {
 
-    IPage<CommentArticleVO> getArticleCommentByPage(Page<CommentArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<CommentArticleVO> wrapper);
+    IPage<CommentArticleVO> getPage(Page<CommentArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<CommentArticleVO> wrapper);
 
     List<RootCommentArticleVO> getRootListByArticleId(@Param(Constants.WRAPPER) QueryWrapper<RootCommentArticleVO> wrapper);
 
     List<ChildCommentVO> getChildListByArticleId(@Param(Constants.WRAPPER) QueryWrapper<ChildCommentVO> wrapper);
+
 }

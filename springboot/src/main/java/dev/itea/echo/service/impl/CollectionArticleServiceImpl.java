@@ -50,13 +50,13 @@ public class CollectionArticleServiceImpl extends ServiceImpl<CollectionArticleM
                     .or()
                     .like("a.title", keyword);
         }
-        return collectionArticleMapper.getCollectionArticleByPage(page, wrapper);
+        return collectionArticleMapper.getPage(page, wrapper);
     }
 
     @Override
     public IPage<CollectionArticleVO> getPageByUserId(Pageable pageable, Integer userId) {
         Page<CollectionArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<CollectionArticleVO> wrapper = new QueryWrapper<CollectionArticleVO>().eq("ca.user_id", userId);
-        return collectionArticleMapper.getCollectionArticleByPage(page, wrapper);
+        return collectionArticleMapper.getPage(page, wrapper);
     }
 }

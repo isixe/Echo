@@ -62,7 +62,7 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
                     .or()
                     .like("a.title", keyword);
         }
-        return commentArticleMapper.getArticleCommentByPage(page, wrapper);
+        return commentArticleMapper.getPage(page, wrapper);
     }
 
     @Override

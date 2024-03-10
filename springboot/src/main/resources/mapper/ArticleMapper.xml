@@ -55,7 +55,7 @@
         <result column="article_sum" property="rankSum"/>
     </resultMap>
 
-    <select id="getUserArticleNumRankList" resultMap="UserRankResultMap">
+    <select id="getListWithUserNumRank" resultMap="UserRankResultMap">
         SELECT u.id,
                u.`name`,
                u.description,
@@ -68,7 +68,7 @@
         ORDER BY article_sum DESC LIMIT 0, 5;
     </select>
 
-    <select id="getArticleByPage" resultMap="ArticleVOListResultMap">
+    <select id="getPage" resultMap="ArticleVOListResultMap">
         SELECT a.id,
                a.featured_pic,
                a.title,
@@ -97,7 +97,7 @@
             ${ew.customSqlSegment}
     </select>
 
-    <select id="getActiveArticleByPage" resultMap="ArticleVOListResultMap">
+    <select id="getPageWithActive" resultMap="ArticleVOListResultMap">
         SELECT a.id,
                a.featured_pic,
                a.title,
@@ -147,7 +147,7 @@
           AND a.is_deleted = 0
     </select>
 
-    <select id="getArticleByTitle" resultType="dev.itea.echo.entity.Article" parameterType="string">
+    <select id="getByTitle" resultType="dev.itea.echo.entity.Article" parameterType="string">
         SELECT id, title
         FROM article
         WHERE title LIKE CONCAT('%', #{name}, '%') LIMIT 0, 10;

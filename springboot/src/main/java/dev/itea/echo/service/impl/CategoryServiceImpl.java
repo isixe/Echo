@@ -50,7 +50,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public List<Map<String, Object>> getCListByName(String categoryName) {
+    public List<Map<String, Object>> getListByName(String categoryName) {
         return categoryMapper.selectMaps(new QueryWrapper<Category>()
                 .select("id", "category_name AS categoryName")
                 .like("category_name", categoryName));

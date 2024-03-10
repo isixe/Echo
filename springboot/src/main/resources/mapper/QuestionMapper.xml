@@ -48,7 +48,7 @@
         <result column="question_sum" property="rankSum"/>
     </resultMap>
 
-    <select id="getUserQuestionNumRankList" resultMap="UserRankResultMap">
+    <select id="getListWithUserNumRank" resultMap="UserRankResultMap">
         SELECT u.id,
                u.`name`,
                u.description,
@@ -86,7 +86,7 @@
           AND q.is_deleted = 0
     </select>
 
-    <select id="getQuestionByPage" resultMap="QuestionVOListResultMap">
+    <select id="getPage" resultMap="QuestionVOListResultMap">
         SELECT q.id,
                q.title,
                q.content,
@@ -110,7 +110,7 @@
             ${ew.customSqlSegment}
     </select>
 
-    <select id="getActiveQuestionByPage" resultMap="QuestionVOListResultMap">
+    <select id="getPageWithActive" resultMap="QuestionVOListResultMap">
         SELECT q.id,
                q.title,
                u.id                                                             AS user_id,
@@ -128,25 +128,7 @@
             ${ew.customSqlSegment}
     </select>
 
-    <select id="getHotQuestionByPage" resultMap="QuestionVOListResultMap">
-        SELECT q.id,
-               q.title,
-               u.id                                                             AS user_id,
-               u.`name`                                                         AS author,
-               u.`avatar`,
-               c.category_name                                                  AS category,
-               c.id                                                             AS category_id,
-               q.`pv_count`,
-               (SELECT count(*) FROM question_thumb WHERE question_id = q.id)   AS `like_count`,
-               (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
-               q.`update_time`
-        FROM question AS q
-                 JOIN `user` AS u ON q.user_id = u.id
-                 JOIN category AS c ON q.category_id = c.id
-            ${ew.customSqlSegment}
-    </select>
-
-    <select id="getQuestionByTitle" resultType="dev.itea.echo.entity.Question" parameterType="string">
+    <select id="getListByTitle" resultType="dev.itea.echo.entity.Question" parameterType="string">
         SELECT id, title
         FROM question
         WHERE title LIKE CONCAT('%', #{name}, '%') LIMIT 0, 10;

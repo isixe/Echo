@@ -57,7 +57,7 @@
         <result column="created_time" property="createdTime"/>
     </resultMap>
 
-    <select id="getArticleCommentByPage" resultMap="CommentArticleVOResultMap">
+    <select id="getPage" resultMap="CommentArticleVOResultMap">
         SELECT ca.id,
         ca.user_id,
         u.name               AS user_name,

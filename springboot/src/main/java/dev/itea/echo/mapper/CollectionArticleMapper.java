@@ -17,5 +17,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface CollectionArticleMapper extends BaseMapper<CollectionArticle> {
 
-    IPage<CollectionArticleVO> getCollectionArticleByPage(Page<CollectionArticleVO> page, @Param(Constants.WRAPPER)QueryWrapper<CollectionArticleVO> wrapper);
+    IPage<CollectionArticleVO> getPage(Page<CollectionArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<CollectionArticleVO> wrapper);
+
 }

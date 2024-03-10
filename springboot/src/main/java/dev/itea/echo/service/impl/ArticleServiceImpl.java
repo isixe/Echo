@@ -58,7 +58,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<UserRankVO> getListWithUserNumRank() {
-        return articleMapper.getUserArticleNumRankList();
+        return articleMapper.getListWithUserNumRank();
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         wrapper.orderByDesc("a.update_time");
 
-        return articleMapper.getArticleByPage(page, wrapper);
+        return articleMapper.getPage(page, wrapper);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .eq("a.is_deleted", 0);
 
         if (ObjectUtils.isEmpty(keyword)) {
-            return articleMapper.getActiveArticleByPage(page, wrapper.orderByDesc("a.update_time"));
+            return articleMapper.getPageWithActive(page, wrapper.orderByDesc("a.update_time"));
         }
 
         if (!ObjectUtils.isEmpty(keyword)) {
@@ -116,7 +116,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 })
                 .orElse(wrapper);
 
-        return articleMapper.getActiveArticleByPage(page, sortedWrapper);
+        return articleMapper.getPageWithActive(page, sortedWrapper);
     }
 
 
@@ -131,7 +131,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .orderByDesc("like_count")
                 .orderByDesc("a.update_time");
 
-        return articleMapper.getActiveArticleByPage(page, wrapper);
+        return articleMapper.getPageWithActive(page, wrapper);
     }
 
     @Override
@@ -143,7 +143,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .eq("a.is_deleted", 0)
                 .orderByDesc("a.update_time");
 
-        return articleMapper.getActiveArticleByPage(page, wrapper);
+        return articleMapper.getPageWithActive(page, wrapper);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .like("tag", tagName)
                 .eq("a.is_deleted", 0)
                 .orderByDesc("a.update_time");
-        return articleMapper.getActiveArticleByPage(page, wrapper);
+        return articleMapper.getPageWithActive(page, wrapper);
     }
 
     @Override
@@ -165,7 +165,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .eq("u.id", userId)
                 .eq("a.is_deleted", 0)
                 .orderByDesc("a.update_time");
-        return articleMapper.getActiveArticleByPage(page, wrapper);
+        return articleMapper.getPageWithActive(page, wrapper);
     }
 
     @Override
@@ -203,11 +203,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .isNull("article_group_id")
                 .eq("a.is_deleted", 0)
                 .orderByDesc("a.update_time");
-        return articleMapper.getActiveArticleByPage(page, wrapper);
+        return articleMapper.getPage(page, wrapper);
     }
 
     @Override
     public List<Article> getListByTitle(String title) {
-        return articleMapper.getArticleByTitle(title);
+        return articleMapper.getByTitle(title);
     }
 }

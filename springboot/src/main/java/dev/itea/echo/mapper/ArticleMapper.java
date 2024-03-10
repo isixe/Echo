@@ -20,16 +20,16 @@ import java.util.List;
  */
 public interface ArticleMapper extends BaseMapper<Article> {
 
-    IPage<ArticleVO> getArticleByPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
+    IPage<ArticleVO> getPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
 
-    IPage<ArticleVO> getActiveArticleByPage(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
+    IPage<ArticleVO> getPageWithActive(Page<ArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<ArticleVO> wrapper);
 
     ArticleVO getById(Integer id);
 
-    List<Article> getArticleByTitle(String title);
+    List<Article> getByTitle(String title);
 
     List<ArticleVO> getListByGroupId(Integer groupId);
 
-    List<UserRankVO> getUserArticleNumRankList();
+    List<UserRankVO> getListWithUserNumRank();
 
 }

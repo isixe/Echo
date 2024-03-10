@@ -70,7 +70,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         }
         wrapper.orderByDesc("q.update_time");
 
-        return questionMapper.getQuestionByPage(page, wrapper);
+        return questionMapper.getPage(page, wrapper);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 .eq("q.is_deleted", 0);
 
         if (ObjectUtils.isEmpty(keyword)) {
-            return questionMapper.getActiveQuestionByPage(page, wrapper.orderByDesc("q.update_time"));
+            return questionMapper.getPageWithActive(page, wrapper.orderByDesc("q.update_time"));
         }
 
         if (!ObjectUtils.isEmpty(keyword)) {
@@ -107,7 +107,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 })
                 .orElse(wrapper);
 
-        return questionMapper.getActiveQuestionByPage(page, sortedWrapper);
+        return questionMapper.getPageWithActive(page, sortedWrapper);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 .orderByDesc("q.`pv_count`")
                 .orderByDesc("like_count")
                 .orderByDesc("q.update_time");
-        return questionMapper.getActiveQuestionByPage(page, wrapper);
+        return questionMapper.getPageWithActive(page, wrapper);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 .eq("u.id", userId)
                 .eq("q.is_deleted", 0)
                 .orderByDesc("q.update_time");
-        return questionMapper.getQuestionByPage(page, wrapper);
+        return questionMapper.getPage(page, wrapper);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 .eq("c.id", categoryId)
                 .eq("q.is_deleted", 0)
                 .orderByDesc("q.update_time");
-        return questionMapper.getActiveQuestionByPage(page, wrapper);
+        return questionMapper.getPageWithActive(page, wrapper);
     }
 
     @Override
@@ -162,17 +162,17 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 .like("tag", tagName)
                 .eq("q.is_deleted", 0)
                 .orderByDesc("q.update_time");
-        return questionMapper.getActiveQuestionByPage(page, wrapper);
+        return questionMapper.getPageWithActive(page, wrapper);
     }
 
 
     @Override
     public List<UserRankVO> getListWithUserNumRank() {
-        return questionMapper.getUserQuestionNumRankList();
+        return questionMapper.getListWithUserNumRank();
     }
 
     @Override
     public List<Question> getListByTitle(String title) {
-        return questionMapper.getQuestionByTitle(title);
+        return questionMapper.getListByTitle(title);
     }
 }

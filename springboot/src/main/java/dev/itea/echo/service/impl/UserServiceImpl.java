@@ -51,7 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public List<UserVO> getListByName(String userName) {
-        return userMapper.getUserListByName(userName);
+        return userMapper.getListByName(userName);
     }
 
     @Override

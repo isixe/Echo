@@ -12,5 +12,5 @@ import java.util.List;
  * @since 2024-01-15
  */
 public interface CategoryMapper extends BaseMapper<Category> {
-    List<Category> getCategotyListByName(String categoryName);
+
 }

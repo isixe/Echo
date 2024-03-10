@@ -13,5 +13,5 @@ import java.util.List;
  * @since 2024-01-15
  */
 public interface UserMapper extends BaseMapper<User> {
-    List<UserVO> getUserListByName(String name);
+    List<UserVO> getListByName(String name);
 }

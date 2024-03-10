@@ -23,11 +23,11 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
     QuestionVO getById(Integer id);
 
-    IPage<QuestionVO> getQuestionByPage(Page<QuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<QuestionVO> wrapper);
+    IPage<QuestionVO> getPage(Page<QuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<QuestionVO> wrapper);
 
-    IPage<QuestionVO> getActiveQuestionByPage(Page<QuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<QuestionVO> wrapper);
+    IPage<QuestionVO> getPageWithActive(Page<QuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<QuestionVO> wrapper);
 
-    List<UserRankVO> getUserQuestionNumRankList();
+    List<UserRankVO> getListWithUserNumRank();
 
-    List<Question> getQuestionByTitle(String title);
+    List<Question> getListByTitle(String title);
 }

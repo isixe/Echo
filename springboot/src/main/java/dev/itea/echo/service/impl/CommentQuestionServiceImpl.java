@@ -60,7 +60,7 @@ public class CommentQuestionServiceImpl extends ServiceImpl<CommentQuestionMappe
                     .or()
                     .like("q.title", keyword);
         }
-        return commentQuestionMapper.getQuestionCommentByPage(page, wrapper);
+        return commentQuestionMapper.getPage(page, wrapper);
     }
 
     @Override

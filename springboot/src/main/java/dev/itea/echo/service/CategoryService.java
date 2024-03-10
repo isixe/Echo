@@ -22,7 +22,7 @@ public interface CategoryService extends IService<Category> {
 
     Category get(Integer id);
 
-    List<Map<String, Object>> getCListByName(String categoryName);
+    List<Map<String, Object>> getListByName(String categoryName);
 
     IPage<Category> getPage(Pageable pageable, String keyword);
 }

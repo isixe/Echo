@@ -176,7 +176,7 @@ public class CategoryController {
     )
     @GetMapping("/queryAllByName")
     public List<Map<String, Object>> getListByName(String categoryName) {
-        return categoryService.getCListByName(categoryName);
+        return categoryService.getListByName(categoryName);
     }
 
 }
