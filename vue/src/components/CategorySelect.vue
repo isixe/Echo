@@ -112,7 +112,7 @@ const onCategoryFocus = () => {
       label: group.categoryName
     }))
 
-    categoryId.value = parseInt(categoryId.value)
+    categoryId.value = categoryId.value ? parseInt(categoryId.value) : null
   })
 }
 

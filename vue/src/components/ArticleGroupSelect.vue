@@ -98,7 +98,7 @@ const onArticleGroupFocus = () => {
       label: group.name
     }))
 
-    articleGroupId.value = parseInt(articleGroupId.value)
+    articleGroupId.value = articleGroupId.value ? parseInt(articleGroupId.value) : null
   })
 }
 
