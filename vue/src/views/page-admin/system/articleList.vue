@@ -169,7 +169,6 @@
           </a-form-item>
           <a-form-item name="articleGroupId" label="分组">
             <article-group-select
-              v-model:itemId="editData.id"
               v-model:userId="editData.userId"
               v-model:articleGroupId="editData.articleGroupId"
               v-model:articleGroupName="editData.articleGroupName"
