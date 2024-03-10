@@ -28,5 +28,5 @@ public interface GroupArticleService extends IService<GroupArticle> {
 
     IPage<GroupArticle> getPage(Pageable pageable, String keyword);
 
-    IPage<GroupArticle> getPageByUserId(Pageable pageable, Integer userId);
+    IPage<GroupArticle> getPageByUserId(Pageable pageable, String keyword, Integer userId);
 }

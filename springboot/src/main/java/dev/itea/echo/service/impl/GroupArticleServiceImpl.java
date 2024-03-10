@@ -52,6 +52,13 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
     }
 
     @Override
+    public GroupArticle getByUserIdAndGroupName(Integer userId, String groupName) {
+        return groupArticleMapper.selectOne(new QueryWrapper<GroupArticle>()
+                .eq("user_id", userId)
+                .eq("name", groupName));
+    }
+
+    @Override
     public IPage<GroupArticle> getPage(Pageable pageable, String keyword) {
         Page<GroupArticle> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
@@ -64,20 +71,16 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
     }
 
     @Override
-    public IPage<GroupArticle> getPageByUserId(Pageable pageable, Integer userId) {
+    public IPage<GroupArticle> getPageByUserId(Pageable pageable, String keyword, Integer userId) {
         Page<GroupArticle> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.select("id", "name", "description")
-                .eq("user_id", userId)
-                .orderByDesc("update_time");
+        QueryWrapper<GroupArticle> wrapper = new QueryWrapper<GroupArticle>()
+                .select("id", "name", "description")
+                .eq("user_id", userId);
+        if (!ObjectUtils.isEmpty(keyword)) {
+            wrapper = wrapper.like("name", keyword);
+        }
+        wrapper.orderByDesc("update_time");
         return groupArticleMapper.selectPage(page, wrapper);
-    }
-
-    @Override
-    public GroupArticle getByUserIdAndGroupName(Integer userId, String groupName) {
-        return groupArticleMapper.selectOne(new QueryWrapper<GroupArticle>()
-                .eq("user_id", userId)
-                .eq("name", groupName));
     }
 
 }

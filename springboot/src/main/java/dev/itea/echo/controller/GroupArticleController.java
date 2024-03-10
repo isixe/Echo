@@ -134,6 +134,22 @@ public class GroupArticleController {
     }
 
     /**
+     * 文章分组查询（UserID&GroupName）
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "文章分组查询（UserID&GroupName）", description = "后台文章分组用户ID和分组名称查询", tags = "GroupArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "文章分组所属用户ID", required = true, example = "1"),
+                    @Parameter(name = "groupName", description = "文章分组名称", required = true, example = "分组名"),
+            })
+    @SaIgnore
+    @GetMapping("/getByUserIdAndGroupName")
+    public GroupArticle getByUserIdAndGroupName(Integer userId, String groupName) {
+        return groupArticleService.getByUserIdAndGroupName(userId, groupName);
+    }
+
+    /**
      * 文章分组查询（分页&关键词）
      *
      * @param pageDTO 分页数据传输对象
@@ -165,22 +181,6 @@ public class GroupArticleController {
     @GetMapping("/queryAllByUserId")
     public IPage<GroupArticle> getByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return groupArticleService.getPageByUserId(pageable, userId);
-    }
-
-    /**
-     * 文章分组查询（UserID&GroupName）
-     *
-     * @param userId 用户ID
-     */
-    @Operation(summary = "文章分组查询（UserID&GroupName）", description = "后台文章分组用户ID和分组名称查询", tags = "GroupArticle", method = "GET",
-            parameters = {
-                    @Parameter(name = "userId", description = "文章分组所属用户ID", required = true, example = "1"),
-                    @Parameter(name = "groupName", description = "文章分组名称", required = true, example = "分组名"),
-            })
-    @SaIgnore
-    @GetMapping("/getByUserIdAndGroupName")
-    public GroupArticle getByUserIdAndGroupName(Integer userId, String groupName) {
-        return groupArticleService.getByUserIdAndGroupName(userId, groupName);
+        return groupArticleService.getPageByUserId(pageable, pageDTO.getKeyword(), userId);
     }
 }
