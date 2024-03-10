@@ -24,5 +24,5 @@ public interface CategoryService extends IService<Category> {
 
     IPage<Category> getPage(Pageable pageable, String keyword);
 
-    IPage<Category> getPageByName(Pageable pageable, String keyword, String categoryName);
+    IPage<Category> getPageByName(Pageable pageable, String keyword);
 }

@@ -165,22 +165,20 @@ public class CategoryController {
     /**
      * 类别模糊查询（Name）
      *
-     * @param pageDTO      分页数据传输对象
-     * @param categoryName 类别名称
+     * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
     @Operation(summary = "类别模糊查询（Name）", description = "类别名称模糊查询", tags = "Category", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
-                    @Parameter(name = "categoryName", description = "类别名称关键词", required = true, example = "类别")
             })
     @SaCheckOr(
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
     )
     @GetMapping("/queryAllByName")
-    public IPage<Category> getPageByName(@Validated PageDTO pageDTO, String categoryName) {
+    public IPage<Category> getPageByName(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return categoryService.getPageByName(pageable, pageDTO.getKeyword(), categoryName);
+        return categoryService.getPageByName(pageable, pageDTO.getKeyword());
     }
 
 }

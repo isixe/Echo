@@ -60,7 +60,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public IPage<Category> getPageByName(Pageable pageable, String keyword, String categoryName) {
+    public IPage<Category> getPageByName(Pageable pageable, String keyword) {
         Page<Category> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<Category> wrapper = new QueryWrapper<Category>()
                 .select("id", "category_name AS categoryName");
