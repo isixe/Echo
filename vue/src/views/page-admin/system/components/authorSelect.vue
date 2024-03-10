@@ -5,8 +5,10 @@
     placeholder="选择作者"
     style="width: 300px"
     :options="userOptions"
-    :filter-option="filterOption"
-    @search="authorSearch"
+    @focus="onUserFocus"
+    :filter-option="() => true"
+    @popupScroll="onPopupScroll"
+    @search="onAuthorSearch"
   ></a-select>
 </template>
 
@@ -14,18 +16,55 @@
 import { getUserListByName } from '@/api/user'
 
 const userId = defineModel()
-
 const userOptions = ref([])
 
-const filterOption = (input, option) => option.label.indexOf(input) >= 0
+const pages = ref(0)
+const params = reactive({
+  pageNum: 1,
+  pageSize: 15,
+  keyword: ''
+})
 
-const authorSearch = (value) => {
-  if (value === null || value === '') {
+const onAuthorSearch = (value) => {
+  params.keyword = value
+  params.pageNum = 1
+  getUserListByName(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    userOptions.value = data.map((user) => ({ value: user.id, label: user.name }))
+  })
+}
+
+const onPopupScroll = (e) => {
+  const { scrollTop, offsetHeight, scrollHeight } = e.target
+  if (scrollTop + offsetHeight !== scrollHeight || params.pageNum >= pages.value) {
     return
   }
-  getUserListByName({ userName: value }).then((res) => {
-    const data = res.data
-    userOptions.value = data.map((user) => ({ value: user.id, label: user.name }))
+
+  params.pageNum += 1
+  getUserListByName(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    userOptions.value.push(
+      ...data.map((group) => ({
+        value: group.id,
+        label: group.name
+      }))
+    )
+  })
+}
+
+const onUserFocus = () => {
+  params.pageNum = 1
+  getUserListByName(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    userOptions.value = data.map((group) => ({
+      value: group.id,
+      label: group.name
+    }))
+
+    userId.value = userId.value ? parseInt(userId.value) : null
   })
 }
 </script>
