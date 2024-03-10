@@ -25,9 +25,4 @@
         <result column="last_active_time" property="lastActiveTime"/>
     </resultMap>
 
-    <select id="getListByName" resultMap="UserVOResultMap" parameterType="String">
-        SELECT id, `name`, description, avatar, created_time, last_active_time
-        FROM `user`
-        WHERE name LIKE CONCAT('%', #{name}, '%') LIMIT 0, 10;
-    </select>
 </mapper>

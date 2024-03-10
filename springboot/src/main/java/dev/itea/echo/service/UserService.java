@@ -23,7 +23,8 @@ public interface UserService extends IService<User> {
 
     User get(Integer id);
 
-    List<UserVO> getListByName(String userName);
-
     IPage<User> getPage(Pageable pageable, String keword);
+
+    IPage<User> getPageByName(Pageable pageable, String keyword);
+
 }

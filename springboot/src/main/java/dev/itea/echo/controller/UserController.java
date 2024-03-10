@@ -254,17 +254,19 @@ public class UserController {
     }
 
     /**
-     * 用户模糊查询（Name）
+     * 用户分页模糊查询（Name）
      *
-     * @param userName 用户名称
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
      */
-    @Operation(summary = "用户模糊查询", description = "用户模糊查询", tags = "User", method = "GET",
+    @Operation(summary = "用户分页模糊查询（Name）", description = "根据用户名用户分页模糊查询", tags = "User", method = "GET",
             parameters = {
-                    @Parameter(name = "userName", description = "用户名关键词", required = true, example = "username")
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
     @SaIgnore
     @GetMapping("/queryAllByName")
-    public List<UserVO> getListByName(String userName) {
-        return userService.getListByName(userName);
+    public IPage<User> getPageByName(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return userService.getPageByName(pageable, pageDTO.getKeyword());
     }
 }
