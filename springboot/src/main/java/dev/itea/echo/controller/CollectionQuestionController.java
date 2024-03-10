@@ -99,7 +99,7 @@ public class CollectionQuestionController {
     @GetMapping("/queryAll")
     public IPage<CollectionQuestionVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return collectionQuestionService.getCollectionQuestionByPage(pageable, pageDTO.getKeyword());
+        return collectionQuestionService.getPage(pageable, pageDTO.getKeyword());
     }
 
 
@@ -135,6 +135,6 @@ public class CollectionQuestionController {
     @GetMapping("/queryAllByUserId")
     public IPage<CollectionQuestionVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return collectionQuestionService.getCollectionQuestionPageByUserId(pageable, userId);
+        return collectionQuestionService.getPageByUserId(pageable, userId);
     }
 }

@@ -147,7 +147,7 @@ public class GroupArticleController {
     @GetMapping("/queryAll")
     public IPage<GroupArticle> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return groupArticleService.getGroupArticleByPage(pageable, pageDTO.getKeyword());
+        return groupArticleService.getPage(pageable, pageDTO.getKeyword());
     }
 
     /**
@@ -162,7 +162,7 @@ public class GroupArticleController {
     @SaIgnore
     @GetMapping("/getByUserId")
     public List<Map<String, Object>> getByUserId(Integer userId) {
-        return groupArticleService.getGroupArticleByUserId(userId);
+        return groupArticleService.getListByUserId(userId);
     }
 
     /**

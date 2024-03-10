@@ -167,6 +167,6 @@ public class CommentArticleController {
     @GetMapping("/queryAll")
     public IPage<CommentArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return commentArticleService.getArticleByPage(pageable, pageDTO.getKeyword());
+        return commentArticleService.getPage(pageable, pageDTO.getKeyword());
     }
 }

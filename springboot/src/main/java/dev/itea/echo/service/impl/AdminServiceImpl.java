@@ -47,7 +47,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
-    public IPage<Admin> getAdminByPage(Pageable pageable, String keyword) {
+    public IPage<Admin> getPage(Pageable pageable, String keyword) {
         Page<Admin> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<Admin> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {

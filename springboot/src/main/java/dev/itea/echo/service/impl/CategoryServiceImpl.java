@@ -50,14 +50,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public List<Map<String, Object>> getCategoryListByName(String categoryName) {
+    public List<Map<String, Object>> getCListByName(String categoryName) {
         return categoryMapper.selectMaps(new QueryWrapper<Category>()
                 .select("id", "category_name AS categoryName")
                 .like("category_name", categoryName));
     }
 
     @Override
-    public IPage<Category> getCategoryByPage(Pageable pageable, String keyword) {
+    public IPage<Category> getPage(Pageable pageable, String keyword) {
         Page<Category> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<Category> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {

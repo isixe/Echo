@@ -41,7 +41,7 @@ public class CollectionQuestionServiceImpl extends ServiceImpl<CollectionQuestio
     }
 
     @Override
-    public IPage<CollectionQuestionVO> getCollectionQuestionByPage(Pageable pageable, String keyword) {
+    public IPage<CollectionQuestionVO> getPage(Pageable pageable, String keyword) {
         Page<CollectionQuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<CollectionQuestionVO> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {
@@ -53,7 +53,7 @@ public class CollectionQuestionServiceImpl extends ServiceImpl<CollectionQuestio
     }
 
     @Override
-    public IPage<CollectionQuestionVO> getCollectionQuestionPageByUserId(Pageable pageable, Integer userId) {
+    public IPage<CollectionQuestionVO> getPageByUserId(Pageable pageable, Integer userId) {
         Page<CollectionQuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<CollectionQuestionVO> wrapper = new QueryWrapper<CollectionQuestionVO>().eq("cq.user_id", userId);
         return collectionQuestionMapper.getCollectionQuestionByPage(page, wrapper);

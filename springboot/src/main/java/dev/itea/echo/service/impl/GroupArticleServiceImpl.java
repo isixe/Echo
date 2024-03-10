@@ -51,7 +51,7 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
     }
 
     @Override
-    public List<Map<String, Object>> getGroupArticleByUserId(Integer userId) {
+    public List<Map<String, Object>> getListByUserId(Integer userId) {
         QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
         wrapper = wrapper.select("id", "name", "description")
                 .eq("user_id", userId)
@@ -60,7 +60,7 @@ public class GroupArticleServiceImpl extends ServiceImpl<GroupArticleMapper, Gro
     }
 
     @Override
-    public IPage<GroupArticle> getGroupArticleByPage(Pageable pageable, String keyword) {
+    public IPage<GroupArticle> getPage(Pageable pageable, String keyword) {
         Page<GroupArticle> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<GroupArticle> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {

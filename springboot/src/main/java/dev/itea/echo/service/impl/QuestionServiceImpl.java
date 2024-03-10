@@ -53,7 +53,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public IPage<QuestionVO> getQuestionByPage(Pageable pageable, String keyword) {
+    public IPage<QuestionVO> getPage(Pageable pageable, String keyword) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>().eq("q.is_deleted", 0);
 
@@ -74,7 +74,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public IPage<QuestionVO> getActiveQuestionByPage(Pageable pageable, String keyword, String sort) {
+    public IPage<QuestionVO> getPageWithActive(Pageable pageable, String keyword, String sort) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
                 .eq("status", 1)
@@ -111,7 +111,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public IPage<QuestionVO> getActiveHotArticleByPage(Pageable pageable, String keyword) {
+    public IPage<QuestionVO> getPageWithHotActive(Pageable pageable, String keyword) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
         wrapper = wrapper.eq("status", 1)
@@ -123,7 +123,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public List<Question> getDraftListByUserId(Integer userId) {
+    public List<Question> getListWithDraftByUserId(Integer userId) {
         QueryWrapper<Question> wrapper = new QueryWrapper<Question>()
                 .eq("user_id", userId)
                 .eq("status", 0)
@@ -172,7 +172,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public List<Question> getArticleListByTitle(String title) {
+    public List<Question> getListByTitle(String title) {
         return questionMapper.getQuestionByTitle(title);
     }
 }

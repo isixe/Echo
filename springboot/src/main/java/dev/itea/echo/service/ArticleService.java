@@ -27,15 +27,15 @@ public interface ArticleService extends IService<Article> {
 
     List<UserRankVO> getUserArticleNumRankList();
 
-    List<Article> getArticleListByTitle(String title);
+    List<Article> getListByTitle(String title);
 
-    List<Article> getDraftListByUserId(Integer userId);
+    List<Article> getListWithDraftByUserId(Integer userId);
 
-    IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword);
+    IPage<ArticleVO> getPage(Pageable pageable, String keyword);
 
-    IPage<ArticleVO> getActiveArticleByPage(Pageable pageable, String keyword, String sort);
+    IPage<ArticleVO> getPageWithActive(Pageable pageable, String keyword, String sort);
 
-    IPage<ArticleVO> getActiveHotArticleByPage(Pageable pageable, String keyword);
+    IPage<ArticleVO> getPageWithHotActive(Pageable pageable, String keyword);
 
     IPage<ArticleVO> getPageByCategoryId(Pageable pageable, Integer categoryId);
 
@@ -47,5 +47,5 @@ public interface ArticleService extends IService<Article> {
 
     void deleteArticleGroupId(Integer id);
 
-    IPage<ArticleVO> getUnGroupPageByUserId(Pageable pageable, Integer userId);
+    IPage<ArticleVO> getPageWithUnGroupByUserId(Pageable pageable, Integer userId);
 }

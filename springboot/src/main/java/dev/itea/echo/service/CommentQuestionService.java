@@ -28,5 +28,5 @@ public interface CommentQuestionService extends IService<CommentQuestion> {
 
     List<ChildCommentVO> getChildListByQuestionId(Integer rootId);
 
-    IPage<CommentQuestionVO> getQuestionByPage(Pageable pageable, String keyword);
+    IPage<CommentQuestionVO> getPage(Pageable pageable, String keyword);
 }

@@ -50,7 +50,7 @@ public class CommentQuestionServiceImpl extends ServiceImpl<CommentQuestionMappe
     }
 
     @Override
-    public IPage<CommentQuestionVO> getQuestionByPage(Pageable pageable, String keyword) {
+    public IPage<CommentQuestionVO> getPage(Pageable pageable, String keyword) {
         Page<RootCommentQuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<RootCommentQuestionVO> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {

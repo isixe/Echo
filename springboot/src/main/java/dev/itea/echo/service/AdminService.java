@@ -19,5 +19,5 @@ public interface AdminService extends IService<Admin> {
 
     Admin get(Integer id);
 
-    IPage<Admin> getAdminByPage(Pageable pageable,String keword);
+    IPage<Admin> getPage(Pageable pageable,String keword);
 }

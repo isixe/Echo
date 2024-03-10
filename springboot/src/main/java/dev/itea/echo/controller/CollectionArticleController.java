@@ -97,7 +97,7 @@ public class CollectionArticleController {
     @GetMapping("/queryAll")
     public IPage<CollectionArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return collectionArticleService.getCollectionArticleByPage(pageable, pageDTO.getKeyword());
+        return collectionArticleService.getPage(pageable, pageDTO.getKeyword());
     }
 
     /**
@@ -114,7 +114,7 @@ public class CollectionArticleController {
     @GetMapping("/queryAllByUserId")
     public IPage<CollectionArticleVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return collectionArticleService.getCollectionArticlePageByUserId(pageable, userId);
+        return collectionArticleService.getPageByUserId(pageable, userId);
     }
 
     /**

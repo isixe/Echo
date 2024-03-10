@@ -139,7 +139,7 @@ public class CategoryController {
     @GetMapping("/queryAll")
     public IPage<Category> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return categoryService.getCategoryByPage(pageable, pageDTO.getKeyword());
+        return categoryService.getPage(pageable, pageDTO.getKeyword());
     }
 
     /**
@@ -176,7 +176,7 @@ public class CategoryController {
     )
     @GetMapping("/queryAllByName")
     public List<Map<String, Object>> getListByName(String categoryName) {
-        return categoryService.getCategoryListByName(categoryName);
+        return categoryService.getCListByName(categoryName);
     }
 
 }

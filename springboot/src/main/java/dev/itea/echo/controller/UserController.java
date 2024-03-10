@@ -250,7 +250,7 @@ public class UserController {
     @GetMapping("/queryAll")
     public IPage<User> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return userService.getUserByPage(pageable, pageDTO.getKeyword());
+        return userService.getPage(pageable, pageDTO.getKeyword());
     }
 
     /**
@@ -265,6 +265,6 @@ public class UserController {
     @SaIgnore
     @GetMapping("/queryAllByName")
     public List<UserVO> getListByName(String userName) {
-        return userService.getUserListByName(userName);
+        return userService.getListByName(userName);
     }
 }

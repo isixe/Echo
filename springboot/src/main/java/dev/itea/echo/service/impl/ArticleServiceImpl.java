@@ -62,7 +62,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<ArticleVO> getArticleByPage(Pageable pageable, String keyword) {
+    public IPage<ArticleVO> getPage(Pageable pageable, String keyword) {
         Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<ArticleVO> wrapper = new QueryWrapper<ArticleVO>().eq("a.is_deleted", 0);
 
@@ -83,7 +83,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<ArticleVO> getActiveArticleByPage(Pageable pageable, String keyword, String sort) {
+    public IPage<ArticleVO> getPageWithActive(Pageable pageable, String keyword, String sort) {
         Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<ArticleVO> wrapper = new QueryWrapper<ArticleVO>()
                 .eq("status", 1)
@@ -121,7 +121,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 
     @Override
-    public IPage<ArticleVO> getActiveHotArticleByPage(Pageable pageable, String keyword) {
+    public IPage<ArticleVO> getPageWithHotActive(Pageable pageable, String keyword) {
         Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
 
@@ -169,7 +169,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public List<Article> getDraftListByUserId(Integer userId) {
+    public List<Article> getListWithDraftByUserId(Integer userId) {
         QueryWrapper<Article> wrapper = new QueryWrapper<Article>()
                 .eq("user_id", userId)
                 .eq("status", 0);
@@ -195,7 +195,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<ArticleVO> getUnGroupPageByUserId(Pageable pageable, Integer userId) {
+    public IPage<ArticleVO> getPageWithUnGroupByUserId(Pageable pageable, Integer userId) {
         Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<ArticleVO> wrapper = new QueryWrapper<ArticleVO>()
                 .eq("status", 1)
@@ -207,7 +207,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public List<Article> getArticleListByTitle(String title) {
+    public List<Article> getListByTitle(String title) {
         return articleMapper.getArticleByTitle(title);
     }
 }

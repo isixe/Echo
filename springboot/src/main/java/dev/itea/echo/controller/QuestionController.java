@@ -153,7 +153,7 @@ public class QuestionController {
     @SaCheckLogin
     @GetMapping(value = "/getList", params = "title")
     public List<Question> getListByTitle(String title) {
-        return questionService.getArticleListByTitle(title);
+        return questionService.getListByTitle(title);
     }
 
     /**
@@ -168,7 +168,7 @@ public class QuestionController {
     @SaIgnore
     @GetMapping(value = "/getDraftList")
     public List<Question> getDraftListByUserId(Integer userId) {
-        return questionService.getDraftListByUserId(userId);
+        return questionService.getListWithDraftByUserId(userId);
     }
 
 
@@ -186,7 +186,7 @@ public class QuestionController {
     @GetMapping("/queryAll")
     public IPage<QuestionVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getQuestionByPage(pageable, pageDTO.getKeyword());
+        return questionService.getPage(pageable, pageDTO.getKeyword());
     }
 
     /**
@@ -203,7 +203,7 @@ public class QuestionController {
     @GetMapping("/queryAllActive")
     public IPage<QuestionVO> getActivePageByKeyword(@Validated PageDTO pageDTO, String sort) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getActiveQuestionByPage(pageable, pageDTO.getKeyword(), sort);
+        return questionService.getPageWithActive(pageable, pageDTO.getKeyword(), sort);
     }
 
     /**
@@ -220,7 +220,7 @@ public class QuestionController {
     @GetMapping("/queryAllHotActive")
     public IPage<QuestionVO> getActiveHotPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getActiveHotArticleByPage(pageable, pageDTO.getKeyword());
+        return questionService.getPageWithHotActive(pageable, pageDTO.getKeyword());
     }
 
     /**

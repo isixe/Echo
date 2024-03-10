@@ -50,12 +50,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public List<UserVO> getUserListByName(String userName) {
+    public List<UserVO> getListByName(String userName) {
         return userMapper.getUserListByName(userName);
     }
 
     @Override
-    public IPage<User> getUserByPage(Pageable pageable, String keyword) {
+    public IPage<User> getPage(Pageable pageable, String keyword) {
         Page<User> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {

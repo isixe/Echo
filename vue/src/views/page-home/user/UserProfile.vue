@@ -27,14 +27,16 @@
     <div class="user-dynamic-box">
       <a-layout-content class="dynamic-entry-content">
         <a-tabs class="nav-menu" v-model:activeKey="activeKey">
-          <a-tab-pane key="1" :tab="'文章 ' + data.articleTotal">
-            <template v-for="item in data.article" :key="item.id">
-              <RouterLink :to="'/article/' + item.id">
-                <article-entry-item :item="item"></article-entry-item>
-              </RouterLink>
-            </template>
+          <a-tab-pane key="article" :tab="'文章 ' + data.articleTotal">
+            <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
+              <template #renderItem="{ item }">
+                <RouterLink :to="'/article/' + item.id">
+                  <article-entry-item :item="item"></article-entry-item>
+                </RouterLink>
+              </template>
+            </a-list>
           </a-tab-pane>
-          <a-tab-pane key="2" :tab="'合集 ' + data.articleGroupTotal">
+          <a-tab-pane key="group" :tab="'合集 ' + data.articleGroupTotal">
             <div
               class="group-box-set"
               v-if="store.id == user.id"
@@ -53,14 +55,14 @@
               </RouterLink>
             </template>
           </a-tab-pane>
-          <a-tab-pane key="3" :tab="'问答 ' + data.questionTotal">
+          <a-tab-pane key="question" :tab="'问答 ' + data.questionTotal">
             <template v-for="item in data.question" :key="item.id">
               <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
                 <question-entry-item :item="item"></question-entry-item>
               </RouterLink>
             </template>
           </a-tab-pane>
-          <a-tab-pane key="4" tab="关注">
+          <a-tab-pane key="subscirbe" tab="关注">
             <div class="subscribe-container"></div>
           </a-tab-pane>
         </a-tabs>
@@ -129,14 +131,16 @@ const router = useRouter()
 const store = useUserStore()
 
 const data = reactive({
-  article: [],
-  articleGroup: [],
-  question: [],
   articleTotal: 0,
   questionTotal: 0,
   articleGroupTotal: 0
 })
-const activeKey = ref('1')
+const activeKey = ref([])
+
+const initLoading = ref(true)
+const loading = ref(false)
+const fullList = ref([])
+const pages = ref(0)
 const params = reactive({
   pageNum: 1,
   pageSize: 15,
@@ -144,7 +148,6 @@ const params = reactive({
 })
 
 const form = ref()
-const loading = ref(false)
 const showAddModal = ref(false)
 
 const newData = reactive({
@@ -154,6 +157,8 @@ const newData = reactive({
 })
 
 onMounted(() => {
+  window.addEventListener('scroll', scrollBottom, true)
+
   get({ id: route.params.id })
     .then((result) => {
       user.value = result.data
@@ -162,22 +167,96 @@ onMounted(() => {
       router.push('/404')
     })
 
-  getArticleListByUserId(params).then((res) => {
-    data.article = res.data.records
-    data.articleTotal = res.data.total
-  })
+  getArticleListByUserId(params).then((res) => (data.articleTotal = res.data.total))
+  getArticleGroupListByUserId(params).then((res) => (data.articleGroupTotal = res.data.total))
+  getQuestionListByUserId(params).then((res) => (data.questionTotal = res.data.total))
 
-  queryGroupData()
-
-  getQuestionListByUserId(params).then((res) => {
-    data.question = res.data.records
-    data.questionTotal = res.data.total
-  })
+  let tab = route.query.tab ? route.query.tab : ''
+  activeKey.value = [tab]
+  getDataSource(tab)
 })
+
+onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
+
+const scrollBottom = () => {
+  if (initLoading.value || loading.value || params.pageNum >= pages.value) {
+    return
+  }
+
+  const windowHeight = document.body.scrollHeight
+  const scrollHeight = window.innerHeight + window.scrollY
+  if (windowHeight - scrollHeight >= 1) {
+    return
+  }
+
+  onLoadMore()
+}
+
+const onLoadMore = () => {
+  loading.value = true
+  params.pageNum += 1
+  let type = route.query.type ? route.query.type : 'latest'
+  getDataSource(type)
+  nextTick(() => {
+    window.dispatchEvent(new Event('resize'))
+  })
+}
+
+watch(activeKey, (key) => {
+  fullList.value = []
+  params.pageNum = 1
+  switch (key[0]) {
+    case 'article':
+      router.push({ path: '/user/' + route.params.id, query: { tab: 'article' } })
+      break
+    case 'group':
+      router.push({ path: '/user/' + route.params.id, query: { tab: 'group' } })
+      break
+    case 'question':
+      router.push({ path: '/user/' + route.params.id, query: { tab: 'question' } })
+      break
+    case 'subscribe':
+      router.push({ path: '/user/' + route.params.id, query: { tab: 'subscribe' } })
+      break
+  }
+  getDataSource(key[0])
+})
+
+const getDataSource = (type) => {
+  switch (type) {
+    case 'article':
+      getArticleListByUserId(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+      })
+      break
+    case 'group':
+      queryGroupData()
+      break
+    case 'question':
+      getQuestionListByUserId(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+      })
+      break
+    case 'subscribe':
+      break
+    default:
+      router.push({ path: '/user/' + route.params.id })
+      activeKey.value = ['latest']
+  }
+}
 
 const queryGroupData = () => {
   getArticleGroupListByUserId(params).then((res) => {
-    data.articleGroup = res.data
+    fullList.value = fullList.value.concat(res.data.records)
+    pages.value = res.data.pages
+    initLoading.value = false
+    loading.value = false
     data.articleGroupTotal = res.data.length
   })
 }

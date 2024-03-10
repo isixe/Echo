@@ -52,7 +52,7 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
     }
 
     @Override
-    public IPage<CommentArticleVO> getArticleByPage(Pageable pageable, String keyword) {
+    public IPage<CommentArticleVO> getPage(Pageable pageable, String keyword) {
         Page<CommentArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<CommentArticleVO> wrapper = new QueryWrapper<>();
         if (!ObjectUtils.isEmpty(keyword)) {

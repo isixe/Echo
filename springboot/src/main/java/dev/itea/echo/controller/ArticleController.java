@@ -171,7 +171,7 @@ public class ArticleController {
     @SaCheckLogin
     @GetMapping(value = "/getList", params = "title")
     public List<Article> getListByTitle(String title) {
-        return articleService.getArticleListByTitle(title);
+        return articleService.getListByTitle(title);
     }
 
     /**
@@ -186,7 +186,7 @@ public class ArticleController {
     @SaIgnore
     @GetMapping(value = "/getDraftList")
     public List<Article> getDraftListByUserId(Integer userId) {
-        return articleService.getDraftListByUserId(userId);
+        return articleService.getListWithDraftByUserId(userId);
     }
 
     /**
@@ -203,7 +203,7 @@ public class ArticleController {
     @GetMapping("/queryAllActive")
     public IPage<ArticleVO> getActivePageByKeyword(@Validated PageDTO pageDTO, String sort) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getActiveArticleByPage(pageable, pageDTO.getKeyword(), sort);
+        return articleService.getPageWithActive(pageable, pageDTO.getKeyword(), sort);
     }
 
     /**
@@ -220,7 +220,7 @@ public class ArticleController {
     @GetMapping("/queryAllHotActive")
     public IPage<ArticleVO> getActiveHotPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getActiveHotArticleByPage(pageable, pageDTO.getKeyword());
+        return articleService.getPageWithHotActive(pageable, pageDTO.getKeyword());
     }
 
     /**
@@ -237,7 +237,7 @@ public class ArticleController {
     @GetMapping("/queryAll")
     public IPage<ArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getArticleByPage(pageable, pageDTO.getKeyword());
+        return articleService.getPage(pageable, pageDTO.getKeyword());
     }
 
     /**
@@ -285,7 +285,7 @@ public class ArticleController {
     @GetMapping(value = "/queryUnGroupByUserId")
     public IPage<ArticleVO> getUnGroupPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getUnGroupPageByUserId(pageable, userId);
+        return articleService.getPageWithUnGroupByUserId(pageable, userId);
     }
 
     /**

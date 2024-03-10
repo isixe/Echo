@@ -218,6 +218,6 @@ public class AdminController {
     @GetMapping("/queryAll")
     public IPage<Admin> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return adminService.getAdminByPage(pageable, pageDTO.getKeyword());
+        return adminService.getPage(pageable, pageDTO.getKeyword());
     }
 }

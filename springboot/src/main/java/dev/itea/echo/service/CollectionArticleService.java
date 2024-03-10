@@ -18,7 +18,7 @@ public interface CollectionArticleService extends IService<CollectionArticle> {
 
     void delete(Integer id);
 
-    IPage<CollectionArticleVO> getCollectionArticleByPage(Pageable pageable, String keyword);
+    IPage<CollectionArticleVO> getPage(Pageable pageable, String keyword);
 
-    IPage<CollectionArticleVO> getCollectionArticlePageByUserId(Pageable pageable, Integer userId);
+    IPage<CollectionArticleVO> getPageByUserId(Pageable pageable, Integer userId);
 }
