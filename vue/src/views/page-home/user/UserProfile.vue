@@ -39,30 +39,35 @@
           <a-tab-pane key="group" :tab="'合集 ' + data.articleGroupTotal">
             <div
               class="group-box-set"
-              v-if="store.id == user.id"
+              v-if="user && store.id == user.id"
               @click="() => (showAddModal = !showAddModal)"
             >
               <span><PlusOutlined /> 添加合集</span>
             </div>
-            <template v-for="item in data.articleGroup" :key="item.id">
-              <RouterLink :to="'/article/group/' + item.id"
-                ><a-card class="group-box" :title="item.name">
-                  <template #extra v-if="store.id == user.id">
-                    <a @click="deleteGroup(item.id)"><DeleteOutlined /> 删除</a>
-                  </template>
-                  <p class="item-summary">{{ item.description }}</p>
-                </a-card>
-              </RouterLink>
-            </template>
+
+            <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
+              <template #renderItem="{ item }">
+                <RouterLink :to="'/article/group/' + item.id"
+                  ><a-card class="group-box" :title="item.name">
+                    <template #extra v-if="store.id == user.id">
+                      <a @click.prevent="deleteGroup(item.id)"><DeleteOutlined /> 删除</a>
+                    </template>
+                    <p class="item-summary">{{ item.description }}</p>
+                  </a-card>
+                </RouterLink>
+              </template>
+            </a-list>
           </a-tab-pane>
           <a-tab-pane key="question" :tab="'问答 ' + data.questionTotal">
-            <template v-for="item in data.question" :key="item.id">
-              <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
-                <question-entry-item :item="item"></question-entry-item>
-              </RouterLink>
-            </template>
+            <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
+              <template #renderItem="{ item }">
+                <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+                  <question-entry-item :item="item"></question-entry-item>
+                </RouterLink>
+              </template>
+            </a-list>
           </a-tab-pane>
-          <a-tab-pane key="subscirbe" tab="关注">
+          <a-tab-pane key="subscribe" tab="关注">
             <div class="subscribe-container"></div>
           </a-tab-pane>
         </a-tabs>
@@ -135,7 +140,7 @@ const data = reactive({
   questionTotal: 0,
   articleGroupTotal: 0
 })
-const activeKey = ref([])
+const activeKey = ref('')
 
 const initLoading = ref(true)
 const loading = ref(false)
@@ -143,7 +148,7 @@ const fullList = ref([])
 const pages = ref(0)
 const params = reactive({
   pageNum: 1,
-  pageSize: 15,
+  pageSize: 5,
   userId: route.params.id
 })
 
@@ -171,9 +176,8 @@ onMounted(() => {
   getArticleGroupListByUserId(params).then((res) => (data.articleGroupTotal = res.data.total))
   getQuestionListByUserId(params).then((res) => (data.questionTotal = res.data.total))
 
-  let tab = route.query.tab ? route.query.tab : ''
-  activeKey.value = [tab]
-  getDataSource(tab)
+  let tab = route.query.tab ? route.query.tab : 'article'
+  activeKey.value = tab
 })
 
 onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
@@ -195,17 +199,17 @@ const scrollBottom = () => {
 const onLoadMore = () => {
   loading.value = true
   params.pageNum += 1
-  let type = route.query.type ? route.query.type : 'latest'
-  getDataSource(type)
+  let tab = route.query.tab ? route.query.tab : 'article'
+  getDataSource(tab)
   nextTick(() => {
     window.dispatchEvent(new Event('resize'))
   })
 }
 
-watch(activeKey, (key) => {
+watch(activeKey, (tab) => {
   fullList.value = []
   params.pageNum = 1
-  switch (key[0]) {
+  switch (tab) {
     case 'article':
       router.push({ path: '/user/' + route.params.id, query: { tab: 'article' } })
       break
@@ -219,7 +223,8 @@ watch(activeKey, (key) => {
       router.push({ path: '/user/' + route.params.id, query: { tab: 'subscribe' } })
       break
   }
-  getDataSource(key[0])
+  fullList.value = []
+  getDataSource(tab)
 })
 
 const getDataSource = (type) => {
@@ -247,7 +252,7 @@ const getDataSource = (type) => {
       break
     default:
       router.push({ path: '/user/' + route.params.id })
-      activeKey.value = ['latest']
+      activeKey.value = 'article'
   }
 }
 
@@ -257,7 +262,7 @@ const queryGroupData = () => {
     pages.value = res.data.pages
     initLoading.value = false
     loading.value = false
-    data.articleGroupTotal = res.data.length
+    data.articleGroupTotal = res.data.total
   })
 }
 
@@ -273,6 +278,8 @@ const addGroup = () => {
       await add(formData)
         .then(() => {
           message.success('新建成功')
+          fullList.value = []
+          params.pageNum = 1
           queryGroupData(params)
           Object.keys(newData).forEach((key) => {
             newData[key] = ''
@@ -303,6 +310,8 @@ const deleteGroup = (groupId) => {
       formData.append('id', groupId)
       remove(formData).then(() => {
         message.success('删除成功')
+        fullList.value = []
+        params.pageNum = 1
         queryGroupData()
       })
     }
