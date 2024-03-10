@@ -201,7 +201,7 @@ public class QuestionController {
             })
     @SaIgnore
     @GetMapping("/queryAllActive")
-    public IPage<QuestionVO> getActivePageByKeyword(@Validated PageDTO pageDTO, String sort) {
+    public IPage<QuestionVO> getPageWithActiveByKeyword(@Validated PageDTO pageDTO, String sort) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return questionService.getPageWithActive(pageable, pageDTO.getKeyword(), sort);
     }
@@ -218,7 +218,7 @@ public class QuestionController {
             })
     @SaIgnore
     @GetMapping("/queryAllHotActive")
-    public IPage<QuestionVO> getActiveHotPageByKeyword(@Validated PageDTO pageDTO) {
+    public IPage<QuestionVO> getPageWithActiveHotByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return questionService.getPageWithHotActive(pageable, pageDTO.getKeyword());
     }
@@ -261,7 +261,7 @@ public class QuestionController {
     @Operation(summary = "用户问答数量排行查询", description = "前台用户问答数量排行查询", tags = "Question", method = "GET")
     @SaIgnore
     @GetMapping("/userRank")
-    public List<UserRankVO> getByUserRankList() {
+    public List<UserRankVO> getUserRankList() {
         return questionService.getListWithUserNumRank();
     }
 

@@ -201,7 +201,7 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping("/queryAllActive")
-    public IPage<ArticleVO> getActivePageByKeyword(@Validated PageDTO pageDTO, String sort) {
+    public IPage<ArticleVO> getPageWithActiveByKeyword(@Validated PageDTO pageDTO, String sort) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getPageWithActive(pageable, pageDTO.getKeyword(), sort);
     }
@@ -218,7 +218,7 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping("/queryAllHotActive")
-    public IPage<ArticleVO> getActiveHotPageByKeyword(@Validated PageDTO pageDTO) {
+    public IPage<ArticleVO> getPageWithHotActiveByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getPageWithHotActive(pageable, pageDTO.getKeyword());
     }
@@ -283,7 +283,7 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping(value = "/queryUnGroupByUserId")
-    public IPage<ArticleVO> getUnGroupPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
+    public IPage<ArticleVO> getPageWithUnGroupByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getPageWithUnGroupByUserId(pageable, userId);
     }
@@ -310,7 +310,7 @@ public class ArticleController {
     @Operation(summary = "用户文章数量排行查询", description = "前台用户文章数量排行查询", tags = "Article", method = "GET")
     @SaIgnore
     @GetMapping("/userRank")
-    public List<UserRankVO> getByUserRankList() {
+    public List<UserRankVO> getUserRankList() {
         return articleService.getListWithUserNumRank();
     }
 
