@@ -5,7 +5,7 @@
     style="width: 300px"
     show-search
     :options="articleGroupOptions"
-    @focus="articleGroupFocus"
+    @focus="onArticleGroupFocus"
     @popupScroll="onPopupScroll"
     :filter-option="() => true"
     @search="onGroupSearch"
@@ -84,7 +84,7 @@ const queryGroupData = () => {
   })
 }
 
-const articleGroupFocus = () => {
+const onArticleGroupFocus = () => {
   if (!userId.value) {
     return message.warning('请先选择作者')
   }
