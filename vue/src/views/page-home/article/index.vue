@@ -149,9 +149,7 @@ onMounted(() => {
   })
 })
 
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', this.scrollBottom, true)
-})
+onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
 
 const scrollBottom = () => {
   if (initLoading.value || loading.value || params.pageNum >= pages.value) {
@@ -159,12 +157,22 @@ const scrollBottom = () => {
   }
 
   const windowHeight = document.body.scrollHeight
-  const scrollHeight = window.innerHeight + window.pageYOffset
+  const scrollHeight = window.innerHeight + window.scrollY
   if (windowHeight - scrollHeight >= 1) {
     return
   }
 
   onLoadMore()
+}
+
+const onLoadMore = () => {
+  loading.value = true
+  params.pageNum += 1
+  let type = route.query.type ? route.query.type : 'latest'
+  getDataSource(type)
+  nextTick(() => {
+    window.dispatchEvent(new Event('resize'))
+  })
 }
 
 watch(selectedKey, (key) => {
@@ -189,16 +197,6 @@ watch(selectedKey, (key) => {
       break
   }
 })
-
-const onLoadMore = () => {
-  loading.value = true
-  params.pageNum += 1
-  let type = route.query.type ? route.query.type : 'latest'
-  getDataSource(type)
-  nextTick(() => {
-    window.dispatchEvent(new Event('resize'))
-  })
-}
 
 const getDataSource = (type) => {
   switch (type) {
