@@ -106,7 +106,7 @@ export function getArticleListByUserId(params) {
 
 export async function getUserRank() {
   return request({
-    url: '/article/userRank',
+    url: '/article/getUserRankList',
     method: 'get'
   })
 }

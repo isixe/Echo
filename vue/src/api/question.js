@@ -98,7 +98,7 @@ export function getQuestionListByUserId(params) {
 
 export async function getUserRank() {
   return request({
-    url: '/question/userRank',
+    url: '/question/getUserRankList',
     method: 'get'
   })
 }

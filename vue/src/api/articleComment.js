@@ -34,7 +34,7 @@ export function get(params) {
 
 export function getCommentArticleRootList(params) {
   return request({
-    url: '/commentArticle/getRootCommentByArticleId',
+    url: '/commentArticle/getRootCommentListByArticleId',
     method: 'get',
     params
   })
@@ -42,7 +42,7 @@ export function getCommentArticleRootList(params) {
 
 export function getCommentArticleChildList(params) {
   return request({
-    url: '/commentArticle/getChildCommentByRootId',
+    url: '/commentArticle/getChildCommentListByRootId',
     method: 'get',
     params
   })
