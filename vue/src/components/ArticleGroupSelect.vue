@@ -5,9 +5,10 @@
     style="width: 300px"
     show-search
     :options="articleGroupOptions"
-    :filter-option="filterOption"
     @focus="articleGroupFocus"
     @popupScroll="onPopupScroll"
+    :filter-option="() => true"
+    @search="onGroupSearch"
   >
     <template #dropdownRender="{ menuNode: menu }">
       <v-nodes :vnodes="menu" />
@@ -45,7 +46,8 @@ const pages = ref(0)
 const params = reactive({
   pageNum: 1,
   pageSize: 15,
-  userId: userId
+  userId: userId,
+  keyword: ''
 })
 
 onMounted(() => {
@@ -109,7 +111,18 @@ const onPopupScroll = (e) => {
   queryGroupData()
 }
 
-const filterOption = (input, option) => option.label.indexOf(input) >= 0
+const onGroupSearch = (value) => {
+  params.keyword = value
+  params.pageNum = 1
+  getArticleGroupListByUserId(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    articleGroupOptions.value = data.map((group) => ({
+      value: group.id,
+      label: group.name
+    }))
+  })
+}
 
 const addGroupItem = () => {
   if (!userId.value) {
