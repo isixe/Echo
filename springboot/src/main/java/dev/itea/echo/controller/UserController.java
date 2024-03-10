@@ -227,7 +227,7 @@ public class UserController {
             })
     @SaIgnore
     @GetMapping
-    public UserVO getById(Integer id) {
+    public UserVO get(Integer id) {
         User user = userService.get(id);
         UserVO userVO = MapstructMapperUtil.INSTANCE.userToUserVO(user);
         if (ObjectUtils.isEmpty(userVO)) {

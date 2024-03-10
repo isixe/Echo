@@ -86,6 +86,24 @@ public class CollectionQuestionController {
     }
 
     /**
+     * 问答收藏查询（问答ID&用户ID）
+     *
+     * @param collectionArticle 问答收藏实体
+     */
+    @Operation(summary = "问答收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询问答收藏", tags = "CollectionQuestion", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+                    @Parameter(name = "questionId", description = "文章ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/getCollect")
+    public CollectionQuestion getByIdAndUserId(CollectionQuestion collectionArticle) {
+        return collectionQuestionService.getOne(new LambdaQueryWrapper<CollectionQuestion>()
+                .eq(CollectionQuestion::getUserId, collectionArticle.getUserId())
+                .eq(CollectionQuestion::getQuestionId, collectionArticle.getQuestionId()));
+    }
+
+    /**
      * 问答收藏查询（分页&关键词）
      *
      * @param pageDTO 分页数据传输对象
@@ -100,25 +118,6 @@ public class CollectionQuestionController {
     public IPage<CollectionQuestionVO> getPageByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return collectionQuestionService.getPage(pageable, pageDTO.getKeyword());
-    }
-
-
-    /**
-     * 问答收藏查询（问答ID&用户ID）
-     *
-     * @param collectionArticle 问答收藏实体
-     */
-    @Operation(summary = "问答收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询问答收藏", tags = "CollectionQuestion", method = "GET",
-            parameters = {
-                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
-                    @Parameter(name = "questionId", description = "文章ID", required = true, example = "2"),
-            })
-    @SaIgnore
-    @GetMapping("/getCollect")
-    public CollectionQuestion getCollect(CollectionQuestion collectionArticle) {
-        return collectionQuestionService.getOne(new LambdaQueryWrapper<CollectionQuestion>()
-                .eq(CollectionQuestion::getUserId, collectionArticle.getUserId())
-                .eq(CollectionQuestion::getQuestionId, collectionArticle.getQuestionId()));
     }
 
     /**

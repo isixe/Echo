@@ -145,6 +145,52 @@ public class ArticleController {
     }
 
     /**
+     * 文章分组更新
+     *
+     * @param id      文章ID
+     * @param groupId 分组ID
+     */
+    @Operation(summary = "文章分组更新", description = "文章分组更新", tags = "Article", method = "PUT",
+            parameters = {
+                    @Parameter(name = "id", description = "文章ID", required = true),
+                    @Parameter(name = "groupId", description = "文章分组ID", required = true),
+            })
+    @SaCheckLogin(type = StpUserUtil.TYPE)
+    @PutMapping("/group")
+    public void updateGroupId(Integer id, Integer groupId) {
+        //check article
+        ArticleVO articleVO = articleService.get(id);
+        Article checkArticle = MapstructMapperUtil.INSTANCE.articleVOToArticle(articleVO);
+        if (ObjectUtils.isEmpty(checkArticle)) {
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
+        }
+        //update
+        articleService.updateArticleGroupId(id, groupId);
+    }
+
+    /**
+     * 文章分组更新
+     *
+     * @param id 文章ID
+     */
+    @Operation(summary = "文章分组移除", description = "文章分组移除", tags = "Article", method = "PUT",
+            parameters = {
+                    @Parameter(name = "id", description = "文章ID", required = true),
+            })
+    @SaCheckLogin(type = StpUserUtil.TYPE)
+    @DeleteMapping("/group")
+    public void deleteGroupId(Integer id) {
+        //check article
+        ArticleVO articleVO = articleService.get(id);
+        Article checkArticle = MapstructMapperUtil.INSTANCE.articleVOToArticle(articleVO);
+        if (ObjectUtils.isEmpty(checkArticle)) {
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
+        }
+        //delete
+        articleService.deleteArticleGroupId(id);
+    }
+
+    /**
      * 文章查询（分组ID）
      *
      * @param groupId 文章分组ID
@@ -190,6 +236,34 @@ public class ArticleController {
     }
 
     /**
+     * 用户文章数量排行查询
+     */
+    @Operation(summary = "用户文章数量排行查询", description = "前台用户文章数量排行查询", tags = "Article", method = "GET")
+    @SaIgnore
+    @GetMapping("/getUserRankList")
+    public List<UserRankVO> getUserRankList() {
+        return articleService.getListWithUserNumRank();
+    }
+
+    /**
+     * 文章查询（分页&关键词）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "文章查询（分页&关键词）", description = "后台文章分页与关键词查询", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+            })
+    @SaIgnore
+    @GetMapping("/queryAll")
+    public IPage<ArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getPage(pageable, pageDTO.getKeyword());
+    }
+
+
+    /**
      * 文章查询（分页&关键词&发布状态）
      *
      * @param pageDTO 分页数据传输对象
@@ -221,23 +295,6 @@ public class ArticleController {
     public IPage<ArticleVO> getPageWithHotActiveByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getPageWithHotActive(pageable, pageDTO.getKeyword());
-    }
-
-    /**
-     * 文章查询（分页&关键词）
-     *
-     * @param pageDTO 分页数据传输对象
-     * @return IPage 分页对象
-     */
-    @Operation(summary = "文章查询（分页&关键词）", description = "后台文章分页与关键词查询", tags = "Article", method = "GET",
-            parameters = {
-                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
-            })
-    @SaIgnore
-    @GetMapping("/queryAll")
-    public IPage<ArticleVO> getPageByKeyword(@Validated PageDTO pageDTO) {
-        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getPage(pageable, pageDTO.getKeyword());
     }
 
     /**
@@ -304,60 +361,4 @@ public class ArticleController {
         return articleService.getPageByTagName(pageable, tagName);
     }
 
-    /**
-     * 用户文章数量排行查询
-     */
-    @Operation(summary = "用户文章数量排行查询", description = "前台用户文章数量排行查询", tags = "Article", method = "GET")
-    @SaIgnore
-    @GetMapping("/userRank")
-    public List<UserRankVO> getUserRankList() {
-        return articleService.getListWithUserNumRank();
-    }
-
-
-    /**
-     * 文章分组更新
-     *
-     * @param id      文章ID
-     * @param groupId 分组ID
-     */
-    @Operation(summary = "文章分组更新", description = "文章分组更新", tags = "Article", method = "PUT",
-            parameters = {
-                    @Parameter(name = "id", description = "文章ID", required = true),
-                    @Parameter(name = "groupId", description = "文章分组ID", required = true),
-            })
-    @SaCheckLogin(type = StpUserUtil.TYPE)
-    @PutMapping("/group")
-    public void updateGroupId(Integer id, Integer groupId) {
-        //check article
-        ArticleVO articleVO = articleService.get(id);
-        Article checkArticle = MapstructMapperUtil.INSTANCE.articleVOToArticle(articleVO);
-        if (ObjectUtils.isEmpty(checkArticle)) {
-            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
-        }
-        //update
-        articleService.updateArticleGroupId(id, groupId);
-    }
-
-    /**
-     * 文章分组更新
-     *
-     * @param id 文章ID
-     */
-    @Operation(summary = "文章分组移除", description = "文章分组移除", tags = "Article", method = "PUT",
-            parameters = {
-                    @Parameter(name = "id", description = "文章ID", required = true),
-            })
-    @SaCheckLogin(type = StpUserUtil.TYPE)
-    @DeleteMapping("/group")
-    public void deleteGroupId(Integer id) {
-        //check article
-        ArticleVO articleVO = articleService.get(id);
-        Article checkArticle = MapstructMapperUtil.INSTANCE.articleVOToArticle(articleVO);
-        if (ObjectUtils.isEmpty(checkArticle)) {
-            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
-        }
-        //delete
-        articleService.deleteArticleGroupId(id);
-    }
 }

@@ -190,7 +190,7 @@ public class AdminController {
             })
     @SaCheckLogin
     @GetMapping
-    public Admin getById(Integer id) {
+    public Admin get(Integer id) {
         //get admin
         Admin admin = adminService.get(id);
         //check admin

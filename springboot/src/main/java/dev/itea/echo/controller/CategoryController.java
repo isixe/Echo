@@ -115,7 +115,7 @@ public class CategoryController {
             })
     @SaIgnore
     @GetMapping
-    public Category getById(Integer id) {
+    public Category get(Integer id) {
         //get category
         Category category = categoryService.get(id);
         //check category

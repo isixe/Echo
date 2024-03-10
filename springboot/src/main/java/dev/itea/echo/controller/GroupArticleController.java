@@ -123,7 +123,7 @@ public class GroupArticleController {
             })
     @SaIgnore
     @GetMapping
-    public GroupArticle getById(Integer id) {
+    public GroupArticle get(Integer id) {
         //get groupArticle
         GroupArticle groupArticle = groupArticleService.get(id);
         //check groupArticle
