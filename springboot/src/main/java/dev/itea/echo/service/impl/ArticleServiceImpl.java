@@ -93,18 +93,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             return articleMapper.getPageWithActive(page, wrapper.orderByDesc("a.update_time"));
         }
 
-        if (!ObjectUtils.isEmpty(keyword)) {
-            wrapper.and(qw -> qw
-                    .like("title", keyword)
-                    .or()
-                    .like("content", keyword)
-                    .or()
-                    .like("u.name", keyword)
-                    .or()
-                    .like("category_name", keyword)
-                    .or()
-                    .like("tag", keyword));
-        }
+        wrapper.and(qw -> qw
+                .like("title", keyword)
+                .or()
+                .like("content", keyword)
+                .or()
+                .like("u.name", keyword)
+                .or()
+                .like("category_name", keyword)
+                .or()
+                .like("tag", keyword));
 
         QueryWrapper<ArticleVO> sortedWrapper = Optional.ofNullable(sort)
                 .map(s -> switch (s) {
@@ -114,7 +112,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                             .orderByDesc("like_count")
                             .orderByDesc("a.update_time");
                 })
-                .orElse(wrapper);
+                .orElse(wrapper.orderByDesc("a.`pv_count`")
+                        .orderByDesc("like_count")
+                        .orderByDesc("a.update_time"));
 
         return articleMapper.getPageWithActive(page, sortedWrapper);
     }

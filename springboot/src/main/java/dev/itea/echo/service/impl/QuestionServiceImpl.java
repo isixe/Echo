@@ -84,18 +84,16 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             return questionMapper.getPageWithActive(page, wrapper.orderByDesc("q.update_time"));
         }
 
-        if (!ObjectUtils.isEmpty(keyword)) {
-            wrapper.and(qw -> qw
-                    .like("title", keyword)
-                    .or()
-                    .like("content", keyword)
-                    .or()
-                    .like("u.name", keyword)
-                    .or()
-                    .like("category_name", keyword)
-                    .or()
-                    .like("tag", keyword));
-        }
+        wrapper.and(qw -> qw
+                .like("title", keyword)
+                .or()
+                .like("content", keyword)
+                .or()
+                .like("u.name", keyword)
+                .or()
+                .like("category_name", keyword)
+                .or()
+                .like("tag", keyword));
 
         QueryWrapper<QuestionVO> sortedWrapper = Optional.ofNullable(sort)
                 .map(s -> switch (s) {
@@ -105,7 +103,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                             .orderByDesc("like_count")
                             .orderByDesc("q.update_time");
                 })
-                .orElse(wrapper);
+                .orElse(wrapper.orderByDesc("q.`pv_count`")
+                        .orderByDesc("like_count")
+                        .orderByDesc("q.update_time"));
 
         return questionMapper.getPageWithActive(page, sortedWrapper);
     }
