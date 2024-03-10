@@ -181,21 +181,18 @@ watch(selectedKey, (key) => {
   switch (key[0]) {
     case 'latest':
       router.push('/article')
-      getDataSource(key[0])
       break
     case 'recommend':
       router.push({ path: '/article', query: { type: 'recommend' } })
-      getDataSource(key[0])
       break
     case 'hot':
       router.push({ path: '/article', query: { type: 'hot' } })
-      getDataSource(key[0])
       break
     case 'subscribe':
       router.push({ path: '/article', query: { type: 'subscribe' } })
-      getDataSource(key[0])
       break
   }
+  getDataSource(key[0])
 })
 
 const getDataSource = (type) => {
