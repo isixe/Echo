@@ -67,19 +67,6 @@ watch(categoryName, () => {
   ]
 })
 
-const queryCategoryData = () => {
-  getCategoryListByName(params).then((res) => {
-    const data = res.data.records
-    pages.value = res.data.pages
-    categoryOptions.value.push(
-      ...data.map((group) => ({
-        value: group.id,
-        label: group.categoryName
-      }))
-    )
-  })
-}
-
 const onCategorySearch = (value) => {
   params.keyword = value
   params.pageNum = 1
@@ -98,8 +85,18 @@ const onPopupScroll = (e) => {
   if (scrollTop + offsetHeight !== scrollHeight || params.pageNum >= pages.value) {
     return
   }
+
   params.pageNum += 1
-  queryCategoryData()
+  getCategoryListByName(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    categoryOptions.value.push(
+      ...data.map((group) => ({
+        value: group.id,
+        label: group.categoryName
+      }))
+    )
+  })
 }
 
 const onCategoryFocus = () => {
