@@ -112,7 +112,7 @@ const articleGroupFocus = () => {
     return message.warning('请先选择作者')
   }
   getArticleGroupListByUserId({ userId: userId.value }).then((res) => {
-    const data = res.data
+    const data = res.data.records
     articleGroupOptions.value = data.map((group) => ({
       value: group.id,
       label: group.name
