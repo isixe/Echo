@@ -44,7 +44,7 @@ const pages = ref(0)
 
 const params = reactive({
   pageNum: 1,
-  pageSize: 9,
+  pageSize: 15,
   userId: userId
 })
 
