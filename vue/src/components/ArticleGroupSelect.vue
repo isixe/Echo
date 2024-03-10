@@ -13,7 +13,7 @@
       <a-divider style="margin: 4px 0" />
       <a-space style="padding: 4px 8px">
         <a-input ref="inputRef" v-model:value="articleGroupInput" placeholder="请输入合集名称" />
-        <a-button type="text" @click="addGroupItem">
+        <a-button type="text" @click.prevent="addGroupItem">
           <template #icon>
             <plus-outlined />
           </template>
@@ -41,6 +41,12 @@ const articleGroupName = defineModel('articleGroupName')
 const inputRef = ref()
 const articleGroupInput = ref('')
 const articleGroupOptions = ref([])
+
+const params = reactive({
+  pageNum: 1,
+  pageSize: 15,
+  userId: userId
+})
 
 onMounted(() => {
   articleGroupOptions.value.push({
@@ -70,8 +76,7 @@ watch(itemId, () => {
   ]
 })
 
-const addGroupItem = (e) => {
-  e.preventDefault()
+const addGroupItem = () => {
   if (!userId.value) {
     return message.warning('请先选择作者')
   }
@@ -111,7 +116,7 @@ const articleGroupFocus = () => {
   if (!userId.value) {
     return message.warning('请先选择作者')
   }
-  getArticleGroupListByUserId({ userId: userId.value }).then((res) => {
+  getArticleGroupListByUserId(params).then((res) => {
     const data = res.data.records
     articleGroupOptions.value = data.map((group) => ({
       value: group.id,
