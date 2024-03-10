@@ -62,13 +62,13 @@
   </div>
 
   <template>
-    <a-modal v-model:open="showAddModal" width="800px" title="新增类别">
+    <a-modal v-model:open="showAddModal" width="800px" title="新增收藏">
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
           <a-form-item name="userId" label="用户名">
             <author-select v-model="newData.userId" />
           </a-form-item>
-          <a-form-item name="articleId" label="文章名称">
+          <a-form-item name="articleId" label="文章标题">
             <article-select v-model="newData.articleId" />
           </a-form-item>
         </a-form>

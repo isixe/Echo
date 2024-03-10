@@ -365,7 +365,7 @@ const columns = [
     width: 300
   },
   {
-    title: '相关文章',
+    title: '关联文章',
     dataIndex: 'articleTitle',
     sorter: (a, b) => (a.articleTitle.length - b.articleTitle.length > 0 ? 1 : -1),
     width: 200

@@ -365,7 +365,7 @@ const columns = [
     width: 300
   },
   {
-    title: '相关问答',
+    title: '关联问答',
     dataIndex: 'questionTitle',
     sorter: (a, b) => (a.questionTitle.length - b.questionTitle.length > 0 ? 1 : -1),
     width: 200
