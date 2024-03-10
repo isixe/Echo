@@ -132,7 +132,7 @@ public class CommentQuestionController {
                     @Parameter(name = "id", description = "问答ID", required = true, example = "2"),
             })
     @SaIgnore
-    @GetMapping("/getRootCommentByQuestionId")
+    @GetMapping("/getRootCommentListByQuestionId")
     public List<RootCommentQuestionVO> getRootListByQuestionId(Integer questionId) {
         return commentQuestionService.getRootListByQuestionId(questionId);
     }
@@ -147,7 +147,7 @@ public class CommentQuestionController {
                     @Parameter(name = "id", description = "问答顶级评论ID", required = true, example = "2"),
             })
     @SaIgnore
-    @GetMapping("/getChildCommentByRootId")
+    @GetMapping("/getChildCommentListByRootId")
     public List<ChildCommentVO> getChildListByRootId(Integer rootId) {
         return commentQuestionService.getChildListByQuestionId(rootId);
     }
