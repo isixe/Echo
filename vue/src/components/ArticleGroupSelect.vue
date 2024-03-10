@@ -7,6 +7,7 @@
     :options="articleGroupOptions"
     :filter-option="filterOption"
     @focus="articleGroupFocus"
+    @popupScroll="onPopupScroll"
   >
     <template #dropdownRender="{ menuNode: menu }">
       <v-nodes :vnodes="menu" />
@@ -31,9 +32,7 @@ import {
   getArticleGroupListByUserId,
   getArticleGroupByUserIdAndGroupName
 } from '@/api/articleGroup'
-import { watch } from 'vue'
 
-const itemId = defineModel('itemId')
 const userId = defineModel('userId')
 const articleGroupId = defineModel('articleGroupId')
 const articleGroupName = defineModel('articleGroupName')
@@ -41,14 +40,19 @@ const articleGroupName = defineModel('articleGroupName')
 const inputRef = ref()
 const articleGroupInput = ref('')
 const articleGroupOptions = ref([])
+const pages = ref(0)
 
 const params = reactive({
   pageNum: 1,
-  pageSize: 15,
+  pageSize: 9,
   userId: userId
 })
 
 onMounted(() => {
+  if (!articleGroupId.value || !articleGroupName.value) {
+    return
+  }
+
   articleGroupOptions.value.push({
     value: articleGroupId.value,
     label: articleGroupName.value
@@ -65,16 +69,47 @@ watch(articleGroupName, () => {
   ]
 })
 
-watch(itemId, () => {
-  articleGroupOptions.value.push({
-    value: articleGroupId.value,
-    label: articleGroupName.value
+const queryGroupData = () => {
+  getArticleGroupListByUserId(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    articleGroupOptions.value.push(
+      ...data.map((group) => ({
+        value: group.id,
+        label: group.name
+      }))
+    )
   })
+}
 
-  articleGroupOptions.value = [
-    ...new Map(articleGroupOptions.value.map((item) => [item.id, item])).values()
-  ]
-})
+const articleGroupFocus = () => {
+  if (!userId.value) {
+    return message.warning('请先选择作者')
+  }
+
+  params.pageNum = 1
+  getArticleGroupListByUserId(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    articleGroupOptions.value = data.map((group) => ({
+      value: group.id,
+      label: group.name
+    }))
+
+    articleGroupId.value = parseInt(articleGroupId.value)
+  })
+}
+
+const onPopupScroll = (e) => {
+  const { scrollTop, offsetHeight, scrollHeight } = e.target
+  if (scrollTop + offsetHeight !== scrollHeight || params.pageNum >= pages.value) {
+    return
+  }
+  params.pageNum += 1
+  queryGroupData()
+}
+
+const filterOption = (input, option) => option.label.indexOf(input) >= 0
 
 const addGroupItem = () => {
   if (!userId.value) {
@@ -111,21 +146,6 @@ const addGroupItem = () => {
         })
     })
 }
-
-const articleGroupFocus = () => {
-  if (!userId.value) {
-    return message.warning('请先选择作者')
-  }
-  getArticleGroupListByUserId(params).then((res) => {
-    const data = res.data.records
-    articleGroupOptions.value = data.map((group) => ({
-      value: group.id,
-      label: group.name
-    }))
-  })
-}
-
-const filterOption = (input, option) => option.label.indexOf(input) >= 0
 
 const VNodes = defineComponent({
   props: {
