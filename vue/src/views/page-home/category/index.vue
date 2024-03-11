@@ -3,14 +3,14 @@
   <div class="container">
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
     <template v-if="selectedKey == 'article'">
-      <div v-for="item in articleData" :key="item.id">
+      <div v-for="item in articleFullList" :key="item.id">
         <RouterLink :to="'/article/' + item.id">
           <article-entry-item :item="item"></article-entry-item
         ></RouterLink>
       </div>
     </template>
     <template v-else-if="selectedKey == 'question'">
-      <div v-for="item in questionData" :key="item.id">
+      <div v-for="item in questionFullList" :key="item.id">
         <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
           <question-entry-item :item="item"></question-entry-item>
         </RouterLink>
@@ -26,33 +26,88 @@ import { getArticleListByCategoryId } from '@/api/article'
 import { getQuestionListByCategoryId } from '@/api/question'
 
 const route = useRoute()
-const articleData = ref()
-const questionData = ref()
+const router = useRouter()
+const articleFullList = ref([])
+const questionFullList = ref([])
 const category = ref()
 const selectedKey = ref(['article'])
+
+const initLoading = ref(true)
+const loading = ref(false)
+const pages = ref(0)
 const params = reactive({
   pageNum: 1,
-  pageSize: 15,
+  pageSize: 5,
   categoryId: route.params.id
 })
 
 onMounted(() => {
+  window.addEventListener('scroll', scrollBottom, true)
+
   get({ id: route.params.id }).then((res) => {
     category.value = res.data.categoryName
   })
 
-  getArticleDataSource()
+  selectedKey.value = route.query.tab ? [route.query.tab] : ['article']
+
+  getDataSource(selectedKey.value)
 })
+
+onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
+
+const scrollBottom = () => {
+  if (initLoading.value || loading.value || params.pageNum >= pages.value) {
+    return
+  }
+
+  const windowHeight = document.body.scrollHeight
+  const scrollHeight = window.innerHeight + window.scrollY
+  if (windowHeight - scrollHeight >= 1) {
+    return
+  }
+
+  onLoadMore()
+}
+
+const onLoadMore = () => {
+  loading.value = true
+  params.pageNum += 1
+  getDataSource(selectedKey.value)
+  nextTick(() => {
+    window.dispatchEvent(new Event('resize'))
+  })
+}
+
+watch(selectedKey, () => getDataSource(selectedKey.value))
+
+const getDataSource = (tab) => {
+  switch (tab[0]) {
+    case 'article':
+      router.push({ path: '/category/' + route.params.id, query: { tab: 'article' } })
+      getArticleDataSource()
+      break
+    case 'question':
+      router.push({ path: '/category/' + route.params.id, query: { tab: 'question' } })
+      getQuestionDataSource()
+      break
+  }
+}
 
 const getArticleDataSource = () => {
   getArticleListByCategoryId(params).then((res) => {
-    articleData.value = res.data.records
+    articleFullList.value = articleFullList.value.concat(res.data.records)
+    pages.value = res.data.pages
+    initLoading.value = false
+    loading.value = false
   })
 }
 
 const getQuestionDataSource = () => {
   getQuestionListByCategoryId(params).then((res) => {
-    questionData.value = res.data.records
+    questionFullList.value = questionFullList.value.concat(res.data.records)
+    pages.value = res.data.pages
+    initLoading.value = false
+    loading.value = false
   })
 }
 
