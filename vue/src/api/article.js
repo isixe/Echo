@@ -40,14 +40,6 @@ export function getArticleListByGroupId(params) {
   })
 }
 
-export function getArticleListByTitle(params) {
-  return request({
-    url: '/article/getList',
-    method: 'get',
-    params
-  })
-}
-
 export function getArticleDraftList(params) {
   return request({
     url: '/article/getDraftList',
@@ -56,25 +48,17 @@ export function getArticleDraftList(params) {
   })
 }
 
-export function getActiveArticleListByKeyword(params) {
-  return request({
-    url: '/article/queryAllActive',
-    method: 'get',
-    params
-  })
-}
-
-export function getHotActiveArticleListByKeyword(params) {
-  return request({
-    url: '/article/queryAllHotActive',
-    method: 'get',
-    params
-  })
-}
-
 export function getArticleListByKeyword(params) {
   return request({
     url: '/article/queryAll',
+    method: 'get',
+    params
+  })
+}
+
+export function getArticleListByTitle(params) {
+  return request({
+    url: '/article/queryAllByTitle',
     method: 'get',
     params
   })
@@ -99,6 +83,22 @@ export function getArticleListByTagName(params) {
 export function getArticleListByUserId(params) {
   return request({
     url: '/article/queryAllByUserId',
+    method: 'get',
+    params
+  })
+}
+
+export function getActiveArticleListByKeyword(params) {
+  return request({
+    url: '/article/queryAllActive',
+    method: 'get',
+    params
+  })
+}
+
+export function getHotActiveArticleListByKeyword(params) {
+  return request({
+    url: '/article/queryAllHotActive',
     method: 'get',
     params
   })
