@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="user-container">
     <div class="user-info">
       <a-avatar class="user-avatar" :size="45" :src="item.avatar">
         <template #icon>
@@ -20,13 +20,13 @@ const { item } = toRefs(props)
 </script>
 
 <style scope>
-.container {
+.user-container {
   padding: 10px 20px;
   width: 100%;
   border-bottom: 1px solid #ebeef5;
 }
 
-.container:hover {
+.user-container:hover {
   background-color: #f7f7ff;
 }
 

@@ -284,6 +284,10 @@ const unCollectQuestion = () => {
   max-height: 50vh;
 }
 
+.user-avatar {
+  margin-top: 0 !important;
+}
+
 .contents-card {
   background-color: #ffffff;
   margin-bottom: 15px;
@@ -347,6 +351,8 @@ const unCollectQuestion = () => {
 
 .item-message {
   height: 40px;
+  display: flex;
+  align-items: center;
 }
 
 .item-message,
@@ -356,6 +362,10 @@ const unCollectQuestion = () => {
 
 .item-message a:hover {
   color: #4d45e5;
+}
+
+.item-message span {
+  margin-bottom: 0;
 }
 
 .ant-divider-vertical {
@@ -459,7 +469,6 @@ const unCollectQuestion = () => {
 .content li,
 .content span {
   line-height: 1.8;
-  margin: 0 0 15px;
   font-size: 16px;
 }
 

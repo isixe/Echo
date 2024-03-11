@@ -511,6 +511,8 @@ const unCollectArticle = () => {
 
 .item-message {
   height: 40px;
+  display: flex;
+  align-items: center;
 }
 
 .item-message,
