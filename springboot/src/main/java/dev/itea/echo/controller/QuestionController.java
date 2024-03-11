@@ -143,22 +143,6 @@ public class QuestionController {
     }
 
     /**
-     * 问答模糊查询（标题）
-     *
-     * @param title 问答标题
-     * @return List<Question> 问答对象列表
-     */
-    @Operation(summary = "问答查询（标题）", description = "前台问答标题问答查询", tags = "Question", method = "GET",
-            parameters = {
-                    @Parameter(name = "title", description = "问答标题", required = true, example = "标题"),
-            })
-    @SaCheckLogin
-    @GetMapping(value = "/getList", params = "title")
-    public List<Question> getListByTitle(String title) {
-        return questionService.getListByTitle(title);
-    }
-
-    /**
      * 问答草稿查询（用户ID）
      *
      * @param userId 用户ID
@@ -177,6 +161,8 @@ public class QuestionController {
 
     /**
      * 用户问答数量排行查询
+     *
+     * @return List<UserRankVO> 用户排行值对象列表
      */
     @Operation(summary = "用户问答数量排行查询", description = "前台用户问答数量排行查询", tags = "Question", method = "GET")
     @SaIgnore
@@ -204,62 +190,92 @@ public class QuestionController {
     }
 
     /**
-     * 问答分页查询（分类ID）
+     * 问答查询（分页&标题）
      *
-     * @param categoryId 分类ID
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
      */
-    @Operation(summary = "问答查询（分类ID）", description = "前台根据问答分类ID查询问答", tags = "Question", method = "GET",
+    @Operation(summary = "问答查询（分页&标题）", description = "前台根据问答标题分页查询问答", tags = "Question", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
+                    @Parameter(name = "title", description = "问答标题", required = true, example = "标题"),
+            })
+    @SaCheckLogin
+    @GetMapping(value = "/queryAllByTitle")
+    public IPage<Question> getPageByTitle(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getPageWithActiveByTitle(pageable, pageDTO.getKeyword());
+    }
+
+
+    /**
+     * 问答查询（分页&分类ID）
+     *
+     * @param pageDTO    分页数据传输对象
+     * @param categoryId 分类ID
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "问答查询（分页&分类ID）", description = "前台根据问答分类ID分页查询问答", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "categoryId", description = "分类ID", required = true, example = "1"),
             })
     @SaIgnore
     @GetMapping(value = "/queryAllByCategoryId")
     public IPage<QuestionVO> getPageByCategoryid(@Validated PageDTO pageDTO, Integer categoryId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getPageByCategoryId(pageable, categoryId);
+        return questionService.getPageWithActiveByCategoryId(pageable, categoryId);
     }
 
     /**
-     * 问答分页模糊查询（标签名称）
+     * 问答查询（分页&标签名称）
      *
+     * @param pageDTO 分页数据传输对象
      * @param tagName 标签名称
+     * @return IPage 分页对象
      */
-    @Operation(summary = "问答分页模糊查询（标签名称）", description = "前台根据标签名称查询问答分页", tags = "Question", method = "GET",
+    @Operation(summary = "问答查询（分页&标签名称）", description = "前台根据标签名称分页查询问答分页", tags = "Question", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "tagName", description = "标签名称", required = true, example = "MySQL"),
             })
     @SaIgnore
     @GetMapping(value = "/queryAllByTagName")
     public IPage<QuestionVO> getPageByTagName(@Validated PageDTO pageDTO, String tagName) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getPageByTagName(pageable, tagName);
+        return questionService.getPageWithActiveByTagName(pageable, tagName);
     }
 
     /**
-     * 问答分页查询（用户ID）
+     * 问答查询（分页&用户ID）
      *
-     * @param userId 用户ID
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
      */
-    @Operation(summary = "问答分页查询（用户ID）", description = "前台根据用户ID查询问答", tags = "Question", method = "GET",
+    @Operation(summary = "问答查询（分页&用户ID）", description = "前台根据用户ID分页查询问答", tags = "Question", method = "GET",
             parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
             })
     @SaIgnore
     @GetMapping(value = "/queryAllByUserId")
     public IPage<QuestionVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getPageByUserId(pageable, userId);
+        return questionService.getPageWithActiveByUserId(pageable, userId);
     }
 
     /**
      * 问答查询（分页&关键词&发布状态）
      *
      * @param pageDTO 分页数据传输对象
+     * @param sort    排序方式
      * @return IPage 分页对象
      */
     @Operation(summary = "问答查询（分页&关键词&发布状态）", description = "前台问答分页、发布状态与关键词查询", tags = "Question", method = "GET",
             parameters = {
-                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
+                    @Parameter(name = "sort", description = "排序方式", required = true, example = "likeCount")
             })
     @SaIgnore
     @GetMapping("/queryAllActive")

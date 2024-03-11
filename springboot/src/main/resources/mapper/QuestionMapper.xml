@@ -128,9 +128,4 @@
             ${ew.customSqlSegment}
     </select>
 
-    <select id="getListByTitle" resultType="dev.itea.echo.entity.Question" parameterType="string">
-        SELECT id, title
-        FROM question
-        WHERE title LIKE CONCAT('%', #{name}, '%') LIMIT 0, 10;
-    </select>
 </mapper>

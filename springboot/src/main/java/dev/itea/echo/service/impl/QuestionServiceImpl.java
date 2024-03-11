@@ -53,6 +53,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
+    public List<UserRankVO> getListWithUserNumRank() {
+        return questionMapper.getListWithUserNumRank();
+    }
+
+    @Override
     public IPage<QuestionVO> getPage(Pageable pageable, String keyword) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>().eq("q.is_deleted", 0);
@@ -133,7 +138,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public IPage<QuestionVO> getPageByUserId(Pageable pageable, Integer userId) {
+    public IPage<QuestionVO> getPageWithActiveByUserId(Pageable pageable, Integer userId) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
                 .eq("status", 1)
@@ -144,7 +149,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public IPage<QuestionVO> getPageByCategoryId(Pageable pageable, Integer categoryId) {
+    public IPage<QuestionVO> getPageWithActiveByCategoryId(Pageable pageable, Integer categoryId) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
                 .eq("status", 1)
@@ -155,7 +160,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public IPage<QuestionVO> getPageByTagName(Pageable pageable, String tagName) {
+    public IPage<QuestionVO> getPageWithActiveByTagName(Pageable pageable, String tagName) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
                 .eq("status", 1)
@@ -165,14 +170,14 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         return questionMapper.getPageWithActive(page, wrapper);
     }
 
-
     @Override
-    public List<UserRankVO> getListWithUserNumRank() {
-        return questionMapper.getListWithUserNumRank();
-    }
-
-    @Override
-    public List<Question> getListByTitle(String title) {
-        return questionMapper.getListByTitle(title);
+    public IPage<Question> getPageWithActiveByTitle(Pageable pageable, String title) {
+        Page<Question> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<Question> wrapper = new QueryWrapper<Question>()
+                .select("id", "title");
+        if (!ObjectUtils.isEmpty(title)) {
+            wrapper = wrapper.like("title", title);
+        }
+        return questionMapper.selectPage(page, wrapper);
     }
 }

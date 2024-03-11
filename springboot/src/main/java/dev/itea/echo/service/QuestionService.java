@@ -23,21 +23,21 @@ public interface QuestionService extends IService<Question> {
 
     void delete(Integer id);
 
+    List<UserRankVO> getListWithUserNumRank();
+
+    List<Question> getListWithDraftByUserId(Integer userId);
+
     IPage<QuestionVO> getPage(Pageable pageable, String keyword);
 
     IPage<QuestionVO> getPageWithActive(Pageable pageable, String keyword, String sort);
 
     IPage<QuestionVO> getPageWithHotActive(Pageable pageable, String keyword);
 
-    IPage<QuestionVO> getPageByUserId(Pageable pageable, Integer userId);
+    IPage<QuestionVO> getPageWithActiveByUserId(Pageable pageable, Integer userId);
 
-    IPage<QuestionVO> getPageByCategoryId(Pageable pageable, Integer categoryId);
+    IPage<QuestionVO> getPageWithActiveByCategoryId(Pageable pageable, Integer categoryId);
 
-    IPage<QuestionVO> getPageByTagName(Pageable pageable, String tagName);
+    IPage<QuestionVO> getPageWithActiveByTagName(Pageable pageable, String tagName);
 
-    List<Question> getListByTitle(String title);
-
-    List<UserRankVO> getListWithUserNumRank();
-
-    List<Question> getListWithDraftByUserId(Integer userId);
+    IPage<Question> getPageWithActiveByTitle(Pageable pageable, String title);
 }

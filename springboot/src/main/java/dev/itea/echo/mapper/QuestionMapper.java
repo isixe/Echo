@@ -29,5 +29,4 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
     List<UserRankVO> getListWithUserNumRank();
 
-    List<Question> getListByTitle(String title);
 }
