@@ -5,8 +5,10 @@
     placeholder="选择关联文章"
     style="width: 300px"
     :options="articleOptions"
-    :filter-option="filterOption"
-    @search="authorSearch"
+    @focus="onArticleFocus"
+    :filter-option="() => true"
+    @popupScroll="onPopupScroll"
+    @search="onArticleSearch"
   ></a-select>
 </template>
 
@@ -14,18 +16,55 @@
 import { getArticleListByTitle } from '@/api/article'
 
 const articleId = defineModel()
-
 const articleOptions = ref([])
 
-const filterOption = (input, option) => option.label.indexOf(input) >= 0
+const pages = ref(0)
+const params = reactive({
+  pageNum: 1,
+  pageSize: 10,
+  keyword: ''
+})
 
-const authorSearch = (value) => {
-  if (value === null || value === '') {
+const onArticleSearch = (value) => {
+  params.keyword = value
+  params.pageNum = 1
+  getArticleListByTitle(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    articleOptions.value = data.map((article) => ({ value: article.id, label: article.title }))
+  })
+}
+
+const onPopupScroll = (e) => {
+  const { scrollTop, offsetHeight, scrollHeight } = e.target
+  if (scrollTop + offsetHeight !== scrollHeight || params.pageNum >= pages.value) {
     return
   }
-  getArticleListByTitle({ title: value }).then((res) => {
-    const data = res.data
-    articleOptions.value = data.map((article) => ({ value: article.id, label: article.title }))
+
+  params.pageNum += 1
+  getArticleListByTitle(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    articleOptions.value.push(
+      ...data.map((article) => ({
+        value: article.id,
+        label: article.title
+      }))
+    )
+  })
+}
+
+const onArticleFocus = () => {
+  params.pageNum = 1
+  getArticleListByTitle(params).then((res) => {
+    const data = res.data.records
+    pages.value = res.data.pages
+    articleOptions.value = data.map((article) => ({
+      value: article.id,
+      label: article.title
+    }))
+
+    articleId.value = articleId.value ? parseInt(articleId.value) : null
   })
 }
 </script>
