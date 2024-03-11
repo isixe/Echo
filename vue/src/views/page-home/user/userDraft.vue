@@ -4,7 +4,7 @@
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
     <template v-if="selectedKey == 'article'">
       <div class="article-entry-list">
-        <div class="article-entry" v-for="item in articleData" :key="item.id">
+        <div class="article-entry" v-for="item in articleFullList" :key="item.id">
           <div class="entry-item">
             <RouterLink :to="{ path: 'article/edit', query: { id: item.id } }">
               <div>
@@ -28,7 +28,7 @@
     </template>
     <template v-if="selectedKey == 'question'">
       <div class="question-entry-list">
-        <div class="question-entry" v-for="item in questionData" :key="item.id">
+        <div class="question-entry" v-for="item in questionFullList" :key="item.id">
           <div class="entry-item">
             <RouterLink :to="{ path: 'question/edit', query: { id: item.id } }">
               <div>
@@ -55,24 +55,84 @@ import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const store = useUserStore()
 
-const articleData = ref()
-const questionData = ref()
+const articleFullList = ref([])
+const questionFullList = ref([])
 const selectedKey = ref(['article'])
 
-onMounted(() => {
-  getArticleDataSource()
-  getQuestionDataSource()
+const initLoading = ref(true)
+const loading = ref(false)
+const pages = ref(0)
+const params = reactive({
+  pageNum: 1,
+  pageSize: 15,
+  userId: store.id
 })
 
+onMounted(() => {
+  window.addEventListener('scroll', scrollBottom, true)
+
+  getDataSource(selectedKey.value)
+})
+
+onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
+
+watch(selectedKey, () => {
+  articleFullList.value = []
+  questionFullList.value = []
+  params.pageNum = 1
+  getDataSource(selectedKey.value)
+})
+
+const scrollBottom = () => {
+  if (initLoading.value || loading.value || params.pageNum >= pages.value) {
+    return
+  }
+
+  const windowHeight = document.body.scrollHeight
+  const scrollHeight = window.innerHeight + window.scrollY
+  if (windowHeight - scrollHeight >= 1) {
+    return
+  }
+
+  onLoadMore()
+}
+
+const onLoadMore = () => {
+  loading.value = true
+  params.pageNum += 1
+  getDataSource(selectedKey.value)
+  nextTick(() => {
+    window.dispatchEvent(new Event('resize'))
+  })
+}
+
+const getDataSource = (tab) => {
+  switch (tab[0]) {
+    case 'article':
+      getArticleDataSource()
+      break
+    case 'question':
+      getQuestionDataSource()
+      break
+  }
+}
+
 const getArticleDataSource = () => {
-  getArticleDraftList({ userId: store.id }).then((res) => {
-    articleData.value = res.data
+  getArticleDraftList(params).then((res) => {
+    articleFullList.value = articleFullList.value.concat(res.data.records)
+    pages.value = res.data.pages
+    initLoading.value = false
+    loading.value = false
   })
 }
 
 const getQuestionDataSource = () => {
-  getQuestionDraftList({ userId: store.id }).then((res) => {
-    questionData.value = res.data
+  getQuestionDraftList(params).then((res) => {
+    console.log(res.data.records)
+    questionFullList.value = questionFullList.value.concat(res.data.records)
+    pages.value = res.data.pages
+    initLoading.value = false
+    loading.value = false
   })
 }
 
