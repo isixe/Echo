@@ -26,8 +26,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     ArticleVO getById(Integer id);
 
-    List<Article> getByTitle(String title);
-
     List<ArticleVO> getListByGroupId(Integer groupId);
 
     List<UserRankVO> getListWithUserNumRank();

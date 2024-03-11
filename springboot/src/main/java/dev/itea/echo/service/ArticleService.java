@@ -23,11 +23,13 @@ public interface ArticleService extends IService<Article> {
 
     ArticleVO get(Integer id);
 
+    void updateArticleGroupId(Integer id, Integer groupId);
+
+    void deleteArticleGroupId(Integer id);
+
     List<ArticleVO> getListByGroupId(Integer groupId);
 
     List<UserRankVO> getListWithUserNumRank();
-
-    List<Article> getListByTitle(String title);
 
     List<Article> getListWithDraftByUserId(Integer userId);
 
@@ -37,15 +39,13 @@ public interface ArticleService extends IService<Article> {
 
     IPage<ArticleVO> getPageWithHotActive(Pageable pageable, String keyword);
 
-    IPage<ArticleVO> getPageByCategoryId(Pageable pageable, Integer categoryId);
+    IPage<ArticleVO> getPageWithActiveByCategoryId(Pageable pageable, Integer categoryId);
 
-    IPage<ArticleVO> getPageByTagName(Pageable pageable, String tagName);
+    IPage<ArticleVO> getPageWithActiveByTagName(Pageable pageable, String tagName);
 
-    IPage<ArticleVO> getPageByUserId(Pageable pageable, Integer userId);
+    IPage<ArticleVO> getPageWithActiveByUserId(Pageable pageable, Integer userId);
 
-    void updateArticleGroupId(Integer id, Integer groupId);
+    IPage<ArticleVO> getPageWithActiveAndUnGroupByUserId(Pageable pageable, Integer userId);
 
-    void deleteArticleGroupId(Integer id);
-
-    IPage<ArticleVO> getPageWithUnGroupByUserId(Pageable pageable, Integer userId);
+    IPage<Article> getPageWithActiveByTitle(Pageable pageable, String keyword);
 }

@@ -197,7 +197,7 @@ public class ArticleController {
      * @param groupId 文章分组ID
      * @return List<ArticleVO> 文章值对象列表
      */
-    @Operation(summary = "文章查询（文章分组ID）", description = "前台根据文章分组ID查询文章", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（分组ID）", description = "前台根据文章分组ID查询文章", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "groupId", description = "文章分组ID", required = true, example = "2"),
             })
@@ -205,22 +205,6 @@ public class ArticleController {
     @GetMapping(value = "/getList", params = "groupId")
     public List<ArticleVO> getListByGroupId(Integer groupId) {
         return articleService.getListByGroupId(groupId);
-    }
-
-    /**
-     * 文章模糊查询（标题）
-     *
-     * @param title 文章标题
-     * @return List<Article> 文章对象列表
-     */
-    @Operation(summary = "文章查询（标题）", description = "前台文章标题文章查询", tags = "Article", method = "GET",
-            parameters = {
-                    @Parameter(name = "title", description = "文章标题", required = true, example = "标题"),
-            })
-    @SaCheckLogin
-    @GetMapping(value = "/getList", params = "title")
-    public List<Article> getListByTitle(String title) {
-        return articleService.getListByTitle(title);
     }
 
     /**
@@ -270,13 +254,31 @@ public class ArticleController {
 
 
     /**
-     * 文章查询（分页&关键词&发布状态）
+     * 文章查询（分页&文章标题）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "文章查询（分页&文章标题）", description = "前台文章标题文章分页查询", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "title", description = "文章标题", required = true, example = "标题"),
+            })
+    @SaCheckLogin
+    @GetMapping(value = "/queryAllByTitle")
+    public IPage<Article> getPageWithActiveByByTitle(@Validated PageDTO pageDTO) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getPageWithActiveByTitle(pageable, pageDTO.getKeyword());
+    }
+
+
+    /**
+     * 已发布文章查询（分页&关键词&发布状态）
      *
      * @param pageDTO 分页数据传输对象
      * @param sort    排序字段
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章查询（分页&关键词）", description = "前台文章分页与关键词查询", tags = "Article", method = "GET",
+    @Operation(summary = "已发布文章查询（分页&关键词&发布状态）", description = "前台已发布文章分页与关键词、发布状态查询", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -288,12 +290,12 @@ public class ArticleController {
     }
 
     /**
-     * 文章查询（分页&关键词&发布状态）
+     * 已发布热门文章查询（分页&关键词&发布状态）
      *
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章查询（分页&关键词&发布状态）", description = "前台文章分页、发布状态与关键词查询", tags = "Article", method = "GET",
+    @Operation(summary = "已发布热门文章查询（分页&关键词&发布状态）", description = "前台已发布热门文章分页、发布状态与关键词查询", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -305,45 +307,45 @@ public class ArticleController {
     }
 
     /**
-     * 文章分页查询（分类ID）
+     * 文章查询（分页&分类ID）
      *
      * @param pageDTO    分页数据传输对象
      * @param categoryId 分类ID
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章查询（分类ID）", description = "前台根据文章分类ID查询文章", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（分页&分类ID）", description = "前台根据文章分类ID查询文章", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "categoryId", description = "分类ID", required = true, example = "1"),
             })
     @SaIgnore
     @GetMapping(value = "/queryAllByCategoryId")
-    public IPage<ArticleVO> getPageByCategoryid(@Validated PageDTO pageDTO, Integer categoryId) {
+    public IPage<ArticleVO> getPageWithActiveByCategoryid(@Validated PageDTO pageDTO, Integer categoryId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getPageByCategoryId(pageable, categoryId);
+        return articleService.getPageWithActiveByCategoryId(pageable, categoryId);
     }
 
     /**
-     * 文章分页查询（用户ID）
+     * 文章查询（分页&用户ID）
      *
      * @param pageDTO 分页数据传输对象
      * @param userId  用户ID
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章分页查询（用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
+    @Operation(summary = "文章查询（分页&用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "1"),
             })
     @SaIgnore
     @GetMapping(value = "/queryAllByUserId")
-    public IPage<ArticleVO> getPageByUserId(@Validated PageDTO pageDTO, Integer userId) {
+    public IPage<ArticleVO> getPageWithActiveByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getPageByUserId(pageable, userId);
+        return articleService.getPageWithActiveByUserId(pageable, userId);
     }
 
     /**
-     * 未分组文章列表查询（用户ID）
+     * 未分组文章查询（分页&用户ID）
      *
      * @param pageDTO 分页数据传输对象
      * @param userId  用户ID
@@ -356,13 +358,13 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping(value = "/queryUnGroupByUserId")
-    public IPage<ArticleVO> getPageWithUnGroupByUserId(@Validated PageDTO pageDTO, Integer userId) {
+    public IPage<ArticleVO> getPageWithActiveAndUnGroupByUserId(@Validated PageDTO pageDTO, Integer userId) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getPageWithUnGroupByUserId(pageable, userId);
+        return articleService.getPageWithActiveAndUnGroupByUserId(pageable, userId);
     }
 
     /**
-     * 文章分页模糊查询（标签名称）
+     * 文章查询（分页&标签名称）
      *
      * @param pageDTO 分页数据传输对象
      * @param tagName 标签名称
@@ -375,9 +377,9 @@ public class ArticleController {
             })
     @SaIgnore
     @GetMapping(value = "/queryAllByTagName")
-    public IPage<ArticleVO> getPageByTagName(@Validated PageDTO pageDTO, String tagName) {
+    public IPage<ArticleVO> getPageWithActiveByTagName(@Validated PageDTO pageDTO, String tagName) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getPageByTagName(pageable, tagName);
+        return articleService.getPageWithActiveByTagName(pageable, tagName);
     }
 
 }
