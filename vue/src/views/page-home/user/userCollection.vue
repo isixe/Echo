@@ -99,6 +99,13 @@ const onLoadMore = () => {
   })
 }
 
+watch(selectedKey, () => {
+  articleFullList.value = []
+  questionFullList.value = []
+  params.pageNum = 1
+  getDataSource(selectedKey.value)
+})
+
 const getDataSource = (tab) => {
   switch (tab[0]) {
     case 'article':
@@ -129,17 +136,6 @@ const getQuestionDataSource = () => {
   })
 }
 
-watch(selectedKey, (key) => {
-  switch (key[0]) {
-    case 'article':
-      getArticleDataSource(key[0])
-      break
-    case 'question':
-      getQuestionDataSource(key[0])
-      break
-  }
-})
-
 const removeArticle = (collectionId) => {
   Modal.confirm({
     title: `确定要取消收藏吗?`,
@@ -153,7 +149,10 @@ const removeArticle = (collectionId) => {
       formData.append('id', collectionId)
       unCollectArticle(formData).then(() => {
         message.success('取消收藏成功')
-        getArticleDataSource()
+        articleFullList.value = []
+        questionFullList.value = []
+        params.pageNum = 1
+        getDataSource(selectedKey.value)
       })
     }
   })
@@ -172,7 +171,10 @@ const removeQuestion = (collectionId) => {
       formData.append('id', collectionId)
       unCollectQuestion(formData).then(() => {
         message.success('取消收藏成功')
-        getQuestionDataSource()
+        articleFullList.value = []
+        questionFullList.value = []
+        params.pageNum = 1
+        getDataSource(selectedKey.value)
       })
     }
   })
