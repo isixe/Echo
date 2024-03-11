@@ -47,5 +47,5 @@ public interface ArticleService extends IService<Article> {
 
     IPage<ArticleVO> getPageWithActiveAndUnGroupByUserId(Pageable pageable, Integer userId);
 
-    IPage<Article> getPageWithActiveByTitle(Pageable pageable, String keyword);
+    IPage<Article> getPageWithActiveByTitle(Pageable pageable, String title);
 }
