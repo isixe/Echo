@@ -1,10 +1,10 @@
 <template>
   <div class="draft-header">我的草稿箱</div>
-  <div class="container">
+  <div class="draft-container">
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
     <template v-if="selectedKey == 'article'">
       <div class="article-entry-list">
-        <div v-for="item in articleData" :key="item.id">
+        <div class="article-entry" v-for="item in articleData" :key="item.id">
           <div class="entry-item">
             <RouterLink :to="{ path: 'article/edit', query: { id: item.id } }">
               <div>
@@ -22,12 +22,13 @@
               </div>
             </RouterLink>
           </div>
+          <div class="entry-option" @click="onArticleDraftDelete(item.id)"><a>删除</a></div>
         </div>
       </div>
     </template>
     <template v-if="selectedKey == 'question'">
       <div class="question-entry-list">
-        <div v-for="item in questionData" :key="item.id">
+        <div class="question-entry" v-for="item in questionData" :key="item.id">
           <div class="entry-item">
             <RouterLink :to="{ path: 'question/edit', query: { id: item.id } }">
               <div>
@@ -35,6 +36,7 @@
               </div>
             </RouterLink>
           </div>
+          <div class="entry-option" @click="onQuestionDraftDelete(item.id)"><a>删除</a></div>
         </div>
       </div>
     </template>
@@ -42,9 +44,14 @@
 </template>
 
 <script setup>
+import { createVNode } from 'vue'
+import { Modal } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
-import { getArticleDraftList } from '@/api/article'
-import { getQuestionDraftList } from '@/api/question'
+import { remove as removeArticle, getArticleDraftList } from '@/api/article'
+import { remove as removeQuestion, getQuestionDraftList } from '@/api/question'
+
+import { message } from 'ant-design-vue'
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const store = useUserStore()
 
@@ -54,6 +61,7 @@ const selectedKey = ref(['article'])
 
 onMounted(() => {
   getArticleDataSource()
+  getQuestionDataSource()
 })
 
 const getArticleDataSource = () => {
@@ -68,16 +76,43 @@ const getQuestionDataSource = () => {
   })
 }
 
-watch(selectedKey, (key) => {
-  switch (key[0]) {
-    case 'article':
-      getArticleDataSource(key[0])
-      break
-    case 'question':
-      getQuestionDataSource(key[0])
-      break
-  }
-})
+const onArticleDraftDelete = (id) => {
+  Modal.confirm({
+    title: `确定要删除文章草稿吗?`,
+    icon: createVNode(ExclamationCircleOutlined),
+    content: '移除文章草稿后，文章草稿无法恢复',
+    okText: '确定',
+    okType: 'danger',
+    cancelText: '取消',
+    onOk() {
+      const formData = new FormData()
+      formData.append('id', id)
+      removeArticle(formData).then(() => {
+        message.success('删除成功')
+        getArticleDataSource()
+      })
+    }
+  })
+}
+
+const onQuestionDraftDelete = (id) => {
+  Modal.confirm({
+    title: `确定要删除问答草稿吗?`,
+    icon: createVNode(ExclamationCircleOutlined),
+    content: '移除问答草稿后，问答草稿无法恢复',
+    okText: '确定',
+    okType: 'danger',
+    cancelText: '取消',
+    onOk() {
+      const formData = new FormData()
+      formData.append('id', id)
+      removeQuestion(formData).then(() => {
+        message.success('删除成功')
+        getQuestionDataSource()
+      })
+    }
+  })
+}
 
 const items = ref([
   {
@@ -99,16 +134,22 @@ const items = ref([
   font-weight: 700;
 }
 
-.container {
+.draft-container {
   margin: 15px 40px;
   border-radius: 4px;
 }
 
-.entry-item {
+.article-entry,
+.question-entry {
   margin-top: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  display: flex;
+}
+
+.entry-item {
   padding: 15px;
+  flex: 1;
 }
 
 .entry-item a {
@@ -117,6 +158,18 @@ const items = ref([
 
 .entry-item:hover {
   background-color: #f7f7ff;
+}
+
+.entry-option {
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entry-option a:hover {
+  color: #4d45e5;
+  cursor: pointer;
 }
 
 .user-name:hover,
@@ -144,14 +197,12 @@ const items = ref([
 }
 
 .item-content {
-  border-bottom: 1px solid #ebeef5;
   display: flex;
   justify-content: space-between;
   color: #666;
 }
 
 .item-content {
-  border-bottom: 1px solid #ebeef5;
   display: flex;
   justify-content: space-between;
   color: #666;
