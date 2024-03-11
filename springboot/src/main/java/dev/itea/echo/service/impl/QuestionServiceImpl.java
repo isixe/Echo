@@ -128,16 +128,6 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public List<Question> getListWithDraftByUserId(Integer userId) {
-        QueryWrapper<Question> wrapper = new QueryWrapper<Question>()
-                .eq("user_id", userId)
-                .eq("status", 0)
-                .eq("is_deleted", 0)
-                .orderByDesc("update_time");
-        return questionMapper.selectList(wrapper);
-    }
-
-    @Override
     public IPage<QuestionVO> getPageWithActiveByUserId(Pageable pageable, Integer userId) {
         Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
@@ -180,4 +170,16 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         }
         return questionMapper.selectPage(page, wrapper);
     }
+
+    @Override
+    public IPage<Question> getPageWithDraftByUserId(Pageable pageable, Integer userId) {
+        Page<Question> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<Question> wrapper = new QueryWrapper<Question>()
+                .eq("user_id", userId)
+                .eq("status", 0)
+                .eq("is_deleted", 0)
+                .orderByDesc("update_time");
+        return questionMapper.selectPage(page, wrapper);
+    }
+
 }

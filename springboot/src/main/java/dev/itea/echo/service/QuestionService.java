@@ -25,8 +25,6 @@ public interface QuestionService extends IService<Question> {
 
     List<UserRankVO> getListWithUserNumRank();
 
-    List<Question> getListWithDraftByUserId(Integer userId);
-
     IPage<QuestionVO> getPage(Pageable pageable, String keyword);
 
     IPage<QuestionVO> getPageWithActive(Pageable pageable, String keyword, String sort);
@@ -40,4 +38,6 @@ public interface QuestionService extends IService<Question> {
     IPage<QuestionVO> getPageWithActiveByTagName(Pageable pageable, String tagName);
 
     IPage<Question> getPageWithActiveByTitle(Pageable pageable, String title);
+
+    IPage<Question> getPageWithDraftByUserId(Pageable pageable, Integer userId);
 }

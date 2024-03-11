@@ -143,23 +143,6 @@ public class QuestionController {
     }
 
     /**
-     * 问答草稿查询（用户ID）
-     *
-     * @param userId 用户ID
-     * @return List<Question> 问答对象列表
-     */
-    @Operation(summary = "问答查询（用户ID）", description = "前台根据用户ID查询问答", tags = "Question", method = "GET",
-            parameters = {
-                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
-            })
-    @SaIgnore
-    @GetMapping(value = "/getDraftList")
-    public List<Question> getDraftListByUserId(Integer userId) {
-        return questionService.getListWithDraftByUserId(userId);
-    }
-
-
-    /**
      * 用户问答数量排行查询
      *
      * @return List<UserRankVO> 用户排行值对象列表
@@ -299,6 +282,24 @@ public class QuestionController {
     public IPage<QuestionVO> getPageWithActiveHotByKeyword(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return questionService.getPageWithHotActive(pageable, pageDTO.getKeyword());
+    }
+
+    /**
+     * 问答草稿查询（分页&用户ID）
+     *
+     * @param userId  用户ID
+     * @param pageDTO 分页数据传输对象
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "问答草稿查询（分页&用户ID）", description = "前台根据用户ID分页查询问答草稿", tags = "Question", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllDraftByUserId")
+    public IPage<Question> getPageWithDraftByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getPageWithDraftByUserId(pageable, userId);
     }
 
 }
