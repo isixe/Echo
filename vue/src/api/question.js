@@ -34,7 +34,7 @@ export function get(params) {
 
 export function getQuestionDraftList(params) {
   return request({
-    url: '/question/getDraftList',
+    url: '/question/queryAllDraftByUserId',
     method: 'get',
     params
   })

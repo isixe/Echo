@@ -40,14 +40,6 @@ export function getArticleListByGroupId(params) {
   })
 }
 
-export function getArticleDraftList(params) {
-  return request({
-    url: '/article/getDraftList',
-    method: 'get',
-    params
-  })
-}
-
 export function getArticleListByKeyword(params) {
   return request({
     url: '/article/queryAll',
@@ -83,6 +75,14 @@ export function getArticleListByTagName(params) {
 export function getArticleListByUserId(params) {
   return request({
     url: '/article/queryAllByUserId',
+    method: 'get',
+    params
+  })
+}
+
+export function getArticleDraftList(params) {
+  return request({
+    url: '/article/queryAllDraftByUserId',
     method: 'get',
     params
   })
