@@ -16,7 +16,10 @@
       </div>
       <div class="item-message">
         <div class="item-message-left">
-          <RouterLink :to="'/category/' + item.categoryId" class="category-container">
+          <RouterLink
+            :to="{ path: '/category/' + item.categoryId, query: { tab: 'question' } }"
+            class="category-container"
+          >
             {{ item.category }}
           </RouterLink>
         </div>

@@ -128,7 +128,6 @@ const getArticleDataSource = () => {
 
 const getQuestionDataSource = () => {
   getQuestionDraftList(params).then((res) => {
-    console.log(res.data.records)
     questionFullList.value = questionFullList.value.concat(res.data.records)
     pages.value = res.data.pages
     initLoading.value = false

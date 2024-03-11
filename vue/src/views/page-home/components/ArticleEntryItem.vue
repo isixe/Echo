@@ -18,7 +18,10 @@
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
         <span>{{ updateTime }}</span>
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-        <RouterLink :to="'/category/' + item.categoryId" class="category-container">
+        <RouterLink
+          :to="{ path: '/category/' + item.categoryId, query: { type: 'article' } }"
+          class="category-container"
+        >
           {{ item.category }}
         </RouterLink>
       </div>

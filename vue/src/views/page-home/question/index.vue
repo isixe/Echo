@@ -92,7 +92,9 @@
               </div>
               <div class="recommend-content">
                 <template v-for="category in recommendCategory" :key="category.id">
-                  <RouterLink :to="'/category/' + category.id">
+                  <RouterLink
+                    :to="{ path: '/category/' + category.id, query: { tab: 'question' } }"
+                  >
                     {{ category.categoryName }}
                   </RouterLink>
                 </template>
