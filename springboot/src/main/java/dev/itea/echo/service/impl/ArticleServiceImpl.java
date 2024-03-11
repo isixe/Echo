@@ -169,14 +169,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public List<Article> getListWithDraftByUserId(Integer userId) {
-        QueryWrapper<Article> wrapper = new QueryWrapper<Article>()
-                .eq("user_id", userId)
-                .eq("status", 0);
-        return articleMapper.selectList(wrapper);
-    }
-
-    @Override
     @CacheEvict(cacheNames = "article", key = "#id")
     public void updateArticleGroupId(Integer id, Integer groupId) {
         UpdateWrapper<Article> wrapper = new UpdateWrapper<Article>()
@@ -215,4 +207,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         return articleMapper.selectPage(page, wrapper);
     }
+
+    @Override
+    public IPage<Article> getPageWithDraftByUserId(Pageable pageable, Integer userId) {
+        Page<Article> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<Article> wrapper = new QueryWrapper<Article>()
+                .eq("user_id", userId)
+                .eq("status", 0)
+                .eq("is_deleted", 0)
+                .orderByDesc("update_time");
+        return articleMapper.selectPage(page, wrapper);
+    }
+
 }

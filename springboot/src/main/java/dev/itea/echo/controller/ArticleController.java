@@ -208,22 +208,6 @@ public class ArticleController {
     }
 
     /**
-     * 文章草稿查询（用户ID）
-     *
-     * @param userId 用户ID
-     * @return List<Article> 文章对象列表
-     */
-    @Operation(summary = "文章查询（用户ID）", description = "前台根据用户ID查询文章", tags = "Article", method = "GET",
-            parameters = {
-                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
-            })
-    @SaIgnore
-    @GetMapping(value = "/getDraftList")
-    public List<Article> getDraftListByUserId(Integer userId) {
-        return articleService.getListWithDraftByUserId(userId);
-    }
-
-    /**
      * 用户文章数量排行查询
      *
      * @return List<UserRankVO> 用户排行列表
@@ -380,6 +364,25 @@ public class ArticleController {
     public IPage<ArticleVO> getPageWithActiveByTagName(@Validated PageDTO pageDTO, String tagName) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getPageWithActiveByTagName(pageable, tagName);
+    }
+
+    /**
+     * 文章草稿查询（分页&用户ID）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
+     * @return IPage
+     */
+    @Operation(summary = "文章草稿查询（分页&用户ID）", description = "前台根据用户ID分页查询文章草稿", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping(value = "/queryAllDraftByUserId")
+    public IPage<Article> getPageWithDraftByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getPageWithDraftByUserId(pageable, userId);
     }
 
 }

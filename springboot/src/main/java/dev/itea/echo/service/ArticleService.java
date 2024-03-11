@@ -31,8 +31,6 @@ public interface ArticleService extends IService<Article> {
 
     List<UserRankVO> getListWithUserNumRank();
 
-    List<Article> getListWithDraftByUserId(Integer userId);
-
     IPage<ArticleVO> getPage(Pageable pageable, String keyword);
 
     IPage<ArticleVO> getPageWithActive(Pageable pageable, String keyword, String sort);
@@ -48,4 +46,6 @@ public interface ArticleService extends IService<Article> {
     IPage<ArticleVO> getPageWithActiveAndUnGroupByUserId(Pageable pageable, Integer userId);
 
     IPage<Article> getPageWithActiveByTitle(Pageable pageable, String title);
+
+    IPage<Article> getPageWithDraftByUserId(Pageable pageable, Integer userId);
 }
