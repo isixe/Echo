@@ -32,14 +32,6 @@ export function get(params) {
   })
 }
 
-export function getQuestionListByTitle(params) {
-  return request({
-    url: '/question/getList',
-    method: 'get',
-    params
-  })
-}
-
 export function getQuestionDraftList(params) {
   return request({
     url: '/question/getDraftList',
@@ -48,25 +40,17 @@ export function getQuestionDraftList(params) {
   })
 }
 
-export function getActiveQuestionListByKeyword(params) {
-  return request({
-    url: '/question/queryAllActive',
-    method: 'get',
-    params
-  })
-}
-
-export function getHotActiveQuestionListByKeyword(params) {
-  return request({
-    url: '/question/queryAllHotActive',
-    method: 'get',
-    params
-  })
-}
-
 export function getQuestionListByKeyword(params) {
   return request({
     url: '/question/queryAll',
+    method: 'get',
+    params
+  })
+}
+
+export function getQuestionListByTitle(params) {
+  return request({
+    url: '/question/queryAllByTitle',
     method: 'get',
     params
   })
@@ -91,6 +75,22 @@ export function getQuestionListByTagName(params) {
 export function getQuestionListByUserId(params) {
   return request({
     url: '/question/queryAllByUserId',
+    method: 'get',
+    params
+  })
+}
+
+export function getActiveQuestionListByKeyword(params) {
+  return request({
+    url: '/question/queryAllActive',
+    method: 'get',
+    params
+  })
+}
+
+export function getHotActiveQuestionListByKeyword(params) {
+  return request({
+    url: '/question/queryAllHotActive',
     method: 'get',
     params
   })
