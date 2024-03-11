@@ -9,8 +9,8 @@
         :items="items"
       />
       <template v-if="selectedKey == 'article'">
-        <template v-if="articleData && articleData.length > 0">
-          <div class="group-article-list" v-for="item in articleData" :key="item.id">
+        <template v-if="articleFullList && articleFullList.length > 0">
+          <div class="group-article-list" v-for="item in articleFullList" :key="item.id">
             <RouterLink :to="'/article/' + item.id" class="entry-item-box">
               <article-entry-item :item="item"></article-entry-item>
             </RouterLink>
@@ -22,8 +22,8 @@
         <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
       </template>
       <template v-else-if="selectedKey == 'question'">
-        <template v-if="questionData && questionData.length > 0">
-          <div class="group-article-list" v-for="item in questionData" :key="item.id">
+        <template v-if="questionFullList && questionFullList.length > 0">
+          <div class="group-article-list" v-for="item in questionFullList" :key="item.id">
             <RouterLink :to="'/question/' + item.id" class="entry-item-box">
               <question-entry-item :item="item"></question-entry-item>
             </RouterLink>
@@ -55,9 +55,13 @@ import { useUserStore } from '@/stores/user'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const store = useUserStore()
-const articleData = ref()
-const questionData = ref()
+const articleFullList = ref([])
+const questionFullList = ref([])
 const selectedKey = ref(['article'])
+
+const initLoading = ref(true)
+const loading = ref(false)
+const pages = ref(0)
 const params = reactive({
   pageNum: 1,
   pageSize: 15,
@@ -65,19 +69,63 @@ const params = reactive({
 })
 
 onMounted(() => {
-  getArticleDataSource()
-  getQuestionDataSource()
+  window.addEventListener('scroll', scrollBottom, true)
+
+  getDataSource(selectedKey.value)
 })
+
+onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
+
+const scrollBottom = () => {
+  if (initLoading.value || loading.value || params.pageNum >= pages.value) {
+    return
+  }
+
+  const windowHeight = document.body.scrollHeight
+  const scrollHeight = window.innerHeight + window.scrollY
+  if (windowHeight - scrollHeight >= 1) {
+    return
+  }
+
+  onLoadMore()
+}
+
+const onLoadMore = () => {
+  loading.value = true
+  params.pageNum += 1
+  getDataSource(selectedKey.value)
+  nextTick(() => {
+    window.dispatchEvent(new Event('resize'))
+  })
+}
+
+const getDataSource = (tab) => {
+  switch (tab[0]) {
+    case 'article':
+      getArticleDataSource()
+      break
+    case 'question':
+      getQuestionDataSource()
+      break
+  }
+}
 
 const getArticleDataSource = () => {
   getCollectionArticleListByUserId(params).then((res) => {
-    articleData.value = res.data.records
+    articleFullList.value = articleFullList.value.concat(res.data.records)
+    pages.value = res.data.pages
+    initLoading.value = false
+    loading.value = false
   })
 }
 
 const getQuestionDataSource = () => {
   getCollectionQuestionListByUserId(params).then((res) => {
-    questionData.value = res.data.records
+    console.log(res.data.records)
+    questionFullList.value = questionFullList.value.concat(res.data.records)
+    pages.value = res.data.pages
+    initLoading.value = false
+    loading.value = false
   })
 }
 
