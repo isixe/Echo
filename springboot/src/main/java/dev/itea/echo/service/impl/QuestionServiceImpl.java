@@ -132,8 +132,8 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         QueryWrapper<Question> wrapper = new QueryWrapper<Question>()
                 .eq("user_id", userId)
                 .eq("status", 0)
-                .eq("q.is_deleted", 0)
-                .orderByDesc("q.update_time");
+                .eq("is_deleted", 0)
+                .orderByDesc("update_time");
         return questionMapper.selectList(wrapper);
     }
 
