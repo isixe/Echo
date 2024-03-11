@@ -91,9 +91,9 @@ const onPopupScroll = (e) => {
     const data = res.data.records
     pages.value = res.data.pages
     categoryOptions.value.push(
-      ...data.map((group) => ({
-        value: group.id,
-        label: group.categoryName
+      ...data.map((category) => ({
+        value: category.id,
+        label: category.categoryName
       }))
     )
   })
@@ -104,9 +104,9 @@ const onCategoryFocus = () => {
   getCategoryListByName(params).then((res) => {
     const data = res.data.records
     pages.value = res.data.pages
-    categoryOptions.value = data.map((group) => ({
-      value: group.id,
-      label: group.categoryName
+    categoryOptions.value = data.map((category) => ({
+      value: category.id,
+      label: category.categoryName
     }))
 
     categoryId.value = categoryId.value ? parseInt(categoryId.value) : null

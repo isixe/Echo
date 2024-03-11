@@ -46,9 +46,9 @@ const onPopupScroll = (e) => {
     const data = res.data.records
     pages.value = res.data.pages
     userOptions.value.push(
-      ...data.map((group) => ({
-        value: group.id,
-        label: group.name
+      ...data.map((user) => ({
+        value: user.id,
+        label: user.name
       }))
     )
   })
@@ -59,9 +59,9 @@ const onUserFocus = () => {
   getUserListByName(params).then((res) => {
     const data = res.data.records
     pages.value = res.data.pages
-    userOptions.value = data.map((group) => ({
-      value: group.id,
-      label: group.name
+    userOptions.value = data.map((user) => ({
+      value: user.id,
+      label: user.name
     }))
 
     userId.value = userId.value ? parseInt(userId.value) : null
