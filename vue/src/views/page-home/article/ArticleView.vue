@@ -205,8 +205,18 @@
               :comment="comment"
               v-model="data.userId"
               @onCommentUpdate="queryComment()"
-            ></the-article-comment-item>
+            >
+            </the-article-comment-item>
           </template>
+        </div>
+        <div class="pagination">
+          <a-pagination
+            v-model:current="current"
+            :showSizeChanger="false"
+            show-quick-jumper
+            :total="total"
+            @change="onChange"
+          />
         </div>
       </div>
     </div>
@@ -250,7 +260,7 @@ import { createVNode } from 'vue'
 import { get, remove, getArticleListByGroupId } from '@/api/article'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
-import { add, getCommentArticleRootList } from '@/api/article-comment'
+import { add, getCommentArticleRootListArticleId } from '@/api/article-comment'
 import {
   add as setCollect,
   remove as unCollect,
@@ -279,6 +289,13 @@ const thumbCount = ref(0)
 const collectData = ref()
 const thumbData = ref()
 const commentData = ref([])
+
+const current = ref(1)
+const total = ref(0)
+const params = reactive({
+  pageNum: 1,
+  pageSize: 15
+})
 
 tocbot.init({
   tocSelector: '#toc-content',
@@ -344,8 +361,15 @@ const getArticleThumb = () => {
 }
 
 const queryComment = () => {
-  getCommentArticleRootList({ articleId: data.value.id }).then((res) => {
-    commentData.value = res.data
+  const param = {
+    pageNum: params.pageNum,
+    pageSize: params.pageSize,
+    articleId: data.value.id
+  }
+  getCommentArticleRootListArticleId(param).then((res) => {
+    commentData.value = res.data.records
+    current.value = res.data.current
+    total.value = res.data.total
   })
 }
 
@@ -437,6 +461,12 @@ const unThumbArticle = () => {
     getArticleThumbCount()
   })
 }
+
+const onChange = (pageNumber) => {
+  params.pageNum = pageNumber
+  queryComment()
+  document.querySelector('.comment-box').scrollIntoView(true)
+}
 </script>
 
 <style scoped>
@@ -468,7 +498,6 @@ const unThumbArticle = () => {
 
 .contents-card {
   background-color: #ffffff;
-  margin-bottom: 15px;
   border-radius: 4px;
   flex: 1;
 }
@@ -640,7 +669,7 @@ const unThumbArticle = () => {
 }
 
 .comment-box {
-  padding: 30px;
+  padding: 30px 30px 20px 30px;
   background-color: #ffffff;
   border-radius: 4px;
 }
@@ -686,6 +715,12 @@ const unThumbArticle = () => {
 
 #toc-content {
   padding: 0 15px 15px 15px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
 }
 
 @media screen and (max-width: 1200px) {
