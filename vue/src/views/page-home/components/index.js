@@ -1,6 +1,6 @@
-import Header from './Header.vue'
-import Footer from './Footer.vue'
-import Main from './Main.vue'
+import TheHeader from './TheHeader.vue'
+import TheFooter from './TheFooter.vue'
+import TheMain from './TheMain.vue'
 import ArticleEntryItem from './ArticleEntryItem.vue'
 import QuestionEntryItem from './QuestionEntryItem.vue'
 import UserEntryItem from './UserEntryItem.vue'
@@ -8,9 +8,9 @@ import ArticleCommentItem from './ArticleCommentItem.vue'
 import QuestionCommentItem from './QuestionCommentItem.vue'
 
 export {
-  Header,
-  Main,
-  Footer,
+  TheHeader,
+  TheMain,
+  TheFooter,
   ArticleEntryItem,
   QuestionEntryItem,
   UserEntryItem,

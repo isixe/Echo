@@ -1,11 +1,11 @@
 <template>
   <a-layout>
-    <Header></Header>
-    <Main></Main>
-    <Footer></Footer>
+    <the-header></the-header>
+    <the-main></the-main>
+    <the-footer></the-footer>
   </a-layout>
 </template>
 
 <script setup>
-import { Header, Main, Footer } from './components'
+import { TheHeader, TheMain, TheFooter } from './components'
 </script>
