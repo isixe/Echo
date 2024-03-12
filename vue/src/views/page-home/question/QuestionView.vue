@@ -67,13 +67,20 @@
                   <span class="action-hover"
                     ><a @click="shareQuesion()"><ShareAltOutlined /></a
                   ></span>
-                  <span class="action-hover"
-                    ><a v-if="collectData && collectData.id" @click="unCollectQuestion()"
-                      ><StarFilled style="color: #4d45e5"
-                    /></a>
+                  <span class="action-hover">
+                    <a v-if="collectData && collectData.id" @click="unCollectQuestion()">
+                      <StarFilled style="color: #4d45e5" />
+                    </a>
                     <a v-else @click="collectQuestion()"><StarOutlined /></a
                   ></span>
-                  <span class="action-hover"><LikeOutlined /></span>
+                  <span class="action-hover">
+                    <a v-if="thumbData && thumbData.id" @click="unThumbQuestion()">
+                      <LikeFilled style="color: #4d45e5" />
+                    </a>
+                    <a v-else @click="thumbQuestion()">
+                      <LikeOutlined />
+                    </a>
+                  </span>
                   <span class="action-hover"
                     ><a href="#comment"><MessageOutlined /></a
                   ></span>
@@ -149,15 +156,22 @@ import {
   remove as unCollect,
   getCollectByUserAndQuestion
 } from '@/api/collection-question'
+import {
+  add as setThumb,
+  remove as unThumb,
+  getQuestionThumbByArticleIdAndUserId
+} from '@/api/question-thumb'
 
 const router = useRouter()
 const store = useUserStore()
 const userId = store.id
 const route = useRoute()
-const data = ref()
 const postContent = ref('')
-const commentData = ref([])
+
+const data = ref()
 const collectData = ref()
+const thumbData = ref()
+const commentData = ref([])
 
 onMounted(async () => {
   await get({ id: route.params.id }).then((res) => {
@@ -184,12 +198,32 @@ onMounted(async () => {
   document.querySelector('.content-top').innerHTML = doc.body.innerHTML
 
   getCollect()
+  getQuestioinThumb()
   queryComment()
 })
 
 const queryComment = () => {
   getCommentQuestionRootList({ questionId: data.value.id }).then((res) => {
     commentData.value = res.data
+  })
+}
+
+const getQuestioinThumb = () => {
+  const params = {
+    userId: store.id,
+    questionId: data.value.id
+  }
+
+  getQuestionThumbByArticleIdAndUserId(params).then((res) => (thumbData.value = res.data))
+}
+
+const getCollect = () => {
+  const params = {
+    userId: store.id,
+    questionId: data.value.id
+  }
+  getCollectByUserAndQuestion(params).then((res) => {
+    collectData.value = res.data
   })
 }
 
@@ -235,16 +269,6 @@ const shareQuesion = () => {
     })
 }
 
-const getCollect = () => {
-  const params = {
-    userId: store.id,
-    questionId: data.value.id
-  }
-  getCollectByUserAndQuestion(params).then((res) => {
-    collectData.value = res.data
-  })
-}
-
 const collectQuestion = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
@@ -257,6 +281,27 @@ const unCollectQuestion = () => {
   formData.append('id', collectData.value.id)
   unCollect(formData).then(() => {
     collectData.value = null
+  })
+}
+
+const thumbQuestion = () => {
+  if (!userId) {
+    message.warning('请先登录')
+    return router.push('/login')
+  }
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('questionId', data.value.id)
+  setThumb(formData).then(() => {
+    getQuestioinThumb()
+  })
+}
+
+const unThumbQuestion = () => {
+  const formData = new FormData()
+  formData.append('id', thumbData.value.id)
+  unThumb(formData).then(() => {
+    thumbData.value = null
   })
 }
 </script>
@@ -339,8 +384,9 @@ const unCollectQuestion = () => {
 
 .content {
   background-color: #ffffff;
-  padding: 30px 30px 0 30px;
+  padding: 30px 30px 10px 30px;
   border-radius: 4px;
+  margin-bottom: 15px;
 }
 
 .content > :global(.content img) {
