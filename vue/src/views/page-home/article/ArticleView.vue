@@ -151,10 +151,13 @@
           </div>
 
           <div class="article-heart">
-            <div class="praise-box">
-              <LikeOutlined style="font-size: 28px; color: #ccc" />
+            <div class="praise-box" v-if="thumbData && thumbData.id" @click="unThumbArticle()">
+              <LikeFilled style="font-size: 28px; color: #4d45e5" />
             </div>
-            <p class="pv-box">{{ data.likeCount }} 人已点赞</p>
+            <div class="praise-box" v-else>
+              <LikeOutlined @click="thumbArticle()" style="font-size: 28px; color: #ccc" />
+            </div>
+            <p class="pv-box">{{ thumbCount }} 人已点赞</p>
             <div class="posts-affix-box">
               <div class="article-action-box">
                 <div class="action-left">
@@ -164,13 +167,22 @@
                   <span class="action-hover"
                     ><a @click="shareArticle()"><ShareAltOutlined /></a
                   ></span>
-                  <span class="action-hover"
-                    ><a v-if="collectData && collectData.id" @click="unCollectArticle()"
-                      ><StarFilled style="color: #4d45e5"
-                    /></a>
-                    <a v-else @click="collectArticle()"><StarOutlined /></a
-                  ></span>
-                  <span class="action-hover"><LikeOutlined /></span>
+                  <span class="action-hover">
+                    <a v-if="collectData && collectData.id" @click="unCollectArticle()">
+                      <StarFilled style="color: #4d45e5" />
+                    </a>
+                    <a v-else @click="collectArticle()">
+                      <StarOutlined />
+                    </a>
+                  </span>
+                  <span class="action-hover">
+                    <a v-if="thumbData && thumbData.id" @click="unThumbArticle()">
+                      <LikeFilled style="color: #4d45e5" />
+                    </a>
+                    <a v-else @click="thumbArticle()">
+                      <LikeOutlined />
+                    </a>
+                  </span>
                   <span class="action-hover"
                     ><a href="#comment"><MessageOutlined /></a
                   ></span>
@@ -240,23 +252,33 @@ import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { add, getCommentArticleRootList } from '@/api/article-comment'
 import {
-  add as collect,
+  add as setCollect,
   remove as unCollect,
   getCollectByUserAndArticle
 } from '@/api/collection-article'
+import {
+  add as setThumb,
+  remove as unThumb,
+  getTotalArticleThumbByArticleId,
+  getArticleThumbByArticleIdAndUserId
+} from '@/api/article-thumb'
 import { useUserStore } from '@/stores/user'
 import { TheArticleCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
+const route = useRoute()
+
 const store = useUserStore()
 const userId = store.id
-const route = useRoute()
-const data = ref()
 const postContent = ref('')
-const commentData = ref([])
+
+const data = ref()
 const groupArticleList = ref([])
+const thumbCount = ref(0)
 const collectData = ref()
+const thumbData = ref()
+const commentData = ref([])
 
 tocbot.init({
   tocSelector: '#toc-content',
@@ -293,9 +315,33 @@ onMounted(async () => {
     groupArticleList.value = res.data
   })
 
+  getArticleThumbCount()
   getCollect()
+  getArticleThumb()
   queryComment()
 })
+
+const getArticleThumbCount = () => {
+  getTotalArticleThumbByArticleId({ articleId: data.value.id }).then((res) => {
+    thumbCount.value = res.data
+  })
+}
+
+const getCollect = () => {
+  const params = {
+    userId: store.id,
+    articleId: data.value.id
+  }
+  getCollectByUserAndArticle(params).then((res) => (collectData.value = res.data))
+}
+
+const getArticleThumb = () => {
+  const params = {
+    userId: store.id,
+    articleId: data.value.id
+  }
+  getArticleThumbByArticleIdAndUserId(params).then((res) => (thumbData.value = res.data))
+}
 
 const queryComment = () => {
   getCommentArticleRootList({ articleId: data.value.id }).then((res) => {
@@ -350,16 +396,6 @@ const shareArticle = () => {
     })
 }
 
-const getCollect = () => {
-  const params = {
-    userId: store.id,
-    articleId: data.value.id
-  }
-  getCollectByUserAndArticle(params).then((res) => {
-    collectData.value = res.data
-  })
-}
-
 const collectArticle = () => {
   if (!userId) {
     message.warning('请先登录')
@@ -368,7 +404,7 @@ const collectArticle = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
   formData.append('articleId', data.value.id)
-  collect(formData).then(() => getCollect())
+  setCollect(formData).then(() => getCollect())
 }
 
 const unCollectArticle = () => {
@@ -376,6 +412,29 @@ const unCollectArticle = () => {
   formData.append('id', collectData.value.id)
   unCollect(formData).then(() => {
     collectData.value = null
+  })
+}
+
+const thumbArticle = () => {
+  if (!userId) {
+    message.warning('请先登录')
+    return router.push('/login')
+  }
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('articleId', data.value.id)
+  setThumb(formData).then(() => {
+    getArticleThumbCount()
+    getArticleThumb()
+  })
+}
+
+const unThumbArticle = () => {
+  const formData = new FormData()
+  formData.append('id', thumbData.value.id)
+  unThumb(formData).then(() => {
+    thumbData.value = null
+    getArticleThumbCount()
   })
 }
 </script>
