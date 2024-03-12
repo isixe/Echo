@@ -2,20 +2,23 @@
   <div class="category-header">标签 ：{{ tagName }}</div>
   <div class="container">
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
-    <template v-if="selectedKey == 'article'">
+    <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
       <div v-for="item in articleFullList" :key="item.id">
         <RouterLink :to="'/article/' + item.id">
           <article-entry-item :item="item"></article-entry-item
         ></RouterLink>
       </div>
     </template>
-    <template v-else-if="selectedKey == 'question'">
+    <template
+      v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
+    >
       <div v-for="item in questionFullList" :key="item.id">
         <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
           <question-entry-item :item="item"></question-entry-item>
         </RouterLink>
       </div>
     </template>
+    <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
   </div>
 </template>
 
@@ -30,7 +33,7 @@ const router = useRouter()
 const articleFullList = ref([])
 const questionFullList = ref([])
 const tagName = ref(route.query.tagName)
-const selectedKey = ref([''])
+const selectedKey = ref([])
 
 const initLoading = ref(true)
 const loading = ref(false)
@@ -47,11 +50,11 @@ onMounted(() => {
   selectedKey.value = route.query.tab ? [route.query.tab] : ['article']
 })
 
-watch(selectedKey, () => {
+watch(selectedKey, (value) => {
   articleFullList.value = []
   questionFullList.value = []
   params.pageNum = 1
-  getDataSource(selectedKey.value)
+  getDataSource(value[0])
 })
 
 const scrollBottom = () => {
@@ -78,7 +81,7 @@ const onLoadMore = () => {
 }
 
 const getDataSource = (tab) => {
-  switch (tab[0]) {
+  switch (tab) {
     case 'article':
       router.push({ path: '/tag/', query: { tagName: route.query.tagName, tab: 'article' } })
       getArticleDataSource()
@@ -87,6 +90,8 @@ const getDataSource = (tab) => {
       router.push({ path: '/tag/', query: { tagName: route.query.tagName, tab: 'question' } })
       getQuestionDataSource()
       break
+    default:
+      selectedKey.value = ['article']
   }
 }
 

@@ -2,20 +2,23 @@
   <div class="category-header">分类 ：{{ category }}</div>
   <div class="container">
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
-    <template v-if="selectedKey == 'article'">
+    <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
       <div v-for="item in articleFullList" :key="item.id">
         <RouterLink :to="'/article/' + item.id">
           <article-entry-item :item="item"></article-entry-item
         ></RouterLink>
       </div>
     </template>
-    <template v-else-if="selectedKey == 'question'">
+    <template
+      v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
+    >
       <div v-for="item in questionFullList" :key="item.id">
         <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
           <question-entry-item :item="item"></question-entry-item>
         </RouterLink>
       </div>
     </template>
+    <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
   </div>
 </template>
 
@@ -30,7 +33,7 @@ const router = useRouter()
 const articleFullList = ref([])
 const questionFullList = ref([])
 const category = ref()
-const selectedKey = ref(['article'])
+const selectedKey = ref([])
 
 const initLoading = ref(true)
 const loading = ref(false)
@@ -77,25 +80,24 @@ const onLoadMore = () => {
 }
 
 watch(selectedKey, (value) => {
-  switch (value) {
-    case 'article':
-      router.push({ path: '/category/' + route.params.id, query: { tab: 'article' } })
-      break
-    case 'question':
-      router.push({ path: '/category/' + route.params.id, query: { tab: 'question' } })
-      break
-  }
+  articleFullList.value = []
+  questionFullList.value = []
+  params.pageNum = 1
   getDataSource(value[0])
 })
 
 const getDataSource = (tab) => {
   switch (tab) {
     case 'article':
+      router.push({ path: '/category/' + route.params.id, query: { tab: 'article' } })
       getArticleDataSource()
       break
     case 'question':
+      router.push({ path: '/category/' + route.params.id, query: { tab: 'question' } })
       getQuestionDataSource()
       break
+    default:
+      selectedKey.value = ['article']
   }
 }
 

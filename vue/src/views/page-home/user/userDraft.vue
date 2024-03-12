@@ -2,7 +2,7 @@
   <div class="draft-header">我的草稿箱</div>
   <div class="draft-container">
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
-    <template v-if="selectedKey == 'article'">
+    <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
       <div class="article-entry-list">
         <div class="article-entry" v-for="item in articleFullList" :key="item.id">
           <div class="entry-item">
@@ -26,7 +26,7 @@
         </div>
       </div>
     </template>
-    <template v-if="selectedKey == 'question'">
+    <template v-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0">
       <div class="question-entry-list">
         <div class="question-entry" v-for="item in questionFullList" :key="item.id">
           <div class="entry-item">
@@ -40,6 +40,7 @@
         </div>
       </div>
     </template>
+    <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
   </div>
 </template>
 

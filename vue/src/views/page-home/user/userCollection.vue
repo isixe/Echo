@@ -8,32 +8,29 @@
         mode="horizontal"
         :items="items"
       />
-      <template v-if="selectedKey == 'article'">
-        <template v-if="articleFullList && articleFullList.length > 0">
-          <div class="group-article-list" v-for="item in articleFullList" :key="item.id">
-            <RouterLink :to="'/article/' + item.id" class="entry-item-box">
-              <article-entry-item :item="item"></article-entry-item>
-            </RouterLink>
-            <a class="article-remove" @click="removeArticle(item.id)"
-              ><DeleteOutlined />&nbsp;取消收藏</a
-            >
-          </div>
-        </template>
-        <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
+      <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
+        <div class="group-article-list" v-for="item in articleFullList" :key="item.id">
+          <RouterLink :to="'/article/' + item.id" class="entry-item-box">
+            <article-entry-item :item="item"></article-entry-item>
+          </RouterLink>
+          <a class="article-remove" @click="removeArticle(item.id)"
+            ><DeleteOutlined />&nbsp;取消收藏</a
+          >
+        </div>
       </template>
-      <template v-else-if="selectedKey == 'question'">
-        <template v-if="questionFullList && questionFullList.length > 0">
-          <div class="group-article-list" v-for="item in questionFullList" :key="item.id">
-            <RouterLink :to="'/question/' + item.id" class="entry-item-box">
-              <question-entry-item :item="item"></question-entry-item>
-            </RouterLink>
-            <a class="article-remove" @click="removeQuestion(item.id)"
-              ><DeleteOutlined />&nbsp;取消收藏</a
-            >
-          </div>
-        </template>
-        <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
+      <template
+        v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
+      >
+        <div class="group-article-list" v-for="item in questionFullList" :key="item.id">
+          <RouterLink :to="'/question/' + item.id" class="entry-item-box">
+            <question-entry-item :item="item"></question-entry-item>
+          </RouterLink>
+          <a class="article-remove" @click="removeQuestion(item.id)"
+            ><DeleteOutlined />&nbsp;取消收藏</a
+          >
+        </div>
       </template>
+      <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
     </div>
   </div>
 </template>
