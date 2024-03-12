@@ -81,12 +81,12 @@
     </div>
   </div>
   <!-- <div class="chart-card">
-        <ChartLine></ChartLine>
+        <the-chart-line></the-chart-line>
     </div> -->
 </template>
 
 <script setup>
-import ChartLine from './components/ChartLine'
+import TheChartLine from './components/TheChartLine'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faPen, faArrowRightArrowLeft, faGear } from '@fortawesome/free-solid-svg-icons'
 library.add(faUser, faPen, faArrowRightArrowLeft, faGear)

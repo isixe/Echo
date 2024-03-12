@@ -1,20 +1,20 @@
 <template>
   <a-layout>
-    <SideBar v-model="isCollapsed"></SideBar>
+    <the-sidebar v-model="isCollapsed"></the-sidebar>
     <a-layout>
-      <Header
+      <the-header
         v-model:collapsed="isCollapsed"
         v-model:useSearch="isSearch"
         v-model:search="searchText"
       >
-      </Header>
-      <Main v-model:search="searchText" v-model:useSearch="isSearch"></Main>
+      </the-header>
+      <the-main v-model:search="searchText" v-model:useSearch="isSearch"></the-main>
     </a-layout>
   </a-layout>
 </template>
 
 <script setup>
-import { SideBar, Header, Main } from './components'
+import { TheSidebar, TheHeader, TheMain } from './components'
 
 const searchText = ref()
 const isSearch = ref(true)

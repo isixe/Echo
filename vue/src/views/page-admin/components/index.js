@@ -1,5 +1,5 @@
-import SideBar from '../components/Sidebar'
-import Header from '../components/Header'
-import Main from '../components/Main'
+import TheSidebar from '../components/TheSidebar'
+import TheHeader from '../components/TheHeader'
+import TheMain from '../components/TheMain'
 
-export { SideBar, Header, Main }
+export { TheSidebar, TheHeader, TheMain }
