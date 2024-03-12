@@ -55,13 +55,6 @@ public class GroupArticle extends Model<GroupArticle> {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createdTime;
 
-    @Schema(description = "是否删除")
-    @TableField("is_deleted")
-    @TableLogic
-    @JsonIgnore
-    private Byte isDeleted;
-
-
     @Override
     public Serializable pkVal() {
         return this.id;
