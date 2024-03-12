@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ArticleThumbService extends IService<ArticleThumb> {
 
+    ArticleThumb get(Integer id);
+
+    void delete(Integer id);
 }
