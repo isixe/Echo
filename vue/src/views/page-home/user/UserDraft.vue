@@ -26,7 +26,9 @@
         </div>
       </div>
     </template>
-    <template v-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0">
+    <template
+      v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
+    >
       <div class="question-entry-list">
         <div class="question-entry" v-for="item in questionFullList" :key="item.id">
           <div class="entry-item">
@@ -149,6 +151,8 @@ const onArticleDraftDelete = (id) => {
       formData.append('id', id)
       removeArticle(formData).then(() => {
         message.success('删除成功')
+        articleFullList.value = []
+        params.pageNum = 1
         getArticleDataSource()
       })
     }
@@ -168,6 +172,8 @@ const onQuestionDraftDelete = (id) => {
       formData.append('id', id)
       removeQuestion(formData).then(() => {
         message.success('删除成功')
+        questionFullList.value = []
+        params.pageNum = 1
         getQuestionDataSource()
       })
     }
