@@ -45,13 +45,13 @@
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
           <a-form-item name="userId" label="用户">
-            <author-select v-model="newData.userId" />
+            <author-select v-model="newData.userId"></author-select>
           </a-form-item>
           <a-form-item name="content" label="评论内容">
             <a-textarea v-model:value="newData.content" />
           </a-form-item>
           <a-form-item name="questionId" label="关联问答">
-            <question-select v-model="newData.questionId" />
+            <question-select v-model="newData.questionId"></question-select>
           </a-form-item>
         </a-form>
       </div>
@@ -106,7 +106,7 @@ import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
 import { add, update, remove, getCommentQuestionListByKeyword } from '@/api/questionComment'
-import { authorSelect, questionSelect } from './components'
+import { AuthorSelect, QuestionSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const searchText = defineModel('search')

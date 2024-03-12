@@ -4,18 +4,18 @@
     <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
     <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
       <div v-for="item in articleFullList" :key="item.id">
-        <RouterLink :to="'/article/' + item.id">
+        <router-link :to="'/article/' + item.id">
           <article-entry-item :item="item"></article-entry-item
-        ></RouterLink>
+        ></router-link>
       </div>
     </template>
     <template
       v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
     >
       <div v-for="item in questionFullList" :key="item.id">
-        <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+        <router-link :to="'/question/' + item.id" style="display: flex; width: 100%">
           <question-entry-item :item="item"></question-entry-item>
-        </RouterLink>
+        </router-link>
       </div>
     </template>
     <template v-else> <a-empty style="padding-bottom: 30px" /> </template>

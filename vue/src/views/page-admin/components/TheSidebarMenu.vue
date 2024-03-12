@@ -1,10 +1,10 @@
 <template>
   <a-menu v-model:selectedKeys="selectedKeys" :openKeys="parentKey" theme="dark" mode="inline">
     <a-menu-item key="/dashboard">
-      <RouterLink to="/dashboard">
+      <router-link to="/dashboard">
         <DashboardOutlined />
         <span>控制台</span>
-      </RouterLink>
+      </router-link>
     </a-menu-item>
 
     <a-sub-menu key="/system">
@@ -16,28 +16,28 @@
       </template>
 
       <a-menu-item key="/system/userList">
-        <RouterLink to="/system/userList"> 用户管理 </RouterLink>
+        <router-link to="/system/userList"> 用户管理 </router-link>
       </a-menu-item>
       <a-menu-item key="/system/articleList">
-        <RouterLink to="/system/articleList">文章管理</RouterLink>
+        <router-link to="/system/articleList">文章管理</router-link>
       </a-menu-item>
       <a-menu-item key="/system/questionList">
-        <RouterLink to="/system/questionList"> 问答管理 </RouterLink>
+        <router-link to="/system/questionList"> 问答管理 </router-link>
       </a-menu-item>
       <a-menu-item key="/system/categoryList">
-        <RouterLink to="/system/categoryList"> 分类管理 </RouterLink>
+        <router-link to="/system/categoryList"> 分类管理 </router-link>
       </a-menu-item>
       <a-menu-item key="/system/collectionArticleList"
-        ><RouterLink to="/system/collectionArticleList">文章收藏管理</RouterLink></a-menu-item
+        ><router-link to="/system/collectionArticleList">文章收藏管理</router-link></a-menu-item
       >
       <a-menu-item key="/system/collectionQuestionList"
-        ><RouterLink to="/system/collectionQuestionList">问答收藏管理</RouterLink></a-menu-item
+        ><router-link to="/system/collectionQuestionList">问答收藏管理</router-link></a-menu-item
       >
       <a-menu-item key="/system/commentArticleList">
-        <RouterLink to="/system/commentArticleList">文章评论管理</RouterLink>
+        <router-link to="/system/commentArticleList">文章评论管理</router-link>
       </a-menu-item>
       <a-menu-item key="7"
-        ><RouterLink to="/system/commentQuestionList">问答评论管理</RouterLink></a-menu-item
+        ><router-link to="/system/commentQuestionList">问答评论管理</router-link></a-menu-item
       >
     </a-sub-menu>
     <a-sub-menu key="/permission">
@@ -48,7 +48,7 @@
         </span>
       </template>
       <a-menu-item key="/permission/roleList">
-        <RouterLink to="/permission/roleList"> 管理员管理 </RouterLink>
+        <router-link to="/permission/roleList"> 管理员管理 </router-link>
       </a-menu-item>
     </a-sub-menu>
     <a-sub-menu key="sub3">

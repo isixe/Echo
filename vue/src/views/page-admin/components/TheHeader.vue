@@ -20,7 +20,10 @@
       <div class="header-right-search" v-if="useSearch">
         <a-input v-model:value="text" placeholder="请输入关键词" @pressEnter="enterSearch()">
           <template #suffix>
-            <SearchOutlined @click="() => (searchText = text)" style="color: rgba(0, 0, 0, 0.45)" />
+            <SearchOutlined
+              @click="() => (searchText = text)"
+              style="color: rgba(0, 0, 0, 0.45)"
+            ></SearchOutlined>
           </template>
         </a-input>
       </div>
@@ -36,7 +39,8 @@
                                         </template>
                                         <template #avatar>
                                             <a-avatar
-                                                src="https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png" />
+                                                src="https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png" >
+                                            </a-avatar>
                                         </template>
                                     </a-list-item-meta>
                                 </a-list-item>

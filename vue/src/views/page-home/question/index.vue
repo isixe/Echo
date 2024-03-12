@@ -29,9 +29,9 @@
           />
           <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
             <template #renderItem="{ item }">
-              <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+              <router-link :to="'/question/' + item.id" style="display: flex; width: 100%">
                 <question-entry-item :item="item"></question-entry-item>
-              </RouterLink>
+              </router-link>
             </template>
           </a-list>
         </a-layout-content>
@@ -41,10 +41,10 @@
               <span>公告🔉</span>
             </div>
             <div class="notice-content">
-              <RouterLink class="notice-item" to="/question/3246543">
+              <router-link class="notice-item" to="/question/3246543">
                 <span class="article-title"> 功能维护中... </span>
                 <span class="article-time"> 2024-02-01 </span>
-              </RouterLink>
+              </router-link>
             </div>
           </div>
           <div class="sticky-card">
@@ -59,7 +59,7 @@
                 </span>
               </div>
               <div class="rank-content">
-                <RouterLink
+                <router-link
                   class="rank-item"
                   :to="'/user/' + rankItem.id"
                   v-for="rankItem in rankList"
@@ -77,7 +77,7 @@
                     </div>
                   </div>
                   <div class="article-count">{{ rankItem.rankSum }}</div>
-                </RouterLink>
+                </router-link>
               </div>
             </div>
             <div class="recommend-category-card">
@@ -92,11 +92,11 @@
               </div>
               <div class="recommend-content">
                 <template v-for="category in recommendCategory" :key="category.id">
-                  <RouterLink
+                  <router-link
                     :to="{ path: '/category/' + category.id, query: { tab: 'question' } }"
                   >
                     {{ category.categoryName }}
-                  </RouterLink>
+                  </router-link>
                 </template>
               </div>
             </div>

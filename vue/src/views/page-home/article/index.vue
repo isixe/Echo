@@ -30,9 +30,9 @@
 
           <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
             <template #renderItem="{ item }">
-              <RouterLink :to="'/article/' + item.id">
+              <router-link :to="'/article/' + item.id">
                 <article-entry-item :item="item"></article-entry-item>
-              </RouterLink>
+              </router-link>
             </template>
           </a-list>
         </a-layout-content>
@@ -43,10 +43,10 @@
               <span>公告🔉</span>
             </div>
             <div class="notice-content">
-              <RouterLink class="notice-item" to="/article/3246543">
+              <router-link class="notice-item" to="/article/3246543">
                 <span class="article-title"> 功能维护中... </span>
                 <span class="article-time"> 2024-02-01 </span>
-              </RouterLink>
+              </router-link>
             </div>
           </div>
           <div class="sticky-card">
@@ -61,7 +61,7 @@
                 </span>
               </div>
               <div class="rank-content">
-                <RouterLink
+                <router-link
                   class="rank-item"
                   :to="'/user/' + rankItem.id"
                   v-for="rankItem in rankList"
@@ -79,7 +79,7 @@
                     </div>
                   </div>
                   <div class="counter-count">{{ rankItem.rankSum }}</div>
-                </RouterLink>
+                </router-link>
               </div>
             </div>
             <div class="recommend-category-card">
@@ -94,11 +94,11 @@
               </div>
               <div class="recommend-content">
                 <template v-for="category in recommendCategory" :key="category.id">
-                  <RouterLink
+                  <router-link
                     :to="{ path: '/category/' + category.id, query: { type: 'article' } }"
                   >
                     {{ category.categoryName }}
-                  </RouterLink>
+                  </router-link>
                 </template>
               </div>
             </div>

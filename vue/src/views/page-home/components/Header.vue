@@ -6,9 +6,9 @@
           <img src="../../../assets/svg/logo.svg" width="40" height="40" />
         </div>
         <div class="header-route">
-          <RouterLink to="/"> Echo </RouterLink>
-          <RouterLink to="/article"> 文章 </RouterLink>
-          <RouterLink to="/question"> 问答 </RouterLink>
+          <router-link to="/"> Echo </router-link>
+          <router-link to="/article"> 文章 </router-link>
+          <router-link to="/question"> 问答 </router-link>
         </div>
       </div>
       <div class="header-right">
@@ -27,31 +27,31 @@
           <template #overlay>
             <a-menu>
               <a-menu-item key="1" style="display: grid">
-                <RouterLink to="/article/edit">
+                <router-link to="/article/edit">
                   <font-awesome-icon
                     :icon="['fas', 'pen-to-square']"
                     style="width: 20px; margin-left: -5px"
                   />
                   写文章
-                </RouterLink>
+                </router-link>
               </a-menu-item>
               <a-menu-item key="2" style="display: grid">
-                <RouterLink to="/question/edit">
+                <router-link to="/question/edit">
                   <font-awesome-icon
                     :icon="['fas', 'question']"
                     style="width: 20px; margin-left: -5px"
                   />
                   提问题
-                </RouterLink>
+                </router-link>
               </a-menu-item>
               <a-menu-item key="2" style="display: grid">
-                <RouterLink to="/draft">
+                <router-link to="/draft">
                   <font-awesome-icon
                     :icon="['fas', 'box-archive']"
                     style="width: 20px; margin-left: -5px"
                   />
                   草稿箱
-                </RouterLink>
+                </router-link>
               </a-menu-item>
             </a-menu>
           </template>
@@ -72,12 +72,12 @@
             </div>
             <template #overlay>
               <a-menu>
-                <RouterLink :to="'/user/' + user.id">
+                <router-link :to="'/user/' + user.id">
                   <a-menu-item> <UserOutlined />&nbsp; 我的主页 </a-menu-item>
-                </RouterLink>
+                </router-link>
                 <!-- <a-menu-item> <ClockCircleOutlined />&nbsp; 浏览历史 </a-menu-item> -->
-                <RouterLink to="/collection">
-                  <a-menu-item> <HeartOutlined />&nbsp; 我的收藏 </a-menu-item></RouterLink
+                <router-link to="/collection">
+                  <a-menu-item> <HeartOutlined />&nbsp; 我的收藏 </a-menu-item></router-link
                 >
                 <a-menu-item @click="handleToUserCenter">
                   <SettingOutlined />&nbsp; 个人中心

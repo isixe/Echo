@@ -71,16 +71,16 @@
             />
           </a-form-item>
           <a-form-item name="content" label="正文">
-            <article-editor v-model="newData.content" />
+            <article-editor v-model="newData.content"></article-editor>
           </a-form-item>
           <a-form-item name="userId" label="作者">
-            <author-select v-model="newData.userId" />
+            <author-select v-model="newData.userId"></author-select>
           </a-form-item>
           <a-form-item name="categoryId" label="类别">
-            <category-select v-model:categoryId="newData.categoryId" />
+            <category-select v-model:categoryId="newData.categoryId"></category-select>
           </a-form-item>
           <a-form-item name="tag" label="标签">
-            <tag-input v-model="newData.tag" />
+            <tag-input v-model="newData.tag"></tag-input>
           </a-form-item>
           <a-form-item name="publishTime" label="发布时间">
             <a-date-picker v-model:value="newData.publishTime" />
@@ -112,7 +112,7 @@
             />
           </a-form-item>
           <a-form-item name="content" label="正文">
-            <article-editor v-model="editData.content" />
+            <article-editor v-model="editData.content"></article-editor>
           </a-form-item>
 
           <a-form-item name="userId" label="作者">
@@ -127,10 +127,10 @@
             <category-select
               v-model:categoryId="editData.categoryId"
               v-model:categoryName="editData.category"
-            />
+            ></category-select>
           </a-form-item>
           <a-form-item name="tag" label="标签">
-            <tag-input v-model="editData.tag" />
+            <tag-input v-model="editData.tag"></tag-input>
           </a-form-item>
           <a-form-item name="publishTime" label="发布时间">
             <template v-if="editData.status === 1">
@@ -180,7 +180,7 @@ import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
 import { add, update, remove, getQuestionListByKeyword } from '@/api/question'
 import { TagInput, ArticleEditor, CategorySelect } from '@/components/'
-import { authorSelect } from './components'
+import { AuthorSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const searchText = defineModel('search')

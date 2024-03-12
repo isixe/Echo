@@ -2,7 +2,7 @@
   <div class="entry-item">
     <div class="item-message">
       <div class="item-message-left">
-        <RouterLink :to="'/user/' + item.userId" class="user-info">
+        <router-link :to="'/user/' + item.userId" class="user-info">
           <a-avatar
             class="user-avatar"
             :src="item.avatar"
@@ -14,16 +14,16 @@
             </template>
           </a-avatar>
           <span class="user-name">{{ item.author }}</span>
-        </RouterLink>
+        </router-link>
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
         <span>{{ updateTime }}</span>
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-        <RouterLink
+        <router-link
           :to="{ path: '/category/' + item.categoryId, query: { type: 'article' } }"
           class="category-container"
         >
           {{ item.category }}
-        </RouterLink>
+        </router-link>
       </div>
       <div class="item-message-right">
         <span> <EyeOutlined /> {{ item.pvCount }} </span>

@@ -15,9 +15,9 @@
     </div>
     <template v-if="groupArticleData && groupArticleData.length > 0">
       <div class="group-article-list" v-for="item in groupArticleData" :key="item.id">
-        <RouterLink :to="'/article/' + item.id" class="entry-item-box">
+        <router-link :to="'/article/' + item.id" class="entry-item-box">
           <article-entry-item :item="item"></article-entry-item>
-        </RouterLink>
+        </router-link>
         <a
           class="article-remove"
           v-if="store.id && store.id == data.userId"

@@ -66,10 +66,10 @@
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
           <a-form-item name="userId" label="用户名">
-            <author-select v-model="newData.userId" />
+            <author-select v-model="newData.userId"></author-select>
           </a-form-item>
           <a-form-item name="articleId" label="文章标题">
-            <article-select v-model="newData.articleId" />
+            <article-select v-model="newData.articleId"></article-select>
           </a-form-item>
         </a-form>
       </div>
@@ -88,7 +88,7 @@ import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
 import { add, remove, getCollectionArticleListByKeyword } from '@/api/collectionArticle'
-import { authorSelect, articleSelect } from './components'
+import { AuthorSelect, ArticleSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const searchText = defineModel('search')

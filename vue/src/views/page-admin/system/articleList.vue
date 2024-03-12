@@ -86,7 +86,7 @@
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="newData" :rules="rules">
           <a-form-item name="featuredPic" label="头图">
-            <pic-upload v-model="newData.featuredPic" />
+            <pic-upload v-model="newData.featuredPic"></pic-upload>
           </a-form-item>
           <a-form-item name="title" label="标题">
             <a-input
@@ -94,25 +94,25 @@
               placeholder="文章标题"
               show-count
               :maxlength="42"
-            />
+            ></a-input>
           </a-form-item>
           <a-form-item name="content" label="正文">
-            <article-editor v-model="newData.content" />
+            <article-editor v-model="newData.content"></article-editor>
           </a-form-item>
           <a-form-item name="userId" label="作者">
-            <author-select v-model="newData.userId" />
+            <author-select v-model="newData.userId"></author-select>
           </a-form-item>
           <a-form-item name="categoryId" label="类别">
-            <category-select v-model:categoryId="newData.categoryId" />
+            <category-select v-model:categoryId="newData.categoryId"></category-select>
           </a-form-item>
           <a-form-item name="tag" label="标签">
-            <tag-input v-model="newData.tag" />
+            <tag-input v-model="newData.tag"></tag-input>
           </a-form-item>
           <a-form-item name="articleGroupId" label="分组">
             <article-group-select
               v-model:userId="newData.userId"
               v-model:articleGroupId="newData.articleGroupId"
-            />
+            ></article-group-select>
           </a-form-item>
           <a-form-item name="publishTime" label="发布时间">
             <a-date-picker v-model:value="newData.publishTime" />
@@ -136,7 +136,7 @@
       <div class="form-container">
         <a-form ref="form" v-bind="formItemLayout" :model="editData" :rules="rules">
           <a-form-item name="featuredPic" label="头图">
-            <pic-upload v-model="editData.featuredPic" />
+            <pic-upload v-model="editData.featuredPic"></pic-upload>
           </a-form-item>
           <a-form-item name="title" label="标题">
             <a-input
@@ -147,7 +147,7 @@
             />
           </a-form-item>
           <a-form-item name="content" label="正文">
-            <article-editor v-model="editData.content" />
+            <article-editor v-model="editData.content"></article-editor>
           </a-form-item>
 
           <a-form-item name="userId" label="作者">
@@ -162,7 +162,7 @@
             <category-select
               v-model:categoryId="editData.categoryId"
               v-model:categoryName="editData.category"
-            />
+            ></category-select>
           </a-form-item>
           <a-form-item name="tag" label="标签">
             <tag-input v-model="editData.tag" />
@@ -172,7 +172,7 @@
               v-model:userId="editData.userId"
               v-model:articleGroupId="editData.articleGroupId"
               v-model:articleGroupName="editData.articleGroupName"
-            />
+            ></article-group-select>
           </a-form-item>
           <a-form-item name="publishTime" label="发布时间">
             <template v-if="editData.status === 1">
@@ -223,7 +223,7 @@ import { message } from 'ant-design-vue'
 import { PicUpload } from '@/components'
 import { add, update, remove, getArticleListByKeyword } from '@/api/article'
 import { TagInput, ArticleEditor, CategorySelect, ArticleGroupSelect } from '@/components/'
-import { authorSelect } from './components'
+import { AuthorSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const searchText = defineModel('search')

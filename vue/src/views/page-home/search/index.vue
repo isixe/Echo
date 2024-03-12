@@ -19,23 +19,23 @@
   </div>
   <div class="nav-bar" v-show="showFilter">
     <div class="filter-option">
-      <RouterLink
+      <router-link
         :to="{ path: 'search', query: { type: search.type, q: search.q } }"
         :class="!search.sort ? 'active' : ''"
       >
         综合排序
-      </RouterLink>
-      <RouterLink
+      </router-link>
+      <router-link
         :to="{ path: 'search', query: { type: search.type, sort: 'likeCount', q: search.q } }"
         :class="search.sort == 'likeCount' ? 'active' : ''"
-        >最多点赞</RouterLink
+        >最多点赞</router-link
       >
-      <RouterLink
+      <router-link
         :to="{ path: 'search', query: { type: search.type, sort: 'updateTime', q: search.q } }"
         :class="search.sort == 'updateTime' ? 'active' : ''"
       >
         最新发布
-      </RouterLink>
+      </router-link>
     </div>
   </div>
 
@@ -44,9 +44,9 @@
       <template v-if="selectedKey == 'article'">
         <template v-if="articleData">
           <div v-for="item in articleData" :key="item.id">
-            <RouterLink :to="'/article/' + item.id">
+            <router-link :to="'/article/' + item.id">
               <article-entry-item :item="item"></article-entry-item
-            ></RouterLink>
+            ></router-link>
           </div>
         </template>
         <template v-else> <a-empty style="padding-bottom: 30px" /></template>
@@ -54,9 +54,9 @@
       <template v-else-if="selectedKey == 'question'">
         <template v-if="questionData">
           <div v-for="item in questionData" :key="item.id">
-            <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+            <router-link :to="'/question/' + item.id" style="display: flex; width: 100%">
               <question-entry-item :item="item"></question-entry-item>
-            </RouterLink>
+            </router-link>
           </div>
         </template>
         <template v-else> <a-empty style="padding-bottom: 30px" /></template>
@@ -64,9 +64,9 @@
       <template v-else-if="selectedKey == 'user'">
         <template v-if="userData">
           <div v-for="item in userData" :key="item.id">
-            <RouterLink :to="'/user/' + item.id" style="display: flex; width: 100%">
+            <router-link :to="'/user/' + item.id" style="display: flex; width: 100%">
               <user-entry-item :item="item"></user-entry-item>
-            </RouterLink>
+            </router-link>
           </div>
         </template>
         <template v-else> <a-empty style="padding-bottom: 30px" /></template>

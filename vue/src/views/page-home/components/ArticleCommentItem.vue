@@ -1,7 +1,7 @@
 <template v-if="comment">
   <div class="comment-main-container root-info group-main">
     <div class="comment-message">
-      <RouterLink :to="'/user/' + comment.userId">
+      <router-link :to="'/user/' + comment.userId">
         <a-avatar
           class="user-avatar"
           :src="comment.avatar"
@@ -12,16 +12,16 @@
             <UserOutlined />
           </template>
         </a-avatar>
-      </RouterLink>
+      </router-link>
     </div>
     <div class="comment-user-info">
       <div class="base-info">
-        <RouterLink :to="'/user/' + comment.userId">
+        <router-link :to="'/user/' + comment.userId">
           <span class="user-name g-hover"
             >{{ comment.userName }}
             <span v-show="comment.userId == authorId" style="color: #ccc">[作者]</span>
           </span>
-        </RouterLink>
+        </router-link>
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
         <span class="comment-time">{{ comment.createdTime }}</span>
         <template v-if="store.id == comment.userId">
@@ -55,7 +55,7 @@
       <template v-for="child in childComments" :key="child.id">
         <div class="child-info">
           <div class="comment-message">
-            <RouterLink :to="'/user/' + child.userId">
+            <router-link :to="'/user/' + child.userId">
               <a-avatar
                 class="user-avatar"
                 :src="child.avatar"
@@ -66,21 +66,21 @@
                   <UserOutlined />
                 </template>
               </a-avatar>
-            </RouterLink>
+            </router-link>
           </div>
           <div class="comment-user-info">
             <div class="base-info">
               <span class="user-name g-hover">
-                <RouterLink :to="'/user/' + child.userId">
+                <router-link :to="'/user/' + child.userId">
                   {{ child.userName }}
                   <span v-show="child.userId == authorId" style="color: #ccc">[作者]</span>
-                </RouterLink>
+                </router-link>
                 <template v-if="child.parentCommentId && child.userId !== child.parentUserId">
                   <CaretRightOutlined style="color: #ccc" />
-                  <RouterLink :to="'/user/' + child.parentUserId">
+                  <router-link :to="'/user/' + child.parentUserId">
                     @{{ child.parentUserName }}
                     <span v-show="child.parentUserId == authorId" style="color: #ccc">[作者]</span>
-                  </RouterLink>
+                  </router-link>
                 </template>
               </span>
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />

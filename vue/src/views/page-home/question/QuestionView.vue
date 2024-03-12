@@ -5,7 +5,7 @@
         <div class="title">
           <h1>{{ data.title }}</h1>
           <div class="item-message">
-            <RouterLink :to="'/user/' + data.userId" class="user-info">
+            <router-link :to="'/user/' + data.userId" class="user-info">
               <a-avatar
                 class="user-avatar"
                 :src="data.avatar"
@@ -17,20 +17,20 @@
                 </template>
               </a-avatar>
               <span class="user-name">{{ data.author }}</span>
-            </RouterLink>
+            </router-link>
             <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
             <span> <EyeOutlined /> {{ data.pvCount }} </span>
             <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
             <span>{{ data.updateTime }}</span>
             <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-            <RouterLink :to="'/category/' + data.categoryId" class="category-container">
+            <router-link :to="'/category/' + data.categoryId" class="category-container">
               <FolderOutlined /> {{ data.category }}
-            </RouterLink>
+            </router-link>
             <template v-if="data.userId == userId">
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-              <RouterLink :to="{ path: '/question/edit', query: { id: data.id } }">
+              <router-link :to="{ path: '/question/edit', query: { id: data.id } }">
                 <EditOutlined /> 编辑
-              </RouterLink>
+              </router-link>
               <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
               <a @click="deleteQuestion()"><DeleteOutlined /> 删除 </a>
             </template>
@@ -47,10 +47,10 @@
                 :key="tag"
                 :color="tag.length < 3 ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
               >
-                <RouterLink
+                <router-link
                   :to="{ path: '/tag', query: { tagName: tag, tab: 'question' } }"
                   target="_blank"
-                  >{{ tag }}</RouterLink
+                  >{{ tag }}</router-link
                 >
               </a-tag>
             </template>
@@ -108,7 +108,7 @@
           <div class="user-title">关于作者</div>
           <div class="user-content">
             <div class="user-box">
-              <RouterLink :to="'/user/' + data.userId" class="user-info">
+              <router-link :to="'/user/' + data.userId" class="user-info">
                 <a-avatar
                   class="user-avatar"
                   :src="data.avatar"
@@ -120,7 +120,7 @@
                   </template>
                 </a-avatar>
                 <span class="user-name">{{ data.author }}</span>
-              </RouterLink>
+              </router-link>
               <a-button
                 class="user-subscribe-btn"
                 type="primary"

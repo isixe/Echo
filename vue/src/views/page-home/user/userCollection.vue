@@ -10,9 +10,9 @@
       />
       <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
         <div class="group-article-list" v-for="item in articleFullList" :key="item.id">
-          <RouterLink :to="'/article/' + item.id" class="entry-item-box">
+          <router-link :to="'/article/' + item.id" class="entry-item-box">
             <article-entry-item :item="item"></article-entry-item>
-          </RouterLink>
+          </router-link>
           <a class="article-remove" @click="removeArticle(item.id)"
             ><DeleteOutlined />&nbsp;取消收藏</a
           >
@@ -22,9 +22,9 @@
         v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
       >
         <div class="group-article-list" v-for="item in questionFullList" :key="item.id">
-          <RouterLink :to="'/question/' + item.id" class="entry-item-box">
+          <router-link :to="'/question/' + item.id" class="entry-item-box">
             <question-entry-item :item="item"></question-entry-item>
-          </RouterLink>
+          </router-link>
           <a class="article-remove" @click="removeQuestion(item.id)"
             ><DeleteOutlined />&nbsp;取消收藏</a
           >

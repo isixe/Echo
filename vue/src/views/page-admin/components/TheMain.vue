@@ -1,7 +1,7 @@
 <template>
-	<a-layout-content class="main">
-		<RouterView v-model:search="searchText" v-model:useSearch="isSearch"></RouterView>
-	</a-layout-content>
+  <a-layout-content class="main">
+    <router-view v-model:search="searchText" v-model:useSearch="isSearch"></router-view>
+  </a-layout-content>
 </template>
 
 <script setup>
@@ -11,7 +11,7 @@ const isSearch = defineModel('useSearch')
 
 <style scoped>
 .main {
-	margin: 15px;
-	box-sizing: border-box;
+  margin: 15px;
+  box-sizing: border-box;
 }
 </style>

@@ -30,9 +30,9 @@
           <a-tab-pane key="article" :tab="'文章 ' + data.articleTotal">
             <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
               <template #renderItem="{ item }">
-                <RouterLink :to="'/article/' + item.id">
+                <router-link :to="'/article/' + item.id">
                   <article-entry-item :item="item"></article-entry-item>
-                </RouterLink>
+                </router-link>
               </template>
             </a-list>
           </a-tab-pane>
@@ -47,23 +47,23 @@
 
             <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
               <template #renderItem="{ item }">
-                <RouterLink :to="'/article/group/' + item.id"
+                <router-link :to="'/article/group/' + item.id"
                   ><a-card class="group-box" :title="item.name">
                     <template #extra v-if="store.id == user.id">
                       <a @click.prevent="deleteGroup(item.id)"><DeleteOutlined /> 删除</a>
                     </template>
                     <p class="item-summary">{{ item.description }}</p>
                   </a-card>
-                </RouterLink>
+                </router-link>
               </template>
             </a-list>
           </a-tab-pane>
           <a-tab-pane key="question" :tab="'问答 ' + data.questionTotal">
             <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
               <template #renderItem="{ item }">
-                <RouterLink :to="'/question/' + item.id" style="display: flex; width: 100%">
+                <router-link :to="'/question/' + item.id" style="display: flex; width: 100%">
                   <question-entry-item :item="item"></question-entry-item>
-                </RouterLink>
+                </router-link>
               </template>
             </a-list>
           </a-tab-pane>

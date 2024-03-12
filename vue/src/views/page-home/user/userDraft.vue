@@ -6,7 +6,7 @@
       <div class="article-entry-list">
         <div class="article-entry" v-for="item in articleFullList" :key="item.id">
           <div class="entry-item">
-            <RouterLink :to="{ path: 'article/edit', query: { id: item.id } }">
+            <router-link :to="{ path: 'article/edit', query: { id: item.id } }">
               <div>
                 <p class="item-title">{{ item.title }}</p>
               </div>
@@ -20,7 +20,7 @@
                   <img class="entry-item-picture" v-if="item.featuredPic" :src="item.featuredPic" />
                 </div>
               </div>
-            </RouterLink>
+            </router-link>
           </div>
           <div class="entry-option" @click="onArticleDraftDelete(item.id)"><a>删除</a></div>
         </div>
@@ -30,11 +30,11 @@
       <div class="question-entry-list">
         <div class="question-entry" v-for="item in questionFullList" :key="item.id">
           <div class="entry-item">
-            <RouterLink :to="{ path: 'question/edit', query: { id: item.id } }">
+            <router-link :to="{ path: 'question/edit', query: { id: item.id } }">
               <div>
                 <p class="item-title">{{ item.title }}</p>
               </div>
-            </RouterLink>
+            </router-link>
           </div>
           <div class="entry-option" @click="onQuestionDraftDelete(item.id)"><a>删除</a></div>
         </div>

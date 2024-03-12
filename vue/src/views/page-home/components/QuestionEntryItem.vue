@@ -16,15 +16,15 @@
       </div>
       <div class="item-message">
         <div class="item-message-left">
-          <RouterLink
+          <router-link
             :to="{ path: '/category/' + item.categoryId, query: { tab: 'question' } }"
             class="category-container"
           >
             {{ item.category }}
-          </RouterLink>
+          </router-link>
         </div>
         <div class="item-message-right">
-          <RouterLink :to="'/user/' + item.userId" class="user-info">
+          <router-link :to="'/user/' + item.userId" class="user-info">
             <a-avatar
               class="user-avatar"
               :src="item.avatar"
@@ -36,7 +36,7 @@
               </template>
             </a-avatar>
             <span class="user-name">{{ item.author }}</span>
-          </RouterLink>
+          </router-link>
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
           <span>{{ updateTime }}提问</span>
         </div>

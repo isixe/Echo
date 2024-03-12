@@ -1,5 +1,5 @@
-import authorSelect from '../components/authorSelect'
-import articleSelect from '../components/articleSelect'
-import questionSelect from '../components/questionSelect'
+import AuthorSelect from '../components/AuthorSelect'
+import ArticleSelect from '../components/ArticleSelect'
+import QuestionSelect from '../components/QuestionSelect'
 
-export { authorSelect, articleSelect, questionSelect }
+export { AuthorSelect, ArticleSelect, QuestionSelect }
