@@ -1,5 +1,5 @@
 <template>
-  <div class="user-container">
+  <div class="user-profile-container">
     <div class="user-info-box" v-if="user">
       <div class="avatar-content">
         <img class="user-avatar" v-if="user.avatar" :src="user.avatar" alt="avatar" />
@@ -14,7 +14,7 @@
         <div class="user-desc" v-if="user.description">{{ user.description }}</div>
         <div class="user-desc" v-else>这个人很懒，什么都没有写...</div>
       </div>
-      <div class="footer-content">
+      <div class="footer-content" v-if="user">
         <a-button
           v-if="!store.id == user.id"
           class="user-subscribe-btn"
@@ -358,7 +358,7 @@ const rules = {
 </script>
 
 <style scoped>
-.user-container {
+.user-profile-container {
   max-width: 1200px;
   margin: auto;
   min-height: 100%;

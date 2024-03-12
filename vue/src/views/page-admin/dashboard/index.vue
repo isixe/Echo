@@ -5,16 +5,29 @@
       <div class="top-card-left-subtitle">当前暂无任务</div>
       <div class="top-card-left-content">
         <div>
-          <font-awesome-icon :icon="['fas', 'arrow-right-arrow-left']" style="color: #74c0fc" />
-          今日浏览（{{ 100 }}）
+          <p class="mesage-title">
+            <font-awesome-icon :icon="['fas', 'arrow-right-arrow-left']" style="color: #74c0fc" />
+            今日浏览
+          </p>
+          <p>（{{ 100 }}）</p>
         </div>
         <div>
-          <font-awesome-icon :icon="['fas', 'user']" style="color: #74c0fc" />
-          总用户数（{{ 100 }}）
+          <p class="mesage-title">
+            <font-awesome-icon :icon="['fas', 'user']" style="color: #74c0fc" /> 总用户数
+          </p>
+          <p>（{{ userCount }}）</p>
         </div>
         <div>
-          <font-awesome-icon :icon="['fas', 'pen']" style="color: #74c0fc" />
-          总发文数（{{ 100 }}）
+          <p class="mesage-title">
+            <font-awesome-icon :icon="['fas', 'pen']" style="color: #74c0fc" /> 总发文数
+          </p>
+          <p>（{{ articleCount }}）</p>
+        </div>
+        <div>
+          <p class="mesage-title">
+            <font-awesome-icon :icon="['fas', 'comment']" style="color: #74c0fc" /> 总问答数
+          </p>
+          <p>（{{ questionCount }}）</p>
         </div>
       </div>
     </div>
@@ -80,20 +93,38 @@
       </div>
     </div>
   </div>
-  <!-- <div class="chart-card">
-        <the-chart-line></the-chart-line>
-    </div> -->
+  <div class="chart-card">
+    <the-chart-line></the-chart-line>
+  </div>
 </template>
 
 <script setup>
 import TheChartLine from './components/TheChartLine'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faPen, faArrowRightArrowLeft, faGear } from '@fortawesome/free-solid-svg-icons'
-library.add(faUser, faPen, faArrowRightArrowLeft, faGear)
+import {
+  faUser,
+  faPen,
+  faComment,
+  faArrowRightArrowLeft,
+  faGear
+} from '@fortawesome/free-solid-svg-icons'
+import { getUserTotal } from '@/api/user'
+import { getArticleTotal } from '@/api/article'
+import { getQuestionTotal } from '@/api/question'
+library.add(faUser, faPen, faComment, faArrowRightArrowLeft, faGear)
 
 defineModel('search')
 const useSearch = defineModel('useSearch')
 useSearch.value = false
+
+const userCount = ref(0)
+const articleCount = ref(0)
+const questionCount = ref(0)
+onMounted(() => {
+  getUserTotal().then((res) => (userCount.value = res.data))
+  getArticleTotal().then((res) => (articleCount.value = res.data))
+  getQuestionTotal().then((res) => (questionCount.value = res.data))
+})
 </script>
 
 <style scoped>
@@ -118,7 +149,17 @@ useSearch.value = false
 .top-card-left-content {
   margin: 20px 0;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.top-card-left-content div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mesage-title {
+  margin-left: -15px;
 }
 
 .top-card-right {
