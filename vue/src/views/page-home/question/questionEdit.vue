@@ -6,11 +6,11 @@
         <category-select
           v-model:categoryId="data.categoryId"
           v-model:categoryName="data.category"
-        />
+        ></category-select>
       </div>
       <div class="left-item">
         <label>标签：</label>
-        <tag-input v-model="data.tag" />
+        <tag-input v-model="data.tag"></tag-input>
       </div>
       <div class="question-header-left">
         <template v-if="data.status">

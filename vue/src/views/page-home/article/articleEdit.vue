@@ -3,18 +3,18 @@
     <div class="left">
       <div class="left-item">
         <label>头图：</label>
-        <pic-upload v-model="data.featuredPic" />
+        <pic-upload v-model="data.featuredPic"></pic-upload>
       </div>
       <div class="left-item">
         <label>标签：</label>
-        <tag-input v-model="data.tag" />
+        <tag-input v-model="data.tag"></tag-input>
       </div>
       <div class="left-item">
         <label>类别：</label>
         <category-select
           v-model:categoryId="data.categoryId"
           v-model:categoryName="data.category"
-        />
+        ></category-select>
       </div>
       <div class="left-item">
         <label>分组：</label>
@@ -22,7 +22,7 @@
           v-model:userId="data.userId"
           v-model:articleGroupId="data.articleGroupId"
           v-model:articleGroupName="data.articleGroupName"
-        />
+        ></article-group-select>
       </div>
     </div>
     <div class="right">

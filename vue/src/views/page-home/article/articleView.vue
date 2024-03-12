@@ -193,7 +193,7 @@
               :comment="comment"
               v-model="data.userId"
               @onCommentUpdate="queryComment()"
-            />
+            ></article-comment-item>
           </template>
         </div>
       </div>

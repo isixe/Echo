@@ -96,7 +96,7 @@
               :comment="comment"
               v-model="data.userId"
               @onCommentUpdate="queryComment()"
-            />
+            ></question-comment-item>
           </template>
         </div>
       </div>

@@ -15,7 +15,7 @@
     </div>
     <template v-if="groupArticleData && groupArticleData.length > 0">
       <div class="group-article-list" v-for="item in groupArticleData" :key="item.id">
-        <router-link :to="'/article/' + item.id" class="entry-item-box">
+        <router-link class="entry-item-box" :to="'/article/' + item.id">
           <article-entry-item :item="item"></article-entry-item>
         </router-link>
         <a

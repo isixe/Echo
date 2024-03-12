@@ -41,15 +41,12 @@
 
   <div class="search-result">
     <div class="search-content">
-      <template v-if="selectedKey == 'article'">
-        <template v-if="articleData">
-          <div v-for="item in articleData" :key="item.id">
-            <router-link :to="'/article/' + item.id">
-              <article-entry-item :item="item"></article-entry-item
-            ></router-link>
-          </div>
-        </template>
-        <template v-else> <a-empty style="padding-bottom: 30px" /></template>
+      <template v-if="selectedKey == 'article' && articleData && articleData.length > 0">
+        <div v-for="item in articleData" :key="item.id">
+          <router-link :to="'/article/' + item.id">
+            <article-entry-item :item="item"></article-entry-item
+          ></router-link>
+        </div>
       </template>
       <template v-else-if="selectedKey == 'question'">
         <template v-if="questionData">
@@ -61,15 +58,12 @@
         </template>
         <template v-else> <a-empty style="padding-bottom: 30px" /></template>
       </template>
-      <template v-else-if="selectedKey == 'user'">
-        <template v-if="userData">
-          <div v-for="item in userData" :key="item.id">
-            <router-link :to="'/user/' + item.id" style="display: flex; width: 100%">
-              <user-entry-item :item="item"></user-entry-item>
-            </router-link>
-          </div>
-        </template>
-        <template v-else> <a-empty style="padding-bottom: 30px" /></template>
+      <template v-else-if="selectedKey == 'user' && userData && userData.length > 0">
+        <div v-for="item in userData" :key="item.id">
+          <router-link :to="'/user/' + item.id" style="display: flex; width: 100%">
+            <user-entry-item :item="item"></user-entry-item>
+          </router-link>
+        </div>
       </template>
       <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
     </div>
