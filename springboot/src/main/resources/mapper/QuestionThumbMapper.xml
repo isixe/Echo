@@ -7,7 +7,7 @@
         <id column="id" property="id" />
         <result column="userId" property="userId" />
         <result column="questionId" property="questionId" />
-        <result column="created_time" property="createdTime" />
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
 </mapper>

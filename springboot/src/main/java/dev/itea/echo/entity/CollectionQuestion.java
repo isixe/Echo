@@ -38,6 +38,12 @@ public class CollectionQuestion extends Model<CollectionQuestion> {
     @TableField("question_id")
     private Integer questionId;
 
+    @Schema(description = "是否删除")
+    @TableField
+    @TableLogic
+    @JsonIgnore
+    private Byte isDeleted;
+
     @Override
     public Serializable pkVal() {
         return this.id;

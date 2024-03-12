@@ -1,24 +1,22 @@
 package dev.itea.echo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.io.Serial;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
-* 
-*
-* @author isixe
-* @since 2024-02-27
-*/
+ * @author isixe
+ * @since 2024-02-27
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
@@ -37,9 +35,11 @@ public class QuestionThumb extends Model<QuestionThumb> {
     @TableField("questionId")
     private Integer questionId;
 
-    @TableField("created_time")
-    private LocalDateTime createdTime;
-
+    @Schema(description = "是否删除")
+    @TableField("is_deleted")
+    @TableLogic
+    @JsonIgnore
+    private Byte isDeleted;
 
     @Override
     public Serializable pkVal() {
