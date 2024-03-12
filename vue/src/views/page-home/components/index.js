@@ -4,8 +4,8 @@ import TheMain from './TheMain.vue'
 import ArticleEntryItem from './ArticleEntryItem.vue'
 import QuestionEntryItem from './QuestionEntryItem.vue'
 import UserEntryItem from './UserEntryItem.vue'
-import ArticleCommentItem from './ArticleCommentItem.vue'
-import QuestionCommentItem from './QuestionCommentItem.vue'
+import TheArticleCommentItem from './TheArticleCommentItem.vue'
+import TheQuestionCommentItem from './TheQuestionCommentItem.vue'
 
 export {
   TheHeader,
@@ -14,6 +14,6 @@ export {
   ArticleEntryItem,
   QuestionEntryItem,
   UserEntryItem,
-  ArticleCommentItem,
-  QuestionCommentItem
+  TheArticleCommentItem,
+  TheQuestionCommentItem
 }

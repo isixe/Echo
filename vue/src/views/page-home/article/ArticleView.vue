@@ -189,11 +189,11 @@
         </div>
         <div>
           <template v-for="comment in commentData" :key="comment">
-            <article-comment-item
+            <the-article-comment-item
               :comment="comment"
               v-model="data.userId"
               @onCommentUpdate="queryComment()"
-            ></article-comment-item>
+            ></the-article-comment-item>
           </template>
         </div>
       </div>
@@ -245,7 +245,7 @@ import {
   getCollectByUserAndArticle
 } from '@/api/collection-article'
 import { useUserStore } from '@/stores/user'
-import { ArticleCommentItem } from '../components'
+import { TheArticleCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()

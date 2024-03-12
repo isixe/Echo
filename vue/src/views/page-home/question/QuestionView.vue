@@ -92,11 +92,11 @@
         </div>
         <div>
           <template v-for="comment in commentData" :key="comment">
-            <question-comment-item
+            <the-question-comment-item
               :comment="comment"
               v-model="data.userId"
               @onCommentUpdate="queryComment()"
-            ></question-comment-item>
+            ></the-question-comment-item>
           </template>
         </div>
       </div>
@@ -142,7 +142,7 @@ import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { add, getCommentQuestionRootList } from '@/api/question-comment'
 import { useUserStore } from '@/stores/user'
-import { QuestionCommentItem } from '../components'
+import { TheQuestionCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import {
   add as collect,
