@@ -25,17 +25,17 @@ const generalRoutes = [
       {
         path: '/user/:id',
         name: 'userProfile',
-        component: () => import('@/views/page-home/user/userProfile')
+        component: () => import('@/views/page-home/user/UserProfile')
       },
       {
         path: '/article/:id',
         name: 'articleView',
-        component: () => import('@/views/page-home/article/articleView')
+        component: () => import('@/views/page-home/article/ArticleView')
       },
       {
         path: '/question/:id',
         name: 'questionView',
-        component: () => import('@/views/page-home/question/questionView')
+        component: () => import('@/views/page-home/question/QuestionView')
       },
       {
         path: '/category/:id',
@@ -50,7 +50,7 @@ const generalRoutes = [
       {
         path: '/article/group/:id',
         name: 'articleGroup',
-        component: () => import('@/views/page-home/article/articleGroup')
+        component: () => import('@/views/page-home/article/ArticleGroup')
       }
     ]
   }
