@@ -143,6 +143,18 @@ public class QuestionController {
     }
 
     /**
+     * 问答总数查询
+     *
+     * @return Integer 问答总数
+     */
+    @Operation(summary = "问答综述查询", description = "前台文章总数查询", tags = "Question", method = "GET")
+    @SaCheckLogin
+    @GetMapping("/getTotal")
+    public long getTotal() {
+        return questionService.count();
+    }
+
+    /**
      * 用户问答数量排行查询
      *
      * @return List<UserRankVO> 用户排行值对象列表

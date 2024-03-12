@@ -146,6 +146,18 @@ public class ArticleController {
     }
 
     /**
+     * 文章总数查询
+     *
+     * @return Integer 文章总数
+     */
+    @Operation(summary = "文章总数查询", description = "前台文章总数查询", tags = "Article", method = "GET")
+    @SaCheckLogin
+    @GetMapping("/getTotal")
+    public long getTotal() {
+        return articleService.count();
+    }
+
+    /**
      * 文章分组更新
      *
      * @param id      文章ID

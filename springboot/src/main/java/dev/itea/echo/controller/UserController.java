@@ -241,7 +241,7 @@ public class UserController {
      *
      * @return Integer 用户总数
      */
-    @Operation(summary = "用户查询（ID）", description = "前台用户总数查询", tags = "User", method = "GET")
+    @Operation(summary = "用户总数查询", description = "前台用户总数查询", tags = "User", method = "GET")
     @SaCheckLogin
     @GetMapping("/getTotal")
     public long getTotal() {
