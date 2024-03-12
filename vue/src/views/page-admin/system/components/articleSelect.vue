@@ -64,7 +64,7 @@ const onArticleFocus = () => {
       label: article.title
     }))
 
-    articleId.value = articleId.value ? parseInt(articleId.value) : null
+    articleId.value = articleId.value ? parseInt(articleId.value) : ''
   })
 }
 </script>

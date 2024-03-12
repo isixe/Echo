@@ -64,7 +64,7 @@ const onUserFocus = () => {
       label: user.name
     }))
 
-    userId.value = userId.value ? parseInt(userId.value) : null
+    userId.value = userId.value ? parseInt(userId.value) : ''
   })
 }
 </script>

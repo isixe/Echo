@@ -64,7 +64,7 @@ const onQuestionFocus = () => {
       label: question.title
     }))
 
-    questionId.value = questionId.value ? parseInt(questionId.value) : null
+    questionId.value = questionId.value ? parseInt(questionId.value) : ''
   })
 }
 </script>
