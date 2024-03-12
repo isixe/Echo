@@ -32,14 +32,6 @@ export function get(params) {
   })
 }
 
-export function getCommentArticleRootList(params) {
-  return request({
-    url: '/commentArticle/getRootCommentListByArticleId',
-    method: 'get',
-    params
-  })
-}
-
 export function getCommentArticleChildList(params) {
   return request({
     url: '/commentArticle/getChildCommentListByRootId',
@@ -51,6 +43,14 @@ export function getCommentArticleChildList(params) {
 export function getCommentArticleListByKeyword(params) {
   return request({
     url: '/commentArticle/queryAll',
+    method: 'get',
+    params
+  })
+}
+
+export function getCommentArticleRootListArticleId(params) {
+  return request({
+    url: '/commentArticle/queryAllRootCommentByArticleId',
     method: 'get',
     params
   })
