@@ -23,3 +23,11 @@ export function getArticleThumbByArticleIdAndUserId(params) {
     params
   })
 }
+
+export function getTotalArticleThumbByArticleId(params) {
+  return request({
+    url: '/articleThumb/getTotalByArticle',
+    method: 'get',
+    params
+  })
+}
