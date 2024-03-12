@@ -370,7 +370,6 @@ const queryData = async (params) => {
   return await getArticleListByKeyword(params).then((res) => {
     const data = res.data
     dataSource.value = data.records
-    console.log(data.records)
     pagination.total = data.total
     loading.value = false
   })
@@ -398,13 +397,17 @@ const handleAddOk = () => {
       add(formData)
         .then(() => {
           message.success('发布成功')
-          queryData(params)
-
           Object.keys(newData).forEach((key) => {
             newData[key] = ''
           })
           loading.value = false
           showAddModal.value = false
+
+          if (pagination.total % pagination.pageSize == 0) {
+            params.pageNum += 1
+          }
+
+          queryData(params)
         })
         .catch(() => {
           loading.value = false
@@ -421,6 +424,11 @@ const handleDelete = (id) => {
   formData.append('id', id)
   remove(formData).then(() => {
     message.success('删除成功')
+
+    if ((pagination.total - 1) % pagination.pageSize == 0) {
+      params.pageNum -= 1
+    }
+
     queryData(params)
   })
 }

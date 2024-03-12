@@ -179,11 +179,15 @@ const handleAddOk = () => {
     add(formData)
       .then(() => {
         message.success('发布成功')
-        queryData(params)
-
         newData.categoryName = ''
         loading.value = false
         showAddModal.value = false
+
+        if (pagination.total % pagination.pageSize == 0) {
+          params.pageNum += 1
+        }
+
+        queryData(params)
       })
       .catch(() => {
         loading.value = false
@@ -197,6 +201,11 @@ const handleDelete = (id) => {
   formData.append('id', id)
   remove(formData).then(() => {
     message.success('删除成功')
+
+    if ((pagination.total - 1) % pagination.pageSize == 0) {
+      params.pageNum -= 1
+    }
+
     queryData(params)
   })
 }

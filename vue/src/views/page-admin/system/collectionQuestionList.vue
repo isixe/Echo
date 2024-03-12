@@ -194,6 +194,15 @@ const handleDelete = (id) => {
   formData.append('id', id)
   remove(formData).then(() => {
     message.success('删除成功')
+
+    if ((pagination.total - 1) % pagination.pageSize == 0) {
+      params.pageNum -= 1
+    }
+
+    if (pagination.total % pagination.pageSize == 0) {
+      params.pageNum += 1
+    }
+
     queryData(params)
   })
 }
