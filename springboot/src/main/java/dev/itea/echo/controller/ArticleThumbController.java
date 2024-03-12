@@ -95,7 +95,7 @@ public class ArticleThumbController {
     }
 
     /**
-     * 文章点赞查询（ID）
+     * 文章点赞查询（文章ID）
      *
      * @param articleId 文章ID
      * @return ArticleThumb 文章点赞实体
