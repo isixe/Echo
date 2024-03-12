@@ -47,6 +47,13 @@ export function get(params) {
   })
 }
 
+export function getUserTotal() {
+  return request({
+    url: '/user/getTotal',
+    method: 'get'
+  })
+}
+
 export function getUserListByKeyword(params) {
   return request({
     url: '/user/queryAll',

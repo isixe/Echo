@@ -32,6 +32,13 @@ export function get(params) {
   })
 }
 
+export function getQuestionTotal() {
+  return request({
+    url: '/question/getTotal',
+    method: 'get'
+  })
+}
+
 export function getQuestionDraftList(params) {
   return request({
     url: '/question/queryAllDraftByUserId',
