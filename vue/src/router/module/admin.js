@@ -14,7 +14,7 @@ const adminRoutes = {
     {
       path: '/system/userList',
       name: 'userList',
-      component: () => import('@/views/page-admin/system/userList')
+      component: () => import('@/views/page-admin/system/UserList')
     },
     {
       path: '/system/articleList',
