@@ -127,7 +127,7 @@ import { QuestionEntryItem } from '@/views/page-home/components'
 import { ArticleEntryItem } from '@/views/page-home/components'
 import { getArticleListByUserId } from '@/api/article'
 import { getQuestionListByUserId } from '@/api/question'
-import { add, remove, getArticleGroupListByUserId } from '@/api/articleGroup'
+import { add, remove, getArticleGroupListByUserId } from '@/api/article-group'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const user = ref()

@@ -140,7 +140,7 @@ import { createVNode } from 'vue'
 import { get, remove } from '@/api/question'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
-import { add, getCommentQuestionRootList } from '@/api/questionComment'
+import { add, getCommentQuestionRootList } from '@/api/question-comment'
 import { useUserStore } from '@/stores/user'
 import { QuestionCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
@@ -148,7 +148,7 @@ import {
   add as collect,
   remove as unCollect,
   getCollectByUserAndQuestion
-} from '@/api/collectionQuestion'
+} from '@/api/collection-question'
 
 const router = useRouter()
 const store = useUserStore()

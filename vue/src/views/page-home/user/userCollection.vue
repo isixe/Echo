@@ -43,11 +43,11 @@ import { ArticleEntryItem, QuestionEntryItem } from '@/views/page-home/component
 import {
   remove as unCollectArticle,
   getCollectionArticleListByUserId
-} from '@/api/collectionArticle'
+} from '@/api/collection-article'
 import {
   remove as unCollectQuestion,
   getCollectionQuestionListByUserId
-} from '@/api/collectionQuestion'
+} from '@/api/collection-question'
 import { useUserStore } from '@/stores/user'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 

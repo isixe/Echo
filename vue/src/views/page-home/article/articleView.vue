@@ -238,12 +238,12 @@ import { createVNode } from 'vue'
 import { get, remove, getArticleListByGroupId } from '@/api/article'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
-import { add, getCommentArticleRootList } from '@/api/articleComment'
+import { add, getCommentArticleRootList } from '@/api/article-comment'
 import {
   add as collect,
   remove as unCollect,
   getCollectByUserAndArticle
-} from '@/api/collectionArticle'
+} from '@/api/collection-article'
 import { useUserStore } from '@/stores/user'
 import { ArticleCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'

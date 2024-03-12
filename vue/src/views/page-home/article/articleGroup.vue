@@ -91,7 +91,7 @@ import {
   getUnGroupArticleByUserId,
   getArticleListByGroupId
 } from '@/api/article'
-import { get, update, remove } from '@/api/articleGroup'
+import { get, update, remove } from '@/api/article-group'
 import { ArticleEntryItem } from '@/views/page-home/components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 

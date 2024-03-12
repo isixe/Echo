@@ -135,7 +135,7 @@ import { createVNode } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
-import { add, remove, getCommentArticleChildList } from '@/api/articleComment'
+import { add, remove, getCommentArticleChildList } from '@/api/article-comment'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const store = useUserStore()

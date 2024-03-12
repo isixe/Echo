@@ -105,7 +105,7 @@ import { DateTime } from 'luxon'
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
-import { add, update, remove, getCommentArticleListByKeyword } from '@/api/articleComment'
+import { add, update, remove, getCommentArticleListByKeyword } from '@/api/article-comment'
 import { AuthorSelect, ArticleSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 

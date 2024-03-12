@@ -32,7 +32,7 @@ import {
   add,
   getArticleGroupListByUserId,
   getArticleGroupByUserIdAndGroupName
-} from '@/api/articleGroup'
+} from '@/api/article-group'
 
 const userId = defineModel('userId')
 const articleGroupId = defineModel('articleGroupId')

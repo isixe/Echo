@@ -87,7 +87,7 @@
 import { Modal } from 'ant-design-vue'
 import { createVNode } from 'vue'
 import { message } from 'ant-design-vue'
-import { add, remove, getCollectionArticleListByKeyword } from '@/api/collectionArticle'
+import { add, remove, getCollectionArticleListByKeyword } from '@/api/collection-article'
 import { AuthorSelect, ArticleSelect } from './components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
