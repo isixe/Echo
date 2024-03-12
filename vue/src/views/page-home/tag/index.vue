@@ -101,7 +101,6 @@ const getArticleDataSource = () => {
 
 const getQuestionDataSource = () => {
   getQuestionListByTagName(params).then((res) => {
-    console.log(questionFullList.value)
     questionFullList.value = questionFullList.value.concat(res.data.records)
     pages.value = res.data.pages
     initLoading.value = false

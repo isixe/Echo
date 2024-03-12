@@ -37,7 +37,7 @@ const loading = ref(false)
 const pages = ref(0)
 const params = reactive({
   pageNum: 1,
-  pageSize: 5,
+  pageSize: 15,
   categoryId: route.params.id
 })
 
@@ -49,8 +49,6 @@ onMounted(() => {
   })
 
   selectedKey.value = route.query.tab ? [route.query.tab] : ['article']
-
-  getDataSource(selectedKey.value)
 })
 
 onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
@@ -78,16 +76,24 @@ const onLoadMore = () => {
   })
 }
 
-watch(selectedKey, () => getDataSource(selectedKey.value))
-
-const getDataSource = (tab) => {
-  switch (tab[0]) {
+watch(selectedKey, (value) => {
+  switch (value) {
     case 'article':
       router.push({ path: '/category/' + route.params.id, query: { tab: 'article' } })
-      getArticleDataSource()
       break
     case 'question':
       router.push({ path: '/category/' + route.params.id, query: { tab: 'question' } })
+      break
+  }
+  getDataSource(value[0])
+})
+
+const getDataSource = (tab) => {
+  switch (tab) {
+    case 'article':
+      getArticleDataSource()
+      break
+    case 'question':
       getQuestionDataSource()
       break
   }
@@ -110,17 +116,6 @@ const getQuestionDataSource = () => {
     loading.value = false
   })
 }
-
-watch(selectedKey, (key) => {
-  switch (key[0]) {
-    case 'article':
-      getArticleDataSource(key[0])
-      break
-    case 'question':
-      getQuestionDataSource(key[0])
-      break
-  }
-})
 
 const items = ref([
   {
