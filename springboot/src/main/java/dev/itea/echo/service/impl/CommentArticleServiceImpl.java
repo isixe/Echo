@@ -52,6 +52,12 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
     }
 
     @Override
+    public List<ChildCommentVO> getChildListByArticleId(Integer rootId) {
+        return commentArticleMapper.getChildListByArticleId(new QueryWrapper<ChildCommentVO>()
+                .eq("ca.root_comment_id", rootId).isNotNull("ca.root_comment_id"));
+    }
+
+    @Override
     public IPage<CommentArticleVO> getPage(Pageable pageable, String keyword) {
         Page<CommentArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<CommentArticleVO> wrapper = new QueryWrapper<>();
@@ -66,14 +72,14 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
     }
 
     @Override
-    public List<RootCommentArticleVO> getRootListByArticleId(Integer id) {
-        return commentArticleMapper.getRootListByArticleId(new QueryWrapper<RootCommentArticleVO>()
-                .eq("ca.article_id", id).isNull("ca.root_comment_id"));
-    }
+    public IPage<RootCommentArticleVO> getPageWithRootCommentByArticleId(Pageable pageable, Integer articleId) {
+        Page<RootCommentArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<RootCommentArticleVO> wrapper = new QueryWrapper<RootCommentArticleVO>()
+                .eq("ca.is_deleted", 0)
+                .eq("ca.article_id", articleId)
+                .isNull("ca.root_comment_id")
+                .orderByDesc("ca.created_time");
 
-    @Override
-    public List<ChildCommentVO> getChildListByArticleId(Integer rootId) {
-        return commentArticleMapper.getChildListByArticleId(new QueryWrapper<ChildCommentVO>()
-                .eq("ca.root_comment_id", rootId).isNotNull("ca.root_comment_id"));
+        return commentArticleMapper.getRootListByArticleId(page, wrapper);
     }
 }

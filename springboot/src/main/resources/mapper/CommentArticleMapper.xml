@@ -60,11 +60,11 @@
     <select id="getPage" resultMap="CommentArticleVOResultMap">
         SELECT ca.id,
         ca.user_id,
-        u.name               AS user_name,
+        u.name AS user_name,
         u.avatar,
         ca.article_id,
         ca.content,
-        a.title              AS article_title,
+        a.title AS article_title,
         ca.root_comment_id,
         ca.parent_comment_id,
         ca.like_count,
@@ -98,9 +98,8 @@
                ca.created_time
         FROM comment_article AS ca
                  JOIN `user` AS u ON u.id = ca.user_id
-                 JOIN article AS a on a.id = ca.article_id ${ew.customSqlSegment}
-            AND ca.is_deleted = 0
-        ORDER BY ca.created_time DESC
+                 JOIN article AS a on a.id = ca.article_id
+            ${ew.customSqlSegment}
     </select>
 
     <select id="getChildListByArticleId" resultMap="ChildCommentVOResultMap">

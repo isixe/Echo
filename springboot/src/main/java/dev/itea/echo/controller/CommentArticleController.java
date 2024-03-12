@@ -125,22 +125,6 @@ public class CommentArticleController {
     }
 
     /**
-     * 文章评论查询（文章ID）
-     *
-     * @param articleId 文章ID
-     * @return List<RootCommentArticleVO> 顶级文章评论值对象列表
-     */
-    @Operation(summary = "文章评论查询（文章ID）", description = "文章评论顶级列表查询", tags = "CommentArticle", method = "GET",
-            parameters = {
-                    @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
-            })
-    @SaIgnore
-    @GetMapping("/getRootCommentListByArticleId")
-    public List<RootCommentArticleVO> getRootListByArticleId(Integer articleId) {
-        return commentArticleService.getRootListByArticleId(articleId);
-    }
-
-    /**
      * 文章评论查询（文章评论rootId）
      *
      * @param rootId 文章评论rootId
@@ -172,4 +156,23 @@ public class CommentArticleController {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return commentArticleService.getPage(pageable, pageDTO.getKeyword());
     }
+
+    /**
+     * 文章评论查询（文章ID）
+     *
+     * @param pageDTO   分页数据传输对象
+     * @param articleId 文章ID
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "文章评论查询（文章ID）", description = "文章评论顶级列表查询", tags = "CommentArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/queryAllRootCommentByArticleId")
+    public IPage<RootCommentArticleVO> getPageWithRootCommentByArticleId(@Validated PageDTO pageDTO, Integer articleId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return commentArticleService.getPageWithRootCommentByArticleId(pageable, articleId);
+    }
+
 }
