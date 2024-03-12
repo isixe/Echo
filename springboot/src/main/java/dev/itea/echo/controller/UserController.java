@@ -32,7 +32,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 用户前端控制器
@@ -235,6 +234,18 @@ public class UserController {
             throw new BusinessException(ResultCode.USER_NOT_EXIST);
         }
         return userVO;
+    }
+
+    /**
+     * 用户总数查询
+     *
+     * @return Integer 用户总数
+     */
+    @Operation(summary = "用户查询（ID）", description = "前台用户总数查询", tags = "User", method = "GET")
+    @SaCheckLogin
+    @GetMapping("/getTotal")
+    public long getTotal() {
+        return userService.count();
     }
 
     /**
