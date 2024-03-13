@@ -46,7 +46,7 @@ public class ArticleThumbController {
     public void add(@Validated(AddValidationGroup.class) ArticleThumb articleThumb) {
         //check articleThumb
         ArticleThumb checkArticleThumb = articleThumbService.getOne(new LambdaQueryWrapper<ArticleThumb>()
-                .eq(ArticleThumb::getArticleId, articleThumb.getUserId())
+                .eq(ArticleThumb::getArticleId, articleThumb.getArticleId())
                 .eq(ArticleThumb::getUserId, articleThumb.getUserId()));
         if (!ObjectUtils.isEmpty(checkArticleThumb)) {
             throw new BusinessException(ResultCode.DATA_ALREADY_EXISTED);
