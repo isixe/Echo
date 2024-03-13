@@ -52,7 +52,7 @@ public class CommentQuestionServiceImpl extends ServiceImpl<CommentQuestionMappe
     @Override
     public IPage<CommentQuestionVO> getPage(Pageable pageable, String keyword) {
         Page<RootCommentQuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<RootCommentQuestionVO> wrapper = new QueryWrapper<>();
+        QueryWrapper<RootCommentQuestionVO> wrapper = new QueryWrapper<RootCommentQuestionVO>().eq("cq.is_deleted", 0);
         if (!ObjectUtils.isEmpty(keyword)) {
             wrapper = wrapper.like("cq.content", keyword)
                     .or()
@@ -60,6 +60,7 @@ public class CommentQuestionServiceImpl extends ServiceImpl<CommentQuestionMappe
                     .or()
                     .like("q.title", keyword);
         }
+        wrapper.orderByDesc("cq.created_time");
         return commentQuestionMapper.getPage(page, wrapper);
     }
 

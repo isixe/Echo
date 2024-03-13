@@ -28,28 +28,21 @@
 
     <select id="getPage" resultMap="CollectionQuestionVOResultMap">
         SELECT cq.id,
-        cq.question_id,
-        q.title,
-        cq.user_id,
-        u.`name` AS username,
-        u.`avatar`,
-        q.category_id,
-        (SELECT category_name FROM category WHERE category.id = q.category_id) AS category,
-        q.`pv_count`,
-        (SELECT count(*) FROM article_thumb WHERE question_id = q.id) AS `like_count`,
-        (SELECT count(*) FROM comment_article WHERE question_id = q.id) AS `comment_count`,
-        q.`update_time`
+               cq.question_id,
+               q.title,
+               cq.user_id,
+               u.`name`                                                               AS username,
+               u.`avatar`,
+               q.category_id,
+               (SELECT category_name FROM category WHERE category.id = q.category_id) AS category,
+               q.`pv_count`,
+               (SELECT count(*) FROM article_thumb WHERE question_id = q.id)          AS `like_count`,
+               (SELECT count(*) FROM comment_article WHERE question_id = q.id)        AS `comment_count`,
+               q.`update_time`
         FROM collection_question AS cq
-        JOIN question AS q ON q.id = cq.question_id
-        JOIN `user` AS u ON cq.user_id = u.id
-        <if test="ew.customSqlSegment.length>0">
+                 JOIN question AS q ON q.id = cq.question_id
+                 JOIN `user` AS u ON cq.user_id = u.id
             ${ew.customSqlSegment}
-            AND q.is_deleted = 0
-        </if>
-        <if test="!ew.customSqlSegment.length>0">
-            WHERE q.is_deleted = 0
-        </if>
-        ORDER BY q.update_time DESC
     </select>
 
 </mapper>

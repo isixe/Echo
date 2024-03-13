@@ -59,28 +59,21 @@
 
     <select id="getPage" resultMap="CommentArticleVOResultMap">
         SELECT ca.id,
-        ca.user_id,
-        u.name AS user_name,
-        u.avatar,
-        ca.article_id,
-        ca.content,
-        a.title AS article_title,
-        ca.root_comment_id,
-        ca.parent_comment_id,
-        ca.like_count,
-        ca.dislike_count,
-        ca.created_time
+               ca.user_id,
+               u.name  AS user_name,
+               u.avatar,
+               ca.article_id,
+               ca.content,
+               a.title AS article_title,
+               ca.root_comment_id,
+               ca.parent_comment_id,
+               ca.like_count,
+               ca.dislike_count,
+               ca.created_time
         FROM comment_article AS ca
-        JOIN `user` AS u ON u.id = ca.user_id
-        JOIN article AS a on a.id = ca.article_id
-        <if test="ew.customSqlSegment.length>0">
+                 JOIN `user` AS u ON u.id = ca.user_id
+                 JOIN article AS a on a.id = ca.article_id
             ${ew.customSqlSegment}
-            AND ca.is_deleted = 0
-        </if>
-        <if test="!ew.customSqlSegment.length>0">
-            WHERE ca.is_deleted = 0
-        </if>
-        ORDER BY ca.created_time DESC
     </select>
 
     <select id="getPageWithRootCommentByArticleId" resultMap="RootCommentArticleVOResultMap">

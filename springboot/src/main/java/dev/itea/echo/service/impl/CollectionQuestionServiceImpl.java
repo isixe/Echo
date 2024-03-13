@@ -43,19 +43,23 @@ public class CollectionQuestionServiceImpl extends ServiceImpl<CollectionQuestio
     @Override
     public IPage<CollectionQuestionVO> getPage(Pageable pageable, String keyword) {
         Page<CollectionQuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<CollectionQuestionVO> wrapper = new QueryWrapper<>();
+        QueryWrapper<CollectionQuestionVO> wrapper = new QueryWrapper<CollectionQuestionVO>().eq("q.is_deleted", 0);
         if (!ObjectUtils.isEmpty(keyword)) {
             wrapper = wrapper.like("u.name", keyword)
                     .or()
                     .like("q.title", keyword);
         }
+        wrapper.orderByDesc("q.update_time");
         return collectionQuestionMapper.getPage(page, wrapper);
     }
 
     @Override
     public IPage<CollectionQuestionVO> getPageByUserId(Pageable pageable, Integer userId) {
         Page<CollectionQuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<CollectionQuestionVO> wrapper = new QueryWrapper<CollectionQuestionVO>().eq("cq.user_id", userId);
+        QueryWrapper<CollectionQuestionVO> wrapper = new QueryWrapper<CollectionQuestionVO>()
+                .eq("q.is_deleted", 0)
+                .eq("cq.user_id", userId)
+                .orderByDesc("q.update_time");
         return collectionQuestionMapper.getPage(page, wrapper);
 
     }

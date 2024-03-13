@@ -60,7 +60,7 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
     @Override
     public IPage<CommentArticleVO> getPage(Pageable pageable, String keyword) {
         Page<CommentArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<CommentArticleVO> wrapper = new QueryWrapper<>();
+        QueryWrapper<CommentArticleVO> wrapper = new QueryWrapper<CommentArticleVO>().eq("ca.is_deleted", 0);
         if (!ObjectUtils.isEmpty(keyword)) {
             wrapper = wrapper.like("ca.content", keyword)
                     .or()
@@ -68,6 +68,7 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
                     .or()
                     .like("a.title", keyword);
         }
+        wrapper.orderByDesc("ca.created_time");
         return commentArticleMapper.getPage(page, wrapper);
     }
 

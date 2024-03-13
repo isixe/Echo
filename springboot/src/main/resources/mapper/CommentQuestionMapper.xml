@@ -59,28 +59,21 @@
 
     <select id="getPage" resultMap="CommentQuestionVOResultMap">
         SELECT cq.id,
-        cq.user_id,
-        u.name AS user_name,
-        u.avatar,
-        cq.question_id,
-        cq.content,
-        q.title AS question_title,
-        cq.root_comment_id,
-        cq.parent_comment_id,
-        cq.like_count,
-        cq.dislike_count,
-        cq.created_time
+               cq.user_id,
+               u.name  AS user_name,
+               u.avatar,
+               cq.question_id,
+               cq.content,
+               q.title AS question_title,
+               cq.root_comment_id,
+               cq.parent_comment_id,
+               cq.like_count,
+               cq.dislike_count,
+               cq.created_time
         FROM comment_question AS cq
-        JOIN `user` AS u ON u.id = cq.user_id
-        JOIN question AS q on q.id = cq.question_id
-        <if test="ew.customSqlSegment.length>0">
+                 JOIN `user` AS u ON u.id = cq.user_id
+                 JOIN question AS q on q.id = cq.question_id
             ${ew.customSqlSegment}
-            AND cq.is_deleted = 0
-        </if>
-        <if test="!ew.customSqlSegment.length>0">
-            WHERE cq.is_deleted = 0
-        </if>
-        ORDER BY cq.created_time DESC
     </select>
 
 
