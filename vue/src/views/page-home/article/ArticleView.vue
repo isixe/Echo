@@ -129,8 +129,8 @@
         </template>
       </div>
       <div class="content">
-        <div class="content-top"></div>
-        <div class="content-footer">
+        <div class="article-text-top"></div>
+        <div class="article-text-footer">
           <div class="tags-line">
             <span class="tag-title">文章标签：</span>
             <template v-if="data.tag">
@@ -300,7 +300,7 @@ const params = reactive({
 
 tocbot.init({
   tocSelector: '#toc-content',
-  contentSelector: '.content-top',
+  contentSelector: '.article-text-top',
   headingSelector: 'h1, h2, h3, h4, h5, h6'
 })
 
@@ -326,7 +326,7 @@ onMounted(async () => {
     heading.setAttribute('id', id)
   })
 
-  document.querySelector('.content-top').innerHTML = doc.body.innerHTML
+  document.querySelector('.article-text-top').innerHTML = doc.body.innerHTML
   tocbot.refresh()
 
   getArticleListByGroupId({ groupId: data.value.articleGroupId }).then((res) => {
@@ -619,7 +619,7 @@ const onChange = (pageNumber) => {
   margin: 0 15px;
 }
 
-.content-footer {
+.article-text-footer {
   margin: 15px 0;
 }
 
@@ -642,9 +642,14 @@ const onChange = (pageNumber) => {
   margin-bottom: 10px;
 }
 
+.praise-box span {
+  margin-top: 8px;
+}
+
 .article-action-box {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 15px;
 }
 
 .action-right {
@@ -724,57 +729,69 @@ const onChange = (pageNumber) => {
   margin-top: 15px;
 }
 
-@media screen and (max-width: 1200px) {
-  .sidebar-left {
-    display: none;
-  }
-
-  .container {
-    margin-left: 10px;
-  }
+:global(ol.toc-list) {
+  padding-left: 20px;
 }
-</style>
 
-<style>
-.content table {
+:global(#toc-content > ol > li a) {
+  color: #666;
+}
+
+:global(#toc-content > ol > li a:hover) {
+  color: #4d45e5;
+}
+
+:global(#toc-content > ol > li.toc-list-item.is-active-li > a) {
+  color: #4d45e5;
+}
+
+:global(#toc-content > ol > li.toc-list-item) {
+  padding: 3px 0;
+}
+
+:global(#toc-content > ol > li.toc-list-item.is-active-li) {
+  background: #f7f7ff;
+}
+
+:global(.article-text-top > table) {
   margin: 0 auto;
   border-collapse: collapse;
   margin-bottom: 15px;
   font-size: 15px;
 }
 
-.content tr:first-child {
+:global(.article-text-top > tr:first-child) {
   background-color: #eaeef2 !important;
   font-weight: 700;
 }
 
-.content tr:nth-child(odd) {
+:global(.article-text-top > tr:nth-child(odd)) {
   background-color: #f6f8fa;
 }
 
-.content td {
+:global(.article-text-top > td) {
   border: 1px solid #ccc;
   padding: 5px 2px;
 }
 
-.content p,
-.content li,
-.content span {
+:global(.article-text-top > p),
+:global(.article-text-top > li),
+:global(.article-text-top > span) {
   line-height: 1.8;
   margin: 0 0 15px;
   font-size: 16px;
 }
 
-.content h1,
-.content h2,
-.content h3,
-.content h4,
-.content h5,
-.content h6 {
+:global(.article-text-top > h1),
+:global(.article-text-top > h2),
+:global(.article-text-top > h3),
+:global(.article-text-top > h4),
+:global(.article-text-top > h5),
+:global(.article-text-top > h6) {
   margin: 0 0 15px;
 }
 
-.content pre {
+:global(.article-text-top > pre) {
   max-width: 670px;
   background-color: #f5f2f0;
   padding: 10px;
@@ -787,7 +804,7 @@ const onChange = (pageNumber) => {
   overflow: scroll;
 }
 
-.content pre code {
+:global(.article-text-top > pre > code) {
   word-wrap: normal;
   font-family:
     Consolas,
@@ -811,27 +828,13 @@ const onChange = (pageNumber) => {
   word-spacing: normal;
 }
 
-.toc-list a {
-  color: #666;
-}
+@media screen and (max-width: 1200px) {
+  .sidebar-left {
+    display: none;
+  }
 
-.toc-list a:hover {
-  color: #4d45e5;
-}
-
-.is-active-link {
-  color: #4d45e5 !important;
-}
-
-.toc-list-item {
-  padding: 3px 0;
-}
-
-.is-active-li {
-  background: #f7f7ff;
-}
-
-.toc-list {
-  padding-left: 20px;
+  .container {
+    margin-left: 10px;
+  }
 }
 </style>

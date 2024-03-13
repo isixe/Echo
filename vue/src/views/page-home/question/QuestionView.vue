@@ -36,8 +36,8 @@
             </template>
           </div>
         </div>
-        <div class="content-top"></div>
-        <div class="content-footer">
+        <div class="question-text-top"></div>
+        <div class="question-text-footer">
           <div class="tags-line">
             <span class="tag-title">问题标签：</span>
             <template v-if="data.tag">
@@ -212,7 +212,7 @@ onMounted(async () => {
     heading.setAttribute('id', id)
   })
 
-  document.querySelector('.content-top').innerHTML = doc.body.innerHTML
+  document.querySelector('.question-text-top ').innerHTML = doc.body.innerHTML
 
   getCollect()
   getQuestioinThumb()
@@ -415,23 +415,21 @@ const onChange = (pageNumber) => {
 
 .content {
   background-color: #ffffff;
-  padding: 30px 30px 10px 30px;
+  padding: 30px 30px 0 30px;
   border-radius: 4px;
-  margin-bottom: 15px;
-}
-
-.content > :global(.content img) {
-  max-width: 100% !important;
 }
 
 .title h1 {
   font-weight: 500;
+  margin: 0;
+  font-size: 24px;
 }
 
 .item-message {
   height: 40px;
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .item-message,
@@ -451,7 +449,7 @@ const onChange = (pageNumber) => {
   margin: 0 15px;
 }
 
-.content-footer {
+.question-text-footer {
   margin: 15px 0;
 }
 
@@ -481,6 +479,7 @@ const onChange = (pageNumber) => {
 .question-action-box {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 15px;
 }
 
 .action-right {
@@ -526,47 +525,49 @@ const onChange = (pageNumber) => {
   justify-content: center;
   margin-top: 15px;
 }
-</style>
 
-<style>
-.content table {
+:global(.question-text-top > img) {
+  max-width: 100% !important;
+}
+
+:global(.question-text-top > table) {
   margin: 0 auto;
   border-collapse: collapse;
   margin-bottom: 15px;
   font-size: 15px;
 }
 
-.content tr:first-child {
+:global(.question-text-top > tr:first-child) {
   background-color: #eaeef2 !important;
   font-weight: 700;
 }
 
-.content tr:nth-child(odd) {
+:global(.question-text-top > tr:nth-child(odd)) {
   background-color: #f6f8fa;
 }
 
-.content td {
+:global(.question-text-top > td) {
   border: 1px solid #ccc;
   padding: 5px 2px;
 }
 
-.content p,
-.content li,
-.content span {
+:global(.question-text-top > p),
+:global(.question-text-top > li),
+:global(.question-text-top > span) {
   line-height: 1.8;
   font-size: 16px;
 }
 
-.content h1,
-.content h2,
-.content h3,
-.content h4,
-.content h5,
-.content h6 {
+:global(.question-text-top > h1),
+:global(.question-text-top > h2),
+:global(.question-text-top > h3),
+:global(.question-text-top > h4),
+:global(.question-text-top > h5),
+:global(.question-text-top > h6) {
   margin: 0 0 15px;
 }
 
-.content pre {
+:global(.question-text-top > pre) {
   max-width: 670px;
   background-color: #f5f2f0;
   padding: 10px;
@@ -579,7 +580,7 @@ const onChange = (pageNumber) => {
   overflow: scroll;
 }
 
-.content pre code {
+:global(.question-text-top > pre > code) {
   word-wrap: normal;
   font-family:
     Consolas,

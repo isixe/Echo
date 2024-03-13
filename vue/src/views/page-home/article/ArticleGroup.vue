@@ -349,6 +349,7 @@ const rules = {
 
 .group-article-list label {
   display: flex;
+  flex: 1;
 }
 
 .entry-item-box {

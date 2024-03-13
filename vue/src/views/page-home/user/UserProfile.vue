@@ -313,6 +313,7 @@ const deleteGroup = (groupId) => {
         fullList.value = []
         params.pageNum = 1
         queryGroupData()
+        window.scrollTo(0, 0)
       })
     }
   })
