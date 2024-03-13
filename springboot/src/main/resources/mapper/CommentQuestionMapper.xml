@@ -84,7 +84,7 @@
     </select>
 
 
-    <select id="getRootListByQuestionId" resultMap="RootCommentQuestionVOResultMap">
+    <select id="getPageWithRootCommentByQuestionId" resultMap="RootCommentQuestionVOResultMap">
         SELECT cq.id,
                cq.user_id,
                u.name  AS user_name,
@@ -99,9 +99,8 @@
                cq.created_time
         FROM comment_question AS cq
                  JOIN `user` AS u ON u.id = cq.user_id
-                 JOIN question AS q on q.id = cq.question_id ${ew.customSqlSegment}
-            AND cq.is_deleted = 0
-        ORDER BY cq.created_time DESC
+                 JOIN question AS q on q.id = cq.question_id
+            ${ew.customSqlSegment}
     </select>
 
     <select id="getChildListByQuestionId" resultMap="ChildCommentVOResultMap">

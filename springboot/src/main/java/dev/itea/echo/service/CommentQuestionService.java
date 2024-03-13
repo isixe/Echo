@@ -24,9 +24,9 @@ public interface CommentQuestionService extends IService<CommentQuestion> {
 
     void delete(Integer id);
 
-    List<RootCommentQuestionVO> getRootListByQuestionId(Integer questionId);
-
     List<ChildCommentVO> getChildListByQuestionId(Integer rootId);
 
     IPage<CommentQuestionVO> getPage(Pageable pageable, String keyword);
+
+    IPage<RootCommentQuestionVO> getPageWithRootCommentByQuestionId(Pageable pageable, Integer questionId);
 }

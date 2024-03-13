@@ -64,17 +64,20 @@ public class CommentQuestionServiceImpl extends ServiceImpl<CommentQuestionMappe
     }
 
     @Override
-    public List<RootCommentQuestionVO> getRootListByQuestionId(Integer id) {
-        return commentQuestionMapper.getRootListByQuestionId(new QueryWrapper<RootCommentQuestionVO>()
-                .eq("cq.question_id", id).isNull("cq.root_comment_id"));
-
+    public List<ChildCommentVO> getChildListByQuestionId(Integer rootId) {
+        return commentQuestionMapper.getChildListByQuestionId(new QueryWrapper<ChildCommentVO>()
+                .eq("cq.root_comment_id", rootId)
+                .isNotNull("cq.root_comment_id"));
     }
 
     @Override
-    public List<ChildCommentVO> getChildListByQuestionId(Integer rootId) {
-        return commentQuestionMapper.getChildListByQuestionId(new QueryWrapper<ChildCommentVO>()
-                .eq("cq.root_comment_id", rootId).isNotNull("cq.root_comment_id"));
+    public IPage<RootCommentQuestionVO> getPageWithRootCommentByQuestionId(Pageable pageable, Integer questionId) {
+        Page<RootCommentQuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<RootCommentQuestionVO> wrapper = new QueryWrapper<RootCommentQuestionVO>()
+                .eq("cq.is_deleted", 0)
+                .eq("cq.question_id", questionId)
+                .isNull("cq.root_comment_id")
+                .orderByDesc("cq.created_time");
+        return commentQuestionMapper.getPageWithRootCommentByQuestionId(page, wrapper);
     }
-
-
 }

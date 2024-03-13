@@ -21,7 +21,7 @@ public interface CommentQuestionMapper extends BaseMapper<CommentQuestion> {
 
     IPage<CommentQuestionVO> getPage(Page<RootCommentQuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<RootCommentQuestionVO> wrapper);
 
-    List<RootCommentQuestionVO> getRootListByQuestionId(@Param(Constants.WRAPPER) QueryWrapper<RootCommentQuestionVO> wrapper);
+    IPage<RootCommentQuestionVO> getPageWithRootCommentByQuestionId(Page<RootCommentQuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<RootCommentQuestionVO> wrapper);
 
     List<ChildCommentVO> getChildListByQuestionId(@Param(Constants.WRAPPER) QueryWrapper<ChildCommentVO> wrapper);
 

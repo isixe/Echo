@@ -124,22 +124,6 @@ public class CommentQuestionController {
     }
 
     /**
-     * 问答评论查询（问答ID）
-     *
-     * @param questionId 问答ID
-     * @return List<RootCommentQuestionVO> 顶级问答评论值对象列表
-     */
-    @Operation(summary = "问答评论查询（问答ID）", description = "问答评论顶级列表查询", tags = "CommentQuestion", method = "GET",
-            parameters = {
-                    @Parameter(name = "id", description = "问答ID", required = true, example = "2"),
-            })
-    @SaIgnore
-    @GetMapping("/getRootCommentListByQuestionId")
-    public List<RootCommentQuestionVO> getRootListByQuestionId(Integer questionId) {
-        return commentQuestionService.getRootListByQuestionId(questionId);
-    }
-
-    /**
      * 问答评论查询（问答评论rootId）
      *
      * @param rootId 问答评论rootId
@@ -171,4 +155,25 @@ public class CommentQuestionController {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return commentQuestionService.getPage(pageable, pageDTO.getKeyword());
     }
+
+
+    /**
+     * 问答评论查询（分页&问答ID）
+     *
+     * @param pageDTO    分页数据传输对象
+     * @param questionId 问答ID
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "问答评论查询（分页&问答ID）", description = "问答评论顶级分页查询", tags = "CommentQuestion", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
+                    @Parameter(name = "id", description = "问答ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/queryAllRootCommentByQuestionId")
+    public IPage<RootCommentQuestionVO> getPageWithRootCommentByQuestionId(@Validated PageDTO pageDTO, Integer questionId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return commentQuestionService.getPageWithRootCommentByQuestionId(pageable, questionId);
+    }
+
 }
