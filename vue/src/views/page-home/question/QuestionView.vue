@@ -106,6 +106,16 @@
             ></the-question-comment-item>
           </template>
         </div>
+        <div class="pagination" v-show="total > 15">
+          <a-pagination
+            v-model:current="current"
+            :showSizeChanger="false"
+            show-quick-jumper
+            :total="total"
+            :pageSize="params.pageSize"
+            @change="onChange"
+          />
+        </div>
       </div>
     </div>
 
@@ -147,7 +157,7 @@ import { createVNode } from 'vue'
 import { get, remove } from '@/api/question'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
-import { add, getCommentQuestionRootList } from '@/api/question-comment'
+import { add, getCommentQuestionRootListByQuestionId } from '@/api/question-comment'
 import { useUserStore } from '@/stores/user'
 import { TheQuestionCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
@@ -172,6 +182,13 @@ const data = ref()
 const collectData = ref()
 const thumbData = ref()
 const commentData = ref([])
+
+const current = ref(1)
+const total = ref(0)
+const params = reactive({
+  pageNum: 1,
+  pageSize: 15
+})
 
 onMounted(async () => {
   await get({ id: route.params.id }).then((res) => {
@@ -203,8 +220,16 @@ onMounted(async () => {
 })
 
 const queryComment = () => {
-  getCommentQuestionRootList({ questionId: data.value.id }).then((res) => {
-    commentData.value = res.data
+  const param = {
+    pageNum: params.pageNum,
+    pageSize: params.pageSize,
+    questionId: data.value.id
+  }
+
+  getCommentQuestionRootListByQuestionId(param).then((res) => {
+    commentData.value = res.data.records
+    current.value = res.data.current
+    total.value = res.data.total
   })
 }
 
@@ -303,6 +328,12 @@ const unThumbQuestion = () => {
   unThumb(formData).then(() => {
     thumbData.value = null
   })
+}
+
+const onChange = (pageNumber) => {
+  params.pageNum = pageNumber
+  queryComment()
+  document.querySelector('.comment-box').scrollIntoView(true)
 }
 </script>
 
@@ -488,6 +519,12 @@ const unThumbQuestion = () => {
 .item-active {
   background-color: #f7f7ff;
   color: #000;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
 }
 </style>
 
