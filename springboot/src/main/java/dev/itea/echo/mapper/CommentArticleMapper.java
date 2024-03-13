@@ -23,7 +23,7 @@ public interface CommentArticleMapper extends BaseMapper<CommentArticle> {
 
     IPage<CommentArticleVO> getPage(Page<CommentArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<CommentArticleVO> wrapper);
 
-    IPage<RootCommentArticleVO> getRootListByArticleId(Page<RootCommentArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<RootCommentArticleVO> wrapper);
+    IPage<RootCommentArticleVO> getPageWithRootCommentByArticleId(Page<RootCommentArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<RootCommentArticleVO> wrapper);
 
     List<ChildCommentVO> getChildListByArticleId(@Param(Constants.WRAPPER) QueryWrapper<ChildCommentVO> wrapper);
 

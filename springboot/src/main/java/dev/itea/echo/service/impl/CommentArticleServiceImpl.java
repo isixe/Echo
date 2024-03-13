@@ -80,6 +80,6 @@ public class CommentArticleServiceImpl extends ServiceImpl<CommentArticleMapper,
                 .isNull("ca.root_comment_id")
                 .orderByDesc("ca.created_time");
 
-        return commentArticleMapper.getRootListByArticleId(page, wrapper);
+        return commentArticleMapper.getPageWithRootCommentByArticleId(page, wrapper);
     }
 }

@@ -83,7 +83,7 @@
         ORDER BY ca.created_time DESC
     </select>
 
-    <select id="getRootListByArticleId" resultMap="RootCommentArticleVOResultMap">
+    <select id="getPageWithRootCommentByArticleId" resultMap="RootCommentArticleVOResultMap">
         SELECT ca.id,
                ca.user_id,
                u.name  AS user_name,
