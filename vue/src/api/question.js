@@ -95,14 +95,6 @@ export function getActiveQuestionListByKeyword(params) {
   })
 }
 
-export function getHotActiveQuestionListByKeyword(params) {
-  return request({
-    url: '/question/queryAllHotActive',
-    method: 'get',
-    params
-  })
-}
-
 export async function getUserRank() {
   return request({
     url: '/question/getUserRankList',
