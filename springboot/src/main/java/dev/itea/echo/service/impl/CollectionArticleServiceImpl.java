@@ -44,7 +44,9 @@ public class CollectionArticleServiceImpl extends ServiceImpl<CollectionArticleM
     @Override
     public IPage<CollectionArticleVO> getPage(Pageable pageable, String keyword) {
         Page<CollectionArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<CollectionArticleVO> wrapper = new QueryWrapper<CollectionArticleVO>().eq("a.is_deleted", 0);
+        QueryWrapper<CollectionArticleVO> wrapper = new QueryWrapper<CollectionArticleVO>()
+                .eq("ca.is_deleted", 0)
+                .eq("a.is_deleted", 0);
         if (!ObjectUtils.isEmpty(keyword)) {
             wrapper = wrapper.like("u.name", keyword)
                     .or()
@@ -58,6 +60,7 @@ public class CollectionArticleServiceImpl extends ServiceImpl<CollectionArticleM
     public IPage<CollectionArticleVO> getPageByUserId(Pageable pageable, Integer userId) {
         Page<CollectionArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         QueryWrapper<CollectionArticleVO> wrapper = new QueryWrapper<CollectionArticleVO>()
+                .eq("ca.is_deleted", 0)
                 .eq("a.is_deleted", 0)
                 .eq("ca.user_id", userId)
                 .orderByDesc("a.update_time");
