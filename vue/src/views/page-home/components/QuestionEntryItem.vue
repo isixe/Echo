@@ -2,7 +2,7 @@
   <div class="entry-item">
     <div class="item-left">
       <div class="item-left-message">
-        <p>0</p>
+        <p>{{ item.commentCount }}</p>
         <p>回复</p>
       </div>
       <div class="item-left-message">
