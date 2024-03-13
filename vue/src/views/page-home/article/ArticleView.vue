@@ -632,6 +632,10 @@ const onChange = (pageNumber) => {
   text-align: center;
 }
 
+.tags-line {
+  margin-bottom: 15px;
+}
+
 .praise-box {
   width: 50px;
   height: 50px;
@@ -640,6 +644,10 @@ const onChange = (pageNumber) => {
   border: 1px solid #ccc;
   cursor: pointer;
   margin-bottom: 10px;
+}
+
+.pv-box {
+  margin-bottom: 30px;
 }
 
 .praise-box span {
