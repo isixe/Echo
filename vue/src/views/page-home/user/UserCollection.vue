@@ -10,7 +10,7 @@
       />
       <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
         <div class="group-article-list" v-for="item in articleFullList" :key="item.id">
-          <router-link :to="'/article/' + item.id" class="entry-item-box">
+          <router-link :to="'/article/' + item.articleId" class="entry-item-box">
             <article-entry-item :item="item"></article-entry-item>
           </router-link>
           <a class="article-remove" @click="removeArticle(item.id)"
@@ -22,7 +22,7 @@
         v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
       >
         <div class="group-article-list" v-for="item in questionFullList" :key="item.id">
-          <router-link :to="'/question/' + item.id" class="entry-item-box">
+          <router-link :to="'/question/' + item.questionId" class="entry-item-box">
             <question-entry-item :item="item"></question-entry-item>
           </router-link>
           <a class="article-remove" @click="removeQuestion(item.id)"
@@ -51,6 +51,7 @@ import {
 import { useUserStore } from '@/stores/user'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
+const router = useRouter()
 const store = useUserStore()
 const articleFullList = ref([])
 const questionFullList = ref([])
@@ -117,6 +118,7 @@ const getDataSource = (tab) => {
 const getArticleDataSource = () => {
   getCollectionArticleListByUserId(params).then((res) => {
     articleFullList.value = articleFullList.value.concat(res.data.records)
+    console.log(res.data.records)
     pages.value = res.data.pages
     initLoading.value = false
     loading.value = false
@@ -176,6 +178,8 @@ const removeQuestion = (collectionId) => {
     }
   })
 }
+
+router.afterEach((to, from, next) => window.scrollTo(0, 0))
 
 const items = ref([
   {
