@@ -286,23 +286,6 @@ public class ArticleController {
     }
 
     /**
-     * 已发布热门文章查询（分页&关键词&发布状态）
-     *
-     * @param pageDTO 分页数据传输对象
-     * @return IPage 分页对象
-     */
-    @Operation(summary = "已发布热门文章查询（分页&关键词&发布状态）", description = "前台已发布热门文章分页、发布状态与关键词查询", tags = "Article", method = "GET",
-            parameters = {
-                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
-            })
-    @SaIgnore
-    @GetMapping("/queryAllHotActive")
-    public IPage<ArticleVO> getPageWithHotActiveByKeyword(@Validated PageDTO pageDTO) {
-        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return articleService.getPageWithHotActive(pageable, pageDTO.getKeyword());
-    }
-
-    /**
      * 文章查询（分页&分类ID）
      *
      * @param pageDTO    分页数据传输对象

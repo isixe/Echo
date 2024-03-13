@@ -89,24 +89,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .eq("status", 1)
                 .eq("a.is_deleted", 0);
 
-        if (ObjectUtils.isEmpty(keyword)) {
-            return articleMapper.getPageWithActive(page, wrapper.orderByDesc("a.update_time"));
+        if (!ObjectUtils.isEmpty(keyword)) {
+            wrapper.and(qw -> qw
+                    .like("title", keyword)
+                    .or()
+                    .like("content", keyword)
+                    .or()
+                    .like("u.name", keyword)
+                    .or()
+                    .like("category_name", keyword)
+                    .or()
+                    .like("tag", keyword));
         }
-
-        wrapper.and(qw -> qw
-                .like("title", keyword)
-                .or()
-                .like("content", keyword)
-                .or()
-                .like("u.name", keyword)
-                .or()
-                .like("category_name", keyword)
-                .or()
-                .like("tag", keyword));
 
         QueryWrapper<ArticleVO> sortedWrapper = Optional.ofNullable(sort)
                 .map(s -> switch (s) {
-                    case "likeCount" -> wrapper.orderByDesc("like_count");
+                    case "likeCount" -> wrapper.orderByDesc("like_count").orderByDesc("a.update_time");
                     case "updateTime" -> wrapper.orderByDesc("a.update_time");
                     default -> wrapper.orderByDesc("a.`pv_count`")
                             .orderByDesc("like_count")
@@ -117,21 +115,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         .orderByDesc("a.update_time"));
 
         return articleMapper.getPageWithActive(page, sortedWrapper);
-    }
-
-
-    @Override
-    public IPage<ArticleVO> getPageWithHotActive(Pageable pageable, String keyword) {
-        Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
-
-        wrapper = wrapper.eq("status", 1)
-                .eq("a.is_deleted", 0)
-                .orderByDesc("a.`pv_count`")
-                .orderByDesc("like_count")
-                .orderByDesc("a.update_time");
-
-        return articleMapper.getPageWithActive(page, wrapper);
     }
 
     @Override

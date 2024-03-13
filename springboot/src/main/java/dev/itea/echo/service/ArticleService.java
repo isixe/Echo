@@ -35,8 +35,6 @@ public interface ArticleService extends IService<Article> {
 
     IPage<ArticleVO> getPageWithActive(Pageable pageable, String keyword, String sort);
 
-    IPage<ArticleVO> getPageWithHotActive(Pageable pageable, String keyword);
-
     IPage<ArticleVO> getPageWithActiveByCategoryId(Pageable pageable, Integer categoryId);
 
     IPage<ArticleVO> getPageWithActiveByTagName(Pageable pageable, String tagName);
