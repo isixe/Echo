@@ -182,7 +182,6 @@ const queryData = async (params) => {
   return await getCollectionArticleListByKeyword(params).then((res) => {
     const data = res.data
     dataSource.value = data.records
-    console.log(data.records)
     pagination.total = data.total
     loading.value = false
   })

@@ -118,7 +118,6 @@ const getDataSource = (tab) => {
 const getArticleDataSource = () => {
   getCollectionArticleListByUserId(params).then((res) => {
     articleFullList.value = articleFullList.value.concat(res.data.records)
-    console.log(res.data.records)
     pages.value = res.data.pages
     initLoading.value = false
     loading.value = false
@@ -127,7 +126,6 @@ const getArticleDataSource = () => {
 
 const getQuestionDataSource = () => {
   getCollectionQuestionListByUserId(params).then((res) => {
-    console.log(res.data.records)
     questionFullList.value = questionFullList.value.concat(res.data.records)
     pages.value = res.data.pages
     initLoading.value = false
