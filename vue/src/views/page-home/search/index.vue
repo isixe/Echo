@@ -66,6 +66,15 @@
         </div>
       </template>
       <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
+      <div class="pagination">
+        <a-pagination
+          v-model:current="current"
+          :showSizeChanger="false"
+          show-quick-jumper
+          :total="total"
+          @change="onChange"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -92,30 +101,8 @@ const search = reactive({
   q: route.query.q
 })
 
-watch(
-  () => route.query,
-  () => {
-    Object.keys(search).forEach((key) => {
-      search[key] = route.query[key]
-    })
-
-    params.keyword = search.q
-    params.sort = search.sort
-
-    if (search.type === 'question') {
-      getQuestionDataSource()
-      return
-    }
-
-    if (search.type === 'user') {
-      getUserDataSource()
-      return
-    }
-
-    getArticleDataSource()
-  }
-)
-
+const current = ref(1)
+const total = ref(0)
 const params = reactive({
   pageNum: 1,
   pageSize: 15,
@@ -123,13 +110,72 @@ const params = reactive({
   sort: route.query.sort
 })
 
-onMounted(() => {
-  getArticleDataSource()
+const onChange = (pageNumber) => {
+  params.pageNum = pageNumber
+  getDataSource(search.type)
+  window.scrollTo(0, 0)
+}
 
-  if (route.query.type) {
-    selectedKey.value = [route.query.type]
+onMounted(() => {
+  const type = route.query.type ? route.query.type : 'article'
+
+  selectedKey.value = [type]
+  search.type = type
+
+  getDataSource(search.type)
+})
+
+watch(
+  () => route.query,
+  () => {
+    const type = route.query.type ? route.query.type : search.type
+
+    if (!route.query.type) {
+      return router.push({ path: '/search', query: { type, q: route.query.q } })
+    }
+
+    Object.keys(search).forEach((key) => {
+      search[key] = route.query[key]
+    })
+
+    search.type = search.type ? search.type : type
+
+    params.keyword = search.q
+    params.sort = search.sort
+
+    getDataSource(search.type)
+  }
+)
+
+watch(selectedKey, (key) => {
+  switch (key[0]) {
+    case 'article':
+      router.push({ path: '/search', query: { type: 'article', q: route.query.q } })
+      break
+    case 'question':
+      router.push({ path: '/search', query: { type: 'question', q: route.query.q } })
+      break
+    case 'user':
+      router.push({ path: '/search', query: { type: 'user', q: route.query.q } })
+      break
   }
 })
+
+const getDataSource = (type) => {
+  switch (type) {
+    case 'article':
+      getArticleDataSource()
+      break
+    case 'question':
+      getQuestionDataSource()
+      break
+    case 'user':
+      getUserDataSource()
+      break
+    default:
+      getArticleDataSource()
+  }
+}
 
 const getArticleDataSource = () => {
   getActiveArticleListByKeyword(params).then((res) => {
@@ -146,26 +192,8 @@ const getQuestionDataSource = () => {
 const getUserDataSource = () => {
   getUserListByKeyword(params).then((res) => {
     userData.value = res.data.records
-    console.log(res.data.records)
   })
 }
-
-watch(selectedKey, (key) => {
-  switch (key[0]) {
-    case 'article':
-      router.push({ path: '/search', query: { type: 'article', q: route.query.q } })
-      getArticleDataSource(key[0])
-      break
-    case 'question':
-      router.push({ path: '/search', query: { type: 'question', q: route.query.q } })
-      getQuestionDataSource(key[0])
-      break
-    case 'user':
-      router.push({ path: '/search', query: { type: 'user', q: route.query.q } })
-      getUserDataSource(key[0])
-      break
-  }
-})
 
 const items = ref([
   {
@@ -238,5 +266,12 @@ const items = ref([
   background-color: rgba(23, 114, 246, 0.1);
   color: #4d45e5;
   cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  padding-bottom: 15px;
 }
 </style>
