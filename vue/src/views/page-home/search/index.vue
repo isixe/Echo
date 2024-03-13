@@ -66,7 +66,7 @@
         </div>
       </template>
       <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
-      <div class="pagination">
+      <div class="pagination" v-show="total > 15">
         <a-pagination
           v-model:current="current"
           :showSizeChanger="false"
@@ -180,18 +180,24 @@ const getDataSource = (type) => {
 const getArticleDataSource = () => {
   getActiveArticleListByKeyword(params).then((res) => {
     articleData.value = res.data.records
+    current.value = res.data.current
+    total.value = res.data.total
   })
 }
 
 const getQuestionDataSource = () => {
   getActiveQuestionListByKeyword(params).then((res) => {
     questionData.value = res.data.records
+    current.value = res.data.current
+    total.value = res.data.total
   })
 }
 
 const getUserDataSource = () => {
   getUserListByKeyword(params).then((res) => {
     userData.value = res.data.records
+    current.value = res.data.current
+    total.value = res.data.total
   })
 }
 
