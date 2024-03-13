@@ -112,11 +112,7 @@
 <script setup>
 import { ArticleEntryItem } from '@/views/page-home/components'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-  getActiveArticleListByKeyword,
-  getHotActiveArticleListByKeyword,
-  getUserRank
-} from '@/api/article'
+import { getActiveArticleListByKeyword, getUserRank } from '@/api/article'
 import { getCategoryListByKeyword } from '@/api/category'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
 library.add(faTags, faBullhorn, faRankingStar)
@@ -132,7 +128,8 @@ const fullList = ref([])
 const pages = ref(0)
 const params = reactive({
   pageNum: 1,
-  pageSize: 15
+  pageSize: 15,
+  sort: 'updateTime'
 })
 
 const rankList = ref([])
@@ -200,6 +197,7 @@ watch(selectedKey, (key) => {
 const getDataSource = (type) => {
   switch (type) {
     case 'latest':
+      params.sort = 'updateTime'
       getActiveArticleListByKeyword(params).then((res) => {
         fullList.value = fullList.value.concat(res.data.records)
         pages.value = res.data.pages
@@ -210,7 +208,8 @@ const getDataSource = (type) => {
     case 'recommend':
       break
     case 'hot':
-      getHotActiveArticleListByKeyword(params).then((res) => {
+      params.sort = null
+      getActiveArticleListByKeyword(params).then((res) => {
         fullList.value = fullList.value.concat(res.data.records)
         pages.value = res.data.pages
         initLoading.value = false
