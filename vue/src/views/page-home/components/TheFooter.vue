@@ -7,5 +7,6 @@
   display: flex;
   justify-content: center;
   background-color: #ffffff;
+  padding: 5px 0;
 }
 </style>
