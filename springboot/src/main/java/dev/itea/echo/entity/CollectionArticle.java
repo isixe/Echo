@@ -46,7 +46,7 @@ public class CollectionArticle extends Model<CollectionArticle> {
     private Integer articleId;
 
     @Schema(description = "是否删除")
-    @TableField
+    @TableField(value = "is_deleted")
     @TableLogic
     @JsonIgnore
     private Byte isDeleted;

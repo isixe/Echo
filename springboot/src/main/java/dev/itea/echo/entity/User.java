@@ -81,7 +81,7 @@ public class User extends Model<User> {
     private LocalDateTime lastActiveTime;
 
     @Schema(description = "是否删除")
-    @TableField
+    @TableField(value = "is_deleted")
     @TableLogic
     @JsonIgnore
     private Byte isDeleted;
