@@ -103,14 +103,6 @@ export function getActiveArticleListByKeyword(params) {
   })
 }
 
-export function getHotActiveArticleListByKeyword(params) {
-  return request({
-    url: '/article/queryAllHotActive',
-    method: 'get',
-    params
-  })
-}
-
 export async function getUserRank() {
   return request({
     url: '/article/getUserRankList',
