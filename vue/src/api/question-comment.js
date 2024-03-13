@@ -32,15 +32,15 @@ export function get(params) {
   })
 }
 
-export function getCommentQuestionRootList(params) {
+export function getCommentQuestionRootListByQuestionId(params) {
   return request({
-    url: '/commentQuestion/getRootCommentListByQuestionId',
+    url: '/commentQuestion/queryAllRootCommentByQuestionId',
     method: 'get',
     params
   })
 }
 
-export function getCommentQuestionChildList(params) {
+export function getCommentQuestionChildListByRootId(params) {
   return request({
     url: '/commentQuestion/getChildCommentListByRootId',
     method: 'get',
