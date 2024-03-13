@@ -280,23 +280,6 @@ public class QuestionController {
     }
 
     /**
-     * 问答查询（分页&关键词&发布状态）
-     *
-     * @param pageDTO 分页数据传输对象
-     * @return IPage 分页对象
-     */
-    @Operation(summary = "问答查询（分页&关键词&发布状态）", description = "前台问答分页、发布状态与关键词查询", tags = "Question", method = "GET",
-            parameters = {
-                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
-            })
-    @SaIgnore
-    @GetMapping("/queryAllHotActive")
-    public IPage<QuestionVO> getPageWithActiveHotByKeyword(@Validated PageDTO pageDTO) {
-        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
-        return questionService.getPageWithHotActive(pageable, pageDTO.getKeyword());
-    }
-
-    /**
      * 问答草稿查询（分页&用户ID）
      *
      * @param userId  用户ID

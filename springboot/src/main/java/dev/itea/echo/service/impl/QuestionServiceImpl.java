@@ -85,24 +85,22 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 .eq("status", 1)
                 .eq("q.is_deleted", 0);
 
-        if (ObjectUtils.isEmpty(keyword)) {
-            return questionMapper.getPageWithActive(page, wrapper.orderByDesc("q.update_time"));
+        if (!ObjectUtils.isEmpty(keyword)) {
+            wrapper.and(qw -> qw
+                    .like("title", keyword)
+                    .or()
+                    .like("content", keyword)
+                    .or()
+                    .like("u.name", keyword)
+                    .or()
+                    .like("category_name", keyword)
+                    .or()
+                    .like("tag", keyword));
         }
-
-        wrapper.and(qw -> qw
-                .like("title", keyword)
-                .or()
-                .like("content", keyword)
-                .or()
-                .like("u.name", keyword)
-                .or()
-                .like("category_name", keyword)
-                .or()
-                .like("tag", keyword));
 
         QueryWrapper<QuestionVO> sortedWrapper = Optional.ofNullable(sort)
                 .map(s -> switch (s) {
-                    case "likeCount" -> wrapper.orderByDesc("like_count");
+                    case "likeCount" -> wrapper.orderByDesc("like_count").orderByDesc("q.update_time");
                     case "updateTime" -> wrapper.orderByDesc("q.update_time");
                     default -> wrapper.orderByDesc("q.`pv_count`")
                             .orderByDesc("like_count")
@@ -113,18 +111,6 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                         .orderByDesc("q.update_time"));
 
         return questionMapper.getPageWithActive(page, sortedWrapper);
-    }
-
-    @Override
-    public IPage<QuestionVO> getPageWithHotActive(Pageable pageable, String keyword) {
-        Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<>();
-        wrapper = wrapper.eq("status", 1)
-                .eq("q.is_deleted", 0)
-                .orderByDesc("q.`pv_count`")
-                .orderByDesc("like_count")
-                .orderByDesc("q.update_time");
-        return questionMapper.getPageWithActive(page, wrapper);
     }
 
     @Override
