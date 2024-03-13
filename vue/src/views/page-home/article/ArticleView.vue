@@ -209,12 +209,13 @@
             </the-article-comment-item>
           </template>
         </div>
-        <div class="pagination">
+        <div class="pagination" v-show="total > 15">
           <a-pagination
             v-model:current="current"
             :showSizeChanger="false"
             show-quick-jumper
             :total="total"
+            :pageSize="params.pageSize"
             @change="onChange"
           />
         </div>
@@ -260,7 +261,7 @@ import { createVNode } from 'vue'
 import { get, remove, getArticleListByGroupId } from '@/api/article'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
-import { add, getCommentArticleRootListArticleId } from '@/api/article-comment'
+import { add, getCommentArticleRootListByArticleId } from '@/api/article-comment'
 import {
   add as setCollect,
   remove as unCollect,
@@ -366,7 +367,7 @@ const queryComment = () => {
     pageSize: params.pageSize,
     articleId: data.value.id
   }
-  getCommentArticleRootListArticleId(param).then((res) => {
+  getCommentArticleRootListByArticleId(param).then((res) => {
     commentData.value = res.data.records
     current.value = res.data.current
     total.value = res.data.total

@@ -142,7 +142,7 @@ import { createVNode } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
-import { add, remove, getCommentQuestionChildList } from '@/api/question-comment'
+import { add, remove, getCommentQuestionChildListByRootId } from '@/api/question-comment'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const store = useUserStore()
@@ -162,7 +162,7 @@ onMounted(() => {
 })
 
 const queryChildCommentList = () => {
-  getCommentQuestionChildList({ rootId: comment.value.id }).then((res) => {
+  getCommentQuestionChildListByRootId({ rootId: comment.value.id }).then((res) => {
     childComments.value = res.data
   })
 }
