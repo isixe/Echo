@@ -71,6 +71,10 @@ const updateTime = dayjs(item.value.updateTime).fromNow()
   background-color: #f7f7ff;
 }
 
+.entry-item a {
+  text-decoration: none;
+}
+
 .item-left {
   margin-left: 5px;
   display: flex;
