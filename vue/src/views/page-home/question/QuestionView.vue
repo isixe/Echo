@@ -138,12 +138,33 @@
                 </a-avatar>
                 <span class="user-name">{{ data.author }}</span>
               </router-link>
-              <a-button
-                class="user-subscribe-btn"
-                type="primary"
-                style="background-color: #4d45e5; border-radius: 3px"
-                >关注</a-button
-              >
+              <template v-if="data && store.id != data.userId">
+                <a-button
+                  v-if="!followId"
+                  class="user-subscribe-btn"
+                  type="primary"
+                  style="background-color: #4d45e5; border-radius: 3px"
+                  @click="setUserSubscribe()"
+                  >关注</a-button
+                >
+                <a-button
+                  v-else-if="followId"
+                  class="user-subscribe-btn"
+                  type="primary"
+                  style="background-color: #ccc; border-radius: 3px"
+                  @click="removeUserSubscribe()"
+                  >取消关注</a-button
+                >
+              </template>
+              <template v-else>
+                <a-button
+                  class="user-subscribe-btn"
+                  type="primary"
+                  style="background-color: #ccc; border-radius: 3px"
+                  disabled
+                  >关注</a-button
+                >
+              </template>
             </div>
           </div>
         </div>
@@ -171,6 +192,7 @@ import {
   remove as unThumb,
   getQuestionThumbByArticleIdAndUserId
 } from '@/api/question-thumb'
+import { add as setSubscribe, remove as unSubscribe, getByUserIdAndFollowId } from '@/api/follow'
 
 const router = useRouter()
 const store = useUserStore()
@@ -190,9 +212,12 @@ const params = reactive({
   pageSize: 15
 })
 
+const followId = ref()
+
 onMounted(async () => {
   await get({ id: route.params.id }).then((res) => {
     data.value = res.data
+    checkFollow()
   })
 
   const parser = new DOMParser()
@@ -218,6 +243,16 @@ onMounted(async () => {
   getQuestioinThumb()
   queryComment()
 })
+
+const checkFollow = () => {
+  const params = {
+    userId: store.id,
+    followUserId: data.value.userId
+  }
+  getByUserIdAndFollowId(params).then((res) => {
+    followId.value = res.data.id
+  })
+}
 
 const queryComment = () => {
   const param = {
@@ -334,6 +369,22 @@ const onChange = (pageNumber) => {
   params.pageNum = pageNumber
   queryComment()
   document.querySelector('.comment-box').scrollIntoView(true)
+}
+
+const setUserSubscribe = () => {
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('followUserId', data.value.userId)
+  setSubscribe(formData).then(() => checkFollow())
+}
+
+const removeUserSubscribe = () => {
+  const formData = new FormData()
+  formData.append('id', followId.value)
+  unSubscribe(formData).then(() => {
+    followId.value = null
+    console.log(followId.value)
+  })
 }
 </script>
 
