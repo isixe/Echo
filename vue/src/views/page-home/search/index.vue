@@ -83,7 +83,7 @@
 import { ArticleEntryItem, QuestionEntryItem, UserEntryItem } from '@/views/page-home/components'
 import { getActiveArticleListByKeyword } from '@/api/article'
 import { getActiveQuestionListByKeyword } from '@/api/question'
-import { getUserListByKeyword } from '@/api/user'
+import { getUserListByName } from '@/api/user'
 
 const route = useRoute()
 const router = useRouter()
@@ -194,7 +194,7 @@ const getQuestionDataSource = () => {
 }
 
 const getUserDataSource = () => {
-  getUserListByKeyword(params).then((res) => {
+  getUserListByName(params).then((res) => {
     userData.value = res.data.records
     current.value = res.data.current
     total.value = res.data.total
