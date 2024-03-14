@@ -29,6 +29,15 @@ public class UserVO {
     @Schema(description = "头像")
     private String avatar;
 
+    @Schema(description = "发文数")
+    private Integer articleCount;
+
+    @Schema(description = "问答数")
+    private Integer questionCount;
+
+    @Schema(description = "关注者数")
+    private Integer followCount;
+
     @Schema(description = "注册时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createdTime;
