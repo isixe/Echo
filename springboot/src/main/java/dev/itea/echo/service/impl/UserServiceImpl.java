@@ -64,13 +64,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public IPage<User> getPageByName(Pageable pageable, String keyword) {
+    public IPage<UserVO> getPageByName(Pageable pageable, String name) {
         Page<User> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        if (!ObjectUtils.isEmpty(keyword)) {
-            wrapper = wrapper.like("name", keyword);
-        }
-        return userMapper.selectPage(page, wrapper);
+        QueryWrapper<UserVO> wrapper = new QueryWrapper<UserVO>()
+                .eq("u.is_deleted", 0)
+                .like("name", name);
+        return userMapper.getPage(page, wrapper);
     }
 
 }

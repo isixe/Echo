@@ -15,4 +15,37 @@
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
+    <!-- 用户值对象查询映射结果 -->
+    <resultMap id="UserVOResultMap" type="dev.itea.echo.vo.UserVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="avatar" property="avatar"/>
+        <result column="article_count" property="articleCount"/>
+        <result column="question_count" property="questionCount"/>
+        <result column="follow_count" property="followCount"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="last_active_time" property="lastActiveTime"/>
+    </resultMap>
+
+    <select id="getPage" resultMap="UserVOResultMap">
+        SELECT id,
+               name,
+               description,
+               avatar,
+               (SELECT COUNT(*)
+                FROM article
+                WHERE user_id = u.id
+                  AND article.is_deleted = 0)  AS article_count,
+               (SELECT COUNT(*)
+                FROM question
+                WHERE user_id = u.id
+                  AND question.is_deleted = 0) AS question_count,
+               (SELECT COUNT(*)
+                FROM follow
+                WHERE follow_user_id = u.id
+                  AND follow.is_deleted = 0)   AS follow_count
+        FROM user as u ${ew.customSqlSegment}
+    </select>
+
 </mapper>

@@ -25,6 +25,6 @@ public interface UserService extends IService<User> {
 
     IPage<User> getPage(Pageable pageable, String keword);
 
-    IPage<User> getPageByName(Pageable pageable, String keyword);
+    IPage<UserVO> getPageByName(Pageable pageable, String keyword);
 
 }

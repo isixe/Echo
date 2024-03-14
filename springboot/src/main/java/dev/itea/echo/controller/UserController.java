@@ -277,7 +277,7 @@ public class UserController {
             })
     @SaIgnore
     @GetMapping("/queryAllByName")
-    public IPage<User> getPageByName(@Validated PageDTO pageDTO) {
+    public IPage<UserVO> getPageByName(@Validated PageDTO pageDTO) {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return userService.getPageByName(pageable, pageDTO.getKeyword());
     }
