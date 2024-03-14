@@ -145,6 +145,7 @@ import { useUserStore } from '@/stores/user'
 import { add, remove, getCommentQuestionChildListByRootId } from '@/api/question-comment'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
+const router = useRouter()
 const store = useUserStore()
 const props = defineProps(['comment'])
 const { comment } = toRefs(props)
@@ -201,6 +202,10 @@ const postChildComment = (childId) => {
 }
 
 const postComment = (formData) => {
+  if (!store.id) {
+    message.warning('请先登录')
+    return router.push('/login')
+  }
   formData.append('userId', store.id)
   formData.append('rootCommentId', comment.value.id)
   formData.append('questionId', comment.value.questionId)
