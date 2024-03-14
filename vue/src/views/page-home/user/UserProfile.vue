@@ -14,13 +14,22 @@
         <div class="user-desc" v-if="user.description">{{ user.description }}</div>
         <div class="user-desc" v-else>这个人很懒，什么都没有写...</div>
       </div>
-      <div class="footer-content" v-if="user">
+      <div class="footer-content" v-if="user && store.id != user.id">
         <a-button
-          v-if="!store.id == user.id"
+          v-if="!followId"
           class="user-subscribe-btn"
           type="primary"
           style="background-color: #4d45e5"
+          @click="setUserSubscribe()"
           >关注</a-button
+        >
+        <a-button
+          v-else-if="followId"
+          class="user-subscribe-btn"
+          type="primary"
+          style="background-color: #ccc"
+          @click="removeUserSubscribe()"
+          >取消关注</a-button
         >
       </div>
     </div>
@@ -129,6 +138,7 @@ import { getArticleListByUserId } from '@/api/article'
 import { getQuestionListByUserId } from '@/api/question'
 import { add, remove, getArticleGroupListByUserId } from '@/api/article-group'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import { add as setSubscribe, remove as unSubscribe, getByUserIdAndFollowId } from '@/api/follow'
 
 const user = ref()
 const route = useRoute()
@@ -152,6 +162,8 @@ const params = reactive({
   userId: route.params.id
 })
 
+const followId = ref()
+
 const form = ref()
 const showAddModal = ref(false)
 
@@ -167,6 +179,7 @@ onMounted(() => {
   get({ id: route.params.id })
     .then((result) => {
       user.value = result.data
+      checkFollow()
     })
     .catch(() => {
       router.push('/404')
@@ -256,6 +269,25 @@ const getDataSource = (type) => {
   }
 }
 
+const checkFollow = () => {
+  const params = {
+    userId: store.id,
+    followUserId: user.value.id
+  }
+  getByUserIdAndFollowId(params).then((res) => {
+    followId.value = res.data.id
+  })
+}
+
+const removeUserSubscribe = () => {
+  const formData = new FormData()
+  formData.append('id', followId.value)
+  unSubscribe(formData).then(() => {
+    followId.value = null
+    console.log(followId.value)
+  })
+}
+
 const queryGroupData = () => {
   getArticleGroupListByUserId(params).then((res) => {
     fullList.value = fullList.value.concat(res.data.records)
@@ -317,6 +349,13 @@ const deleteGroup = (groupId) => {
       })
     }
   })
+}
+
+const setUserSubscribe = () => {
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('followUserId', user.value.id)
+  setSubscribe(formData).then(() => checkFollow())
 }
 
 const formItemLayout = {
