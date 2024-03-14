@@ -279,15 +279,6 @@ const checkFollow = () => {
   })
 }
 
-const removeUserSubscribe = () => {
-  const formData = new FormData()
-  formData.append('id', followId.value)
-  unSubscribe(formData).then(() => {
-    followId.value = null
-    console.log(followId.value)
-  })
-}
-
 const queryGroupData = () => {
   getArticleGroupListByUserId(params).then((res) => {
     fullList.value = fullList.value.concat(res.data.records)
@@ -356,6 +347,15 @@ const setUserSubscribe = () => {
   formData.append('userId', store.id)
   formData.append('followUserId', user.value.id)
   setSubscribe(formData).then(() => checkFollow())
+}
+
+const removeUserSubscribe = () => {
+  const formData = new FormData()
+  formData.append('id', followId.value)
+  unSubscribe(formData).then(() => {
+    followId.value = null
+    console.log(followId.value)
+  })
 }
 
 const formItemLayout = {
