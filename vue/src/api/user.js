@@ -69,3 +69,19 @@ export function getUserListByName(params) {
     params
   })
 }
+
+export function getFollowUserByUserId(params) {
+  return request({
+    url: '/user/queryAllWithFollowUserByUserId',
+    method: 'get',
+    params
+  })
+}
+
+export function getFollowerUserByUserId(params) {
+  return request({
+    url: '/user/queryAllWithFollowerUserByUserId',
+    method: 'get',
+    params
+  })
+}
