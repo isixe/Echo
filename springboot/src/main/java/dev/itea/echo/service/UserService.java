@@ -24,4 +24,7 @@ public interface UserService extends IService<User> {
 
     IPage<UserVO> getPageByName(Pageable pageable, String keyword);
 
+    IPage<UserVO> getPageWithFollowUserByUserId(Pageable pageable, Integer userId);
+
+    IPage<UserVO> getPageWithFollowerUserByUserId(Pageable pageable, Integer userId);
 }

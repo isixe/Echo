@@ -48,4 +48,48 @@
         FROM user as u ${ew.customSqlSegment}
     </select>
 
+    <select id="getPageWithFollowUserByUserId" resultMap="UserVOResultMap">
+        SELECT u.id,
+               name,
+               description,
+               avatar,
+               (SELECT COUNT(*)
+                FROM article
+                WHERE user_id = u.id
+                  AND article.is_deleted = 0)  AS article_count,
+               (SELECT COUNT(*)
+                FROM question
+                WHERE user_id = u.id
+                  AND question.is_deleted = 0) AS question_count,
+               (SELECT COUNT(*)
+                FROM follow
+                WHERE follow_user_id = u.id
+                  AND follow.is_deleted = 0)   AS follow_count
+        FROM user as u
+                 JOIN follow AS f ON u.id = f.follow_user_id
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="getPageWithFollowerUserByUserId" resultMap="UserVOResultMap">
+        SELECT u.id,
+               name,
+               description,
+               avatar,
+               (SELECT COUNT(*)
+                FROM article
+                WHERE user_id = u.id
+                  AND article.is_deleted = 0)  AS article_count,
+               (SELECT COUNT(*)
+                FROM question
+                WHERE user_id = u.id
+                  AND question.is_deleted = 0) AS question_count,
+               (SELECT COUNT(*)
+                FROM follow
+                WHERE follow_user_id = u.id
+                  AND follow.is_deleted = 0)   AS follow_count
+        FROM user as u
+                 JOIN follow AS f ON u.id = f.user_id
+            ${ew.customSqlSegment}
+    </select>
+
 </mapper>

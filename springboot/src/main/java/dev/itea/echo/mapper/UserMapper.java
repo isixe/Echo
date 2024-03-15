@@ -18,4 +18,8 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper extends BaseMapper<User> {
 
     IPage<UserVO> getPage(Page<User> page, @Param(Constants.WRAPPER) QueryWrapper<UserVO> wrapper);
+
+    IPage<UserVO> getPageWithFollowUserByUserId(Page<User> page, @Param(Constants.WRAPPER) QueryWrapper<UserVO> wrapper);
+
+    IPage<UserVO> getPageWithFollowerUserByUserId(Page<User> page, @Param(Constants.WRAPPER) QueryWrapper<UserVO> wrapper);
 }

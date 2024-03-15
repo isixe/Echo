@@ -281,4 +281,42 @@ public class UserController {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return userService.getPageByName(pageable, pageDTO.getKeyword());
     }
+
+    /**
+     * 关注用户查询（分页&UserId）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "关注用户查询（分页&UserId）", description = "根据用户ID分页查询关注用户", tags = "User", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2")
+            })
+    @SaIgnore
+    @GetMapping("/queryAllWithFollowUserByUserId")
+    public IPage<UserVO> getPageWithFollowUserByName(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return userService.getPageWithFollowUserByUserId(pageable, userId);
+    }
+
+    /**
+     * 用户粉丝查询（分页&UserId）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "关注用户查询（分页&UserId）", description = "根据用户ID分页查询用户粉丝", tags = "User", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2")
+            })
+    @SaIgnore
+    @GetMapping("/queryAllWithFollowerUserByUserId")
+    public IPage<UserVO> getPageWithFollowerUserByName(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return userService.getPageWithFollowerUserByUserId(pageable, userId);
+    }
 }

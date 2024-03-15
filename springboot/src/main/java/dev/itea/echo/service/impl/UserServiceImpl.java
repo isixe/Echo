@@ -72,4 +72,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.getPage(page, wrapper);
     }
 
+    @Override
+    public IPage<UserVO> getPageWithFollowUserByUserId(Pageable pageable, Integer userId) {
+        Page<User> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<UserVO> wrapper = new QueryWrapper<UserVO>()
+                .eq("f.is_deleted", 0)
+                .eq("u.is_deleted", 0)
+                .eq("f.user_id", userId);
+        return userMapper.getPageWithFollowUserByUserId(page, wrapper);
+    }
+
+    @Override
+    public IPage<UserVO> getPageWithFollowerUserByUserId(Pageable pageable, Integer userId) {
+        Page<User> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<UserVO> wrapper = new QueryWrapper<UserVO>()
+                .eq("f.is_deleted", 0)
+                .eq("u.is_deleted", 0)
+                .eq("f.follow_user_id", userId);
+        return userMapper.getPageWithFollowerUserByUserId(page, wrapper);
+    }
+
 }
