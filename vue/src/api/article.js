@@ -133,3 +133,11 @@ export function getUnGroupArticleByUserId(params) {
     params
   })
 }
+
+export function getSubscribeArticleByUserId(params) {
+  return request({
+    url: '/article/queryAllSubscribeByUserId',
+    method: 'get',
+    params
+  })
+}
