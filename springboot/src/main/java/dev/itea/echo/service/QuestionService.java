@@ -3,6 +3,7 @@ package dev.itea.echo.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
+import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
 import dev.itea.echo.vo.UserRankVO;
 import org.springframework.data.domain.Pageable;
@@ -38,4 +39,6 @@ public interface QuestionService extends IService<Question> {
     IPage<Question> getPageWithActiveByTitle(Pageable pageable, String title);
 
     IPage<Question> getPageWithDraftByUserId(Pageable pageable, Integer userId);
+
+    IPage<QuestionVO> getPageWithSubscribeByUserId(Pageable pageable, Integer userId);
 }

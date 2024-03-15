@@ -19,7 +19,7 @@
     </resultMap>
 
     <!-- 问答关联值对象查询映射结果 -->
-    <resultMap id="QuestionVOListResultMap" type="dev.itea.echo.vo.QuestionVO">
+    <resultMap id="QuestionVOResultMap" type="dev.itea.echo.vo.QuestionVO">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="author" property="author"/>
@@ -65,22 +65,22 @@
         SELECT q.id,
                q.title,
                q.content,
-               u.id                                                                                                 AS user_id,
-               u.`name`                                                                                             AS author,
+               u.id                                    AS user_id,
+               u.`name`                                AS author,
                u.`avatar`,
-               c.category_name                                                                                      AS category,
-               c.id                                                                                                 AS category_id,
+               c.category_name                         AS category,
+               c.id                                    AS category_id,
                q.tag,
                q.`status`,
                q.`pv_count`,
                (SELECT count(*)
                 FROM question_thumb
                 WHERE question_id = q.id
-                  AND question_thumb.is_deleted = 0)                                                                AS `like_count`,
+                  AND question_thumb.is_deleted = 0)   AS `like_count`,
                (SELECT count(*)
                 FROM comment_question
                 WHERE question_id = q.id
-                  AND comment_question.is_deleted = 0)                                                              AS `comment_count`,
+                  AND comment_question.is_deleted = 0) AS `comment_count`,
                q.`created_time`,
                q.`publish_time`,
                q.`update_time`
@@ -91,7 +91,7 @@
           AND q.is_deleted = 0
     </select>
 
-    <select id="getPage" resultMap="QuestionVOListResultMap">
+    <select id="getPage" resultMap="QuestionVOResultMap">
         SELECT q.id,
                q.title,
                q.content,
@@ -115,7 +115,7 @@
             ${ew.customSqlSegment}
     </select>
 
-    <select id="getPageWithActive" resultMap="QuestionVOListResultMap">
+    <select id="getPageWithActive" resultMap="QuestionVOResultMap">
         SELECT q.id,
                q.title,
                u.id                                                             AS user_id,
@@ -129,6 +129,31 @@
                q.`update_time`
         FROM question AS q
                  JOIN `user` AS u ON q.user_id = u.id
+                 JOIN category AS c ON q.category_id = c.id
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="getPageWithSubscribe" resultMap="QuestionVOResultMap">
+        SELECT follow_user_id                                           AS user_id,
+               (SELECT `name` FROM user WHERE user.id = follow_user_id) AS author,
+               (SELECT `avatar` FROM user WHERE user.id = follow_user_id),
+               q.id,
+               q.title,
+               q.`pv_count`,
+               (SELECT count(*)
+                FROM question_thumb
+                WHERE question_id = q.id
+                  AND question_thumb.is_deleted = 0)                    AS `like_count`,
+               (SELECT count(*)
+                FROM comment_question
+                WHERE question_id = q.id
+                  AND comment_question.is_deleted = 0)                  AS `comment_count`,
+               q.`update_time`,
+               c.category_name                                          AS category,
+               c.id                                                     AS category_id
+        FROM user as u
+                 JOIN follow f on u.id = f.user_id
+                 JOIN question q on f.follow_user_id = q.user_id
                  JOIN category AS c ON q.category_id = c.id
             ${ew.customSqlSegment}
     </select>

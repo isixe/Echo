@@ -168,4 +168,16 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         return questionMapper.selectPage(page, wrapper);
     }
 
+    @Override
+    public IPage<QuestionVO> getPageWithSubscribeByUserId(Pageable pageable, Integer userId) {
+        Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
+                .eq("u.id", userId)
+                .eq("q.status", 1)
+                .eq("u.is_deleted", 0)
+                .eq("f.is_deleted", 0)
+                .orderByDesc("q.update_time");
+        return questionMapper.getPageWithSubscribe(page, wrapper);
+    }
+
 }

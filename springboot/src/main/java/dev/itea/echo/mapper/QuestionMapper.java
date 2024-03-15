@@ -29,4 +29,5 @@ public interface QuestionMapper extends BaseMapper<Question> {
 
     List<UserRankVO> getListWithUserNumRank();
 
+    IPage<QuestionVO> getPageWithSubscribe(Page<QuestionVO> page, @Param(Constants.WRAPPER) QueryWrapper<QuestionVO> wrapper);
 }

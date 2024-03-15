@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Question;
 import dev.itea.echo.entity.result.ResultCode;
@@ -14,6 +15,7 @@ import dev.itea.echo.utils.MapstructMapperUtil;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
+import dev.itea.echo.vo.ArticleVO;
 import dev.itea.echo.vo.QuestionVO;
 import dev.itea.echo.vo.UserRankVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -297,4 +299,22 @@ public class QuestionController {
         return questionService.getPageWithDraftByUserId(pageable, userId);
     }
 
+    /**
+     * 问答订阅查询（用户ID）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
+     * @return IPage
+     */
+    @Operation(summary = "问答订阅查询（用户ID）", description = "前台根据用户ID分页查询订阅文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+            })
+    @SaUserCheckLogin
+    @GetMapping(value = "/queryAllSubscribeByUserId")
+    public IPage<QuestionVO> getPageWithSubscribeByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return questionService.getPageWithSubscribeByUserId(pageable, userId);
+    }
 }
