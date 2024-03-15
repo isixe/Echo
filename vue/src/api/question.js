@@ -101,3 +101,11 @@ export async function getUserRank() {
     method: 'get'
   })
 }
+
+export function getSubscribeQuestionByUserId(params) {
+  return request({
+    url: '/question/queryAllSubscribeByUserId',
+    method: 'get',
+    params
+  })
+}
