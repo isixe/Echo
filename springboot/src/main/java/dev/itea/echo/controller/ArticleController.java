@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.annotation.SaUserCheckLogin;
 import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.Article;
 import dev.itea.echo.utils.MapstructMapperUtil;
@@ -380,4 +381,22 @@ public class ArticleController {
         return articleService.getPageWithDraftByUserId(pageable, userId);
     }
 
+    /**
+     * 文章订阅查询（用户ID）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
+     * @return IPage
+     */
+    @Operation(summary = "文章订阅查询（用户ID）", description = "前台根据用户ID分页查询订阅文章", tags = "Article", method = "GET",
+            parameters = {
+                    @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
+            })
+    @SaUserCheckLogin
+    @GetMapping(value = "/queryAllSubscribeByUserId")
+    public IPage<ArticleVO> getPageWithSubscribeByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return articleService.getPageWithSubscribeByUserId(pageable, userId);
+    }
 }

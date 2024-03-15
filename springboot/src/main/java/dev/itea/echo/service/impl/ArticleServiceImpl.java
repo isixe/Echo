@@ -202,4 +202,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleMapper.selectPage(page, wrapper);
     }
 
+    @Override
+    public IPage<ArticleVO> getPageWithSubscribeByUserId(Pageable pageable, Integer userId) {
+        Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<ArticleVO>()
+                .eq("u.id", userId)
+                .eq("a.status", 1)
+                .eq("u.is_deleted", 0)
+                .eq("f.is_deleted", 0)
+                .orderByDesc("a.update_time");
+        return articleMapper.getPageWithSubscribe(page, wrapper);
+    }
+
 }

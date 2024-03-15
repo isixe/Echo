@@ -46,4 +46,6 @@ public interface ArticleService extends IService<Article> {
     IPage<Article> getPageWithActiveByTitle(Pageable pageable, String title);
 
     IPage<Article> getPageWithDraftByUserId(Pageable pageable, Integer userId);
+
+    IPage<ArticleVO> getPageWithSubscribeByUserId(Pageable pageable, Integer userId);
 }
