@@ -108,15 +108,21 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/stores/user'
 import { QuestionEntryItem } from '@/views/page-home/components'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { getActiveQuestionListByKeyword, getUserRank } from '@/api/question'
+import {
+  getActiveQuestionListByKeyword,
+  getUserRank,
+  getSubscribeQuestionByUserId
+} from '@/api/question'
 import { getCategoryListByKeyword } from '@/api/category'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
 library.add(faTags, faBullhorn, faRankingStar)
 
 const route = useRoute()
 const router = useRouter()
+const store = useUserStore()
 const selectedKey = ref(['latest'])
 const recommendCategory = ref([])
 
@@ -127,7 +133,8 @@ const pages = ref(0)
 const params = reactive({
   pageNum: 1,
   pageSize: 15,
-  sort: 'updateTime'
+  sort: 'updateTime',
+  userId: store.id
 })
 
 const rankList = ref([])
@@ -215,6 +222,12 @@ const getDataSource = (type) => {
       })
       break
     case 'subscribe':
+      getSubscribeQuestionByUserId(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+      })
       break
     default:
       router.push('/question')
