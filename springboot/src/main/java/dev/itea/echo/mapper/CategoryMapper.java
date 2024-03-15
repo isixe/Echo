@@ -3,8 +3,6 @@ package dev.itea.echo.mapper;
 import dev.itea.echo.entity.Category;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import java.util.List;
-
 /**
  * 类别表 Mapper 接口
  *

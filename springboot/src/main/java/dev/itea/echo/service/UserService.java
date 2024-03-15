@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import dev.itea.echo.vo.UserVO;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 /**
  * 用户表 服务类
