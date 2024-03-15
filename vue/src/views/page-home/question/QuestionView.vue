@@ -588,37 +588,37 @@ const removeUserSubscribe = () => {
   font-size: 15px;
 }
 
-:global(.question-text-top > tr:first-child) {
+:global(.question-text-top tr:first-child) {
   background-color: #eaeef2 !important;
   font-weight: 700;
 }
 
-:global(.question-text-top > tr:nth-child(odd)) {
+:global(.question-text-top tr:nth-child(odd)) {
   background-color: #f6f8fa;
 }
 
-:global(.question-text-top > td) {
+:global(.question-text-top td) {
   border: 1px solid #ccc;
   padding: 5px 2px;
 }
 
-:global(.question-text-top > p),
-:global(.question-text-top > li),
-:global(.question-text-top > span) {
+:global(.question-text-top p),
+:global(.question-text-top li),
+:global(.question-text-top span) {
   line-height: 1.8;
   font-size: 16px;
 }
 
-:global(.question-text-top > h1),
-:global(.question-text-top > h2),
-:global(.question-text-top > h3),
-:global(.question-text-top > h4),
-:global(.question-text-top > h5),
-:global(.question-text-top > h6) {
+:global(.question-text-top h1),
+:global(.question-text-top h2),
+:global(.question-text-top h3),
+:global(.question-text-top h4),
+:global(.question-text-top h5),
+:global(.question-text-top h6) {
   margin: 0 0 15px;
 }
 
-:global(.question-text-top > pre) {
+:global(.question-text-top pre) {
   max-width: 670px;
   background-color: #f5f2f0;
   padding: 10px;
@@ -631,7 +631,7 @@ const removeUserSubscribe = () => {
   overflow: scroll;
 }
 
-:global(.question-text-top > pre > code) {
+:global(.question-text-top pre code) {
   word-wrap: normal;
   font-family:
     Consolas,

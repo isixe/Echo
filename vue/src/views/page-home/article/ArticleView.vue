@@ -244,7 +244,7 @@
               <template v-if="data && store.id != data.userId">
                 <a-button
                   v-if="!followId"
-                  class="user-follow-btn"
+                  class="user-subscribe-btn"
                   type="primary"
                   style="background-color: #4d45e5; border-radius: 3px"
                   @click="setUserSubscribe()"
@@ -252,7 +252,7 @@
                 >
                 <a-button
                   v-else-if="followId"
-                  class="user-follow-btn"
+                  class="user-subscribe-btn"
                   type="primary"
                   style="background-color: #ccc; border-radius: 3px"
                   @click="removeUserSubscribe()"
@@ -261,7 +261,7 @@
               </template>
               <template v-else>
                 <a-button
-                  class="user-follow-btn"
+                  class="user-subscribe-btn"
                   type="primary"
                   style="background-color: #ccc; border-radius: 3px"
                   disabled
@@ -819,38 +819,38 @@ const removeUserSubscribe = () => {
   font-size: 15px;
 }
 
-:global(.article-text-top > tr:first-child) {
+:global(.article-text-top tr:first-child) {
   background-color: #eaeef2 !important;
   font-weight: 700;
 }
 
-:global(.article-text-top > tr:nth-child(odd)) {
+:global(.article-text-top tr:nth-child(odd)) {
   background-color: #f6f8fa;
 }
 
-:global(.article-text-top > td) {
+:global(.article-text-top td) {
   border: 1px solid #ccc;
   padding: 5px 2px;
 }
 
-:global(.article-text-top > p),
-:global(.article-text-top > li),
-:global(.article-text-top > span) {
+:global(.article-text-top p),
+:global(.article-text-top li),
+:global(.article-text-top span) {
   line-height: 1.8;
   margin: 0 0 15px;
   font-size: 16px;
 }
 
-:global(.article-text-top > h1),
-:global(.article-text-top > h2),
-:global(.article-text-top > h3),
-:global(.article-text-top > h4),
-:global(.article-text-top > h5),
-:global(.article-text-top > h6) {
+:global(.article-text-top h1),
+:global(.article-text-top h2),
+:global(.article-text-top h3),
+:global(.article-text-top h4),
+:global(.article-text-top h5),
+:global(.article-text-top h6) {
   margin: 0 0 15px;
 }
 
-:global(.article-text-top > pre) {
+:global(.article-text-top pre) {
   max-width: 670px;
   background-color: #f5f2f0;
   padding: 10px;
@@ -863,7 +863,7 @@ const removeUserSubscribe = () => {
   overflow: scroll;
 }
 
-:global(.article-text-top > pre > code) {
+:global(.article-text-top pre code) {
   word-wrap: normal;
   font-family:
     Consolas,
