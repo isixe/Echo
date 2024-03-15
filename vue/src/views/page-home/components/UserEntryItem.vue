@@ -8,7 +8,7 @@
           </template>
         </a-avatar>
         <div class="user-content">
-          <span class="user-name">{{ item.name }}</span>
+          <span class="user-entry-name">{{ item.name }}</span>
           <span class="user-desc">{{ item.description }}</span>
           <div class="user-message">
             <span>{{ item.articleCount }} 发文数</span>
@@ -115,7 +115,7 @@ const removeUserSubscribe = () => {
   justify-content: space-between;
 }
 
-.user-name {
+.user-entry-name {
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 5px;
@@ -125,7 +125,7 @@ const removeUserSubscribe = () => {
   margin-bottom: 5px;
 }
 
-.user-name:hover,
+.user-entry-name:hover,
 .user-content:hover {
   color: #4d45e5;
 }
