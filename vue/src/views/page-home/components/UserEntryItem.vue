@@ -22,7 +22,7 @@
         <template v-if="item && store.id != item.id">
           <a-button
             v-if="!followId"
-            class="user-subscribe-btn"
+            class="user-follow-btn"
             type="primary"
             style="background-color: #4d45e5; border-radius: 3px"
             @click.prevent="setUserSubscribe()"
@@ -30,7 +30,7 @@
           >
           <a-button
             v-else-if="followId"
-            class="user-subscribe-btn"
+            class="user-follow-btn"
             type="primary"
             style="background-color: #ccc; border-radius: 3px"
             @click.prevent="removeUserSubscribe()"
@@ -39,7 +39,7 @@
         </template>
         <template v-else>
           <a-button
-            class="user-subscribe-btn"
+            class="user-follow-btn"
             type="primary"
             style="background-color: #ccc; border-radius: 3px"
             disabled

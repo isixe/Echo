@@ -17,7 +17,7 @@
       <div class="footer-content" v-if="user && store.id != user.id">
         <a-button
           v-if="!followId"
-          class="user-subscribe-btn"
+          class="user-follow-btn"
           type="primary"
           style="background-color: #4d45e5"
           @click="setUserSubscribe()"
@@ -25,7 +25,7 @@
         >
         <a-button
           v-else-if="followId"
-          class="user-subscribe-btn"
+          class="user-follow-btn"
           type="primary"
           style="background-color: #ccc"
           @click="removeUserSubscribe()"
@@ -76,13 +76,13 @@
               </template>
             </a-list>
           </a-tab-pane>
-          <a-tab-pane key="subscribe" tab="关注">
-            <div class="subscribe-container"></div>
+          <a-tab-pane key="follow" tab="关注">
+            <div class="follow-container"></div>
           </a-tab-pane>
         </a-tabs>
       </a-layout-content>
       <a-layout-sider class="dynamic-side-content" width="320px">
-        <div class="subscribe-card">
+        <div class="follow-card">
           <div class="subscirbe-content">
             <div>关注了</div>
             <div class="subscirbe-count">22</div>
@@ -127,7 +127,7 @@
 </template>
 
 <script setup>
-import { get } from '@/api/user'
+import { get, getFollowUserByUserId } from '@/api/user'
 import { createVNode } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
@@ -148,7 +148,8 @@ const store = useUserStore()
 const data = reactive({
   articleTotal: 0,
   questionTotal: 0,
-  articleGroupTotal: 0
+  articleGroupTotal: 0,
+  followCount: 0
 })
 const activeKey = ref('')
 
@@ -232,8 +233,8 @@ watch(activeKey, (tab) => {
     case 'question':
       router.replace({ path: '/user/' + route.params.id, query: { tab: 'question' } })
       break
-    case 'subscribe':
-      router.replace({ path: '/user/' + route.params.id, query: { tab: 'subscribe' } })
+    case 'follow':
+      router.replace({ path: '/user/' + route.params.id, query: { tab: 'follow' } })
       break
   }
   fullList.value = []
@@ -261,7 +262,14 @@ const getDataSource = (type) => {
         loading.value = false
       })
       break
-    case 'subscribe':
+    case 'follow':
+      getFollowUserByUserId(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+        console.log(fullList.value)
+      })
       break
     default:
       router.push({ path: '/user/' + route.params.id })
@@ -474,11 +482,11 @@ const rules = {
   margin: 3px;
 }
 
-.user-subscribe-btn:hover {
+.user-follow-btn:hover {
   background-color: #6d66f1 !important;
 }
 
-.subscribe-card {
+.follow-card {
   background-color: #ffffff;
   border-radius: 4px;
   display: grid;

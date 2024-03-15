@@ -192,8 +192,8 @@ watch(selectedKey, (key) => {
     case 'hot':
       router.push({ path: '/question', query: { type: 'hot' } })
       break
-    case 'subscribe':
-      router.push({ path: '/question', query: { type: 'subscribe' } })
+    case 'follow':
+      router.push({ path: '/question', query: { type: 'follow' } })
       break
   }
   getDataSource(key[0])
@@ -221,7 +221,7 @@ const getDataSource = (type) => {
         loading.value = false
       })
       break
-    case 'subscribe':
+    case 'follow':
       getSubscribeQuestionByUserId(params).then((res) => {
         fullList.value = fullList.value.concat(res.data.records)
         pages.value = res.data.pages
@@ -251,7 +251,7 @@ const items = ref([
     label: '热门'
   },
   {
-    key: 'subscribe',
+    key: 'follow',
     label: '订阅'
   }
 ])
