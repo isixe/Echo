@@ -20,7 +20,7 @@
           class="user-follow-btn"
           type="primary"
           style="background-color: #4d45e5"
-          @click="setUserSubscribe()"
+          @click="setUserFollow()"
           >关注</a-button
         >
         <a-button
@@ -28,7 +28,7 @@
           class="user-follow-btn"
           type="primary"
           style="background-color: #ccc"
-          @click="removeUserSubscribe()"
+          @click="removeUserFollow()"
           >取消关注</a-button
         >
       </div>
@@ -77,7 +77,27 @@
             </a-list>
           </a-tab-pane>
           <a-tab-pane key="follow" tab="关注">
-            <div class="follow-container"></div>
+            <div class="follow-tab">
+              <a
+                :class="followTab == 'follow' ? 'active-tab' : ''"
+                @click="() => switchFollow('follow')"
+              >
+                他关注的人
+              </a>
+              <a
+                :class="followTab == 'follower' ? 'active-tab' : ''"
+                @click="() => switchFollow('follower')"
+              >
+                关注他的人
+              </a>
+            </div>
+            <a-list :loading="initLoading" item-layout="horizontal" :data-source="fullList">
+              <template #renderItem="{ item }">
+                <router-link :to="'/user/' + item.id" style="display: flex; width: 100%">
+                  <user-entry-item :item="item"></user-entry-item>
+                </router-link>
+              </template>
+            </a-list>
           </a-tab-pane>
         </a-tabs>
       </a-layout-content>
@@ -85,11 +105,11 @@
         <div class="follow-card">
           <div class="subscirbe-content">
             <div>关注了</div>
-            <div class="subscirbe-count">22</div>
+            <div class="subscirbe-count">{{ data.followCount }}</div>
           </div>
           <div class="subscirbe-content">
             <div>关注者</div>
-            <span class="subscirbe-count">26</span>
+            <span class="subscirbe-count">{{ data.followerCount }}</span>
           </div>
         </div>
       </a-layout-sider>
@@ -127,18 +147,17 @@
 </template>
 
 <script setup>
-import { get, getFollowUserByUserId } from '@/api/user'
+import { get, getFollowUserByUserId, getFollowerUserByUserId } from '@/api/user'
 import { createVNode } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
-import { QuestionEntryItem } from '@/views/page-home/components'
-import { ArticleEntryItem } from '@/views/page-home/components'
+import { ArticleEntryItem, QuestionEntryItem, UserEntryItem } from '@/views/page-home/components'
 import { getArticleListByUserId } from '@/api/article'
 import { getQuestionListByUserId } from '@/api/question'
 import { add, remove, getArticleGroupListByUserId } from '@/api/article-group'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
-import { add as setSubscribe, remove as unSubscribe, getByUserIdAndFollowId } from '@/api/follow'
+import { add as setFollow, remove as unFollow, getByUserIdAndFollowId } from '@/api/follow'
 
 const user = ref()
 const route = useRoute()
@@ -149,9 +168,11 @@ const data = reactive({
   articleTotal: 0,
   questionTotal: 0,
   articleGroupTotal: 0,
-  followCount: 0
+  followCount: 0,
+  followerCount: 0
 })
 const activeKey = ref('')
+const followTab = ref('follow')
 
 const initLoading = ref(true)
 const loading = ref(false)
@@ -159,7 +180,7 @@ const fullList = ref([])
 const pages = ref(0)
 const params = reactive({
   pageNum: 1,
-  pageSize: 5,
+  pageSize: 15,
   userId: route.params.id
 })
 
@@ -177,6 +198,10 @@ const newData = reactive({
 onMounted(() => {
   window.addEventListener('scroll', scrollBottom, true)
 
+  dataLoader()
+})
+
+const dataLoader = () => {
   get({ id: route.params.id })
     .then((result) => {
       user.value = result.data
@@ -189,10 +214,12 @@ onMounted(() => {
   getArticleListByUserId(params).then((res) => (data.articleTotal = res.data.total))
   getArticleGroupListByUserId(params).then((res) => (data.articleGroupTotal = res.data.total))
   getQuestionListByUserId(params).then((res) => (data.questionTotal = res.data.total))
+  getFollowUserByUserId(params).then((res) => (data.followCount = res.data.total))
+  getFollowerUserByUserId(params).then((res) => (data.followerCount = res.data.total))
 
   let tab = route.query.tab ? route.query.tab : 'article'
   activeKey.value = tab
-})
+}
 
 onBeforeUnmount(() => window.removeEventListener('scroll', scrollBottom, true))
 
@@ -220,6 +247,15 @@ const onLoadMore = () => {
   })
 }
 
+watch(
+  () => route.params.id,
+  (newId) => {
+    params.userId = newId
+    dataLoader()
+    activeKey.value = 'article'
+  }
+)
+
 watch(activeKey, (tab) => {
   fullList.value = []
   params.pageNum = 1
@@ -237,7 +273,6 @@ watch(activeKey, (tab) => {
       router.replace({ path: '/user/' + route.params.id, query: { tab: 'follow' } })
       break
   }
-  fullList.value = []
   getDataSource(tab)
 })
 
@@ -245,6 +280,7 @@ const getDataSource = (type) => {
   switch (type) {
     case 'article':
       getArticleListByUserId(params).then((res) => {
+        console.log(params)
         fullList.value = fullList.value.concat(res.data.records)
         pages.value = res.data.pages
         initLoading.value = false
@@ -263,6 +299,23 @@ const getDataSource = (type) => {
       })
       break
     case 'follow':
+      if (followTab.value == 'follower') {
+        getFollowerUserByUserId(params).then((res) => {
+          fullList.value = fullList.value.concat(res.data.records)
+          pages.value = res.data.pages
+          initLoading.value = false
+          loading.value = false
+        })
+        break
+      }
+      getFollowUserByUserId(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+      })
+      break
+    case 'follower':
       getFollowUserByUserId(params).then((res) => {
         fullList.value = fullList.value.concat(res.data.records)
         pages.value = res.data.pages
@@ -350,20 +403,28 @@ const deleteGroup = (groupId) => {
   })
 }
 
-const setUserSubscribe = () => {
+const setUserFollow = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
   formData.append('followUserId', user.value.id)
-  setSubscribe(formData).then(() => checkFollow())
+  setFollow(formData).then(() => checkFollow())
 }
 
-const removeUserSubscribe = () => {
+const removeUserFollow = () => {
   const formData = new FormData()
   formData.append('id', followId.value)
-  unSubscribe(formData).then(() => {
+  unFollow(formData).then(() => {
     followId.value = null
     console.log(followId.value)
   })
+}
+
+const switchFollow = (tab) => {
+  console.log(tab)
+  followTab.value = tab
+  fullList.value = []
+  params.pageNum = 1
+  getDataSource('follow')
 }
 
 const formItemLayout = {
@@ -568,5 +629,22 @@ const rules = {
 
 .entry-item {
   flex: 1;
+}
+
+.follow-tab {
+  margin-bottom: 15px;
+}
+
+.follow-tab a {
+  margin-right: 15px;
+  color: #666;
+}
+
+.follow-tab a:hover {
+  cursor: pointer;
+}
+
+.follow-tab .active-tab {
+  font-weight: 700;
 }
 </style>
