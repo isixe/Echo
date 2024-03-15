@@ -224,16 +224,16 @@ watch(activeKey, (tab) => {
   params.pageNum = 1
   switch (tab) {
     case 'article':
-      router.push({ path: '/user/' + route.params.id, query: { tab: 'article' } })
+      router.replace({ path: '/user/' + route.params.id, query: { tab: 'article' } })
       break
     case 'group':
-      router.push({ path: '/user/' + route.params.id, query: { tab: 'group' } })
+      router.replace({ path: '/user/' + route.params.id, query: { tab: 'group' } })
       break
     case 'question':
-      router.push({ path: '/user/' + route.params.id, query: { tab: 'question' } })
+      router.replace({ path: '/user/' + route.params.id, query: { tab: 'question' } })
       break
     case 'subscribe':
-      router.push({ path: '/user/' + route.params.id, query: { tab: 'subscribe' } })
+      router.replace({ path: '/user/' + route.params.id, query: { tab: 'subscribe' } })
       break
   }
   fullList.value = []

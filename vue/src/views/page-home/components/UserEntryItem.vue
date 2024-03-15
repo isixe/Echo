@@ -19,7 +19,7 @@
       </div>
 
       <div class="user-container-right">
-        <template v-if="item && store.id != item.userId">
+        <template v-if="item && store.id != item.id">
           <a-button
             v-if="!followId"
             class="user-subscribe-btn"
