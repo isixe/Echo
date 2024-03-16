@@ -104,14 +104,20 @@
                a.featured_pic,
                a.title,
                a.summary,
-               u.id                                                           AS user_id,
-               u.`name`                                                       AS author,
+               u.id                                   AS user_id,
+               u.`name`                               AS author,
                u.`avatar`,
-               c.category_name                                                AS category,
-               c.id                                                           AS category_id,
+               c.category_name                        AS category,
+               c.id                                   AS category_id,
                a.`pv_count`,
-               (SELECT count(*) FROM article_thumb WHERE article_id = a.id)   AS `like_count`,
-               (SELECT count(*) FROM comment_article WHERE article_id = a.id) AS `comment_count`,
+               (SELECT count(*)
+                FROM article_thumb
+                WHERE article_id = a.id
+                  AND article_thumb.is_deleted = 0)   AS `like_count`,
+               (SELECT count(*)
+                FROM comment_article
+                WHERE article_id = a.id
+                  AND comment_article.is_deleted = 0) AS `comment_count`,
                a.`update_time`
         FROM article AS a
                  JOIN `user` AS u ON a.user_id = u.id
@@ -128,18 +134,29 @@
                a.summary,
                a.content,
                a.article_group_id,
-               u.id                                                              AS user_id,
-               u.`name`                                                          AS author,
+               u.id                                      AS user_id,
+               u.`name`                                  AS author,
                u.`avatar`,
-               c.category_name                                                   AS category,
-               c.id                                                              AS category_id,
+               c.category_name                           AS category,
+               c.id                                      AS category_id,
                a.tag,
-               g.name                                                            AS article_group_name,
+               g.name                                    AS article_group_name,
                a.`status`,
                a.`pv_count`,
-               (SELECT count(*) FROM article_thumb WHERE article_id = a.id)      AS `like_count`,
-               (SELECT count(*) FROM collection_article WHERE article_id = a.id) AS `collection_count`,
-               (SELECT count(*) FROM comment_article WHERE article_id = a.id)    AS `comment_count`,
+               (SELECT count(*)
+                FROM article_thumb
+                WHERE article_id = a.id
+                  AND article_thumb.is_deleted = 0)      AS `like_count`,
+               (SELECT count(*)
+                FROM collection_article
+                WHERE article_id = a.id
+                  AND collection_article.is_deleted = 0) AS `collection_count`,
+               (SELECT COUNT(*)
+                FROM comment_article ca
+                         LEFT JOIN comment_article cab ON ca.root_comment_id = cab.id AND cab.is_deleted = 1
+                WHERE ca.article_id = a.id
+                  AND ca.is_deleted = 0
+                  AND cab.id IS NULL)                    AS `comment_count`,
                a.`created_time`,
                a.`publish_time`,
                a.`update_time`
@@ -155,20 +172,22 @@
                a.featured_pic,
                a.title,
                a.summary,
-               u.id                                   AS user_id,
-               u.`name`                               AS author,
+               u.id                                 AS user_id,
+               u.`name`                             AS author,
                u.`avatar`,
-               c.category_name                        AS category,
-               c.id                                   AS category_id,
+               c.category_name                      AS category,
+               c.id                                 AS category_id,
                a.`pv_count`,
                (SELECT count(*)
                 FROM article_thumb
                 WHERE article_id = a.id
-                  AND article_thumb.is_deleted = 0)   AS `like_count`,
-               (SELECT count(*)
-                FROM comment_article
-                WHERE article_id = a.id
-                  AND comment_article.is_deleted = 0) AS `comment_count`,
+                  AND article_thumb.is_deleted = 0) AS `like_count`,
+               (SELECT COUNT(*)
+                FROM comment_article ca
+                         LEFT JOIN comment_article cab ON ca.root_comment_id = cab.id AND cab.is_deleted = 1
+                WHERE ca.article_id = a.id
+                  AND ca.is_deleted = 0
+                  AND cab.id IS NULL)               AS `comment_count`,
                a.`update_time`
         FROM article AS a
                  JOIN `user` AS u ON a.user_id = u.id
@@ -188,10 +207,12 @@
                 FROM article_thumb
                 WHERE article_id = a.id
                   AND article_thumb.is_deleted = 0)                     AS `like_count`,
-               (SELECT count(*)
-                FROM comment_article
-                WHERE article_id = a.id
-                  AND comment_article.is_deleted = 0)                   AS `comment_count`,
+               (SELECT COUNT(*)
+                FROM comment_article ca
+                         LEFT JOIN comment_article cab ON ca.root_comment_id = cab.id AND cab.is_deleted = 1
+                WHERE ca.article_id = a.id
+                  AND ca.is_deleted = 0
+                  AND cab.id IS NULL)                                   AS `comment_count`,
                a.`update_time`,
                c.category_name                                          AS category,
                c.id                                                     AS category_id

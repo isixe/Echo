@@ -95,17 +95,26 @@
         SELECT q.id,
                q.title,
                q.content,
-               u.id                                                                AS user_id,
-               u.`name`                                                            AS author,
+               u.id                                       AS user_id,
+               u.`name`                                   AS author,
                u.`avatar`,
-               c.category_name                                                     AS category,
-               c.id                                                                AS category_id,
+               c.category_name                            AS category,
+               c.id                                       AS category_id,
                q.tag,
                q.`status`,
                q.`pv_count`,
-               (SELECT count(*) FROM question_thumb WHERE question_id = q.id)      AS `like_count`,
-               (SELECT count(*) FROM collection_question WHERE question_id = q.id) AS `collection_count`,
-               (SELECT count(*) FROM comment_question WHERE question_id = q.id)    AS `comment_count`,
+               (SELECT count(*)
+                FROM question_thumb
+                WHERE question_id = q.id
+                  AND question_thumb.is_deleted = 0)      AS `like_count`,
+               (SELECT count(*)
+                FROM collection_question
+                WHERE question_id = q.id
+                  AND collection_question.is_deleted = 0) AS `collection_count`,
+               (SELECT count(*)
+                FROM comment_question
+                WHERE question_id = q.id
+                  AND comment_question.is_deleted = 0)    AS `comment_count`,
                q.`created_time`,
                q.`publish_time`,
                q.`update_time`
@@ -118,14 +127,22 @@
     <select id="getPageWithActive" resultMap="QuestionVOResultMap">
         SELECT q.id,
                q.title,
-               u.id                                                             AS user_id,
-               u.`name`                                                         AS author,
+               u.id                                  AS user_id,
+               u.`name`                              AS author,
                u.`avatar`,
-               c.category_name                                                  AS category,
-               c.id                                                             AS category_id,
+               c.category_name                       AS category,
+               c.id                                  AS category_id,
                q.`pv_count`,
-               (SELECT count(*) FROM question_thumb WHERE question_id = q.id)   AS `like_count`,
-               (SELECT count(*) FROM comment_question WHERE question_id = q.id) AS `comment_count`,
+               (SELECT count(*)
+                FROM question_thumb
+                WHERE question_id = q.id
+                  AND question_thumb.is_deleted = 0) AS `like_count`,
+               (SELECT COUNT(*)
+                FROM comment_question cq
+                         LEFT JOIN comment_question cqb ON cq.root_comment_id = cqb.id AND cqb.is_deleted = 1
+                WHERE cq.question_id = q.id
+                  AND cq.is_deleted = 0
+                  AND cqb.id IS NULL)                AS `comment_count`,
                q.`update_time`
         FROM question AS q
                  JOIN `user` AS u ON q.user_id = u.id
@@ -144,10 +161,12 @@
                 FROM question_thumb
                 WHERE question_id = q.id
                   AND question_thumb.is_deleted = 0)                    AS `like_count`,
-               (SELECT count(*)
-                FROM comment_question
-                WHERE question_id = q.id
-                  AND comment_question.is_deleted = 0)                  AS `comment_count`,
+               (SELECT COUNT(*)
+                FROM comment_question cq
+                         LEFT JOIN comment_question cqb ON cq.root_comment_id = cqb.id AND cqb.is_deleted = 1
+                WHERE cq.question_id = q.id
+                  AND cq.is_deleted = 0
+                  AND cqb.id IS NULL)                                   AS `comment_count`,
                q.`update_time`,
                c.category_name                                          AS category,
                c.id                                                     AS category_id
