@@ -58,14 +58,24 @@
     <select id="getPage" resultMap="CommentQuestionVOResultMap">
         SELECT cq.id,
                cq.user_id,
-               u.name  AS user_name,
+               u.name                 AS user_name,
                u.avatar,
                cq.question_id,
                cq.content,
-               q.title AS question_title,
+               q.title                AS question_title,
                cq.root_comment_id,
                cq.parent_comment_id,
                cq.like_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_question AS rcq
+                WHERE rcq.is_deleted = 0
+                  AND rcq.comment_question_id = cq.id
+                  AND rcq.status = 1) AS like_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_question AS rcq
+                WHERE rcq.is_deleted = 0
+                  AND rcq.comment_question_id = cq.id
+                  AND rcq.status = 0) AS dislike_count,
                cq.dislike_count,
                cq.created_time
         FROM comment_question AS cq
@@ -78,15 +88,23 @@
     <select id="getPageWithRootCommentByQuestionId" resultMap="RootCommentQuestionVOResultMap">
         SELECT cq.id,
                cq.user_id,
-               u.name  AS user_name,
+               u.name                 AS user_name,
                u.avatar,
-               q.title AS question_title,
+               q.title                AS question_title,
                cq.question_id,
                cq.root_comment_id,
                cq.parent_comment_id,
                cq.content,
-               cq.like_count,
-               cq.dislike_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_question AS rcq
+                WHERE rcq.is_deleted = 0
+                  AND rcq.comment_question_id = cq.id
+                  AND rcq.status = 1) AS like_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_question AS rcq
+                WHERE rcq.is_deleted = 0
+                  AND rcq.comment_question_id = cq.id
+                  AND rcq.status = 0) AS dislike_count,
                cq.created_time
         FROM comment_question AS cq
                  JOIN `user` AS u ON u.id = cq.user_id
@@ -104,8 +122,16 @@
                (SELECT name FROM `user` WHERE id = cb.user_id) AS parent_user_name,
                cq.content,
                cb.content                                      AS parent_content,
-               cq.like_count,
-               cq.dislike_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_question AS rcq
+                WHERE rcq.is_deleted = 0
+                  AND rcq.comment_question_id = cq.id
+                  AND rcq.status = 1)                          AS like_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_question AS rcq
+                WHERE rcq.is_deleted = 0
+                  AND rcq.comment_question_id = cq.id
+                  AND rcq.status = 0)                          AS dislike_count,
                cq.created_time
         FROM comment_question AS cq
                  JOIN `user` AS u ON u.id = cq.user_id
