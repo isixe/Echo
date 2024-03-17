@@ -10,8 +10,6 @@
         <result column="root_comment_id" property="rootCommentId"/>
         <result column="parent_comment_id" property="parentCommentId"/>
         <result column="content" property="content"/>
-        <result column="like_count" property="likeCount"/>
-        <result column="dislike_count" property="dislikeCount"/>
         <result column="created_time" property="createdTime"/>
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
@@ -60,15 +58,23 @@
     <select id="getPage" resultMap="CommentArticleVOResultMap">
         SELECT ca.id,
                ca.user_id,
-               u.name  AS user_name,
+               u.name                 AS user_name,
                u.avatar,
                ca.article_id,
                ca.content,
-               a.title AS article_title,
+               a.title                AS article_title,
                ca.root_comment_id,
                ca.parent_comment_id,
-               ca.like_count,
-               ca.dislike_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_article AS rca
+                WHERE rca.is_deleted = 0
+                  AND rca.comment_article_id = ca.id
+                  AND rca.status = 1) AS like_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_article AS rca
+                WHERE rca.is_deleted = 0
+                  AND rca.comment_article_id = ca.id
+                  AND rca.status = 0) AS dislike_count,
                ca.created_time
         FROM comment_article AS ca
                  JOIN `user` AS u ON u.id = ca.user_id
@@ -79,15 +85,23 @@
     <select id="getPageWithRootCommentByArticleId" resultMap="RootCommentArticleVOResultMap">
         SELECT ca.id,
                ca.user_id,
-               u.name  AS user_name,
+               u.name                 AS user_name,
                u.avatar,
-               a.title AS article_title,
+               a.title                AS article_title,
                ca.article_id,
                ca.root_comment_id,
                ca.parent_comment_id,
                ca.content,
-               ca.like_count,
-               ca.dislike_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_article AS rca
+                WHERE rca.is_deleted = 0
+                  AND rca.comment_article_id = ca.id
+                  AND rca.status = 1) AS like_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_article AS rca
+                WHERE rca.is_deleted = 0
+                  AND rca.comment_article_id = ca.id
+                  AND rca.status = 0) AS dislike_count,
                ca.created_time
         FROM comment_article AS ca
                  JOIN `user` AS u ON u.id = ca.user_id
@@ -105,8 +119,16 @@
                (SELECT name FROM `user` WHERE id = cb.user_id) AS parent_user_name,
                ca.content,
                cb.content                                      AS parent_content,
-               ca.like_count,
-               ca.dislike_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_article AS rca
+                WHERE rca.is_deleted = 0
+                  AND rca.comment_article_id = ca.id
+                  AND rca.status = 1)                          AS like_count,
+               (SELECT COUNT(*)
+                FROM reaction_comment_article AS rca
+                WHERE rca.is_deleted = 0
+                  AND rca.comment_article_id = ca.id
+                  AND rca.status = 0)                          AS dislike_count,
                ca.created_time
         FROM comment_article AS ca
                  JOIN `user` AS u ON u.id = ca.user_id
