@@ -62,14 +62,6 @@ public class CommentQuestion extends Model<CommentQuestion> {
     @NotBlank(message = "不能为空字符串", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     private String content;
 
-    @Schema(description = "支持数")
-    @TableField("like_count")
-    private Integer likeCount;
-
-    @Schema(description = "否定数")
-    @TableField("dislike_count")
-    private Integer dislikeCount;
-
     @Schema(description = "发送时间")
     @TableField(value = "created_time", fill = FieldFill.INSERT_UPDATE, updateStrategy = FieldStrategy.NOT_NULL)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
