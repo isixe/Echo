@@ -3,6 +3,8 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import dev.itea.echo.entity.ReactionCommentArticle;
 import dev.itea.echo.entity.ReactionCommentQuestion;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -113,5 +115,24 @@ public class ReactionCommentQuestionController {
             throw new BusinessException(ResultCode.DATA_NOT_FOUND);
         }
         return checkReaction;
+    }
+
+    /**
+     * 文章评论反应查询（uID）
+     *
+     * @param userId            用户ID
+     * @param commentQuestionId 文章评论ID
+     * @return CommentArticle 文章评论反应对象
+     */
+    @Operation(summary = "文章评论反应查询（ID）", description = "文章评论反应查询", tags = "CommentArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping("/getByCommentQuestionIdAndUserId")
+    public ReactionCommentQuestion getByCommentArticleIdAndUserId(Integer userId, Integer commentQuestionId) {
+        return reactionCommentQuestionService.getOne(new QueryWrapper<ReactionCommentQuestion>()
+                .eq("user_id", userId)
+                .eq("comment_question_id", commentQuestionId));
     }
 }
