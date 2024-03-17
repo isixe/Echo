@@ -1,10 +1,10 @@
-<template v-if="comment">
-  <div class="comment-main-container root-info group-main">
+<template>
+  <div class="child-info">
     <div class="comment-message">
-      <router-link :to="'/user/' + comment.userId">
+      <router-link :to="'/user/' + child.userId">
         <a-avatar
           class="user-avatar"
-          :src="comment.avatar"
+          :src="child.avatar"
           :size="30"
           :style="{ marginRight: '10px', marginTop: '-3px' }"
         >
@@ -16,74 +16,77 @@
     </div>
     <div class="comment-user-info">
       <div class="base-info">
-        <router-link :to="'/user/' + comment.userId">
-          <span class="user-name g-hover"
-            >{{ comment.userName }}
-            <span v-show="comment.userId == authorId" style="color: #ccc">[作者]</span>
-          </span>
-        </router-link>
+        <span class="user-name g-hover">
+          <router-link :to="'/user/' + child.userId">
+            {{ child.userName }}
+            <span v-show="child.userId == authorId" style="color: #ccc">[作者]</span>
+          </router-link>
+          <template v-if="child.parentCommentId && child.userId !== child.parentUserId">
+            <CaretRightOutlined style="color: #ccc" />
+            <router-link :to="'/user/' + child.parentUserId">
+              @{{ child.parentUserName }}
+              <span v-show="child.parentUserId == authorId" style="color: #ccc">[作者]</span>
+            </router-link>
+          </template>
+        </span>
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-        <span class="comment-time">{{ comment.createdTime }}</span>
-        <template v-if="store.id == comment.userId">
+        <span class="comment-time">{{ child.createdTime }}</span>
+        <template v-if="store.id == child.userId">
           <a-divider type="vertical" style="height: 15px; top: 0; background-color: #e1cee7" />
-          <a class="comment-delete" @click="deleteComment(comment.id)">删除</a>
+          <a class="comment-delete" @click="deleteComment(child.id)">删除</a>
         </template>
       </div>
       <div class="ex-info">
-        <p>{{ comment.content }}</p>
+        <p>{{ child.content }}</p>
+        <p class="quote-comment" v-show="child.parentCommentId !== comment.id">
+          {{ child.parentContent }}
+        </p>
       </div>
       <div class="footer-info">
         <template v-if="reactionData && reactionData.status">
           <a @click="removeCommentReaction()"
-            ><span> <LikeFilled style="color: #4d45e5" /> {{ comment.likeCount }} </span></a
+            ><span> <LikeFilled style="color: #4d45e5" /> {{ child.likeCount }} </span></a
           >
         </template>
         <template v-else>
-          <a @click="likeComment(comment.id)"
-            ><span> <LikeOutlined /> {{ comment.likeCount }} </span></a
+          <a @click="likeComment(child.id)"
+            ><span> <LikeOutlined /> {{ child.likeCount }} </span></a
           >
         </template>
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
         <template v-if="reactionData && reactionData.status != null && !reactionData.status">
           <a @click="removeCommentReaction()"
-            ><span> <DislikeFilled style="color: #4d45e5" /> {{ comment.dislikeCount }} </span></a
+            ><span> <DislikeFilled style="color: #4d45e5" /> {{ child.dislikeCount }} </span></a
           >
         </template>
         <template v-else>
-          <a @click="dislikeComment(comment.id)"
-            ><span> <DislikeOutlined /> {{ comment.dislikeCount }} </span></a
+          <a @click="dislikeComment(child.id)"
+            ><span> <DislikeOutlined /> {{ child.dislikeCount }} </span></a
           >
         </template>
         <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
         <a
-          ><span @click="() => (showRootReplay = !showRootReplay)"> <MessageOutlined /></span
-        ></a>
-        <div class="replay-root-info-box" v-show="showRootReplay">
-          <a-textarea v-model:value="rootContent" :autoSize="true" />
+          ><span @click="() => (showChildReplay = showChildReplay == child.id ? 0 : child.id)">
+            <MessageOutlined /> 0
+          </span></a
+        >
+        <div class="replay-child-info-box" v-show="showChildReplay == child.id">
+          <a-textarea v-model:value="childContent" :autoSize="true" />
           <div class="button-box">
-            <a-button class="relay_commetn_btn" @click="postRootComment(comment.id)">回复</a-button>
+            <a-button class="relay_commetn_btn" @click="postChildComment(child.id)">回复</a-button>
           </div>
         </div>
-      </div>
-      <div class="child-comment-container">
-        <template v-for="child in childComments" :key="child.id">
-          <the-article-comment-child-item
-            :child="child"
-            :comment="comment"
-            :authorId="authorId"
-            @onChildCommentUpdate="queryChildCommentList()"
-          ></the-article-comment-child-item>
-        </template>
       </div>
     </div>
   </div>
 </template>
+
 <script setup>
 import { createVNode } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
-import { add, remove, getCommentArticleChildListByRootId } from '@/api/article-comment'
+import { add, remove } from '@/api/article-comment'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import {
   add as setReaction,
@@ -91,40 +94,47 @@ import {
   remove as removeReaction,
   getByCommentArticleIdAndUserId
 } from '@/api/reaction-comment-article'
-import { TheArticleCommentChildItem } from '../components'
 
-const router = useRouter()
 const store = useUserStore()
-const props = defineProps(['comment'])
-const { comment } = toRefs(props)
-const authorId = defineModel()
-const emit = defineEmits(['onCommentUpdate'])
-console.log(comment.value)
 
-const childComments = ref()
-const showRootReplay = ref(false)
-const rootContent = ref('')
+const props = defineProps(['child', 'comment', 'authorId'])
+const { child, comment, authorId } = toRefs(props)
+const emit = defineEmits(['onChildCommentUpdate'])
 
-const reactionData = ref(0)
+const childContent = ref('')
+const showChildReplay = ref(0)
+const reactionData = ref()
 
 onMounted(() => {
-  queryChildCommentList()
   queryReactionData()
 })
 
 const queryReactionData = () => {
   const param = {
     userId: store.id,
-    commentArticleId: comment.value.id
+    commentArticleId: child.value.id
   }
   getByCommentArticleIdAndUserId(param).then((res) => {
     reactionData.value = res.data
   })
 }
 
-const queryChildCommentList = () => {
-  getCommentArticleChildListByRootId({ rootId: comment.value.id }).then((res) => {
-    childComments.value = res.data
+const postChildComment = (childId) => {
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('parentCommentId', childId)
+  formData.append('content', childContent.value)
+  postComment(formData)
+}
+
+const postComment = (formData) => {
+  formData.append('userId', store.id)
+  formData.append('rootCommentId', comment.value.id)
+  formData.append('articleId', comment.value.articleId)
+  add(formData).then(() => {
+    message.success('回复成功')
+    emit('onChildCommentUpdate')
+    childContent.value = ''
   })
 }
 
@@ -141,32 +151,9 @@ const deleteComment = (id) => {
       formData.append('id', id)
       remove(formData).then(() => {
         message.success('删除成功')
-        emit('onCommentUpdate')
+        emit('onChildCommentUpdate')
       })
     }
-  })
-}
-
-const postRootComment = (parentId) => {
-  if (!store.id) {
-    message.warning('请先登录')
-    return router.push('/login')
-  }
-  const formData = new FormData()
-  formData.append('content', rootContent.value)
-  formData.append('parentCommentId', parentId)
-  postComment(formData)
-}
-
-const postComment = (formData) => {
-  formData.append('userId', store.id)
-  formData.append('rootCommentId', comment.value.id)
-  formData.append('articleId', comment.value.articleId)
-  add(formData).then(() => {
-    message.success('回复成功')
-    emit('onCommentUpdate')
-    rootContent.value = ''
-    queryChildCommentList()
   })
 }
 
@@ -179,7 +166,7 @@ const likeComment = (commentId) => {
   if (reactionData.value.status == null) {
     setReaction(formData).then(() => {
       queryReactionData()
-      comment.value.likeCount += 1
+      emit('onChildCommentUpdate')
     })
     return
   }
@@ -187,12 +174,8 @@ const likeComment = (commentId) => {
   formData.append('id', reactionData.value.id)
   updateReaction(formData).then(() => {
     queryReactionData()
-    comment.value.likeCount += 1
+    emit('onChildCommentUpdate')
   })
-
-  if (!reactionData.value.status) {
-    comment.value.dislikeCount -= 1
-  }
 }
 
 const dislikeComment = (commentId) => {
@@ -204,7 +187,7 @@ const dislikeComment = (commentId) => {
   if (reactionData.value.status == null) {
     setReaction(formData).then(() => {
       queryReactionData()
-      comment.value.dislikeCount += 1
+      emit('onChildCommentUpdate')
     })
     return
   }
@@ -212,35 +195,27 @@ const dislikeComment = (commentId) => {
   formData.append('id', reactionData.value.id)
   updateReaction(formData).then(() => {
     queryReactionData()
-    comment.value.dislikeCount += 1
+    emit('onChildCommentUpdate')
   })
-
-  if (reactionData.value.status) {
-    comment.value.likeCount -= 1
-  }
 }
 
 const removeCommentReaction = () => {
   const formData = new FormData()
+  console.log(reactionData.value.id)
   formData.append('id', reactionData.value.id)
   removeReaction(formData).then(() => {
     queryReactionData()
-
-    if (reactionData.value.status) {
-      comment.value.likeCount -= 1
-      return
-    }
-
-    comment.value.dislikeCount -= 1
+    emit('onChildCommentUpdate')
   })
 }
 </script>
 
-<style scoped>
-.comment-main-container {
-  border-bottom: 1px solid #f4f4f4;
+<style scope>
+.child-info {
+  background-color: #f7f7fc;
+  padding: 10px;
+  border-radius: 5px;
   display: flex;
-  padding: 15px 0;
 }
 
 .comment-user-info {
@@ -289,6 +264,14 @@ const removeCommentReaction = () => {
   border-radius: 4px;
 }
 
+.replay-child-info-box {
+  margin-top: 10px;
+  background-color: #ffffff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
 .button-box {
   text-align: right;
   margin-top: 4px;
@@ -304,7 +287,10 @@ const removeCommentReaction = () => {
   border-radius: 3px;
 }
 
-.child-comment-container {
-  margin-top: 10px;
+.quote-comment {
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 4px;
+  background-color: #e8e8f6;
 }
 </style>
