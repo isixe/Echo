@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ReactionCommentQuestionService extends IService<ReactionCommentQuestion> {
 
+    ReactionCommentQuestion update(ReactionCommentQuestion reactionCommentQuestion);
+
+    void delete(Integer id);
+
+    ReactionCommentQuestion get(Integer id);
+
 }

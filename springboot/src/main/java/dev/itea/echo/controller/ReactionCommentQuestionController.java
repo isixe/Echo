@@ -1,18 +1,117 @@
 package dev.itea.echo.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckOr;
+import cn.dev33.satoken.annotation.SaIgnore;
+import dev.itea.echo.entity.ReactionCommentQuestion;
+import dev.itea.echo.entity.result.ResultCode;
+import dev.itea.echo.exception.BusinessException;
+import dev.itea.echo.service.ReactionCommentQuestionService;
+import dev.itea.echo.utils.StpUserUtil;
+import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.validation.UpdateValidationGroup;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.annotation.Resource;
+import org.springframework.util.ObjectUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>
- * 问答评论反应表 前端控制器
- * </p>
+ * 问答评论反应控制器
  *
  * @author isixe
  * @since 2024-03-16
  */
 @RestController
-@RequestMapping("/reaction-comment-question")
+@RequestMapping("/api/v1/reactionCommentQuestion")
 public class ReactionCommentQuestionController {
 
+    @Resource
+    ReactionCommentQuestionService reactionCommentQuestionService;
+
+    /**
+     * 文章评论反应新增
+     *
+     * @param reactionCommentQuestion 文章评论反应实体
+     */
+    @Operation(summary = "文章评论反应新增", description = "后台文章新增", tags = "CommentArticle", method = "POST",
+            parameters = {
+                    @Parameter(name = "reactionCommentQuestion", description = "文章评论反应实体", required = true),
+            })
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
+    @PostMapping
+    public void add(@Validated(AddValidationGroup.class) ReactionCommentQuestion reactionCommentQuestion) {
+        reactionCommentQuestionService.save(reactionCommentQuestion);
+    }
+
+    /**
+     * 文章评论反应更新
+     *
+     * @param reactionCommentQuestion 文章实体
+     */
+    @Operation(summary = "文章评论反应更新", description = "文章评论反应更新", tags = "CommentArticle", method = "PUT",
+            parameters = {
+                    @Parameter(name = "reactionCommentQuestion", description = "文章评论反应实体", required = true),
+            })
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
+    @PutMapping
+    public void update(@Validated(UpdateValidationGroup.class) ReactionCommentQuestion reactionCommentQuestion) {
+        //check article
+        ReactionCommentQuestion checkReaction = reactionCommentQuestionService.get(reactionCommentQuestion.getId());
+        if (ObjectUtils.isEmpty(checkReaction)) {
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
+        }
+        //update
+        reactionCommentQuestionService.update(reactionCommentQuestion);
+    }
+
+    /**
+     * 文章评论反应删除
+     *
+     * @param id 评论ID
+     */
+    @Operation(summary = "文章删除", description = "文章评论反应删除", tags = "CommentArticle", method = "DELETE",
+            parameters = {
+                    @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
+            })
+    @SaCheckOr(
+            login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
+    )
+    @DeleteMapping
+    public void delete(Integer id) {
+        //check article
+        ReactionCommentQuestion checkReaction = reactionCommentQuestionService.get(id);
+        if (ObjectUtils.isEmpty(checkReaction)) {
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
+        }
+        //delete
+        reactionCommentQuestionService.delete(id);
+    }
+
+    /**
+     * 文章评论反应查询（ID）
+     *
+     * @param id 文章评论反应ID
+     * @return CommentArticle 文章评论反应对象
+     */
+    @Operation(summary = "文章评论反应查询（ID）", description = "文章评论反应查询", tags = "CommentArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
+            })
+    @SaIgnore
+    @GetMapping
+    public ReactionCommentQuestion get(Integer id) {
+        //get article
+        ReactionCommentQuestion checkReaction = reactionCommentQuestionService.get(id);
+        //check article
+        if (ObjectUtils.isEmpty(checkReaction)) {
+            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
+        }
+        return checkReaction;
+    }
 }
