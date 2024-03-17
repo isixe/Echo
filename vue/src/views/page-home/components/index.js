@@ -7,6 +7,7 @@ import UserEntryItem from './UserEntryItem.vue'
 import TheArticleCommentItem from './TheArticleCommentItem.vue'
 import TheQuestionCommentItem from './TheQuestionCommentItem.vue'
 import TheArticleCommentChildItem from './TheArticleCommentChildItem.vue'
+import TheQuestionCommentChildItem from './TheQuestionCommentChildItem.vue'
 
 export {
   TheHeader,
@@ -17,5 +18,6 @@ export {
   UserEntryItem,
   TheArticleCommentItem,
   TheQuestionCommentItem,
-  TheArticleCommentChildItem
+  TheArticleCommentChildItem,
+  TheQuestionCommentChildItem
 }

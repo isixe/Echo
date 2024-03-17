@@ -1,9 +1,23 @@
 <template v-if="comment">
   <div class="comment-main-container root-info group-main">
     <div class="info-message">
-      <a @click="likeComment(comment.id)"><CaretUpOutlined style="font-size: 24px" /></a>
+      <template v-if="reactionData && reactionData.status">
+        <a @click="removeCommentReaction()"
+          ><CaretUpFilled style="font-size: 24px; color: #4d45e5"
+        /></a>
+      </template>
+      <template v-else>
+        <a @click="likeComment(comment.id)"><CaretUpOutlined style="font-size: 24px" /></a>
+      </template>
       <p>{{ comment.likeCount - comment.dislikeCount }}</p>
-      <a @click="dislikeComment(comment.id)"><CaretDownOutlined style="font-size: 24px" /></a>
+      <template v-if="reactionData && reactionData.status != null && !reactionData.status">
+        <a @click="removeCommentReaction()"
+          ><CaretDownFilled style="font-size: 24px; color: #4d45e5"
+        /></a>
+      </template>
+      <template v-else>
+        <a @click="dislikeComment(comment.id)"><CaretDownOutlined style="font-size: 24px" /></a>
+      </template>
     </div>
     <div class="comment-message">
       <router-link :to="'/user/' + comment.userId">
@@ -54,85 +68,12 @@
       </div>
 
       <template v-for="child in childComments" :key="child.id">
-        <div class="child-info">
-          <div class="comment-message">
-            <router-link :to="'/user/' + child.userId">
-              <a-avatar
-                class="user-avatar"
-                :src="child.avatar"
-                :size="30"
-                :style="{ marginRight: '10px', marginTop: '-3px' }"
-              >
-                <template #icon>
-                  <UserOutlined />
-                </template>
-              </a-avatar>
-            </router-link>
-          </div>
-          <div class="comment-user-info">
-            <div class="base-info">
-              <div>
-                <span class="user-name g-hover">
-                  <router-link :to="'/user/' + child.userId">
-                    {{ child.userName }}
-                    <span v-show="child.userId == authorId" style="color: #ccc">[作者]</span>
-                  </router-link>
-                  <template v-if="child.parentCommentId && child.userId !== child.parentUserId">
-                    <CaretRightOutlined style="color: #ccc" />
-                    <router-link :to="'/user/' + child.parentUserId">
-                      @{{ child.parentUserName }}
-                      <span v-show="child.parentUserId == authorId" style="color: #ccc"
-                        >[作者]</span
-                      >
-                    </router-link>
-                  </template>
-                </span>
-                <a-divider
-                  type="vertical"
-                  style="height: 15px; top: 0; background-color: #e1cee7"
-                />
-                <span class="comment-time">{{ child.createdTime }}</span>
-                <template v-if="store.id == child.userId">
-                  <a-divider
-                    type="vertical"
-                    style="height: 15px; top: 0; background-color: #e1cee7"
-                  />
-                  <a class="comment-delete" @click="deleteComment(child.id)">删除</a>
-                </template>
-              </div>
-            </div>
-            <div class="ex-info">
-              <p>{{ child.content }}</p>
-              <p class="quote-comment" v-show="child.parentCommentId !== comment.id">
-                {{ child.parentContent }}
-              </p>
-            </div>
-            <div class="footer-info">
-              <a @click="likeComment(child.id)"
-                ><span> <LikeOutlined /> {{ child.likeCount }} </span></a
-              >
-              <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-              <a @click="dislikeComment(child.id)"
-                ><span> <DislikeOutlined /> {{ child.dislikeCount }} </span></a
-              >
-              <a-divider type="vertical" style="height: 15px; top: 0; background-color: #efeeee" />
-              <a
-                ><span
-                  @click="() => (showChildReplay = showChildReplay == child.id ? 0 : child.id)"
-                >
-                  <MessageOutlined /> </span
-              ></a>
-              <div class="replay-child-info-box" v-show="showChildReplay == child.id">
-                <a-textarea v-model:value="childContent" :autoSize="true" />
-                <div class="button-box">
-                  <a-button class="relay_commetn_btn" @click="postChildComment(child.id)"
-                    >回复</a-button
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <the-question-comment-child-item
+          :child="child"
+          :comment="comment"
+          :authorId="authorId"
+          @onChildCommentUpdate="queryChildCommentList()"
+        ></the-question-comment-child-item>
       </template>
     </div>
   </div>
@@ -144,6 +85,13 @@ import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
 import { add, remove, getCommentQuestionChildListByRootId } from '@/api/question-comment'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import {
+  add as setReaction,
+  update as updateReaction,
+  remove as removeReaction,
+  getByCommentQuestionIdAndUserId
+} from '@/api/reaction-comment-question'
+import { TheQuestionCommentChildItem } from '../components'
 
 const router = useRouter()
 const store = useUserStore()
@@ -154,13 +102,24 @@ const emit = defineEmits(['onCommentUpdate'])
 
 const childComments = ref()
 const showRootReplay = ref(false)
-const showChildReplay = ref(0)
 const rootContent = ref('')
-const childContent = ref('')
+
+const reactionData = ref(0)
 
 onMounted(() => {
   queryChildCommentList()
+  queryReactionData()
 })
+
+const queryReactionData = () => {
+  const param = {
+    userId: store.id,
+    commentQuestionId: comment.value.id
+  }
+  getByCommentQuestionIdAndUserId(param).then((res) => {
+    reactionData.value = res.data
+  })
+}
 
 const queryChildCommentList = () => {
   getCommentQuestionChildListByRootId({ rootId: comment.value.id }).then((res) => {
@@ -219,11 +178,68 @@ const postComment = (formData) => {
 }
 
 const likeComment = (commentId) => {
-  alert('支持')
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('commentQuestionId', commentId)
+  formData.append('status', 1)
+
+  if (reactionData.value.status == null) {
+    setReaction(formData).then(() => {
+      queryReactionData()
+      comment.value.likeCount += 1
+    })
+    return
+  }
+
+  formData.append('id', reactionData.value.id)
+  updateReaction(formData).then(() => {
+    queryReactionData()
+    comment.value.likeCount += 1
+  })
+
+  if (!reactionData.value.status) {
+    comment.value.dislikeCount -= 1
+  }
 }
 
 const dislikeComment = (commentId) => {
-  alert('不支持')
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('commentQuestionId', commentId)
+  formData.append('status', 0)
+
+  if (reactionData.value.status == null) {
+    setReaction(formData).then(() => {
+      queryReactionData()
+      comment.value.dislikeCount += 1
+    })
+    return
+  }
+
+  formData.append('id', reactionData.value.id)
+  updateReaction(formData).then(() => {
+    queryReactionData()
+    comment.value.dislikeCount += 1
+  })
+
+  if (reactionData.value.status) {
+    comment.value.likeCount -= 1
+  }
+}
+
+const removeCommentReaction = () => {
+  const formData = new FormData()
+  formData.append('id', reactionData.value.id)
+  removeReaction(formData).then(() => {
+    queryReactionData()
+
+    if (reactionData.value.status) {
+      comment.value.likeCount -= 1
+      return
+    }
+
+    comment.value.dislikeCount -= 1
+  })
 }
 </script>
 
