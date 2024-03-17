@@ -135,6 +135,7 @@ const postComment = (formData) => {
     message.success('回复成功')
     emit('onChildCommentUpdate')
     childContent.value = ''
+    showChildReplay.value = 0
   })
 }
 
