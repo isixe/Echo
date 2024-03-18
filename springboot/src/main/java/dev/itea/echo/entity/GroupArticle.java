@@ -8,10 +8,15 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 文章分组表
@@ -33,10 +38,14 @@ public class GroupArticle extends Model<GroupArticle> {
     private Integer id;
 
     @Schema(description = "用户ID")
+    @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @TableField("user_id")
     private Integer userId;
 
     @Schema(description = "文章分组名称")
+    @NotNull(message = "不能为空", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
+    @NotBlank(message = "不能为空字符串", groups = {AddValidationGroup.class, UpdateValidationGroup.class})
+    @Length(message = "长度不能大于42个字符", max = 42, groups = {AddValidationGroup.class, UpdateValidationGroup.class})
     @TableField("name")
     private String name;
 
