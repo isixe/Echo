@@ -20,6 +20,11 @@ const userRoutes = [
     component: () => import('@/views/page-home/user/UserCollection')
   },
   {
+    path: '/history',
+    name: 'userHistory',
+    component: () => import('@/views/page-home/user/UserHistory')
+  },
+  {
     path: '/settings',
     name: 'settings',
     component: () => import('@/views/page-home/user/settings'),

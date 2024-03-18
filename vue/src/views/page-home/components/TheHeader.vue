@@ -75,7 +75,9 @@
                 <router-link :to="'/user/' + user.id">
                   <a-menu-item> <UserOutlined />&nbsp; 我的主页 </a-menu-item>
                 </router-link>
-                <!-- <a-menu-item> <ClockCircleOutlined />&nbsp; 浏览历史 </a-menu-item> -->
+                <router-link to="/history">
+                  <a-menu-item> <ClockCircleOutlined />&nbsp; 浏览历史 </a-menu-item>
+                </router-link>
                 <router-link to="/collection">
                   <a-menu-item> <HeartOutlined />&nbsp; 我的收藏 </a-menu-item></router-link
                 >
