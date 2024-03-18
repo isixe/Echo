@@ -31,6 +31,14 @@ export function update(data) {
   })
 }
 
+export function updateProfile(data) {
+  return request({
+    url: '/user/updateProfile',
+    method: 'put',
+    data
+  })
+}
+
 export function remove(data) {
   return request({
     url: '/user',
