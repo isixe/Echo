@@ -18,6 +18,19 @@ const userRoutes = [
     path: '/collection',
     name: 'userCollection',
     component: () => import('@/views/page-home/user/UserCollection')
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/views/page-home/user/settings'),
+    redirect: '/settings/profile',
+    children: [
+      {
+        path: '/settings/profile',
+        name: 'setProfile',
+        component: () => import('@/views/page-home/user/settings/SetProfile')
+      }
+    ]
   }
 ]
 
