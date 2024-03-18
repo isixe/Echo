@@ -4,15 +4,20 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.dto.PageDTO;
 import dev.itea.echo.entity.HistoryQuestion;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.HistoryQuestionService;
 import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
+import dev.itea.echo.vo.HistoryQuestionVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Resource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -101,4 +106,22 @@ public class HistoryQuestionController {
         return historyQuestion;
     }
 
+    /**
+     * 用户问答浏览历史查询（用户ID）
+     *
+     * @param pageDTO 分页数据传输对象
+     * @param userId  用户ID
+     * @return IPage 分页对象
+     */
+    @Operation(summary = "用户问答浏览历史查询（UserID）", description = "前台用户问答浏览历史用户ID查询", tags = "GroupArticle", method = "GET",
+            parameters = {
+                    @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
+                    @Parameter(name = "userId", description = "用户问答浏览历史所属用户ID", required = true, example = "1"),
+            })
+    @SaIgnore
+    @GetMapping("/queryAllByUserId")
+    public IPage<HistoryQuestionVO> getByUserId(@Validated PageDTO pageDTO, Integer userId) {
+        Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
+        return historyQuestionService.getPageByUserId(pageable, pageDTO.getKeyword(), userId);
+    }
 }

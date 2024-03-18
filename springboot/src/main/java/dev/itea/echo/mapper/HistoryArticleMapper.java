@@ -1,7 +1,13 @@
 package dev.itea.echo.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import dev.itea.echo.entity.HistoryArticle;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import dev.itea.echo.vo.HistoryArticleVO;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +19,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface HistoryArticleMapper extends BaseMapper<HistoryArticle> {
 
+    IPage<HistoryArticleVO> getPageByUserId(Page<HistoryArticleVO> page, @Param(Constants.WRAPPER) QueryWrapper<HistoryArticleVO> wrapper);
 }

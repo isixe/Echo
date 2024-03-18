@@ -4,12 +4,53 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="dev.itea.echo.entity.HistoryQuestion">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="question_id" property="questionId" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="question_id" property="questionId"/>
         <result column="update_time" property="updateTime"/>
-        <result column="created_time" property="createdTime" />
-        <result column="is_deleted" property="isDeleted" />
+        <result column="created_time" property="createdTime"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
+
+    <resultMap id="HistoryQuestionVOResultMap" type="dev.itea.echo.vo.HistoryQuestionVO">
+        <id column="id" property="id"/>
+        <result column="question_id" property="questionId"/>
+        <result column="author" property="author"/>
+        <result column="avatar" property="avatar"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="category" property="category"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="pv_count" property="pvCount"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="comment_count" property="commentCount"/>
+    </resultMap>
+
+    <select id="getPageByUserId" resultMap="HistoryQuestionVOResultMap">
+        SELECT hq.id,
+               q.id                                  AS article_id,
+               q.title,
+               u.id                                  AS user_id,
+               u.`name`                              AS author,
+               u.`avatar`,
+               c.category_name                       AS category,
+               c.id                                  AS category_id,
+               q.`pv_count`,
+               (SELECT count(*)
+                FROM question_thumb
+                WHERE question_id = q.id
+                  AND question_thumb.is_deleted = 0) AS `like_count`,
+               (SELECT COUNT(*)
+                FROM comment_question cq
+                         LEFT JOIN comment_question cab ON cq.root_comment_id = cab.id AND cab.is_deleted = 1
+                WHERE cq.question_id = q.id
+                  AND cq.is_deleted = 0
+                  AND cab.id IS NULL)                AS `comment_count`
+        FROM history_question AS hq
+                 JOIN question AS q on q.id = hq.question_id
+                 JOIN `user` AS u ON q.user_id = u.id
+                 JOIN category AS c ON q.category_id = c.id
+            ${ew.customSqlSegment}
+    </select>
 
 </mapper>
