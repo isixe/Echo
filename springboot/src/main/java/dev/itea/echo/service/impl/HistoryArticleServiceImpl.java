@@ -6,6 +6,7 @@ import dev.itea.echo.service.HistoryArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,13 @@ public class HistoryArticleServiceImpl extends ServiceImpl<HistoryArticleMapper,
     @CacheEvict(cacheNames = "historyArticle", key = "#id")
     public void delete(Integer id) {
         historyArticleMapper.deleteById(id);
+    }
+
+    @Override
+    @CachePut(cacheNames = "historyArticle", key = "#historyArticle.id")
+    public HistoryArticle update(HistoryArticle historyArticle) {
+        historyArticleMapper.updateById(historyArticle);
+        return historyArticle;
     }
 
     @Override

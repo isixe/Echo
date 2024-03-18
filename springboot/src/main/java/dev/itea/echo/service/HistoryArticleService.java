@@ -13,6 +13,8 @@ public interface HistoryArticleService extends IService<HistoryArticle> {
 
     void delete(Integer id);
 
+    HistoryArticle update(HistoryArticle historyArticle);
+
     HistoryArticle get(Integer id);
 
 }

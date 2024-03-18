@@ -3,6 +3,7 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import dev.itea.echo.entity.HistoryQuestion;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2024-03-18
  */
 @RestController
-@RequestMapping("/history-question")
+@RequestMapping("/api/v1/historyQuestion")
 public class HistoryQuestionController {
 
     @Resource
@@ -42,8 +43,17 @@ public class HistoryQuestionController {
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
     )
     @PostMapping
-    public void add(@Validated(AddValidationGroup.class) HistoryQuestion historyQuestion) {
-        historyQuestionService.save(historyQuestion);
+    public void set(@Validated(AddValidationGroup.class) HistoryQuestion historyQuestion) {
+        HistoryQuestion checkHistoryQuestion = historyQuestionService.getOne(new LambdaQueryWrapper<HistoryQuestion>()
+                .eq(HistoryQuestion::getQuestionId, historyQuestion.getQuestionId())
+                .eq(HistoryQuestion::getUserId, historyQuestion.getUserId()));
+
+        if (!ObjectUtils.isEmpty(checkHistoryQuestion)) {
+            checkHistoryQuestion = checkHistoryQuestion.setUpdateTime(null);
+            historyQuestionService.update(checkHistoryQuestion);
+        } else {
+            historyQuestionService.save(historyQuestion);
+        }
     }
 
     /**

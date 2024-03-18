@@ -3,6 +3,7 @@ package dev.itea.echo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaIgnore;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import dev.itea.echo.entity.HistoryArticle;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
@@ -15,6 +16,8 @@ import jakarta.annotation.Resource;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.xml.crypto.Data;
 
 /**
  * 用户文章浏览历史控制器
@@ -42,8 +45,17 @@ public class HistoryArticleController {
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
     )
     @PostMapping
-    public void add(@Validated(AddValidationGroup.class) HistoryArticle historyArticle) {
-        historyArticleService.save(historyArticle);
+    public void set(@Validated(AddValidationGroup.class) HistoryArticle historyArticle) {
+        HistoryArticle checkHistoryArticle = historyArticleService.getOne(new LambdaQueryWrapper<HistoryArticle>()
+                .eq(HistoryArticle::getArticleId, historyArticle.getArticleId())
+                .eq(HistoryArticle::getUserId, historyArticle.getUserId()));
+
+        if (!ObjectUtils.isEmpty(checkHistoryArticle)) {
+            checkHistoryArticle = checkHistoryArticle.setUpdateTime(null);
+            historyArticleService.update(checkHistoryArticle);
+        } else {
+            historyArticleService.save(historyArticle);
+        }
     }
 
     /**

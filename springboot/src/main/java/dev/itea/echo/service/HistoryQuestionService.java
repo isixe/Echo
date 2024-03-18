@@ -13,6 +13,8 @@ public interface HistoryQuestionService extends IService<HistoryQuestion> {
 
     void delete(Integer id);
 
+    HistoryQuestion update(HistoryQuestion historyQuestion);
+
     HistoryQuestion get(Integer id);
 
 }
