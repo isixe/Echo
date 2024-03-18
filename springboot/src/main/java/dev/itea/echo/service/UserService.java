@@ -18,6 +18,8 @@ public interface UserService extends IService<User> {
 
     User update(User user);
 
+    void updateProfile(User user);
+
     User get(Integer id);
 
     IPage<User> getPage(Pageable pageable, String keword);
@@ -27,4 +29,5 @@ public interface UserService extends IService<User> {
     IPage<UserVO> getPageWithFollowUserByUserId(Pageable pageable, Integer userId);
 
     IPage<UserVO> getPageWithFollowerUserByUserId(Pageable pageable, Integer userId);
+
 }

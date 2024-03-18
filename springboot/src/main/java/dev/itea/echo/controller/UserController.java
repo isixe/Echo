@@ -194,6 +194,27 @@ public class UserController {
     }
 
     /**
+     * 用户资料更新
+     *
+     * @param user 用户实体
+     */
+    @Operation(summary = "用户更新", description = "后台用户更新", tags = "User", method = "PUT",
+            parameters = {
+                    @Parameter(name = "user", description = "用户实体", required = true),
+            })
+    @SaCheckLogin(type = StpUserUtil.TYPE)
+    @PutMapping("/updateProfile")
+    public void updateProfile(User user) {
+        //check user
+        User checkUser = userService.get(user.getId());
+        if (ObjectUtils.isEmpty(checkUser)) {
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
+        }
+        //update
+        userService.updateProfile(user);
+    }
+
+    /**
      * 用户删除
      *
      * @param id 用户ID

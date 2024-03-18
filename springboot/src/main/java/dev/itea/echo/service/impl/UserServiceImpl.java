@@ -1,6 +1,7 @@
 package dev.itea.echo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import dev.itea.echo.entity.User;
@@ -41,6 +42,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User update(User user) {
         userMapper.updateById(user);
         return user;
+    }
+
+    @Override
+    @CacheEvict(cacheNames = "user", key = "#user.id")
+    public void updateProfile(User user) {
+        userMapper.update(null, new UpdateWrapper<User>()
+                .eq("id", user.getId())
+                .set("name", user.getName())
+                .set("email", user.getEmail())
+                .set("description", user.getDescription())
+                .set("avatar", user.getAvatar()));
     }
 
     @Override
