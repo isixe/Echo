@@ -1,7 +1,12 @@
 package dev.itea.echo.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -28,6 +33,9 @@ public class UserVO {
 
     @Schema(description = "头像")
     private String avatar;
+
+    @Schema(description = "邮箱")
+    private String email;
 
     @Schema(description = "发文数")
     private Integer articleCount;

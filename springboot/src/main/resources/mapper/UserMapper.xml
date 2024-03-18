@@ -21,6 +21,7 @@
         <result column="name" property="name"/>
         <result column="description" property="description"/>
         <result column="avatar" property="avatar"/>
+        <result column="email" property="email"/>
         <result column="article_count" property="articleCount"/>
         <result column="question_count" property="questionCount"/>
         <result column="follow_count" property="followCount"/>
@@ -33,6 +34,7 @@
                name,
                description,
                avatar,
+               email,
                (SELECT COUNT(*)
                 FROM article
                 WHERE user_id = u.id
@@ -53,6 +55,7 @@
                name,
                description,
                avatar,
+               email,
                (SELECT COUNT(*)
                 FROM article
                 WHERE user_id = u.id
@@ -75,6 +78,7 @@
                name,
                description,
                avatar,
+               email,
                (SELECT COUNT(*)
                 FROM article
                 WHERE user_id = u.id
