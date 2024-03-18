@@ -193,6 +193,7 @@ import {
   getQuestionThumbByArticleIdAndUserId
 } from '@/api/question-thumb'
 import { add as setSubscribe, remove as unSubscribe, getByUserIdAndFollowId } from '@/api/follow'
+import { add as setHistory } from '@/api/history-question'
 
 const router = useRouter()
 const store = useUserStore()
@@ -242,8 +243,10 @@ onMounted(async () => {
   getCollect()
   getQuestioinThumb()
   queryComment()
+  logQuestionHistory()
 })
 
+//get
 const checkFollow = () => {
   const params = {
     userId: store.id,
@@ -287,6 +290,7 @@ const getCollect = () => {
   })
 }
 
+//delete
 const deleteQuestion = () => {
   Modal.confirm({
     title: `确定要删除问答吗?`,
@@ -306,6 +310,15 @@ const deleteQuestion = () => {
   })
 }
 
+//history
+const logQuestionHistory = () => {
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('questionId', route.params.id)
+  setHistory(formData)
+}
+
+//comment
 const postComment = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
@@ -318,17 +331,7 @@ const postComment = () => {
   })
 }
 
-const shareQuesion = () => {
-  navigator.clipboard
-    .writeText(window.location.href)
-    .then(() => {
-      message.success('URL已成功复制到剪贴板: ' + window.location.href)
-    })
-    .catch(() => {
-      message.error('复制失败')
-    })
-}
-
+//collection
 const collectQuestion = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
@@ -344,6 +347,7 @@ const unCollectQuestion = () => {
   })
 }
 
+//thumb
 const thumbQuestion = () => {
   if (!userId) {
     message.warning('请先登录')
@@ -365,12 +369,7 @@ const unThumbQuestion = () => {
   })
 }
 
-const onChange = (pageNumber) => {
-  params.pageNum = pageNumber
-  queryComment()
-  document.querySelector('.comment-box').scrollIntoView(true)
-}
-
+//follow
 const setUserSubscribe = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
@@ -385,6 +384,24 @@ const removeUserSubscribe = () => {
     followId.value = null
     console.log(followId.value)
   })
+}
+
+//other
+const shareQuesion = () => {
+  navigator.clipboard
+    .writeText(window.location.href)
+    .then(() => {
+      message.success('URL已成功复制到剪贴板: ' + window.location.href)
+    })
+    .catch(() => {
+      message.error('复制失败')
+    })
+}
+
+const onChange = (pageNumber) => {
+  params.pageNum = pageNumber
+  queryComment()
+  document.querySelector('.comment-box').scrollIntoView(true)
 }
 </script>
 

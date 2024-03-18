@@ -298,6 +298,7 @@ import { useUserStore } from '@/stores/user'
 import { TheArticleCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import { add as setSubscribe, remove as unSubscribe, getByUserIdAndFollowId } from '@/api/follow'
+import { add as setHistory } from '@/api/history-article'
 
 const router = useRouter()
 const route = useRoute()
@@ -362,8 +363,10 @@ onMounted(async () => {
   getCollect()
   getArticleThumb()
   queryComment()
+  logArticleHistory()
 })
 
+//get
 const checkFollow = () => {
   const params = {
     userId: store.id,
@@ -409,6 +412,7 @@ const queryComment = () => {
   })
 }
 
+//delete
 const deleteArticle = () => {
   Modal.confirm({
     title: `确定要删除文章吗?`,
@@ -428,6 +432,15 @@ const deleteArticle = () => {
   })
 }
 
+//history
+const logArticleHistory = () => {
+  const formData = new FormData()
+  formData.append('userId', store.id)
+  formData.append('articleId', route.params.id)
+  setHistory(formData)
+}
+
+//comment
 const postComment = () => {
   if (!userId) {
     message.warning('请先登录')
@@ -445,17 +458,7 @@ const postComment = () => {
   })
 }
 
-const shareArticle = () => {
-  navigator.clipboard
-    .writeText(window.location.href)
-    .then(() => {
-      message.success('URL已成功复制到剪贴板: ' + window.location.href)
-    })
-    .catch(() => {
-      message.error('复制失败')
-    })
-}
-
+//collection
 const collectArticle = () => {
   if (!userId) {
     message.warning('请先登录')
@@ -475,6 +478,7 @@ const unCollectArticle = () => {
   })
 }
 
+//thumb
 const thumbArticle = () => {
   if (!userId) {
     message.warning('请先登录')
@@ -498,12 +502,7 @@ const unThumbArticle = () => {
   })
 }
 
-const onChange = (pageNumber) => {
-  params.pageNum = pageNumber
-  queryComment()
-  document.querySelector('.comment-box').scrollIntoView(true)
-}
-
+//follow
 const setUserSubscribe = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
@@ -516,8 +515,25 @@ const removeUserSubscribe = () => {
   formData.append('id', followId.value)
   unSubscribe(formData).then(() => {
     followId.value = null
-    console.log(followId.value)
   })
+}
+
+//other
+const shareArticle = () => {
+  navigator.clipboard
+    .writeText(window.location.href)
+    .then(() => {
+      message.success('URL已成功复制到剪贴板: ' + window.location.href)
+    })
+    .catch(() => {
+      message.error('复制失败')
+    })
+}
+
+const onChange = (pageNumber) => {
+  params.pageNum = pageNumber
+  queryComment()
+  document.querySelector('.comment-box').scrollIntoView(true)
 }
 </script>
 
