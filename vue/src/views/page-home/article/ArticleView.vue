@@ -298,7 +298,7 @@ import { useUserStore } from '@/stores/user'
 import { TheArticleCommentItem } from '../components'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import { add as setSubscribe, remove as unSubscribe, getByUserIdAndFollowId } from '@/api/follow'
-import { add as setHistory } from '@/api/history-article'
+import { set } from '@/api/history-article'
 
 const router = useRouter()
 const route = useRoute()
@@ -437,7 +437,7 @@ const logArticleHistory = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
   formData.append('articleId', route.params.id)
-  setHistory(formData)
+  set(formData)
 }
 
 //comment

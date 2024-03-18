@@ -193,7 +193,7 @@ import {
   getQuestionThumbByArticleIdAndUserId
 } from '@/api/question-thumb'
 import { add as setSubscribe, remove as unSubscribe, getByUserIdAndFollowId } from '@/api/follow'
-import { add as setHistory } from '@/api/history-question'
+import { set } from '@/api/history-question'
 
 const router = useRouter()
 const store = useUserStore()
@@ -315,7 +315,7 @@ const logQuestionHistory = () => {
   const formData = new FormData()
   formData.append('userId', store.id)
   formData.append('questionId', route.params.id)
-  setHistory(formData)
+  set(formData)
 }
 
 //comment
