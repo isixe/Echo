@@ -51,7 +51,7 @@ public class QuestionController {
      *
      * @param question 问答实体
      */
-    @Operation(summary = "问答新增", description = "后台问答新增", tags = "Question", method = "POST",
+    @Operation(summary = "问答新增", description = "问答新增", tags = "Question", method = "POST",
             parameters = {
                     @Parameter(name = "question", description = "问答实体", required = true),
             })
@@ -68,7 +68,7 @@ public class QuestionController {
      *
      * @param question 问答实体
      */
-    @Operation(summary = "问答更新", description = "后台问答更新", tags = "Question", method = "PUT",
+    @Operation(summary = "问答更新", description = "问答更新", tags = "Question", method = "PUT",
             parameters = {
                     @Parameter(name = "question", description = "问答实体", required = true),
             })
@@ -92,7 +92,7 @@ public class QuestionController {
      *
      * @param id 问答ID
      */
-    @Operation(summary = "问答删除", description = "后台问答删除", tags = "Question", method = "DELETE",
+    @Operation(summary = "问答删除", description = "问答删除", tags = "Question", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "问答ID", required = true, example = "2"),
             })

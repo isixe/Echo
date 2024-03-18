@@ -35,7 +35,7 @@ public class QuestionThumbController {
      *
      * @param questionThumb 问答点赞实体
      */
-    @Operation(summary = "问答点赞新增", description = "后台问答点赞新增", tags = "QuestionThumb", method = "POST",
+    @Operation(summary = "问答点赞新增", description = "前台问答点赞新增", tags = "QuestionThumb", method = "POST",
             parameters = {
                     @Parameter(name = "questionThumb", description = "问答点赞实体", required = true),
             })
@@ -59,7 +59,7 @@ public class QuestionThumbController {
      *
      * @param id 问答点赞ID
      */
-    @Operation(summary = "问答点赞删除", description = "后台问答点赞删除", tags = "QuestionThumb", method = "DELETE",
+    @Operation(summary = "问答点赞删除", description = "前台问答点赞删除", tags = "QuestionThumb", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "问答点赞ID", required = true, example = "2"),
             })
@@ -82,7 +82,7 @@ public class QuestionThumbController {
      * @param userId     用户ID
      * @return QuestionThumb 问答点赞实体
      */
-    @Operation(summary = "问答点赞查询", description = "后台问答点赞查询", tags = "QuestionThumb", method = "GET",
+    @Operation(summary = "问答点赞查询", description = "前台问答点赞查询", tags = "QuestionThumb", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "问答点赞ID", required = true, example = "2"),
             })

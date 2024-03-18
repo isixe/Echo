@@ -35,7 +35,7 @@ public class ArticleThumbController {
      *
      * @param articleThumb 文章点赞实体
      */
-    @Operation(summary = "文章点赞新增", description = "后台文章点赞新增", tags = "ArticleThumb", method = "POST",
+    @Operation(summary = "文章点赞新增", description = "前台文章点赞新增", tags = "ArticleThumb", method = "POST",
             parameters = {
                     @Parameter(name = "articleThumb", description = "文章点赞实体", required = true),
             })
@@ -59,7 +59,7 @@ public class ArticleThumbController {
      *
      * @param id 文章点赞ID
      */
-    @Operation(summary = "文章点赞删除", description = "后台文章点赞删除", tags = "ArticleThumb", method = "DELETE",
+    @Operation(summary = "文章点赞删除", description = "前台文章点赞删除", tags = "ArticleThumb", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "文章点赞ID", required = true, example = "2"),
             })
@@ -82,7 +82,7 @@ public class ArticleThumbController {
      * @param userId    用户ID
      * @return ArticleThumb 文章点赞实体
      */
-    @Operation(summary = "文章点赞查询", description = "后台文章点赞查询", tags = "ArticleThumb", method = "GET",
+    @Operation(summary = "文章点赞查询", description = "前台文章点赞查询", tags = "ArticleThumb", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章点赞ID", required = true, example = "2"),
             })
@@ -100,7 +100,7 @@ public class ArticleThumbController {
      * @param articleId 文章ID
      * @return ArticleThumb 文章点赞实体
      */
-    @Operation(summary = "文章点赞查询", description = "后台文章点赞查询", tags = "ArticleThumb", method = "GET",
+    @Operation(summary = "文章点赞查询", description = "前台文章点赞查询", tags = "ArticleThumb", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章点赞ID", required = true, example = "2"),
             })

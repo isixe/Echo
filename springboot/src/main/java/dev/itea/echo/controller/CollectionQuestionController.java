@@ -65,7 +65,7 @@ public class CollectionQuestionController {
      *
      * @param id 问答收藏ID
      */
-    @Operation(summary = "问答收藏删除", description = "后台问答收藏删除", tags = "CollectionQuestion", method = "DELETE",
+    @Operation(summary = "问答收藏删除", description = "问答收藏删除", tags = "CollectionQuestion", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "问答收藏ID", required = true, example = "2"),
             })
@@ -89,7 +89,7 @@ public class CollectionQuestionController {
      * @param collectionArticle 问答收藏实体
      * @return CollectionArticle 问答收藏实体
      */
-    @Operation(summary = "问答收藏查询（文章ID&用户ID）", description = "根据前台用户ID和文章ID查询问答收藏", tags = "CollectionQuestion", method = "GET",
+    @Operation(summary = "问答收藏查询（文章ID&用户ID）", description = "前台根据用户ID和文章ID查询问答收藏", tags = "CollectionQuestion", method = "GET",
             parameters = {
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "2"),
                     @Parameter(name = "questionId", description = "文章ID", required = true, example = "2"),
@@ -125,7 +125,7 @@ public class CollectionQuestionController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "问答收藏查询（分页&用户ID）", description = "根据用户ID查询问答收藏分页", tags = "CollectionQuestion", method = "GET",
+    @Operation(summary = "问答收藏查询（分页&用户ID）", description = "前台根据用户ID查询问答收藏分页", tags = "CollectionQuestion", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "1")

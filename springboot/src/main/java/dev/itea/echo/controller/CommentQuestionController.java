@@ -43,7 +43,7 @@ public class CommentQuestionController {
      *
      * @param commentQuestion 问答评论实体
      */
-    @Operation(summary = "问答评论新增", description = "后台问答新增", tags = "CommentQuestion", method = "POST",
+    @Operation(summary = "问答评论新增", description = "问答评论新增", tags = "CommentQuestion", method = "POST",
             parameters = {
                     @Parameter(name = "commentQuestion", description = "问答评论实体", required = true),
             })
@@ -83,7 +83,7 @@ public class CommentQuestionController {
      *
      * @param id 评论ID
      */
-    @Operation(summary = "问答删除", description = "问答评论删除", tags = "CommentQuestion", method = "DELETE",
+    @Operation(summary = "问答评论删除", description = "问答评论删除", tags = "CommentQuestion", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "问答评论ID", required = true, example = "2"),
             })
@@ -107,7 +107,7 @@ public class CommentQuestionController {
      * @param id 问答评论ID
      * @return CommentQuestion 问答评论对象
      */
-    @Operation(summary = "问答评论查询（ID）", description = "问答评论查询", tags = "CommentQuestion", method = "GET",
+    @Operation(summary = "问答评论查询（ID）", description = "前台问答评论查询", tags = "CommentQuestion", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "问答评论ID", required = true, example = "2"),
             })
@@ -129,7 +129,7 @@ public class CommentQuestionController {
      * @param rootId 问答评论rootId
      * @return List<ChildCommentVO> 子级问答评论值对象
      */
-    @Operation(summary = "问答评论查询（rootId）", description = "问答评论次级列表查询", tags = "CommentQuestion", method = "GET",
+    @Operation(summary = "问答评论查询（rootId）", description = "前台问答评论次级列表查询", tags = "CommentQuestion", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "问答顶级评论ID", required = true, example = "2"),
             })
@@ -164,7 +164,7 @@ public class CommentQuestionController {
      * @param questionId 问答ID
      * @return IPage 分页对象
      */
-    @Operation(summary = "问答评论查询（分页&问答ID）", description = "问答评论顶级分页查询", tags = "CommentQuestion", method = "GET",
+    @Operation(summary = "问答评论查询（分页&问答ID）", description = "前台问答评论顶级分页查询", tags = "CommentQuestion", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "id", description = "问答ID", required = true, example = "2"),

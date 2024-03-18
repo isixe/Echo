@@ -53,7 +53,7 @@ public class ArticleController {
      *
      * @param article 文章实体
      */
-    @Operation(summary = "文章新增", description = "后台文章新增", tags = "Article", method = "POST",
+    @Operation(summary = "文章新增", description = "文章新增", tags = "Article", method = "POST",
             parameters = {
                     @Parameter(name = "article", description = "文章实体", required = true),
             })
@@ -70,7 +70,7 @@ public class ArticleController {
      *
      * @param article 文章实体
      */
-    @Operation(summary = "文章更新", description = "后台文章更新", tags = "Article", method = "PUT",
+    @Operation(summary = "文章更新", description = "文章更新", tags = "Article", method = "PUT",
             parameters = {
                     @Parameter(name = "article", description = "文章实体", required = true),
             })
@@ -94,7 +94,7 @@ public class ArticleController {
      *
      * @param id 文章ID
      */
-    @Operation(summary = "文章删除", description = "后台文章删除", tags = "Article", method = "DELETE",
+    @Operation(summary = "文章删除", description = "文章删除", tags = "Article", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
             })
@@ -399,4 +399,6 @@ public class ArticleController {
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
         return articleService.getPageWithSubscribeByUserId(pageable, userId);
     }
+
+
 }

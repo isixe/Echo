@@ -35,7 +35,7 @@ public class HistoryQuestionController {
      *
      * @param historyQuestion 用户问答浏览历史实体
      */
-    @Operation(summary = "用户问答浏览历史新增", description = "后台用户问答浏览历史新增", tags = "HistoryQuestion", method = "POST",
+    @Operation(summary = "用户问答浏览历史新增", description = "前台用户问答浏览历史新增", tags = "HistoryQuestion", method = "POST",
             parameters = {
                     @Parameter(name = "historyQuestion", description = "用户问答浏览历史实体", required = true),
             })
@@ -61,7 +61,7 @@ public class HistoryQuestionController {
      *
      * @param id 评论ID
      */
-    @Operation(summary = "用户问答浏览历史删除", description = "用户问答浏览历史删除", tags = "HistoryQuestion", method = "DELETE",
+    @Operation(summary = "用户问答浏览历史删除", description = "前台用户问答浏览历史删除", tags = "HistoryQuestion", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "用户问答浏览历史ID", required = true, example = "2"),
             })
@@ -85,7 +85,7 @@ public class HistoryQuestionController {
      * @param id 用户问答浏览历史ID
      * @return HistoryQuestion 用户问答浏览历史对象
      */
-    @Operation(summary = "用户问答浏览历史查询（ID）", description = "用户问答浏览历史查询", tags = "HistoryQuestion", method = "GET",
+    @Operation(summary = "用户问答浏览历史查询（ID）", description = "前台用户问答浏览历史查询", tags = "HistoryQuestion", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "用户问答浏览历史ID", required = true, example = "2"),
             })

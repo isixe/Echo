@@ -33,13 +33,13 @@ public class ReactionCommentQuestionController {
     ReactionCommentQuestionService reactionCommentQuestionService;
 
     /**
-     * 文章评论反应新增
+     * 问答评论反应新增
      *
-     * @param reactionCommentQuestion 文章评论反应实体
+     * @param reactionCommentQuestion 问答评论反应实体
      */
-    @Operation(summary = "文章评论反应新增", description = "后台文章新增", tags = "CommentArticle", method = "POST",
+    @Operation(summary = "问答评论反应新增", description = "前台问答评论反应新增", tags = "CommentArticle", method = "POST",
             parameters = {
-                    @Parameter(name = "reactionCommentQuestion", description = "文章评论反应实体", required = true),
+                    @Parameter(name = "reactionCommentQuestion", description = "问答评论反应实体", required = true),
             })
     @SaCheckOr(
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
@@ -50,13 +50,13 @@ public class ReactionCommentQuestionController {
     }
 
     /**
-     * 文章评论反应更新
+     * 问答评论反应更新
      *
-     * @param reactionCommentQuestion 文章实体
+     * @param reactionCommentQuestion 问答评论反应实体
      */
-    @Operation(summary = "文章评论反应更新", description = "文章评论反应更新", tags = "CommentArticle", method = "PUT",
+    @Operation(summary = "问答评论反应更新", description = "前台问答评论反应更新", tags = "CommentArticle", method = "PUT",
             parameters = {
-                    @Parameter(name = "reactionCommentQuestion", description = "文章评论反应实体", required = true),
+                    @Parameter(name = "reactionCommentQuestion", description = "问答评论反应实体", required = true),
             })
     @SaCheckOr(
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
@@ -73,13 +73,13 @@ public class ReactionCommentQuestionController {
     }
 
     /**
-     * 文章评论反应删除
+     * 问答评论反应删除
      *
      * @param id 评论ID
      */
-    @Operation(summary = "文章删除", description = "文章评论反应删除", tags = "CommentArticle", method = "DELETE",
+    @Operation(summary = "问答评论反应删除", description = "前台问答评论反应删除", tags = "CommentArticle", method = "DELETE",
             parameters = {
-                    @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
+                    @Parameter(name = "id", description = "问答评论反应ID", required = true, example = "2"),
             })
     @SaCheckOr(
             login = {@SaCheckLogin, @SaCheckLogin(type = StpUserUtil.TYPE)}
@@ -96,14 +96,14 @@ public class ReactionCommentQuestionController {
     }
 
     /**
-     * 文章评论反应查询（ID）
+     * 问答评论反应查询（ID）
      *
-     * @param id 文章评论反应ID
-     * @return CommentArticle 文章评论反应对象
+     * @param id 问答评论反应ID
+     * @return CommentArticle 问答评论反应对象
      */
-    @Operation(summary = "文章评论反应查询（ID）", description = "文章评论反应查询", tags = "CommentArticle", method = "GET",
+    @Operation(summary = "问答评论反应查询（ID）", description = "前台问答评论反应查询", tags = "CommentArticle", method = "GET",
             parameters = {
-                    @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
+                    @Parameter(name = "id", description = "问答评论反应ID", required = true, example = "2"),
             })
     @SaIgnore
     @GetMapping
@@ -118,15 +118,15 @@ public class ReactionCommentQuestionController {
     }
 
     /**
-     * 文章评论反应查询（uID）
+     * 问答评论反应查询（用户ID&问答评论ID）
      *
      * @param userId            用户ID
-     * @param commentQuestionId 文章评论ID
-     * @return CommentArticle 文章评论反应对象
+     * @param commentQuestionId 问答评论ID
+     * @return CommentArticle 问答评论反应对象
      */
-    @Operation(summary = "文章评论反应查询（ID）", description = "文章评论反应查询", tags = "CommentArticle", method = "GET",
+    @Operation(summary = "问答评论反应查询（ID）", description = "前台根据用户ID和问答评论ID查询问答评论反应", tags = "CommentArticle", method = "GET",
             parameters = {
-                    @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
+                    @Parameter(name = "id", description = "问答评论反应ID", required = true, example = "2"),
             })
     @SaIgnore
     @GetMapping("/getByCommentQuestionIdAndUserId")

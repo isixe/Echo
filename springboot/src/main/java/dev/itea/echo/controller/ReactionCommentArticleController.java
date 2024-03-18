@@ -37,7 +37,7 @@ public class ReactionCommentArticleController {
      *
      * @param reactionCommentArticle 文章评论反应实体
      */
-    @Operation(summary = "文章评论反应新增", description = "后台文章新增", tags = "CommentArticle", method = "POST",
+    @Operation(summary = "文章评论反应新增", description = "前台文章评论反应新增", tags = "CommentArticle", method = "POST",
             parameters = {
                     @Parameter(name = "reactionCommentArticle", description = "文章评论反应实体", required = true),
             })
@@ -60,7 +60,7 @@ public class ReactionCommentArticleController {
      *
      * @param reactionCommentArticle 文章实体
      */
-    @Operation(summary = "文章评论反应更新", description = "文章评论反应更新", tags = "CommentArticle", method = "PUT",
+    @Operation(summary = "文章评论反应更新", description = "前台文章评论反应更新", tags = "CommentArticle", method = "PUT",
             parameters = {
                     @Parameter(name = "reactionCommentArticle", description = "文章评论反应实体", required = true),
             })
@@ -83,7 +83,7 @@ public class ReactionCommentArticleController {
      *
      * @param id 评论ID
      */
-    @Operation(summary = "文章删除", description = "文章评论反应删除", tags = "CommentArticle", method = "DELETE",
+    @Operation(summary = "文章删除", description = "前台文章评论反应删除", tags = "CommentArticle", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
             })
@@ -107,7 +107,7 @@ public class ReactionCommentArticleController {
      * @param id 文章评论反应ID
      * @return CommentArticle 文章评论反应对象
      */
-    @Operation(summary = "文章评论反应查询（ID）", description = "文章评论反应查询", tags = "CommentArticle", method = "GET",
+    @Operation(summary = "文章评论反应查询（ID）", description = "前台文章评论反应查询", tags = "CommentArticle", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
             })
@@ -130,7 +130,7 @@ public class ReactionCommentArticleController {
      * @param commentArticleId 文章评论ID
      * @return CommentArticle 文章评论反应对象
      */
-    @Operation(summary = "文章评论反应查询（ID）", description = "文章评论反应查询", tags = "CommentArticle", method = "GET",
+    @Operation(summary = "文章评论反应查询（ID）", description = "前台文章评论反应查询", tags = "CommentArticle", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章评论反应ID", required = true, example = "2"),
             })

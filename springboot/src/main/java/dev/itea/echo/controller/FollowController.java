@@ -35,7 +35,7 @@ public class FollowController {
      *
      * @param follow 用户关注实体
      */
-    @Operation(summary = "用户关注新增", description = "后台用户关注新增", tags = "Follow", method = "POST",
+    @Operation(summary = "用户关注新增", description = "用户关注新增", tags = "Follow", method = "POST",
             parameters = {
                     @Parameter(name = "follow", description = "用户关注实体", required = true),
             })
@@ -76,7 +76,7 @@ public class FollowController {
      * @param id 用户关注ID
      * @return Follow 用户关注对象
      */
-    @Operation(summary = "用户关注查询（ID）", description = "用户关注查询", tags = "Follow", method = "GET",
+    @Operation(summary = "用户关注查询（ID）", description = "前台用户关注查询", tags = "Follow", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "用户关注ID", required = true, example = "2"),
             })
@@ -99,7 +99,7 @@ public class FollowController {
      * @param followUserId 关注用户ID
      * @return Follow 用户关注对象
      */
-    @Operation(summary = "用户关注查询（ID）", description = "用户关注查询", tags = "Follow", method = "GET",
+    @Operation(summary = "用户关注查询（ID）", description = "前台根据用户ID查询关注用户", tags = "Follow", method = "GET",
             parameters = {
                     @Parameter(name = "userId", description = "用户关注ID", required = true, example = "2"),
                     @Parameter(name = "followUserId", description = "关注用户ID", required = true, example = "3"),

@@ -41,7 +41,7 @@ public class CategoryController {
      *
      * @param category 类别实体
      */
-    @Operation(summary = "类别新增", description = "后台类别新增", tags = "Category", method = "POST",
+    @Operation(summary = "类别新增", description = "类别新增", tags = "Category", method = "POST",
             parameters = {
                     @Parameter(name = "category", description = "类别实体", required = true),
             })
@@ -64,7 +64,7 @@ public class CategoryController {
      *
      * @param category 类别实体
      */
-    @Operation(summary = "类别更新", description = "后台类别更新", tags = "Category", method = "PUT",
+    @Operation(summary = "类别更新", description = "类别更新", tags = "Category", method = "PUT",
             parameters = {
                     @Parameter(name = "category", description = "类别实体", required = true),
             })
@@ -85,7 +85,7 @@ public class CategoryController {
      *
      * @param id 类别ID
      */
-    @Operation(summary = "类别删除", description = "后台类别删除", tags = "Category", method = "DELETE",
+    @Operation(summary = "类别删除", description = "类别删除", tags = "Category", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "类别ID", required = true, example = "2"),
             })
@@ -107,7 +107,7 @@ public class CategoryController {
      * @param id 类别ID
      * @return Category 类别实体
      */
-    @Operation(summary = "类别查询", description = "后台类别查询", tags = "Category", method = "GET",
+    @Operation(summary = "类别查询", description = "前台类别查询", tags = "Category", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "类别ID", required = true, example = "2"),
             })

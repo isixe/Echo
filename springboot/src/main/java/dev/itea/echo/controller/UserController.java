@@ -198,7 +198,7 @@ public class UserController {
      *
      * @param user 用户实体
      */
-    @Operation(summary = "用户更新", description = "后台用户更新", tags = "User", method = "PUT",
+    @Operation(summary = "用户更新", description = "前台用户更新", tags = "User", method = "PUT",
             parameters = {
                     @Parameter(name = "user", description = "用户实体", required = true),
             })
@@ -292,7 +292,7 @@ public class UserController {
      * @param pageDTO 分页数据传输对象
      * @return IPage 分页对象
      */
-    @Operation(summary = "用户分页模糊查询（Name）", description = "根据用户名用户分页模糊查询", tags = "User", method = "GET",
+    @Operation(summary = "用户分页模糊查询（Name）", description = "前台根据用户名用户分页模糊查询", tags = "User", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true)
             })
@@ -304,13 +304,13 @@ public class UserController {
     }
 
     /**
-     * 关注用户查询（分页&UserId）
+     * 关注用户查询（分页&用户ID）
      *
      * @param pageDTO 分页数据传输对象
      * @param userId  用户ID
      * @return IPage 分页对象
      */
-    @Operation(summary = "关注用户查询（分页&UserId）", description = "根据用户ID分页查询关注用户", tags = "User", method = "GET",
+    @Operation(summary = "关注用户查询（分页&UserId）", description = "前台根据用户ID分页查询关注用户", tags = "User", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "2")
@@ -323,13 +323,13 @@ public class UserController {
     }
 
     /**
-     * 用户粉丝查询（分页&UserId）
+     * 用户粉丝查询（分页&用户ID）
      *
      * @param pageDTO 分页数据传输对象
      * @param userId  用户ID
      * @return IPage 分页对象
      */
-    @Operation(summary = "关注用户查询（分页&UserId）", description = "根据用户ID分页查询用户粉丝", tags = "User", method = "GET",
+    @Operation(summary = "关注用户查询（分页&UserId）", description = "前台根据用户ID分页查询用户粉丝", tags = "User", method = "GET",
             parameters = {
                     @Parameter(name = "pageDTO", description = "分页数据传输对象", required = true),
                     @Parameter(name = "userId", description = "用户ID", required = true, example = "2")

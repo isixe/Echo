@@ -44,7 +44,7 @@ public class CommentArticleController {
      *
      * @param commentArticle 文章评论实体
      */
-    @Operation(summary = "文章评论新增", description = "后台文章新增", tags = "CommentArticle", method = "POST",
+    @Operation(summary = "文章评论新增", description = "文章评论新增", tags = "CommentArticle", method = "POST",
             parameters = {
                     @Parameter(name = "commentArticle", description = "文章评论实体", required = true),
             })
@@ -84,7 +84,7 @@ public class CommentArticleController {
      *
      * @param id 评论ID
      */
-    @Operation(summary = "文章删除", description = "文章评论删除", tags = "CommentArticle", method = "DELETE",
+    @Operation(summary = "文章评论删除", description = "文章评论删除", tags = "CommentArticle", method = "DELETE",
             parameters = {
                     @Parameter(name = "id", description = "文章评论ID", required = true, example = "2"),
             })
@@ -108,7 +108,7 @@ public class CommentArticleController {
      * @param id 文章评论ID
      * @return CommentArticle 文章评论对象
      */
-    @Operation(summary = "文章评论查询（ID）", description = "文章评论查询", tags = "CommentArticle", method = "GET",
+    @Operation(summary = "文章评论查询（ID）", description = "前台文章评论查询", tags = "CommentArticle", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章评论ID", required = true, example = "2"),
             })
@@ -130,7 +130,7 @@ public class CommentArticleController {
      * @param rootId 文章评论rootId
      * @return List<ChildCommentVO> 子级文章评论值对象列表
      */
-    @Operation(summary = "文章评论查询（rootId）", description = "文章评论次级列表查询", tags = "CommentArticle", method = "GET",
+    @Operation(summary = "文章评论查询（rootId）", description = "前台文章评论次级列表查询", tags = "CommentArticle", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章顶级评论ID", required = true, example = "2"),
             })
@@ -164,7 +164,7 @@ public class CommentArticleController {
      * @param articleId 文章ID
      * @return IPage 分页对象
      */
-    @Operation(summary = "文章评论查询（文章ID）", description = "文章评论顶级列表查询", tags = "CommentArticle", method = "GET",
+    @Operation(summary = "文章评论查询（文章ID）", description = "前台文章评论顶级列表查询", tags = "CommentArticle", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "文章ID", required = true, example = "2"),
             })
