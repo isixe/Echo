@@ -522,6 +522,7 @@ const rules = {
 }
 
 .dynamic-entry-content {
+  flex: 1;
   background-color: #ffffff;
   margin-right: 20px;
 }
