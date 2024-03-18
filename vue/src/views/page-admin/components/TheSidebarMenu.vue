@@ -51,14 +51,16 @@
         <router-link to="/permission/roleList"> 管理员管理 </router-link>
       </a-menu-item>
     </a-sub-menu>
-    <a-sub-menu key="sub3">
+    <a-sub-menu key="/admin">
       <template #title>
         <span>
           <UserOutlined />
           <span>个人中心</span>
         </span>
       </template>
-      <a-menu-item key="11">信息中心</a-menu-item>
+      <a-menu-item key="/admin/info">
+        <router-link to="/admin/info">信息中心</router-link>
+      </a-menu-item>
     </a-sub-menu>
   </a-menu>
 </template>

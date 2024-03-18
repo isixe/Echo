@@ -129,7 +129,7 @@ const handleLoginOut = () => {
 }
 
 const handleToUserCenter = () => {
-  // router.push('/userCenter')
+  router.push('/admin/info')
 }
 </script>
 

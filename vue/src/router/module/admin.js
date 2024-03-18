@@ -55,6 +55,11 @@ const adminRoutes = {
       path: '/permission/roleList',
       name: 'roleList',
       component: () => import('@/views/page-admin/permission/RoleList')
+    },
+    {
+      path: '/admin/info',
+      name: 'InfoSetting',
+      component: () => import('@/views/page-admin/user/InfoSetting')
     }
   ]
 }
