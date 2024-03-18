@@ -11,3 +11,7 @@
 .svg-inline--fa {
   margin: 0 5px;
 }
+
+a {
+  text-decoration: none;
+}
