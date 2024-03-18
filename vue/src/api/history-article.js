@@ -15,3 +15,11 @@ export function remove(data) {
     data
   })
 }
+
+export function getArticleHistoryByUserId(params) {
+  return request({
+    url: '/historyArticle/queryAllByUserId',
+    method: 'get',
+    params
+  })
+}
