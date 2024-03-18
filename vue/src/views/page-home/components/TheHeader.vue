@@ -81,9 +81,11 @@
                 <router-link to="/collection">
                   <a-menu-item> <HeartOutlined />&nbsp; 我的收藏 </a-menu-item></router-link
                 >
-                <a-menu-item @click="handleToUserCenter">
-                  <SettingOutlined />&nbsp; 个人中心
-                </a-menu-item>
+                <router-link to="/settings">
+                  <a-menu-item @click="handleToUserCenter">
+                    <SettingOutlined />&nbsp; 个人中心
+                  </a-menu-item>
+                </router-link>
                 <a-menu-item @click="handleLoginOut"> <LoginOutlined />&nbsp; 退出 </a-menu-item>
               </a-menu>
             </template>
@@ -208,7 +210,6 @@ const handleToUserCenter = () => {
   display: inline-block;
   font-size: 16px;
   margin-right: 30px;
-  outline: none;
 }
 
 .router-link-exact-active {
