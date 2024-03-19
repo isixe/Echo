@@ -15,9 +15,9 @@ const userRoutes = [
     component: () => import('@/views/page-home/user/UserDraft')
   },
   {
-    name: 'user',
+    name: 'Home',
     component: () => import('@/views/page-home'),
-    redirect: '/history',
+    redirect: '/article',
     children: [
       {
         path: '/collection',
