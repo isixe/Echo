@@ -471,10 +471,10 @@ const rules = {
   max-width: 1200px;
   margin: auto;
   min-height: 100%;
+  padding: 15px 0;
 }
 
 .user-info-box {
-  margin: 15px 0;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 20px;
@@ -484,7 +484,7 @@ const rules = {
 }
 
 .user-dynamic-box {
-  margin: 15px 0;
+  margin-top: 15px;
   border-radius: 4px;
   display: flex;
   flex-direction: row;
@@ -524,7 +524,7 @@ const rules = {
 .dynamic-entry-content {
   flex: 1;
   background-color: #ffffff;
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
 .dynamic-side-content {

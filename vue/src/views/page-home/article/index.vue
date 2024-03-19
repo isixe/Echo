@@ -265,8 +265,7 @@ const items = ref([
 }
 
 .content-box {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  padding: 15px 0;
 }
 
 .category-tags-container {

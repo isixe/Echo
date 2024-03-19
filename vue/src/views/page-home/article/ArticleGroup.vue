@@ -1,34 +1,35 @@
 <template>
-  <div class="group-container" v-if="data">
-    <div class="group-header">
-      <div>
-        <p class="group-title">{{ data.name }}</p>
-        <p class="group-summary">{{ data.description }}</p>
+  <div class="container">
+    <div class="group-container" v-if="data">
+      <div class="group-header">
+        <div>
+          <p class="group-title">{{ data.name }}</p>
+          <p class="group-summary">{{ data.description }}</p>
+        </div>
+        <div class="group-message" v-if="(data.userId = store.id)">
+          <a @click="showEditor()"><EditOutlined /> 编辑</a>
+          <a @click="deleteGroup(data.id)"><DeleteOutlined /> 删除</a>
+        </div>
       </div>
-      <div class="group-message" v-if="(data.userId = store.id)">
-        <a @click="showEditor()"><EditOutlined /> 编辑</a>
-        <a @click="deleteGroup(data.id)"><DeleteOutlined /> 删除</a>
+      <div class="group-box-set" v-if="store.id && store.id == data.userId" @click="showPutter()">
+        <span><PlusOutlined /> 添加文章</span>
       </div>
+      <template v-if="groupArticleData && groupArticleData.length > 0">
+        <div class="group-article-list" v-for="item in groupArticleData" :key="item.id">
+          <router-link class="entry-item-box" :to="'/article/' + item.id">
+            <article-entry-item :item="item"></article-entry-item>
+          </router-link>
+          <a
+            class="article-remove"
+            v-if="store.id && store.id == data.userId"
+            @click="removeArticle(item.id)"
+            ><DeleteOutlined />&nbsp;移除</a
+          >
+        </div>
+      </template>
+      <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
     </div>
-    <div class="group-box-set" v-if="store.id && store.id == data.userId" @click="showPutter()">
-      <span><PlusOutlined /> 添加文章</span>
-    </div>
-    <template v-if="groupArticleData && groupArticleData.length > 0">
-      <div class="group-article-list" v-for="item in groupArticleData" :key="item.id">
-        <router-link class="entry-item-box" :to="'/article/' + item.id">
-          <article-entry-item :item="item"></article-entry-item>
-        </router-link>
-        <a
-          class="article-remove"
-          v-if="store.id && store.id == data.userId"
-          @click="removeArticle(item.id)"
-          ><DeleteOutlined />&nbsp;移除</a
-        >
-      </div>
-    </template>
-    <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
   </div>
-
   <template>
     <a-modal v-model:open="open" width="700px" title="更新集合信息">
       <div class="form-container">
@@ -286,8 +287,12 @@ const rules = {
 </script>
 
 <style scoped>
+.container{
+  padding: 15px 0;
+}
+
 .group-container {
-  margin: 15px 200px;
+  margin: 0 200px;
   background-color: #ffffff;
   border-radius: 4px;
   border: 1px solid #ccc;

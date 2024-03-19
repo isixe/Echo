@@ -411,12 +411,13 @@ const onChange = (pageNumber) => {
 <style scoped>
 .main {
   display: flex;
+  padding: 15px 0;
 }
 
 .sidebar-right {
   width: 250px;
   min-height: 100vh;
-  margin: 10px;
+  margin: 0 10px 10px 0;
 }
 
 .sticky-card {
@@ -479,7 +480,7 @@ const onChange = (pageNumber) => {
 
 .container {
   flex: 1;
-  margin: 10px 0 10px 10px;
+  margin: 0 15px;
   border-radius: 4px;
   position: relative;
 }

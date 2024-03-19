@@ -197,7 +197,7 @@ a {
 }
 
 .container {
-  padding: 15px 200px;
+  padding: 0 200px;
   background-color: #f5f5f5;
   min-height: 100vh;
 }

@@ -1,24 +1,31 @@
 <template>
-  <div class="category-header">分类 ：{{ category }}</div>
   <div class="container">
-    <a-menu class="nav-menu" v-model:selectedKeys="selectedKey" mode="horizontal" :items="items" />
-    <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
-      <div v-for="item in articleFullList" :key="item.id">
-        <router-link :to="'/article/' + item.id">
-          <article-entry-item :item="item"></article-entry-item
-        ></router-link>
-      </div>
-    </template>
-    <template
-      v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
-    >
-      <div v-for="item in questionFullList" :key="item.id">
-        <router-link :to="'/question/' + item.id" style="display: flex; width: 100%">
-          <question-entry-item :item="item"></question-entry-item>
-        </router-link>
-      </div>
-    </template>
-    <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
+    <div class="category-header">分类 ：{{ category }}</div>
+    <div class="conent-box">
+      <a-menu
+        class="nav-menu"
+        v-model:selectedKeys="selectedKey"
+        mode="horizontal"
+        :items="items"
+      />
+      <template v-if="selectedKey == 'article' && articleFullList && articleFullList.length > 0">
+        <div v-for="item in articleFullList" :key="item.id">
+          <router-link :to="'/article/' + item.id">
+            <article-entry-item :item="item"></article-entry-item
+          ></router-link>
+        </div>
+      </template>
+      <template
+        v-else-if="selectedKey == 'question' && questionFullList && questionFullList.length > 0"
+      >
+        <div v-for="item in questionFullList" :key="item.id">
+          <router-link :to="'/question/' + item.id" style="display: flex; width: 100%">
+            <question-entry-item :item="item"></question-entry-item>
+          </router-link>
+        </div>
+      </template>
+      <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
+    </div>
   </div>
 </template>
 
@@ -132,15 +139,19 @@ const items = ref([
 </script>
 
 <style scoped>
+.container {
+  padding-bottom: 15px;
+}
+
 .category-header {
-  margin-top: 15px;
   text-align: center;
   font-size: 20px;
   font-weight: 700;
+  padding: 15px 0;
 }
 
-.container {
-  margin: 15px 40px;
+.conent-box {
+  margin: 0 40px;
   background-color: #ffffff;
   border-radius: 4px;
 }
