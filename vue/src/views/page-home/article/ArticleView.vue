@@ -434,6 +434,9 @@ const deleteArticle = () => {
 
 //history
 const logArticleHistory = () => {
+  if (!userId) {
+    return
+  }
   const formData = new FormData()
   formData.append('userId', store.id)
   formData.append('articleId', route.params.id)

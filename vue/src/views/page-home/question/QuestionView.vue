@@ -312,6 +312,9 @@ const deleteQuestion = () => {
 
 //history
 const logQuestionHistory = () => {
+  if (!userId) {
+    return
+  }
   const formData = new FormData()
   formData.append('userId', store.id)
   formData.append('questionId', route.params.id)
