@@ -10,9 +10,7 @@ import dev.itea.echo.vo.HistoryArticleVO;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * <p>
  * 用户文章浏览历史表 Mapper 接口
- * </p>
  *
  * @author isixe
  * @since 2024-03-18

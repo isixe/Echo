@@ -10,9 +10,7 @@ import dev.itea.echo.vo.HistoryQuestionVO;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * <p>
  * 用户问题浏览历史表 Mapper 接口
- * </p>
  *
  * @author isixe
  * @since 2024-03-18
