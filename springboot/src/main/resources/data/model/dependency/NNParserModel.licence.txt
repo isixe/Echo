@@ -1,0 +1,13 @@
+严正声明，保护版权，支持开源，商用责任自负！
+本NeuralNetworkParser由hankcs移植自LTP的C++代码，将内部数据结构及分词、标注模块替换为HanLP原生。
+仅供科研人员、NLP爱好者学习研究用；如果您在HanLP移植的NeuralNetworkParser的基础上取得了研究成果，请您注明“使用了HanLP汉语言处理包（https://github.com/hankcs/HanLP）中移植的LTP依存句法分析模块”，并按LTP的要求添加相应声明；
+如作商业用途，必须遵守LTP开源协议中的付费规定！
+
+
+附录：LTP开源协议
+
+开源协议
+语言技术平台面向国内外大学、中科院各研究所以及个人研究者免费开放源代码，但如上述机构和个人将该平台用于商业目的（如企业合作项目等）则需要付费。
+除上述机构以外的企事业单位，如申请使用该平台，需付费。
+凡涉及付费问题，请发邮件到 car@ir.hit.edu.cn 洽商。
+如果您在LTP基础上发表论文或取得科研成果，请您在发表论文和申报成果时声明“使用了哈工大社会计算与信息检索研究中心研制的语言技术平台（LTP）”，参考文献中加入以下论文： Wanxiang Che, Zhenghua Li, Ting Liu. LTP: A Chinese Language Technology Platform. In Proceedings of the Coling 2010:Demonstrations. 2010.08, pp13-16, Beijing, China. 同时，发信给 car@ir.hit.edu.cn ，说明发表论文或申报成果的题目、出处等。
