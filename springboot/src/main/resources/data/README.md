@@ -5,7 +5,7 @@
 ## Statement
 
 > [!WARNING]
-> Because of the restrictions of Git, I removed the following files.
+> Because of the restrictions of Github, I removed the following files.
 > 
 > 1.data\model\dependency\NNParserModel.txt.bin
 > 
