@@ -40,9 +40,7 @@ public class HanLpTests {
         // HanLP
         List<Term> hanlpSegment = HanLP.segment(inputStr);
         log.info(hanlpSegment.toString());
-        // NLPTokenizer
-        List<Term> nlpSegment = NLPTokenizer.segment(inputStr);
-        log.info(nlpSegment.toString());
+
     }
 
     /**
