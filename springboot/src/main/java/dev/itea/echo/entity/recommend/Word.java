@@ -15,7 +15,8 @@ import java.util.Objects;
 public class Word implements Comparable<Word> {
     private String name;
     private String pos;
-    private Float weight;
+    private double tf;
+    private double tf_idf;
 
     public Word(String name, String pos) {
         this.name = name;
