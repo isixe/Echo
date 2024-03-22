@@ -16,12 +16,13 @@ public class Word implements Comparable<Word> {
     private String name;
     private String pos;
     private double tf;
-    private double tf_idf;
 
-    public Word(String name, String pos) {
+    public Word(String name, String pos, double tf) {
         this.name = name;
         this.pos = pos;
+        this.tf = tf;
     }
+
 
     @Override
     public int compareTo(Word word) {
