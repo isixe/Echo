@@ -65,7 +65,6 @@
                q.title                AS question_title,
                cq.root_comment_id,
                cq.parent_comment_id,
-               cq.like_count,
                (SELECT COUNT(*)
                 FROM reaction_comment_question AS rcq
                 WHERE rcq.is_deleted = 0
@@ -76,7 +75,6 @@
                 WHERE rcq.is_deleted = 0
                   AND rcq.comment_question_id = cq.id
                   AND rcq.status = 0) AS dislike_count,
-               cq.dislike_count,
                cq.created_time
         FROM comment_question AS cq
                  JOIN `user` AS u ON u.id = cq.user_id
