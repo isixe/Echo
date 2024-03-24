@@ -610,7 +610,6 @@ const onChange = (pageNumber) => {
 
 .container {
   flex: 1;
-  margin: auto;
   border-radius: 4px;
   position: relative;
 }
