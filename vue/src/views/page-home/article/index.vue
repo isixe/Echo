@@ -120,6 +120,7 @@ import {
   getSubscribeArticleByUserId
 } from '@/api/article'
 import { getCategoryListByKeyword } from '@/api/category'
+import { getArticleRecommendListByUserId } from '@/api/recommend'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
 library.add(faTags, faBullhorn, faRankingStar)
 
@@ -230,6 +231,12 @@ const getDataSource = (type) => {
         break
       }
 
+      getArticleRecommendListByUserId(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+      })
       break
     case 'hot':
       params.sort = null
