@@ -108,6 +108,7 @@
 </template>
 
 <script setup>
+import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
 import { QuestionEntryItem } from '@/views/page-home/components'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -193,6 +194,11 @@ watch(selectedKey, (key) => {
       router.push({ path: '/question', query: { type: 'hot' } })
       break
     case 'follow':
+      if (!store.id) {
+        message.warning('请先登录')
+        router.push('/login')
+        return
+      }
       router.push({ path: '/question', query: { type: 'follow' } })
       break
   }
@@ -211,6 +217,16 @@ const getDataSource = (type) => {
       })
       break
     case 'recommend':
+      if (!store.id) {
+        params.sort = 'likeCount'
+        getActiveQuestionListByKeyword(params).then((res) => {
+          fullList.value = fullList.value.concat(res.data.records)
+          pages.value = res.data.pages
+          initLoading.value = false
+          loading.value = false
+        })
+        break
+      }
       break
     case 'hot':
       params.sort = null
