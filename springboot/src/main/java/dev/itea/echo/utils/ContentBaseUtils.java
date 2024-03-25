@@ -50,7 +50,7 @@ public class ContentBaseUtils {
 
         // compute similarity
         double similarity = dotProduct / (normA * normB);
-        log.info("cosine similarity: {}", String.format("%.3f", similarity));
+        //log.info("cosine similarity: {}", String.format("%.3f", similarity));
         return similarity;
     }
 
@@ -63,15 +63,14 @@ public class ContentBaseUtils {
     public static List<Double> getDocVetor(Set<String> corpus, List<Word> segments) {
         List<Double> vector = new ArrayList<>();
         for (Word word : segments) {
-            log.info(word.getName());
-
-            log.info("TF (Term Frequency) with segment: {}", String.format("%.3f", word.getTf()));
+            //log.info(word.getName());
+            //log.info("TF (Term Frequency) with segment: {}", String.format("%.3f", word.getTf()));
 
             double idf = computeIDF(corpus, word.getName());
-            log.info("IDF (Inverse Document Frequency) with segment: {}", String.format("%.3f", idf));
+            //log.info("IDF (Inverse Document Frequency) with segment: {}", String.format("%.3f", idf));
 
             double tf_idf = computeTF_IDF(word.getTf(), idf);
-            log.info("TF-IDF（TF * IDF） with segment: {}", String.format("%.3f", tf_idf));
+            //log.info("TF-IDF（TF * IDF） with segment: {}", String.format("%.3f", tf_idf));
 
             vector.add(tf_idf);
         }
