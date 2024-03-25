@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.itea.echo.mapper.RecommendMapper">
+    <select id="getArticleWithCommented" resultType="dev.itea.echo.vo.ArticleVO" parameterType="integer">
+        SELECT a.id,
+               a.title,
+               a.content
+        FROM article AS a
+                 JOIN comment_article AS ca on a.id = ca.article_id
+        WHERE ca.user_id = #{userId}
+          AND ca.is_deleted = 0
+          AND a.is_deleted = 0
+        GROUP BY id Limit 4
+    </select>
+
+    <select id="getArticleFromCollection" resultType="dev.itea.echo.vo.ArticleVO" parameterType="integer">
+        SELECT a.id,
+               a.title,
+               a.content
+        FROM article AS a
+                 JOIN collection_article AS ca on a.id = ca.article_id
+        WHERE ca.user_id = #{userId}
+          AND ca.is_deleted = 0
+          AND a.is_deleted = 0
+        GROUP BY id Limit 3
+    </select>
+
+    <select id="getArticleWithThumb" resultType="dev.itea.echo.vo.ArticleVO" parameterType="integer">
+        SELECT a.id,
+               a.title,
+               a.content
+        FROM article AS a
+                 JOIN article_thumb AS `at` ON a.id = `at`.article_id
+        WHERE `at`.user_id = #{userId}
+          AND `at`.is_deleted = 0
+          AND a.is_deleted = 0
+        GROUP BY id Limit 2
+    </select>
+
+    <select id="getArticleFromHistory" resultType="dev.itea.echo.vo.ArticleVO" parameterType="integer">
+        SELECT a.id,
+               a.title,
+               a.content
+        FROM article AS a
+                 JOIN history_article AS `ha` ON a.id = `ha`.article_id
+        WHERE `ha`.user_id = #{userId}
+          AND `ha`.is_deleted = 0
+          AND a.is_deleted = 0
+        GROUP BY id Limit 1
+    </select>
+
+
+    <select id="getQuestionWithCommented" resultType="dev.itea.echo.vo.QuestionVO">
+
+    </select>
+
+    <select id="getQuestionFromCollection" resultType="dev.itea.echo.vo.QuestionVO">
+
+    </select>
+
+    <select id="getQuestionWithThumb" resultType="dev.itea.echo.vo.QuestionVO">
+
+    </select>
+
+    <select id="getQuestionFromHistory" resultType="dev.itea.echo.vo.QuestionVO">
+
+    </select>
+
+</mapper>
