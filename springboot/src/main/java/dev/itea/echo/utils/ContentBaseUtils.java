@@ -21,6 +21,40 @@ import java.util.stream.Collectors;
 public class ContentBaseUtils {
 
     /**
+     * get cosine similarity
+     *
+     * @param a vector
+     * @param b vector
+     */
+    public static Double cosineSimilarity(List<Double> a, List<Double> b) {
+        double dotProduct = 0.0;
+        double normA = 0.0;
+        double normB = 0.0;
+
+        // compute dot product
+        for (int i = 0; i < a.size(); i++) {
+            dotProduct += a.get(i) * b.get(i);
+        }
+
+        // compute norm for a
+        for (Double value : a) {
+            normA += value * value;
+        }
+        normA = Math.sqrt(normA);
+
+        // compute norm for b
+        for (Double value : b) {
+            normB += value * value;
+        }
+        normB = Math.sqrt(normB);
+
+        // compute similarity
+        double similarity = dotProduct / (normA * normB);
+        log.info("cosine similarity: {}", String.format("%.3f", similarity));
+        return similarity;
+    }
+
+    /**
      * get document vetor
      *
      * @param corpus   all documents
