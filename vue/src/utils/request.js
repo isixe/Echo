@@ -10,7 +10,7 @@ import { useAdminStore } from '@/stores/admin'
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   withCredentials: true,
-  timeout: 5000
+  timeout: 15000
 })
 
 //set request interceptors
