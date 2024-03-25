@@ -48,4 +48,6 @@ public interface ArticleService extends IService<Article> {
     IPage<Article> getPageWithDraftByUserId(Pageable pageable, Integer userId);
 
     IPage<ArticleVO> getPageWithSubscribeByUserId(Pageable pageable, Integer userId);
+
+    IPage<ArticleVO> getPageByIdList(Pageable pageable, List<String> recommendArticleId);
 }

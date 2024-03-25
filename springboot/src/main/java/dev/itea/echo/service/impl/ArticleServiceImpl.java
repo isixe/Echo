@@ -19,6 +19,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * 文章表 服务实现类
@@ -212,6 +213,21 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .eq("f.is_deleted", 0)
                 .orderByDesc("a.update_time");
         return articleMapper.getPageWithSubscribe(page, wrapper);
+    }
+
+    @Override
+    public IPage<ArticleVO> getPageByIdList(Pageable pageable, List<String> recommendArticleId) {
+        Page<ArticleVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<ArticleVO> wrapper = new QueryWrapper<ArticleVO>()
+                .eq("status", 1)
+                .eq("a.is_deleted", 0)
+                .in("a.id", recommendArticleId)
+                .orderByDesc("a.`pv_count`")
+                .orderByDesc("like_count")
+                .orderByDesc("a.update_time");
+
+        return articleMapper.getPageWithActive(page, wrapper);
+
     }
 
 }
