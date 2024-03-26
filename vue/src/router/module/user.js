@@ -39,6 +39,11 @@ const userRoutes = [
             path: '/settings/profile',
             name: 'setProfile',
             component: () => import('@/views/page-home/user/settings/SetProfile')
+          },
+          {
+            path: '/settings/personalize',
+            name: 'setPersonalize',
+            component: () => import('@/views/page-home/user/settings/SetPersonalize')
           }
         ]
       }
