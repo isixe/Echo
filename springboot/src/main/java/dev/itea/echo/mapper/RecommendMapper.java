@@ -15,6 +15,7 @@ import java.util.Set;
  * @create: 2024-03-20 18:00
  **/
 public interface RecommendMapper extends BaseMapper<Object> {
+
     //article
     List<ArticleVO> getArticleWithCommented(Integer userId);
 
@@ -33,5 +34,4 @@ public interface RecommendMapper extends BaseMapper<Object> {
 
     List<QuestionVO> getQuestionFromHistory(Integer userId);
 
-    IPage<ArticleVO> getPage(Set<String> recommendArticleId);
 }

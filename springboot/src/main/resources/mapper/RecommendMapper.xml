@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.itea.echo.mapper.RecommendMapper">
+    <!-- article -->
     <select id="getArticleWithCommented" resultType="dev.itea.echo.vo.ArticleVO" parameterType="integer">
         SELECT a.id,
                a.title,
@@ -49,21 +50,53 @@
         GROUP BY id Limit 1
     </select>
 
-
-    <select id="getQuestionWithCommented" resultType="dev.itea.echo.vo.QuestionVO">
-
+    <!-- question -->
+    <select id="getQuestionWithCommented" resultType="dev.itea.echo.vo.QuestionVO" parameterType="integer">
+        SELECT q.id,
+               q.title,
+               q.content
+        FROM question AS q
+                 JOIN comment_question AS cq on q.id = cq.question_id
+        WHERE cq.user_id = #{userId}
+          AND cq.is_deleted = 0
+          AND q.is_deleted = 0
+        GROUP BY id Limit 4
     </select>
 
-    <select id="getQuestionFromCollection" resultType="dev.itea.echo.vo.QuestionVO">
-
+    <select id="getQuestionFromCollection" resultType="dev.itea.echo.vo.QuestionVO" parameterType="integer">
+        SELECT q.id,
+               q.title,
+               q.content
+        FROM question AS q
+                 JOIN collection_question AS cq on q.id = cq.question_id
+        WHERE cq.user_id = #{userId}
+          AND cq.is_deleted = 0
+          AND q.is_deleted = 0
+        GROUP BY id Limit 3
     </select>
 
-    <select id="getQuestionWithThumb" resultType="dev.itea.echo.vo.QuestionVO">
-
+    <select id="getQuestionWithThumb" resultType="dev.itea.echo.vo.QuestionVO" parameterType="integer">
+        SELECT q.id,
+               q.title,
+               q.content
+        FROM question AS q
+                 JOIN question_thumb AS `qt` ON q.id = `qt`.question_id
+        WHERE `qt`.user_id = #{userId}
+          AND `qt`.is_deleted = 0
+          AND q.is_deleted = 0
+        GROUP BY id Limit 2
     </select>
 
-    <select id="getQuestionFromHistory" resultType="dev.itea.echo.vo.QuestionVO">
-
+    <select id="getQuestionFromHistory" resultType="dev.itea.echo.vo.QuestionVO" parameterType="integer">
+        SELECT q.id,
+               q.title,
+               q.content
+        FROM question AS q
+                 JOIN history_question AS `hq` ON q.id = `hq`.question_id
+        WHERE `hq`.user_id = #{userId}
+          AND `hq`.is_deleted = 0
+          AND q.is_deleted = 0
+        GROUP BY id Limit 1
     </select>
 
 </mapper>

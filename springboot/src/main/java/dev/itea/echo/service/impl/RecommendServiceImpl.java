@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import dev.itea.echo.entity.recommend.Word;
 import dev.itea.echo.mapper.RecommendMapper;
 import dev.itea.echo.service.ArticleService;
+import dev.itea.echo.service.QuestionService;
 import dev.itea.echo.service.RecommendService;
 import dev.itea.echo.utils.ContentBaseUtils;
 import dev.itea.echo.utils.HanlpUtil;
 import dev.itea.echo.vo.ArticleVO;
+import dev.itea.echo.vo.QuestionVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.htmlcleaner.HtmlCleaner;
@@ -40,6 +42,9 @@ public class RecommendServiceImpl implements RecommendService {
     ArticleService articleService;
 
     @Resource
+    QuestionService questionService;
+
+    @Resource
     RedisTemplate<String, Object> redisTemplate;
 
     @Override
@@ -66,6 +71,33 @@ public class RecommendServiceImpl implements RecommendService {
         //save corpus vetor to redis
         String redisKey = "article_vector";
         redisTemplate.opsForHash().putAll(redisKey, articleVector);
+        log.info("Scheduled end...");
+    }
+
+    @Override
+    @Scheduled(cron = "0 14 * * * *")
+    public void seekQuesionToRedis() {
+        log.info("Scheduled start...");
+        //get question data
+        Pageable fullPage = PageRequest.of(1, 10000);
+        List<QuestionVO> list = questionService.getPage(fullPage, null).getRecords();
+
+        //get question map
+        Map<String, String> questionMap = new HashMap<>();
+        for (QuestionVO question : list) {
+            questionMap.put(question.getId().toString(), new HtmlCleaner().clean(question.getContent()).getText().toString());
+        }
+        redisTemplate.opsForHash().putAll("questionMap", questionMap);
+
+        //get content set
+        Set<String> aContentSet = new HashSet<>(questionMap.values());
+
+        //corpus
+        Map<String, List<Double>> questionVector = getVector(questionMap, aContentSet);
+
+        //save corpus vetor to redis
+        String redisKey = "question_vector";
+        redisTemplate.opsForHash().putAll(redisKey, questionVector);
         log.info("Scheduled end...");
     }
 
@@ -139,6 +171,77 @@ public class RecommendServiceImpl implements RecommendService {
         //log.info(recommendArticleId.toString());
         List<String> recommendIdList = recommendArticleId.stream().toList();
         return articleService.getPageByIdList(pageable, recommendIdList);
+    }
+
+    @Override
+    public IPage<QuestionVO> seekQuestionByUserId(Pageable pageable, Integer userId) throws IOException {
+        //seekQuesionToRedis();
+
+        List<QuestionVO> list = new ArrayList<>();
+        List<QuestionVO> commentQuestionList = recommendMapper.getQuestionWithCommented(userId);
+        List<QuestionVO> collectQuestionList = recommendMapper.getQuestionFromCollection(userId);
+        List<QuestionVO> thumbQuestionList = recommendMapper.getQuestionWithThumb(userId);
+        List<QuestionVO> historyQuestionList = recommendMapper.getQuestionFromHistory(userId);
+        list.addAll(commentQuestionList);
+        list.addAll(collectQuestionList);
+        list.addAll(thumbQuestionList);
+        list.addAll(historyQuestionList);
+
+        //get question map
+        Map<String, String> rawQuestionMap = new HashMap<>();
+        for (QuestionVO question : list) {
+            rawQuestionMap.put(question.getId().toString(), new HtmlCleaner().clean(question.getContent()).getText().toString());
+        }
+
+        Map<Object, Object> corpusMap = redisTemplate.opsForHash().entries("questionMap");
+        Map<String, String> corpusQuestionMap = corpusMap.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().toString(),
+                        entry -> entry.getValue().toString()
+                ));
+
+        //get content set
+        Set<String> aContentSet = new HashSet<>(corpusQuestionMap.values());
+        //raw
+        Map<String, List<Double>> rawArticleVectorMap = getVector(rawQuestionMap, aContentSet);
+
+        //prepare for vector list
+        String redisKey = "question_vector";
+        Map<Object, Object> vectorMap = redisTemplate.opsForHash().entries(redisKey);
+        Map<String, List<Double>> questionVectorMap = vectorMap.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> String.valueOf(entry.getKey()),
+                        entry -> ((List<?>) entry.getValue()).stream()
+                                .map(obj -> Double.parseDouble(String.valueOf(obj)))
+                                .collect(Collectors.toList())
+                ));
+
+        Set<String> recommendQuestionId = new HashSet<>();
+
+        //computed cosine similarity and add to reconmmend set
+        for (Map.Entry<String, List<Double>> rowEntry : rawArticleVectorMap.entrySet()) {
+            String rowKey = rowEntry.getKey();
+            List<Double> rowVector = rowEntry.getValue();
+
+            for (Map.Entry<String, List<Double>> entry : rawArticleVectorMap.entrySet()) {
+                String key = entry.getKey();
+                List<Double> vector = entry.getValue();
+
+                if (rowKey.equals(key)) {
+                    continue;
+                }
+
+                Double similarity = ContentBaseUtils.cosineSimilarity(rowVector, vector);
+
+                if (similarity > 0.8) {
+                    recommendQuestionId.add(key);
+                }
+            }
+        }
+
+        log.info(recommendQuestionId.toString());
+        List<String> recommendIdList = recommendQuestionId.stream().toList();
+        return questionService.getPageByIdList(pageable, recommendIdList);
     }
 
     public static Map<String, List<Double>> getVector(Map<String, String> articleMap, Set<String> aContentSet) {
