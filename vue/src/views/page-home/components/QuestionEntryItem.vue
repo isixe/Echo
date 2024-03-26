@@ -151,6 +151,12 @@ const updateTime = dayjs(item.value.updateTime).fromNow()
   margin-bottom: 5px;
 }
 
+@media screen and (max-width: 1200px) {
+  .item-title {
+    width: 70%;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .entry-item {
     position: relative;
@@ -183,14 +189,28 @@ const updateTime = dayjs(item.value.updateTime).fromNow()
   }
 
   .item-title {
-    padding: 5px 10px;
+    padding: 5px 0;
     margin-bottom: 0;
+    width: 90%;
   }
 
   .item-message-left {
     margin-top: 5px;
     position: absolute;
     right: 10px;
+  }
+
+  .item-left-message {
+    margin-right: 0;
+    margin-left: 10px;
+  }
+
+  .item-left-message:last-child {
+    margin-right: 10px;
+  }
+
+  .item-main {
+    padding: 0;
   }
 }
 </style>

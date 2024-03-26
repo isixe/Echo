@@ -357,4 +357,11 @@ const removeCommentReaction = () => {
   border-radius: 4px;
   background-color: #e8e8f6;
 }
+
+@media screen and (max-width: 800px) {
+  .base-info,
+  .ex-info {
+    font-size: 14px;
+  }
+}
 </style>
