@@ -307,4 +307,11 @@ const removeCommentReaction = () => {
 .child-comment-container {
   margin-top: 10px;
 }
+
+@media screen and (max-width: 800px) {
+  .base-info,
+  .ex-info {
+    font-size: 14px;
+  }
+}
 </style>

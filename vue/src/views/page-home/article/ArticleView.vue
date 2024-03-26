@@ -807,6 +807,16 @@ const onChange = (pageNumber) => {
   margin-top: 15px;
 }
 
+.action-left {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
 :global(ol.toc-list) {
   padding-left: 20px;
 }
@@ -913,6 +923,82 @@ const onChange = (pageNumber) => {
 
   .container {
     margin-left: 10px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .sidebar-right {
+    display: none;
+  }
+
+  .title h1,
+  .title-thin h1 {
+    font-size: 22px;
+  }
+
+  .item-message {
+    font-size: 14px;
+  }
+
+  .tags-line,
+  .action-left p,
+  .pv-box {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .title h1,
+  .title-thin h1 {
+    font-size: 20px;
+  }
+
+  .item-message {
+    font-size: 12px;
+  }
+
+  .tags-line,
+  .action-left p,
+  .pv-box {
+    font-size: 14px;
+  }
+
+  .praise-box {
+    width: 45px;
+    height: 45px;
+  }
+
+  .item-message {
+    flex-wrap: wrap;
+  }
+
+  .title {
+    height: 100px;
+    top: 110px;
+  }
+
+  .title div:first-child {
+    height: 40px;
+  }
+
+  .featuredPic {
+    height: 200px;
+  }
+
+  .featuredPic img {
+    height: 200px;
+  }
+
+  :global(.article-text-top pre) {
+    max-width: 420px;
+  }
+
+  :global(.article-text-top p),
+  :global(.article-text-top li),
+  :global(.article-text-top span) {
+    line-height: 1.2;
+    margin: 0 0 10px;
+    font-size: 14px;
   }
 }
 </style>
