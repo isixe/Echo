@@ -1,11 +1,13 @@
 package dev.itea.echo.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.itea.echo.entity.UserPersonalize;
 import dev.itea.echo.entity.recommend.Word;
 import dev.itea.echo.mapper.RecommendMapper;
 import dev.itea.echo.service.ArticleService;
 import dev.itea.echo.service.QuestionService;
 import dev.itea.echo.service.RecommendService;
+import dev.itea.echo.service.UserPersonalizeService;
 import dev.itea.echo.utils.ContentBaseUtils;
 import dev.itea.echo.utils.HanlpUtil;
 import dev.itea.echo.vo.ArticleVO;
@@ -43,6 +45,9 @@ public class RecommendServiceImpl implements RecommendService {
 
     @Resource
     QuestionService questionService;
+
+    @Resource
+    UserPersonalizeService userPersonalizeService;
 
     @Resource
     RedisTemplate<String, Object> redisTemplate;
@@ -102,18 +107,31 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     @Override
-    public IPage<ArticleVO> seekArticleByUserId(Pageable pageable, Integer userId) throws IOException {
+    public IPage<ArticleVO> seekArticleByUserId(Pageable pageable, Integer userId) {
         //seekArticleToRedis();
 
+        UserPersonalize userPersonalize = userPersonalizeService.get(userId);
+
         List<ArticleVO> list = new ArrayList<>();
-        List<ArticleVO> commentArticleList = recommendMapper.getArticleWithCommented(userId);
-        List<ArticleVO> collectArticleList = recommendMapper.getArticleFromCollection(userId);
-        List<ArticleVO> thumbArticleList = recommendMapper.getArticleWithThumb(userId);
-        List<ArticleVO> historyArticleList = recommendMapper.getArticleFromHistory(userId);
-        list.addAll(commentArticleList);
-        list.addAll(collectArticleList);
-        list.addAll(thumbArticleList);
-        list.addAll(historyArticleList);
+        if (userPersonalize.isUseCommented()) {
+            List<ArticleVO> commentArticleList = recommendMapper.getArticleWithCommented(userId);
+            list.addAll(commentArticleList);
+        }
+
+        if (userPersonalize.isUseCollection()) {
+            List<ArticleVO> collectArticleList = recommendMapper.getArticleFromCollection(userId);
+            list.addAll(collectArticleList);
+        }
+
+        if (userPersonalize.isUseThumb()) {
+            List<ArticleVO> thumbArticleList = recommendMapper.getArticleWithThumb(userId);
+            list.addAll(thumbArticleList);
+        }
+
+        if (userPersonalize.isUseHistory()) {
+            List<ArticleVO> historyArticleList = recommendMapper.getArticleFromHistory(userId);
+            list.addAll(historyArticleList);
+        }
 
         //get article map
         Map<String, String> rawArticleMap = new HashMap<>();
@@ -174,18 +192,32 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     @Override
-    public IPage<QuestionVO> seekQuestionByUserId(Pageable pageable, Integer userId) throws IOException {
+    public IPage<QuestionVO> seekQuestionByUserId(Pageable pageable, Integer userId) {
         //seekQuesionToRedis();
 
+        UserPersonalize userPersonalize = userPersonalizeService.get(userId);
+
         List<QuestionVO> list = new ArrayList<>();
-        List<QuestionVO> commentQuestionList = recommendMapper.getQuestionWithCommented(userId);
-        List<QuestionVO> collectQuestionList = recommendMapper.getQuestionFromCollection(userId);
-        List<QuestionVO> thumbQuestionList = recommendMapper.getQuestionWithThumb(userId);
-        List<QuestionVO> historyQuestionList = recommendMapper.getQuestionFromHistory(userId);
-        list.addAll(commentQuestionList);
-        list.addAll(collectQuestionList);
-        list.addAll(thumbQuestionList);
-        list.addAll(historyQuestionList);
+
+        if (userPersonalize.isUseCommented()) {
+            List<QuestionVO> commentQuestionList = recommendMapper.getQuestionWithCommented(userId);
+            list.addAll(commentQuestionList);
+        }
+
+        if (userPersonalize.isUseCollection()) {
+            List<QuestionVO> collectQuestionList = recommendMapper.getQuestionFromCollection(userId);
+            list.addAll(collectQuestionList);
+        }
+
+        if (userPersonalize.isUseThumb()) {
+            List<QuestionVO> thumbQuestionList = recommendMapper.getQuestionWithThumb(userId);
+            list.addAll(thumbQuestionList);
+        }
+
+        if (userPersonalize.isUseHistory()) {
+            List<QuestionVO> historyQuestionList = recommendMapper.getQuestionFromHistory(userId);
+            list.addAll(historyQuestionList);
+        }
 
         //get question map
         Map<String, String> rawQuestionMap = new HashMap<>();
