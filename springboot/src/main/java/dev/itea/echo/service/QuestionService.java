@@ -40,4 +40,7 @@ public interface QuestionService extends IService<Question> {
     IPage<Question> getPageWithDraftByUserId(Pageable pageable, Integer userId);
 
     IPage<QuestionVO> getPageWithSubscribeByUserId(Pageable pageable, Integer userId);
+
+    IPage<QuestionVO> getPageByIdList(Pageable pageable, List<String> recommendIdList);
+
 }

@@ -178,4 +178,18 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         return questionMapper.getPageWithSubscribe(page, wrapper);
     }
 
+    @Override
+    public IPage<QuestionVO> getPageByIdList(Pageable pageable, List<String> recommendIdList) {
+        Page<QuestionVO> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
+        QueryWrapper<QuestionVO> wrapper = new QueryWrapper<QuestionVO>()
+                .eq("status", 1)
+                .eq("q.is_deleted", 0)
+                .in("q.id", recommendIdList)
+                .orderByDesc("q.`pv_count`")
+                .orderByDesc("like_count")
+                .orderByDesc("q.update_time");
+
+        return questionMapper.getPageWithActive(page, wrapper);
+    }
+
 }
