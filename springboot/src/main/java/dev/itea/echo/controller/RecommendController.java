@@ -54,17 +54,36 @@ public class RecommendController {
     @SaIgnore
     @GetMapping("/article")
     public IPage<ArticleVO> recommendArticleByUserId(@Validated PageDTO pageDTO, Integer userId) throws IOException {
+        if (ObjectUtils.isEmpty(userId)) {
+            throw new BusinessException(ResultCode.PARAMETER_IS_BLANK);
+        }
+
         Pageable pageable = PageRequest.of(pageDTO.getPageNum(), pageDTO.getPageSize());
 
         IPage<ArticleVO> articleVOIPage = (IPage<ArticleVO>) redisTemplate.opsForValue().get("recommendArticle::" + userId);
 
         if (!ObjectUtils.isEmpty(articleVOIPage)) {
+            Long expire = redisTemplate.getExpire("recommendArticle::" + userId, TimeUnit.MINUTES);
+            //background update
+            if (expire != null && expire < 10) {
+                new Thread(() -> {
+                    log.info("RecommendService Thread start...");
+                    try {
+                        IPage<ArticleVO> articleVOIPage1 = recommendService.seekArticleByUserId(pageable, userId);
+                        redisTemplate.opsForValue().set("recommendArticle::" + userId, articleVOIPage1);
+                        redisTemplate.expire("recommendArticle::" + userId, 1, TimeUnit.HOURS);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    log.info("RecommendService Thread execute end...");
+                }).start();
+            }
+
+            //previous return
             return articleVOIPage;
         }
 
-        if (ObjectUtils.isEmpty(userId)) {
-            throw new BusinessException(ResultCode.PARAMETER_IS_BLANK);
-        }
         articleVOIPage = recommendService.seekArticleByUserId(pageable, userId);
         redisTemplate.opsForValue().set("recommendArticle::" + userId, articleVOIPage);
         redisTemplate.expire("recommendArticle::" + userId, 1, TimeUnit.HOURS);
