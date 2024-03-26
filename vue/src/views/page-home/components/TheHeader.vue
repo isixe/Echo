@@ -96,7 +96,7 @@
         </template>
       </div>
       <div class="header-right-mobile">
-        <span class="search-box">
+        <span class="search-box" @click="() => router.push('/search')">
           <SearchOutlined
             style="color: rgba(0, 0, 0, 0.45); font-size: 18px; cursor: pointer; margin-right: 15px"
           />
