@@ -11,7 +11,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserPersonalizeService extends IService<UserPersonalize> {
 
+    UserPersonalize update(UserPersonalize userPersonalize);
+
     UserPersonalize get(Integer id);
 
-    UserPersonalize update(UserPersonalize userPersonalize);
+    UserPersonalize getByUserId(Integer userId);
+
 }

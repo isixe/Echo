@@ -1,16 +1,11 @@
 package dev.itea.echo.controller;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaCheckOr;
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import dev.itea.echo.annotation.SaUserCheckLogin;
-import dev.itea.echo.entity.UserPersonalize;
 import dev.itea.echo.entity.UserPersonalize;
 import dev.itea.echo.entity.result.ResultCode;
 import dev.itea.echo.exception.BusinessException;
 import dev.itea.echo.service.UserPersonalizeService;
-import dev.itea.echo.utils.StpUserUtil;
 import dev.itea.echo.validation.AddValidationGroup;
 import dev.itea.echo.validation.UpdateValidationGroup;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,6 +61,11 @@ public class UserPersonalizeController {
     @SaUserCheckLogin
     @PutMapping
     public void update(@Validated(UpdateValidationGroup.class) UserPersonalize userPersonalize) {
+        //check data
+        if (!userPersonalize.isUseCommented() && !userPersonalize.isUseCollection()
+                && !userPersonalize.isUseThumb() && !userPersonalize.isUseHistory()) {
+            throw new BusinessException(ResultCode.PARAMETER_IS_INVALID);
+        }
         //check userPersonalizeService
         UserPersonalize checkUserPersonalize = userPersonalizeService.get(userPersonalize.getUserId());
         if (ObjectUtils.isEmpty(checkUserPersonalize)) {
@@ -76,25 +76,19 @@ public class UserPersonalizeController {
     }
 
     /**
-     * 用户个性化设置查询（ID）
+     * 用户个性化设置查询（用户ID）
      *
-     * @param id 用户个性化设置ID
+     * @param userId 用户个性化设置ID
      * @return UserPersonalize 用户个性化设置实体
      */
-    @Operation(summary = "用户个性化设置查询", description = "前台用户个性化设置查询", tags = "UserPersonalize", method = "GET",
+    @Operation(summary = "用户个性化设置查询", description = "前台根据用户ID查询个性化设置", tags = "UserPersonalize", method = "GET",
             parameters = {
                     @Parameter(name = "id", description = "用户个性化设置ID", required = true, example = "2"),
             })
     @SaUserCheckLogin
     @GetMapping
-    public UserPersonalize get(Integer id) {
-        //get userPersonalizeService
-        UserPersonalize userPersonalize = userPersonalizeService.get(id);
-        //check userPersonalizeService
-        if (ObjectUtils.isEmpty(userPersonalizeService)) {
-            throw new BusinessException(ResultCode.DATA_NOT_FOUND);
-        }
-        return userPersonalize;
+    public UserPersonalize getByUserId(Integer userId) {
+        return userPersonalizeService.getByUserId(userId);
     }
 
 }
