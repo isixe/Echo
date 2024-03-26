@@ -8,3 +8,12 @@ export function getArticleRecommendListByUserId(params) {
     params
   })
 }
+
+export function getQuestionRecommendListByUserId(params) {
+  return request({
+    url: '/recommend/question',
+    method: 'get',
+    timeout: 30000,
+    params
+  })
+}
