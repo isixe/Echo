@@ -22,10 +22,10 @@ const items = ref([
     title: 'profile'
   },
   {
-    key: '/settings/personalization',
+    key: '/settings/personalize',
     icon: () => h(SmileOutlined),
     label: '个性化设置',
-    title: 'personalization'
+    title: 'personalize'
   }
 ])
 
@@ -34,8 +34,7 @@ onMounted(() => {
 })
 
 watch(selectedKeys, (key) => {
-  console.log(key)
-  router.push(key)
+  router.push(key[0])
 })
 </script>
 
