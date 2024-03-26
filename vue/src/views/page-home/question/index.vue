@@ -118,6 +118,7 @@ import {
   getSubscribeQuestionByUserId
 } from '@/api/question'
 import { getCategoryListByKeyword } from '@/api/category'
+import { getQuestionRecommendListByUserId } from '@/api/recommend'
 import { faTags, faBullhorn, faRankingStar } from '@fortawesome/free-solid-svg-icons'
 library.add(faTags, faBullhorn, faRankingStar)
 
@@ -227,6 +228,12 @@ const getDataSource = (type) => {
         })
         break
       }
+      getQuestionRecommendListByUserId(params).then((res) => {
+        fullList.value = fullList.value.concat(res.data.records)
+        pages.value = res.data.pages
+        initLoading.value = false
+        loading.value = false
+      })
       break
     case 'hot':
       params.sort = null
