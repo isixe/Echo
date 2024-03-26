@@ -43,7 +43,7 @@ public class MybatisPlusGeneratorTests {
         // 作者
         String author = "isixe";
         //单表名称
-        String tableName = "question_thumb";
+        String tableName = "user";
         // 启动
         MybatisPlusGenerator generator = new MybatisPlusGenerator(dbUrl, dbUsername, dbPassword);
         generator.generate(tableName, author);
@@ -80,6 +80,7 @@ public class MybatisPlusGeneratorTests {
 
     /**
      * 获取数据库的全部表名
+     *
      * @param databaseName
      * @return 数据库中的所有表名
      */
