@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.itea.echo.mapper.UserPersonalizeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="dev.itea.echo.entity.UserPersonalize">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="use_commented" property="useCommented" />
+        <result column="use_collection" property="useCollection" />
+        <result column="use_thumb" property="useThumb" />
+        <result column="use_history" property="useHistory" />
+    </resultMap>
+
+</mapper>

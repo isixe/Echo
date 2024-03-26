@@ -1,0 +1,60 @@
+package dev.itea.echo.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.io.Serializable;
+import java.io.Serial;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+/**
+* 用户个性化设置表
+*
+* @author isixe
+* @since 2024-03-26
+*/
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@TableName("user_personalize")
+@Schema(description = "用户个性化设置表")
+public class UserPersonalize extends Model<UserPersonalize> {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @Schema(description = "ID")
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
+
+    @Schema(description = "用户ID")
+    @TableField("user_id")
+    private Integer userId;
+
+    @Schema(description = "使用评论过的文章和问答")
+    @TableField("use_commented")
+    private Byte useCommented;
+
+    @Schema(description = "使用收藏的文章和问答")
+    @TableField("use_collection")
+    private Byte useCollection;
+
+    @Schema(description = "使用点赞过的文章和问答")
+    @TableField("use_thumb")
+    private Byte useThumb;
+
+    @Schema(description = "使用浏览历史的文章和问答")
+    @TableField("use_history")
+    private Byte useHistory;
+
+
+    @Override
+    public Serializable pkVal() {
+        return this.id;
+    }
+
+}
