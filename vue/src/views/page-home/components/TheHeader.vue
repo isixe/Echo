@@ -101,9 +101,6 @@
             style="color: rgba(0, 0, 0, 0.45); font-size: 18px; cursor: pointer; margin-right: 15px"
           />
         </span>
-        <span class="menu-box">
-          <MenuOutlined style="color: rgba(0, 0, 0, 0.45); font-size: 18px; cursor: pointer" />
-        </span>
       </div>
     </div>
   </a-layout-header>
@@ -156,10 +153,6 @@ const handleLoginOut = () => {
         })
     }
   })
-}
-
-const handleToUserCenter = () => {
-  // router.push('/userCenter')
 }
 </script>
 
