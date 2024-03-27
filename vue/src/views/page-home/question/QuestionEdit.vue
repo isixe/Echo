@@ -234,4 +234,14 @@ const updateQuestion = (formData) => {
   margin-bottom: 15px;
   flex-wrap: wrap;
 }
+
+@media screen and (max-width: 800px) {
+  .left-item {
+    margin-bottom: 10px;
+  }
+
+  .question-header-right {
+    margin-top: 10px;
+  }
+}
 </style>

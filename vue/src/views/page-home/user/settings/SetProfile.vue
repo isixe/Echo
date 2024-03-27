@@ -170,4 +170,15 @@ const avatarUploadAction = (info) => {
   display: flex;
   justify-content: center;
 }
+
+@media screen and (max-width: 800px) {
+  .user-avatar {
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  .form-right {
+    width: auto;
+  }
+}
 </style>

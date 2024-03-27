@@ -242,7 +242,7 @@ const updateArticle = (formData) => {
 }
 
 .right {
-  width: 735px;
+  width: auto;
 }
 
 .right-content {
@@ -259,5 +259,19 @@ const updateArticle = (formData) => {
   display: flex;
   justify-content: space-between;
   margin-top: 25px;
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .right-footer {
+    display: block;
+  }
+
+  .right-footer-right {
+    margin-top: 10px;
+  }
 }
 </style>

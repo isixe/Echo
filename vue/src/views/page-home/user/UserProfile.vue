@@ -648,4 +648,29 @@ const rules = {
 .follow-tab .active-tab {
   font-weight: 700;
 }
+
+@media screen and (max-width: 800px) {
+  .dynamic-side-content {
+    display: none;
+  }
+
+  .user-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .user-detail {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .user-detail span {
+    display: block;
+  }
+
+  .user-desc {
+    font-size: 14px;
+  }
+}
 </style>

@@ -2,7 +2,6 @@
   <a-menu
     class="settings-menu"
     v-model:selectedKeys="selectedKeys"
-    style="width: 256px"
     mode="vertical"
     :items="items"
   />
@@ -40,10 +39,20 @@ watch(selectedKeys, (key) => {
 
 <style scoped>
 .settings-menu {
+  width: 256px;
+}
+
+.settings-menu {
   min-height: 90vh;
 }
 
 :global(.settings-menu .ant-menu-item-selected) {
   background-color: #f1f1ff;
+}
+
+@media screen and (max-width: 800px) {
+  .settings-menu {
+    width: auto;
+  }
 }
 </style>

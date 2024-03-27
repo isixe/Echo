@@ -526,11 +526,11 @@ const onChange = (pageNumber) => {
 }
 
 .tags-line {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .tags-line .tag {
-  font-size: 12px;
+  font-size: 14px;
   margin-right: 10px;
 }
 
@@ -674,5 +674,41 @@ const onChange = (pageNumber) => {
   white-space: pre;
   word-break: normal;
   word-spacing: normal;
+}
+
+@media screen and (max-width: 800px) {
+  .sidebar-right {
+    display: none;
+  }
+
+  .title h1 {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .title h1 {
+    font-size: 20px;
+  }
+
+  .item-message,
+  .tags-line {
+    font-size: 12px;
+  }
+
+  .action-left p {
+    display: none;
+  }
+
+  :global(.question-text-top p),
+  :global(.question-text-top li),
+  :global(.question-text-top span) {
+    line-height: 1.4;
+    font-size: 14px;
+  }
+
+  :global(.article-text-top pre) {
+    max-width: 420px;
+  }
 }
 </style>

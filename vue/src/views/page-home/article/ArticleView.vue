@@ -996,7 +996,7 @@ const onChange = (pageNumber) => {
   :global(.article-text-top p),
   :global(.article-text-top li),
   :global(.article-text-top span) {
-    line-height: 1.2;
+    line-height: 1.4;
     margin: 0 0 10px;
     font-size: 14px;
   }

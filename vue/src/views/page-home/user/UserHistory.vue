@@ -239,4 +239,24 @@ a {
 .article-remove:hover {
   color: #4d45e5;
 }
+
+@media screen and (max-width: 1000px) {
+  .container {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .container {
+    padding: 0;
+  }
+
+  .article-remove {
+    font-size: 14px;
+  }
+
+  .item-title {
+    width: 90%;
+  }
+}
 </style>
