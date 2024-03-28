@@ -35,7 +35,9 @@
 
 #### 首页
 
-![首页](https://raw.githubusercontent.com/isixe/echo/main/doc/img/web/首页.png)
+![首页](https://raw.githubusercontent.com/isixe/echo/main/doc/img/web/文章首页.png)
+
+![首页](https://raw.githubusercontent.com/isixe/echo/main/doc/img/web/问答首页.png)
 
 #### 文章页
 
