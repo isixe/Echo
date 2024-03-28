@@ -55,16 +55,16 @@
 
 #### 首页
 
-![移动端首页](https://raw.githubusercontent.com/isixe/echo/main/doc/img/mobile/移动端首页.png)
+<img src="https://raw.githubusercontent.com/isixe/echo/main/doc/img/mobile/移动端首页.png" alt="移动端首页" width="300">
 
 #### 文章页
 
-![文章页](https://raw.githubusercontent.com/isixe/echo/main/doc/img/mobile/文章页.png)
+<img src="https://raw.githubusercontent.com/isixe/echo/main/doc/img/mobile/文章页.png" alt="文章页" width="300">
 
 #### 问答页
 
-![问答页](https://raw.githubusercontent.com/isixe/echo/main/doc/img/mobile/问答页.png)
+<img src="https://raw.githubusercontent.com/isixe/echo/main/doc/img/mobile/问答页.png" alt="问答页" width="300">
 
 #### 搜索页
 
-![搜索页](https://raw.githubusercontent.com/isixe/echo/main/doc/img/mobile/搜索页.png)
+<img src="https://raw.githubusercontent.com/isixe/echo/main/doc/img/mobile/搜索页.png" alt="搜索页" width="300">
