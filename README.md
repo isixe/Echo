@@ -1,5 +1,5 @@
 <h1 align="center">
-  <p>Echo 知识交流社区</p>
+  <p>Echo 知识社区</p>
   <img src = "https://raw.githubusercontent.com/isixe/echo/main/vue/src/assets/svg/logo.svg" width="30" height="30"/>
 </h1>
 Echo 是一个知识社区，使用 SpringBoot + Vue3 开发实现，仅基础功能实现，为实验性项目。
@@ -17,7 +17,7 @@ Echo 是一个知识社区，使用 SpringBoot + Vue3 开发实现，仅基础�
 
 - 框架：Vue3
 - 持久化：Pina
-- 构建：vite
+- 构建：Vite
 - UI：Antdv
 
 ### 后端
