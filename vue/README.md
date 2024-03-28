@@ -1,41 +1,33 @@
 # echo
 
-Vue3 + Vite + pinia + Ant Design
+Vue3 + Vite + pinia + Ant Design Vue
 
-## Recommended IDE Setup
+## 推荐启动
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and
+disable Vetur) .
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+### 安装
 
 ```sh
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+### 运行
 
 ```sh
 pnpm dev
 ```
 
-### Compile and Minify for Production
+### 构建
 
 ```sh
 pnpm build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## 依赖相关
 
-```sh
-pnpm test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+- UI: Ant Design Vue
+- 图标：Font Aswome、Ant Design Vue Icon
+- 持久化：Pina:（仅用户登录数据）
+- 富文本：WangEditor
