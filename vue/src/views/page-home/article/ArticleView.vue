@@ -973,12 +973,12 @@ const onChange = (pageNumber) => {
   }
 
   .title {
-    height: 100px;
-    top: 110px;
+    height: 120px;
+    top: 90px;
   }
 
   .title div:first-child {
-    height: 40px;
+    height: 60px;
   }
 
   .featuredPic {
