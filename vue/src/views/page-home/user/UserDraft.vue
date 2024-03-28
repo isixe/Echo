@@ -22,7 +22,9 @@
               </div>
             </router-link>
           </div>
-          <div class="entry-option" @click="onArticleDraftDelete(item.id)"><a>删除</a></div>
+          <div class="entry-option" @click="onArticleDraftDelete(item.id)">
+            <a><DeleteOutlined /></a>
+          </div>
         </div>
       </div>
     </template>
@@ -38,7 +40,9 @@
               </div>
             </router-link>
           </div>
-          <div class="entry-option" @click="onQuestionDraftDelete(item.id)"><a>删除</a></div>
+          <div class="entry-option" @click="onQuestionDraftDelete(item.id)">
+            <a><DeleteOutlined /></a>
+          </div>
         </div>
       </div>
     </template>
@@ -312,6 +316,11 @@ const items = ref([
 }
 
 @media screen and (max-width: 800px) {
+  .article-entry-list,
+  .question-entry-list {
+    grid-template-columns: 1fr;
+  }
+
   .item-title {
     font-size: 18px;
     width: 85%;

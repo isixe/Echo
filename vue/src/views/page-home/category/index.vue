@@ -151,8 +151,20 @@ const items = ref([
 }
 
 .conent-box {
-  margin: 0 40px;
+  margin: 0 150px;
   background-color: #ffffff;
   border-radius: 4px;
+}
+
+@media screen and (max-width: 800px) {
+  .conent-box {
+    margin: 0 20px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .conent-box {
+    margin: 0 10px;
+  }
 }
 </style>

@@ -280,4 +280,14 @@ const items = ref([
   margin-top: 15px;
   padding-bottom: 15px;
 }
+
+@media screen and (max-width: 800px) {
+  .search-content {
+    width: auto;
+  }
+
+  .search-result {
+    display: block;
+  }
+}
 </style>

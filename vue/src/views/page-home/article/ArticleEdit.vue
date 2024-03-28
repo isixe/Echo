@@ -274,4 +274,22 @@ const updateArticle = (formData) => {
     margin-top: 10px;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .left-item {
+    display: block;
+  }
+
+  .left-item span {
+    margin-left: 0;
+  }
+
+  :global(.ant-upload.ant-upload-select.ant-upload-select-picture-card) {
+    width: 100% !important;
+  }
+
+  :global(.ant-upload img) {
+    width: 100% !important;
+  }
+}
 </style>

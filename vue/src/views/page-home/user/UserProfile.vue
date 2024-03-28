@@ -654,6 +654,10 @@ const rules = {
     display: none;
   }
 
+  .user-dynamic-box {
+    display: block;
+  }
+
   .user-name {
     font-size: 22px;
     font-weight: 700;

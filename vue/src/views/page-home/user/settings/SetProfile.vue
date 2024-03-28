@@ -180,5 +180,9 @@ const avatarUploadAction = (info) => {
   .form-right {
     width: auto;
   }
+
+  .profile-form {
+    display: block;
+  }
 }
 </style>

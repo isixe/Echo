@@ -159,12 +159,22 @@ const updateTime = dayjs(item.value.updateTime).fromNow()
 
 @media screen and (max-width: 800px) {
   .entry-item {
+    width: none;
     position: relative;
     padding: 5px 0;
   }
 
   .item-title {
     font-size: 18px;
+  }
+
+  .item-left {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .item-main div:first-child {
+    display: grid;
   }
 }
 
@@ -207,6 +217,10 @@ const updateTime = dayjs(item.value.updateTime).fromNow()
 
   .item-left-message:last-child {
     margin-right: 10px;
+  }
+
+  .item-left {
+    width: 140px;
   }
 
   .item-main {

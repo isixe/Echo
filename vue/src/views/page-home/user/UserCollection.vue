@@ -13,9 +13,7 @@
           <router-link :to="'/article/' + item.articleId" class="entry-item-box">
             <article-entry-item :item="item"></article-entry-item>
           </router-link>
-          <a class="article-remove" @click="removeArticle(item.id)"
-            ><DeleteOutlined />&nbsp;取消收藏</a
-          >
+          <a class="article-remove" @click="removeArticle(item.id)"><DeleteOutlined /></a>
         </div>
       </template>
       <template
@@ -25,9 +23,7 @@
           <router-link :to="'/question/' + item.questionId" class="entry-item-box">
             <question-entry-item :item="item"></question-entry-item>
           </router-link>
-          <a class="article-remove" @click="removeQuestion(item.id)"
-            ><DeleteOutlined />&nbsp;取消收藏</a
-          >
+          <a class="article-remove" @click="removeQuestion(item.id)"><DeleteOutlined /></a>
         </div>
       </template>
       <template v-else> <a-empty style="padding-bottom: 30px" /> </template>
@@ -216,7 +212,7 @@ a {
 }
 
 .collection-container {
-  margin: 15px 40px;
+  margin: 0 40px;
   background-color: #ffffff;
   border-radius: 4px;
 }
@@ -251,16 +247,31 @@ a {
 }
 
 @media screen and (max-width: 800px) {
+  .collection-container {
+    margin: 0 20px;
+  }
+
   .container {
     padding: 0;
   }
 
   .article-remove {
+    width: 50px;
     font-size: 14px;
   }
 
   .item-title {
     width: 90%;
+  }
+
+  .entry-item-box {
+    width: 85%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .collection-container {
+    margin: 0 10px;
   }
 }
 </style>

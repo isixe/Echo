@@ -2,9 +2,11 @@
   <a-layout-header>
     <div class="header-box">
       <div class="header-left">
-        <div class="logo">
-          <img src="../../../assets/svg/logo.svg" width="40" height="40" />
-        </div>
+        <router-link to="/">
+          <div class="logo">
+            <img src="../../../assets/svg/logo.svg" width="40" height="40" />
+          </div>
+        </router-link>
         <div class="header-route">
           <router-link to="/"> Echo </router-link>
           <router-link to="/article"> 文章 </router-link>

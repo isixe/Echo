@@ -945,6 +945,10 @@ const onChange = (pageNumber) => {
   .pv-box {
     font-size: 16px;
   }
+
+  .main {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 700px) {
